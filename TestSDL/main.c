@@ -18,12 +18,12 @@ int main(int argc, char** argv)
 		pWindow = SDL_CreateWindow("Ma premiere application SDL2", SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			1280,
-			720,
+			600,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 		if (pWindow)
 		{
-			while (quit != 1){/* continue tant qu'on ne clique pas sur la croix !! */
+			while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !! */
 				while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
 				{
 					switch (event.type)
