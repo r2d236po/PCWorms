@@ -1,5 +1,5 @@
 #include <SDL/SDL.h>
-
+#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char** argv)
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 
 		if (pWindow)
 		{
-			SDL_Delay(3000); /* Attendre trois secondes, que l'utilisateur voie la fenêtre */
+			SDL_Delay(1000); /* Attendre trois secondes, que l'utilisateur voie la fenêtre */
 
 			SDL_DestroyWindow(pWindow);
 		}
