@@ -14,6 +14,7 @@
     <ProjectGuid>{74963831-B518-46A5-ABDF-1DBB941C3C41}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TestSDL</RootNamespace>
+    <ProjectName>Interface</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
