@@ -17,8 +17,8 @@ int main(int argc, char** argv)
 		SDL_Window* pWindow = NULL;
 		pWindow = SDL_CreateWindow("Ma premiere application SDL2", SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
-			1280,
-			720,
+			1080,
+			600,
 			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 		if (pWindow)
