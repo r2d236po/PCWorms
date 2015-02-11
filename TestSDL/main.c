@@ -1,9 +1,10 @@
 #include <SDL/SDL.h>
-#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char** argv)
 {
+	int quit = 0, fullscreen = 0;
+	SDL_Event event;
 	/* Initialisation simple */
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
@@ -14,15 +15,41 @@ int main(int argc, char** argv)
 	{
 		/* Création de la fenêtre */
 		SDL_Window* pWindow = NULL;
-		pWindow = SDL_CreateWindow("Ma premiere application SDL2", SDL_WINDOWPOS_UNDEFINED,
-			SDL_WINDOWPOS_UNDEFINED,
+		pWindow = SDL_CreateWindow("Ma premiere application SDL2", SDL_WINDOWPOS_CENTERED,
+			SDL_WINDOWPOS_CENTERED,
 			1280,
 			720,
-			SDL_WINDOW_SHOWN);
+			SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 		if (pWindow)
 		{
-			SDL_Delay(1000); /* Attendre trois secondes, que l'utilisateur voie la fenêtre */
+			while (quit != 1){/* continue tant qu'on ne clique pas sur la croix !! */
+				while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
+				{
+					switch (event.type)
+					{
+					case SDL_QUIT: /* Clic sur la croix */
+						quit = 1;
+						break;
+					case SDL_KEYUP: /* Relâchement d'une touche */
+						if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
+						{
+							/* Alterne du mode plein écran au mode fenêtré */
+							if (fullscreen == 0)
+							{
+								fullscreen = 1;
+								SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN);
+							}
+							else if (fullscreen == 1)
+							{
+								fullscreen = 0;
+								SDL_SetWindowFullscreen(pWindow, 0);
+							}
+						}
+						break;
+					}
+				}
+			}
 
 			SDL_DestroyWindow(pWindow);
 		}
