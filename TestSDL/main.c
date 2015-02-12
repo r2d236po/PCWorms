@@ -1,20 +1,21 @@
 #include <SDL/SDL.h>
 #include <stdio.h>
+#include "AffichageGeneral.h"
 
 int main(int argc, char** argv)
 {
 	int quit = 0, fullscreen = 0;
 	SDL_Event event;
+	SDL_Window* pWindow = NULL;
+
 	/* Initialisation simple */
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		fprintf(stdout, "Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
 		return -1;
 	}
-
 	{
-		/* Création de la fenêtre */
-		SDL_Window* pWindow = NULL;
+		/* Création de la fenêtre */		
 		pWindow = SDL_CreateWindow("Ma premiere application SDL2", SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			1080,
@@ -23,7 +24,9 @@ int main(int argc, char** argv)
 
 		if (pWindow)
 		{
+			
 			while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !! */
+				afficheImage(pWindow);
 				while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
 				{
 					switch (event.type)
