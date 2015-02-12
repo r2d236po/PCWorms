@@ -24,7 +24,7 @@ int main(int argc, char** argv)
 
 		if (pWindow)
 		{
-			
+
 			while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !! */
 				afficheImage(pWindow);
 				while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
@@ -32,9 +32,13 @@ int main(int argc, char** argv)
 					switch (event.type)
 					{
 					case SDL_QUIT: /* Clic sur la croix */
-						quit = 1;
-						break;
+
 					case SDL_KEYUP: /* Relâchement d'une touche */
+						if (event.key.keysym.sym == SDLK_ESCAPE)
+						{
+							quit = 1;
+							break;
+						}
 						if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
 						{
 							/* Alterne du mode plein écran au mode fenêtré */
@@ -48,6 +52,7 @@ int main(int argc, char** argv)
 								fullscreen = 0;
 								SDL_SetWindowFullscreen(pWindow, 0);
 							}
+
 						}
 						break;
 					}
