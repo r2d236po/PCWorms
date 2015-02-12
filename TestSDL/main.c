@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 
 		if (pWindow)
 		{
-			while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !! */
+			while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !!*/
 				while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
 				{
 					switch (event.type)
