@@ -1,1 +1,1 @@
-void afficheImage(SDL_Window *pWindow);
+int afficheImage(SDL_Window *pWindow);

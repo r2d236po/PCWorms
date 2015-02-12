@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	{
-		/* Création de la fenêtre */		
+		/* Création de la fenêtre */
 		pWindow = SDL_CreateWindow("Ma premiere application SDL2", SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			1080,
