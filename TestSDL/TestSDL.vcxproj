@@ -89,7 +89,7 @@
     <ClCompile Include="main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Lucas.c" />
+    <ClCompile Include="Structure.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h" />

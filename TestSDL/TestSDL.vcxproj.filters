@@ -21,6 +21,9 @@
     <ClCompile Include="AffichageGeneral.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Structure.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">
