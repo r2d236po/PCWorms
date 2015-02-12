@@ -1,6 +1,5 @@
-#include <SDL/SDL.h>
 #include <stdio.h>
-#include "AffichageGeneral.h"
+#include "AffichageGeneral.h" /* Inclus la SDL.h */
 
 int afficheImage(SDL_Window *pWindow)
 {

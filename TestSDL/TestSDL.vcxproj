@@ -86,13 +86,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AffichageGeneral.c" />
+    <ClCompile Include="Armes.c" />
     <ClCompile Include="main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Structure.c" />
+    <ClCompile Include="Carte.c" />
+    <ClCompile Include="Partie.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h" />
+    <ClInclude Include="armes.h" />
+    <ClInclude Include="carte.h" />
+    <ClInclude Include="partie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

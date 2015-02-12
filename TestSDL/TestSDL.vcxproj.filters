@@ -21,12 +21,27 @@
     <ClCompile Include="AffichageGeneral.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Structure.c">
+    <ClCompile Include="Armes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Carte.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Partie.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="armes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="carte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="partie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
