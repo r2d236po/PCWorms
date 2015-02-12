@@ -26,36 +26,44 @@ int main(int argc, char** argv)
 		{
 			fprintf(stderr, "Erreur de création de la fenêtre: %s\n", SDL_GetError());
 		}
+		else{
 
-		while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !! */
 			afficheImage(pWindow);
-			while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
-			{
-				switch (event.type)
+
+			while (quit != 1){ /* continue tant qu'on ne clique pas sur la croix !! */
+				SDL_UpdateWindowSurface(pWindow);
+				while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
 				{
-				case SDL_QUIT: /* Clic sur la croix */
-					quit = 1;
-					break;
-				case SDL_KEYUP: /* Relâchement d'une touche */
-					if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
+					switch (event.type)
 					{
-						/* Alterne du mode plein écran au mode fenêtré */
-						if (fullscreen == 0)
-						{
-							fullscreen = 1;
-							SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN);
+					case SDL_QUIT: /* Clic sur la croix */
+						quit = 1;
+						break;
+					case SDL_KEYUP: /* Relâchement d'une touche */
+						if (event.key.keysym.sym == SDLK_ESCAPE){
+							quit = 1;
+							break;
 						}
-						else if (fullscreen == 1)
+						if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
 						{
-							fullscreen = 0;
-							SDL_SetWindowFullscreen(pWindow, 0);
+							/* Alterne du mode plein écran au mode fenêtré */
+							if (fullscreen == 0)
+							{
+								fullscreen = 1;
+								SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN);
+							}
+							else if (fullscreen == 1)
+							{
+								fullscreen = 0;
+								SDL_SetWindowFullscreen(pWindow, 0);
+							}
 						}
+						break;
 					}
-					break;
 				}
 			}
+			SDL_DestroyWindow(pWindow);
 		}
-		SDL_DestroyWindow(pWindow);
 	}
 
 	SDL_Quit();
