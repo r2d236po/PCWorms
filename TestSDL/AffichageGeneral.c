@@ -1,7 +1,32 @@
 #include <stdio.h>
 #include "AffichageGeneral.h" /* Inclus la SDL.h */
 
+int mainFenetre2()
+{
+	int quit = 0, fullscreen = 0;
+	SDL_Event event;
+	SDL_Renderer* rendere = NULL; //déclaration du renderer
+	SDL_Window* pWindow = NULL;
 
+	/* Initialisation simple */
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		return -1;
+	}
+	else {
+		/* Création de la fenêtre */
+		pWindow = creerFenetre(1080, 600, "KaamWorms");
+		if (pWindow == NULL)
+		{
+			SDL_QUIT();
+			return -1;
+		}
+		
+		SDL_DestroyWindow(pWindow);
+		SDL_QUIT();
+	}
+}
 
 int mainFenetre(){
 
