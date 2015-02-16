@@ -35,9 +35,9 @@ int mainFenetre2()
 		rectangle.w = 200;
 		rectangle.x = 0;
 		rectangle.y = 0;
-		for (i = 0; i <= (w1-rectangle.w)/10; i++)
+		for (i = 0; i <= (w1 - rectangle.w) / 20 + 1; i++)
 		{
-			SDL_SetRenderDrawColor(renderer, 0, 0,0, 255); //réglage des couleurs de dessin
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); //couleur noir
 			SDL_RenderClear(renderer);
 			SDL_SetRenderDrawColor(renderer, 255, 40, 50, 255); //réglage des couleurs de dessin
 			if (SDL_RenderDrawRect(renderer, &rectangle) < 0) //dessin d'une ligne
@@ -45,9 +45,9 @@ int mainFenetre2()
 				printf("Erreur lors de la creation de la ligne : %s", SDL_GetError());
 				return -1;
 			}
-			rectangle.x = 10 * i;
+			rectangle.x = 20 * i;
 			SDL_RenderPresent(renderer); //actualisation du renderer
-			SDL_Delay(100);
+			SDL_Delay(10);
 		}
 		SDL_Delay(3000);
 		SDL_DestroyRenderer(renderer);
