@@ -43,18 +43,18 @@ int mainFenetre2()
 				SDL_RenderDrawRect(renderer, &rectangle);
 				SDL_Delay(10);
 				SDL_RenderPresent(renderer);
-			}
-			while (SDL_PollEvent(&event))
-			{
-				switch (event.type)
+				while (SDL_PollEvent(&event))
 				{
-				case SDL_QUIT:
-					closeWindow = 1;
-					break;
-				default:
-					break;
+					switch (event.type)
+					{
+					case SDL_QUIT:
+						closeWindow = 1;
+						break;
+					default:
+						break;
+					}
 				}
-			}
+			}			
 		}
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
