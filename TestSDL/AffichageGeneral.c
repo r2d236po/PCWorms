@@ -1,8 +1,8 @@
-#include "AffichageGeneral.h" /* Inclus la SDL.h */
+#include "Libraries.h" //Inclus toutes les librairies
 
 int mainFenetre2()
 {
-	int quit = 0, fullscreen = 0, i = 0, x1 = 0, y1 = 0, w1, h1;
+	int closeWindow = 0, fullscreen = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
@@ -28,31 +28,22 @@ int mainFenetre2()
 			printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 			return -1;
 		}
-		SDL_SetRenderDrawColor(renderer, 255, 40, 50, 200); //réglage des couleurs de dessin
-		SDL_GetWindowPosition(pWindow, &x1, &y1);
-		SDL_GetWindowSize(pWindow, &w1, &h1);
-		rectangle.h = 300;
-		rectangle.w = 200;
-		rectangle.x = 0;
-		rectangle.y = 0;
-		for (i = 0; i <= (w1-rectangle.w)/10; i++)
+		while (!closeWindow)
 		{
-			SDL_SetRenderDrawColor(renderer, 0, 0,0, 255); //réglage des couleurs de dessin
-			SDL_RenderClear(renderer);
-			SDL_SetRenderDrawColor(renderer, 255, 40, 50, 255); //réglage des couleurs de dessin
-			if (SDL_RenderDrawRect(renderer, &rectangle) < 0) //dessin d'une ligne
+			while (SDL_PollEvent(&event))
 			{
-				printf("Erreur lors de la creation de la ligne : %s", SDL_GetError());
-				return -1;
+
 			}
 			rectangle.x = 10 * i;
 			SDL_RenderPresent(renderer); //actualisation du renderer
 			SDL_Delay(50);
+			SDL_RenderPresent(renderer);
 		}
 		SDL_Delay(1000);
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
 		SDL_Quit();
+		return 0;
 	}
 }
 
