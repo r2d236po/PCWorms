@@ -2,7 +2,7 @@
 
 
 
-void mainFenetre(){
+int mainFenetre(){
 
 	int quit = 0, fullscreen = 0;
 	SDL_Event event;
@@ -40,10 +40,10 @@ void mainFenetre(){
 						printf("Vous avez appuyé sur une touche spéciale : %d\n", mod);
 					}
 					if (pKeyStates[SDL_SCANCODE_LEFT]){
-						afficheImage(pWindow,wormsLeft);//affichage du worms si arrow left
+						afficheImage(pWindow, wormsLeft);//affichage du worms si arrow left
 					}
 					if (pKeyStates[SDL_SCANCODE_RIGHT]){
-						afficheImage(pWindow,wormsRight);// affichage du worms si arrow right
+						afficheImage(pWindow, wormsRight);// affichage du worms si arrow right
 					}
 				}
 				printf("\n");
@@ -96,13 +96,14 @@ void mainFenetre(){
 	}
 }
 
-SDL_Window * creerFenetre(const int x, const int y, const char * nom){
+SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 	SDL_Window * pWindow = NULL;
-	pWindow = SDL_CreateWindow(nom, SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		x,
-		y,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	pWindow = SDL_CreateWindow(nom,	//nom de la fenêtre
+		SDL_WINDOWPOS_CENTERED, //position en x de la fenêtre
+		SDL_WINDOWPOS_CENTERED,	//position en y de la fenêtre
+		w,	//largeur de la fenêtre
+		h,	//hauteur de la fenêtre
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);	//propriétés supplémentaires de la fenêtre
 	if (pWindow == NULL)
 	{
 		fprintf(stderr, "Erreur de création de la fenêtre: %s\n", SDL_GetError());
@@ -115,6 +116,7 @@ int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
 	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 50, 50 };
 	SDL_BlitSurface(image, NULL, SDL_GetWindowSurface(pWindow), &dest);
 }
+
 SDL_Surface * loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
 	if (image == NULL)
