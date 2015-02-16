@@ -34,12 +34,8 @@ int mainFenetre2()
 			{
 
 			}
-			rectangle.x = 10 * i;
-			SDL_RenderPresent(renderer); //actualisation du renderer
-			SDL_Delay(50);
 			SDL_RenderPresent(renderer);
 		}
-		SDL_Delay(1000);
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
 		SDL_Quit();

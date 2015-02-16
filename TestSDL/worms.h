@@ -1,8 +1,7 @@
 #ifndef WORMS_H
 #define WORMS_H
 
-#include <SDL\SDL.h>
-#include "armes.h"
+#include "Libraries.h" //Inclus toutes les librairies
 #define TAILLEINV 5
 
 typedef struct {		//Structure worms

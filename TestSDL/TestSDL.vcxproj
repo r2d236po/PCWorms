@@ -97,6 +97,7 @@
     <ClInclude Include="AffichageGeneral.h" />
     <ClInclude Include="armes.h" />
     <ClInclude Include="carte.h" />
+    <ClInclude Include="Libraries.h" />
     <ClInclude Include="partie.h" />
     <ClInclude Include="worms.h" />
   </ItemGroup>
