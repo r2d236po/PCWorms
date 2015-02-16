@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "AffichageGeneral.h" /* Inclus la SDL.h */
 
 int mainFenetre2()
@@ -46,8 +45,9 @@ int mainFenetre(){
 		/* Création de la fenêtre */
 		pWindow = creerFenetre(1080, 600, "KaamWorms");
 		/*Chargement image*/
-		SDL_Surface * wormsLeft = loadImage("../assets/worms_left.bmp");
-		SDL_Surface * wormsRight = loadImage("../assets/worms_right.bmp");
+		SDL_Surface * wormsLeft = loadImage("../assets/pictures/worms_left.png");
+		SDL_Surface * wormsRight = loadImage("../assets/pictures/worms_right.png");
+		SDL_SetWindowIcon(pWindow, wormsRight);
 
 		if (pWindow != NULL){
 			while (quit != 1)
@@ -117,7 +117,8 @@ int mainFenetre(){
 			}
 			SDL_DestroyWindow(pWindow);
 		}
-
+		SDL_FreeSurface(wormsLeft);
+		SDL_FreeSurface(wormsRight);
 		SDL_Quit();
 	}
 }
@@ -139,14 +140,13 @@ SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 }
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
 {
-	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 0, 0 };
+	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 50, 50 };
 	SDL_BlitSurface(image, NULL, SDL_GetWindowSurface(pWindow), &dest);
 }
 
 SDL_Surface * loadImage(const char * file){
-	SDL_Surface* image = SDL_LoadBMP(file);
-
-	if (image == NULL)   /*test loadBmp image*/
+	SDL_Surface* image = IMG_Load(file);
+	if (image == NULL)
 	{
 		printf("Unable to load bitmap: %s\n", SDL_GetError());
 		return NULL;

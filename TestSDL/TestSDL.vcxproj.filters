@@ -44,5 +44,8 @@
     <ClInclude Include="partie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="worms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

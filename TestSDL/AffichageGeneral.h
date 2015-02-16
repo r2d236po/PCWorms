@@ -1,4 +1,7 @@
 #include <SDL/SDL.h>
+#include <SDL\SDL_image.h> //test avec png
+#include <stdio.h>
+
 
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image); /*TODO: réecrire les protos*/
 int mainFenetre();

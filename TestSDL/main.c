@@ -1,4 +1,3 @@
-#include <SDL/SDL.h>
 #include <stdio.h>
 #include "AffichageGeneral.h"
 

@@ -1,4 +1,5 @@
-
+#ifndef ARMES_H
+#define ARMES_H
 /* Déclaration des structures concernant les armes */
 
 typedef struct{		/* Structure munition */
@@ -20,3 +21,5 @@ typedef struct {	/* Structure arme */
 	//image?
 	//son?
 } Arme;
+
+#endif
