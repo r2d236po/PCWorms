@@ -1,6 +1,8 @@
-#include "armes.h"
-#include "carte.h"
-#include "worms.h"
+#ifndef ARMES_H
+#define ARMES_H
+
+
+#include "Libraries.h" //Inclus toutes les librairies
 
 #define TAILLETEAM 5
 #define NBTEAM 5
@@ -23,3 +25,5 @@ typedef struct {			//Structure d'une partie
 	int temps;					//Durée
 
 } Jeu;
+
+#endif

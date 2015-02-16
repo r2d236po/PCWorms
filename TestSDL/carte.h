@@ -1,4 +1,7 @@
-#include "AffichageGeneral.h" /* Inclus la SDL.h */
+#ifndef CARTE_H
+#define CARTE_H
+
+#include "Libraries.h" //Inclus toutes les librairies
 
 /* Déclaration des structures et constantes relatives à la carte jouée */
 
@@ -15,3 +18,5 @@ typedef struct{
 	int posy;			/* Position en Y */
 	//image?
 } Caisse;
+
+#endif

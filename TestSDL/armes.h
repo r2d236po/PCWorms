@@ -1,5 +1,9 @@
-#ifndef ARMES_H
-#define ARMES_H
+#ifndef WEAPONS_H
+#define WEAPONS_H
+
+#include "Libraries.h" //Inclus toutes les librairies
+
+
 /* Déclaration des structures concernant les armes */
 
 typedef struct{		/* Structure munition */
