@@ -1,5 +1,5 @@
 #include <SDL/SDL.h>
-#include <SDL\SDL_image.h> //test avec png
+#include <SDL/SDL_image.h> //test avec png
 #include <stdio.h>
 
 
