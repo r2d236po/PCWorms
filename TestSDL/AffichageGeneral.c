@@ -2,7 +2,7 @@
 
 int mainFenetre2()
 {
-	int closeWindow = 0, fullscreen = 0;
+	int closeWindow = 0, fullscreen = 0, i = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
@@ -28,13 +28,33 @@ int mainFenetre2()
 			printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 			return -1;
 		}
+		rectangle.h = 50;
+		rectangle.w = 50;
+		rectangle.x = rectangle.y = 0;
+
 		while (!closeWindow)
 		{
+			for (i = 0; i < 90; i++)
+			{
+				rectangle.x = 10 * i;
+				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+				SDL_RenderClear(renderer);
+				SDL_SetRenderDrawColor(renderer, 255, 60, 50, 255);
+				SDL_RenderDrawRect(renderer, &rectangle);
+				SDL_Delay(10);
+				SDL_RenderPresent(renderer);
+			}
 			while (SDL_PollEvent(&event))
 			{
-
+				switch (event.type)
+				{
+				case SDL_QUIT:
+					closeWindow = 1;
+					break;
+				default:
+					break;
+				}
 			}
-			SDL_RenderPresent(renderer);
 		}
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
