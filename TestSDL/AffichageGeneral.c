@@ -2,12 +2,11 @@
 
 int mainFenetre2()
 {
-	int closeWindow = 0, fullscreen = 0, i = 0, x1 = 0, y1 = 0;
+	int closeWindow = 0, i = 0, x1 = 0, y1 = 0;
 	int click = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
-	SDL_Rect rectangle;
 
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -29,10 +28,6 @@ int mainFenetre2()
 			printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 			return -1;
 		}
-		rectangle.h = 50;
-		rectangle.w = 50;
-		rectangle.x = rectangle.y = 0;
-
 		while (!closeWindow)
 		{
 
