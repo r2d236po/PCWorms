@@ -2,7 +2,8 @@
 
 int mainFenetre2()
 {
-	int closeWindow = 0, fullscreen = 0, i = 0;
+	int closeWindow = 0, fullscreen = 0, i = 0, x1 = 0, y1 = 0;
+	int click = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
@@ -34,27 +35,47 @@ int mainFenetre2()
 
 		while (!closeWindow)
 		{
-			for (i = 0; i < 90; i++)
+
+			while (SDL_PollEvent(&event))
 			{
-				rectangle.x = 10 * i;
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-				SDL_RenderClear(renderer);
-				SDL_SetRenderDrawColor(renderer, 255, 60, 50, 255);
-				SDL_RenderDrawRect(renderer, &rectangle);
-				SDL_Delay(10);
-				SDL_RenderPresent(renderer);
-				while (SDL_PollEvent(&event))
+				switch (event.type)
 				{
-					switch (event.type)
+				case SDL_QUIT:
+					closeWindow = 1;
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+					click = 1;/*Booleen de mémorisation du click*/
+					if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+						SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+					else if (event.button.button == SDL_BUTTON_RIGHT)
+						SDL_SetRenderDrawColor(renderer, 50, 210, 60, 255);
+					else if (event.button.button == SDL_BUTTON_MIDDLE)
+						SDL_SetRenderDrawColor(renderer, 50, 60, 210, 255);
+					break;
+				case SDL_MOUSEBUTTONUP:
+					click = 0;/*Booleen de démémorisation du click*/
+					break;
+				case SDL_MOUSEMOTION:
+					if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 					{
-					case SDL_QUIT:
-						closeWindow = 1;
-						break;
-					default:
-						break;
+						SDL_GetMouseState(&x1, &y1);
+						SDL_RenderDrawPoint(renderer, x1, y1);
+						SDL_RenderPresent(renderer);
 					}
+					break;
+				case SDL_KEYUP:
+					if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
+					{
+						SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+						SDL_RenderClear(renderer);
+						SDL_RenderPresent(renderer);
+					}
+					break;
+				default:
+					break;
 				}
-			}			
+			}
+
 		}
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
