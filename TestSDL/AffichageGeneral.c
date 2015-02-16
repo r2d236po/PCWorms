@@ -2,10 +2,11 @@
 
 int mainFenetre2()
 {
-	int quit = 0, fullscreen = 0;
+	int quit = 0, fullscreen = 0, i = 0, x1 = 0, y1 = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
+	SDL_Point points[27];
 
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -22,7 +23,20 @@ int mainFenetre2()
 			return -1;
 		}
 		renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		
+		if (renderer == NULL)//gestion des erreurs
+		{
+			printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+			return -1;
+		}
+		SDL_SetRenderDrawColor(renderer, 255, 40, 50, 200); //réglage des couleurs de dessin
+		SDL_GetWindowPosition(pWindow, &x1, &y1);
+		if (SDL_RenderDrawLine(renderer, x1 + 20, y1 + 20, x1 + 50, y1 + 50) < 0) //dessin d'une ligne
+		{
+			printf("Erreur lors de la creation de la ligne : %s", SDL_GetError());
+			return -1;
+		}
+		SDL_RenderPresent(renderer); //actualisation du renderer
+		SDL_Delay(3000);
 		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
 		SDL_Quit();
