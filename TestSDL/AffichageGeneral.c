@@ -5,11 +5,11 @@ int mainFenetre2()
 {
 	int quit = 0, fullscreen = 0;
 	SDL_Event event;
-	SDL_Renderer* rendere = NULL; //déclaration du renderer
+	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
 
 	/* Initialisation simple */
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	if (SDL_VideoInit(NULL) < 0)
 	{
 		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
 		return -1;
@@ -19,12 +19,14 @@ int mainFenetre2()
 		pWindow = creerFenetre(1080, 600, "KaamWorms");
 		if (pWindow == NULL)
 		{
-			SDL_QUIT();
+			SDL_Quit();
 			return -1;
 		}
+		renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		
+		SDL_DestroyRenderer(renderer);
 		SDL_DestroyWindow(pWindow);
-		SDL_QUIT();
+		SDL_Quit();
 	}
 }
 
