@@ -317,21 +317,14 @@ SDL_Surface * loadImage(const char * file){
 //Fonction de chargement d'image dans une texture à  partir d'une surface
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 {
-	SDL_Surface * surface = loadImage(file);
-	SDL_Texture * texture = NULL;
-	if (surface != NULL)
+
+	SDL_Texture * texture = IMG_LoadTexture(pRenderer, file);
+	if (texture == NULL)
 	{
-		texture = SDL_CreateTextureFromSurface(pRenderer, surface);
-		if (texture == NULL)
-		{
-			printf("Unable to load texture: %s\n", SDL_GetError());
-			return NULL;
-		}
-		SDL_FreeSurface(surface);
-		surface = NULL;
-		return texture;
+		printf("Unable to load texture: %s\n", SDL_GetError());
+		return NULL;
 	}
-	return NULL;
+	return texture;
 }
 
 //Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
