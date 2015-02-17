@@ -8,6 +8,9 @@
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image); /*TODO: réecrire les protos*/
 int mainFenetre();
 int mainFenetre2(); //main de test pour le renderer
+int sandboxRenderer();
+void afficherPoint(SDL_Renderer * r);
+void clearScreen(SDL_Renderer * r);
 SDL_Surface * loadImage(const char * file);
 SDL_Window * creerFenetre(const int w, const int h, const char * nom);
 
