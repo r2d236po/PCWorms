@@ -1,11 +1,11 @@
 #include "AffichageGeneral.h"
-#include "carte.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
 int mainFenetre2()
 {
 	int closeWindow = 0, x1 = 0, y1 = 0;
 	int click = 0;
+	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
@@ -38,7 +38,7 @@ int mainFenetre2()
 	clearRenderer(renderer);
 
 	initialisionTerrain(mainMap, renderer, "../assets/pictures/map.png");
-
+	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
 	SDL_RenderDrawRect(renderer, &rect1);
 	SDL_RenderPresent(renderer);
 
@@ -71,6 +71,7 @@ int mainFenetre2()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
+					updateScreen(renderer, mainMap);
 					deplacementRectangle(renderer, &rect1, x1, y1);
 					SDL_GetMouseState(&x1, &y1);
 				}
@@ -87,12 +88,15 @@ int mainFenetre2()
 				break;
 			}
 		}
-
+		updateScreen(renderer, mainMap);
+		frameRate(frame_max);
+		frame_max = SDL_GetTicks() + FRAME_RATE;
 	}
-
+	SDL_DestroyTexture(mainMap->imageBackground);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit();
+	free(mainMap);
 	return 0;
 }
 
@@ -100,6 +104,7 @@ int sandboxRenderer()
 {
 	int closeWindow = 0;
 	int click = 0;
+	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
@@ -175,6 +180,8 @@ int sandboxRenderer()
 				break;
 			}
 		}
+		frameRate(frame_max);
+		frame_max = SDL_GetTicks() + FRAME_RATE;
 
 	}
 
@@ -332,8 +339,8 @@ void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int
 {
 	int x1, y1;
 	SDL_GetMouseState(&x1, &y1);
-	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-	SDL_RenderFillRect(pRenderer, rect);
+	/*SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+	SDL_RenderFillRect(pRenderer, rect);*/
 	rect->x = rect->x + (x1 - x2);
 	rect->y = rect->y + (y1 - y2);
 	SDL_SetRenderDrawColor(pRenderer, 210, 50, 60, 255);
@@ -358,3 +365,31 @@ void clearRenderer(SDL_Renderer * r)
 	SDL_RenderPresent(r);
 }
 
+/*affichage de la frame actuelle (à compléter avec un nombre de paramètres 
+textures variable mais pour l'instant que l'arrière plan)*/
+void updateScreen(SDL_Renderer * pRenderer, Terrain * map)
+{
+	SDL_Rect back = { 0, 0, 0, 0 };
+	SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
+	SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
+	SDL_RenderGetViewport(pRenderer, &back);
+	SDL_RenderPresent(pRenderer);
+}
+
+//gestion du frame rate pour pas bouffer le cpu
+void frameRate(int fM)
+{
+	unsigned int tick = SDL_GetTicks();
+	if (fM < tick)
+	{
+		return;
+	}
+	else if (fM > tick + 16)
+	{
+		SDL_Delay(FRAME_RATE);
+	}
+	else // (fM > tick)
+	{
+		SDL_Delay(fM - tick);
+	}
+}

@@ -2,6 +2,9 @@
 #define DISPLAY_H
 
 #include "Libraries.h" //Inclus toutes les librairies
+#include "carte.h"
+
+#define FRAME_RATE (1000 / 60)
 
 
 typedef struct{		//structure gérant les différents inputs
@@ -26,5 +29,7 @@ int afficheImage(SDL_Window *pWindow, SDL_Surface * image); /*TODO: réecrire les
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
 SDL_Window * creerFenetre(const int w, const int h, const char * nom);
+void frameRate(int fM);
+void updateScreen(SDL_Renderer * pRenderer, Terrain * map);
 
 #endif

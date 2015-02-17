@@ -10,7 +10,7 @@ void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * f
 	SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
 	SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
 	SDL_RenderPresent(pRenderer);
-	SDL_DestroyTexture(map->imageBackground);
+	//SDL_DestroyTexture(map->imageBackground);
 }
 
 
