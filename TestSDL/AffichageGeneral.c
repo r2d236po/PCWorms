@@ -15,6 +15,103 @@ int mainFenetre2()
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
+	SDL_Rect rect1 = { 0, 0, 50, 50 };
+
+	/* Initialisation simple */
+	if (SDL_VideoInit(NULL) < 0)
+	{
+		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		return -1;
+	}
+	/* Création de la fenêtre */
+	pWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (pWindow == NULL)
+	{
+		SDL_Quit();
+		return -1;
+	}
+	/* Création du renderer */
+	renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (renderer == NULL)//gestion des erreurs
+	{
+		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+		return -1;
+	}
+	
+	SDL_RenderClear(renderer);
+	SDL_RenderDrawRect(renderer, &rect1);
+	SDL_RenderPresent(renderer);
+
+	while (!closeWindow)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				closeWindow = 1;
+				break;
+
+			case SDL_MOUSEBUTTONDOWN:
+				click = 1;/*Booleen de mémorisation du click*/
+
+				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+				{
+					SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+				}
+				else if (event.button.button == SDL_BUTTON_RIGHT)
+				{
+					SDL_SetRenderDrawColor(renderer, 50, 210, 60, 255);
+				}
+				else if (event.button.button == SDL_BUTTON_MIDDLE)
+				{
+					SDL_SetRenderDrawColor(renderer, 50, 60, 210, 255);
+				}
+
+				AfficherPoint(renderer);
+				break;
+
+			case SDL_MOUSEBUTTONUP:
+				click = 0;/*Booleen de démémorisation du click*/
+				break;
+
+			case SDL_MOUSEMOTION:
+				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
+				{
+					AfficherPoint(renderer);
+				}
+				break;
+
+			case SDL_KEYUP:
+				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
+				{
+					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+					SDL_RenderClear(renderer);
+					SDL_RenderPresent(renderer);
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	}
+
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(pWindow);
+	SDL_Quit();
+	return 0;
+}
+
+
+int sandboxRenderer()
+{
+	int closeWindow = 0;
+	int click = 0;
+	SDL_Event event;
+	SDL_Renderer* renderer = NULL; //déclaration du renderer
+	SDL_Window* pWindow = NULL;
 
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -83,6 +180,7 @@ int mainFenetre2()
 			case SDL_KEYUP:
 				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
 				{
+					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 					SDL_RenderClear(renderer);
 					SDL_RenderPresent(renderer);
 				}
