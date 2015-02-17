@@ -1,8 +1,16 @@
 #include "Libraries.h" //Inclus toutes les librairies
 
+void AfficherPoint(SDL_Renderer * r)
+{
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	SDL_RenderDrawPoint(r, x, y);
+	SDL_RenderPresent(r);
+}
+
 int mainFenetre2()
 {
-	int closeWindow = 0, i = 0, x1 = 0, y1 = 0;
+	int closeWindow = 0;
 	int click = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
@@ -34,7 +42,6 @@ int mainFenetre2()
 
 	while (!closeWindow)
 	{
-
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type)
@@ -45,15 +52,21 @@ int mainFenetre2()
 
 			case SDL_MOUSEBUTTONDOWN:
 				click = 1;/*Booleen de mémorisation du click*/
+
 				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
-				{SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);}
+				{
+					SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+				}
 				else if (event.button.button == SDL_BUTTON_RIGHT)
-				{SDL_SetRenderDrawColor(renderer, 50, 210, 60, 255);}
+				{
+					SDL_SetRenderDrawColor(renderer, 50, 210, 60, 255);
+				}
 				else if (event.button.button == SDL_BUTTON_MIDDLE)
-				{SDL_SetRenderDrawColor(renderer, 50, 60, 210, 255);}
-				SDL_GetMouseState(&x1, &y1);
-				SDL_RenderDrawPoint(renderer, x1, y1);
-				SDL_RenderPresent(renderer);
+				{
+					SDL_SetRenderDrawColor(renderer, 50, 60, 210, 255);
+				}
+
+				AfficherPoint(renderer);
 				break;
 
 			case SDL_MOUSEBUTTONUP:
@@ -63,9 +76,7 @@ int mainFenetre2()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
-					SDL_GetMouseState(&x1, &y1);
-					SDL_RenderDrawPoint(renderer, x1, y1);
-					SDL_RenderPresent(renderer);
+					AfficherPoint(renderer);
 				}
 				break;
 
