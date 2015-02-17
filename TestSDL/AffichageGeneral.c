@@ -2,21 +2,93 @@
 #include "Libraries.h" //Inclus toutes les librairies
 
 int mainFenetre2()
-{}
-
-void afficherPoint(SDL_Renderer * r)
 {
-	static int x, y;
-	SDL_GetMouseState(&x, &y);
-	SDL_RenderDrawPoint(r, x, y);
-	SDL_RenderPresent(r);
-}
+	int closeWindow = 0, x1 = 0, y1 = 0;
+	int click = 0;
+	SDL_Event event;
+	SDL_Renderer* renderer = NULL; //déclaration du renderer
+	SDL_Window* pWindow = NULL;
+	SDL_Rect rect1 = { 0, 0, 50, 50 };
 
-void clearScreen(SDL_Renderer * r)
-{
-	SDL_SetRenderDrawColor(r, 0, 0, 0, 0);
-	SDL_RenderClear(r);
-	SDL_RenderPresent(r);
+	/* Initialisation simple */
+	if (SDL_VideoInit(NULL) < 0)
+	{
+		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		return -1;
+	}
+
+	/* Création de la fenêtre */
+	pWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (pWindow == NULL)
+	{
+		SDL_Quit();
+		return -1;
+	}
+
+	/* Création du renderer */
+	renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (renderer == NULL)//gestion des erreurs
+	{
+		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+		return -1;
+	}
+
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+	SDL_RenderDrawRect(renderer, &rect1);
+	SDL_RenderPresent(renderer);
+	while (!closeWindow)
+	{
+
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				closeWindow = 1;
+				break;
+
+			case SDL_MOUSEBUTTONDOWN:
+				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+				{
+					SDL_GetMouseState(&x1, &y1);
+					if (((x1 >= rect1.x) && x1 <= (rect1.x + rect1.w)) && ((y1 >= rect1.y) && y1 <= (rect1.y + rect1.h)))
+					{
+						click = 1;/*Booleen de mémorisation du click*/
+					}
+				}
+				break;
+
+			case SDL_MOUSEBUTTONUP:
+				click = 0;/*Booleen de démémorisation du click*/
+				break;
+
+			case SDL_MOUSEMOTION:
+				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
+				{
+					deplacementRectangle(renderer, &rect1, x1, y1);
+					SDL_GetMouseState(&x1, &y1);
+				}
+				break;
+
+			case SDL_KEYUP:
+				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
+				{
+					clearRenderer(renderer);
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	}
+
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(pWindow);
+	SDL_Quit();
+	return 0;
 }
 
 int sandboxRenderer()
@@ -90,7 +162,7 @@ int sandboxRenderer()
 			case SDL_KEYUP:
 				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
 				{
-					clearScreen(renderer);
+					clearRenderer(renderer);
 				}
 				break;
 
@@ -219,7 +291,7 @@ SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 	else return pWindow;
 }
 
-
+//Chargement image SDL_image
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
 {
 	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 50, 50 };
@@ -237,14 +309,7 @@ SDL_Surface * loadImage(const char * file){
 	return image;
 }
 
-void AfficherPoint(SDL_Renderer * r)
-{
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-	SDL_RenderDrawPoint(r, x, y);
-	SDL_RenderPresent(r);
-}
-
+//Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)
 {
 	int x1, y1;
@@ -256,5 +321,22 @@ void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)
 	SDL_SetRenderDrawColor(rend, 210, 50, 60, 255);
 	SDL_RenderFillRect(rend, rect);
 	SDL_RenderPresent(rend);
+}
+
+//Affiche un point aux coordonnées de la souris
+void afficherPoint(SDL_Renderer * r)
+{
+	static int x, y;
+	SDL_GetMouseState(&x, &y);
+	SDL_RenderDrawPoint(r, x, y);
+	SDL_RenderPresent(r);
+}
+
+//Clear noir du renderer
+void clearRenderer(SDL_Renderer * r)
+{
+	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
+	SDL_RenderClear(r);
+	SDL_RenderPresent(r);
 }
 
