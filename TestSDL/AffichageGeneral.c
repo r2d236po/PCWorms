@@ -293,7 +293,7 @@ int mainFenetre2()
 				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 				{
 					SDL_GetMouseState(&x2, &y2);
-					if ((x2 <= (rect1.x + rect1.w)) && (y2 <= (rect1.y + rect1.h)))
+					if (((x2 >= (rect1.x) && x2 <= (rect1.x + rect1.w))) && (((y2 >= (rect1.y) && y2 <= (rect1.y + rect1.h)))))
 					{
 						click = 1;/*Booleen de mémorisation du click*/
 					}
