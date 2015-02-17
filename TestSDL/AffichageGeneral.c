@@ -1,3 +1,4 @@
+#include "AffichageGeneral.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
 //Fonction de création de fenêtre
@@ -42,7 +43,7 @@ void AfficherPoint(SDL_Renderer * r)
 	SDL_RenderPresent(r);
 }
 
-void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)
+void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)/*x2 et y2 sont les anciennes coordonnées de la souris*/
 {
 	int x1, y1;
 	SDL_GetMouseState(&x1, &y1);

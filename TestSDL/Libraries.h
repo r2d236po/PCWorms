@@ -17,10 +17,6 @@ EXEMPLE : partie.h dépend de worms.h donc je le mets après sinon ça plante à la 
 #include <SDL/SDL_image.h>
 
 /*Headers du projet*/
-#include "AffichageGeneral.h"
-#include "armes.h"
-#include "carte.h"
-#include "worms.h"
-#include "partie.h"
+
 
 #endif

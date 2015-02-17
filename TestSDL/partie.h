@@ -1,7 +1,8 @@
 #ifndef ARMES_H
 #define ARMES_H
 
-
+#include "worms.h"
+#include "carte.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
 #define TAILLETEAM 5
