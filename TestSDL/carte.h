@@ -8,7 +8,7 @@
 
 typedef struct {	/* Structure terrain */
 	//mapcollision?				
-	SDL_Surface* imageBackground; /* background */
+	SDL_Texture* imageBackground; /* background */
 	//mapdestruction?
 } Terrain;
 
@@ -18,5 +18,7 @@ typedef struct{
 	int posy;			/* Position en Y */
 	//image?
 } Caisse;
+
+void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file);
 
 #endif

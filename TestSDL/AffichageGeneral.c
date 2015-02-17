@@ -1,4 +1,5 @@
 #include "AffichageGeneral.h"
+#include "carte.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
 int mainFenetre2()
@@ -8,6 +9,7 @@ int mainFenetre2()
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
+	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect rect1 = { 0, 0, 50, 50 };
 
 	/* Initialisation simple */
@@ -33,10 +35,13 @@ int mainFenetre2()
 		return -1;
 	}
 
-	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+	clearRenderer(renderer);
+
+	initialisionTerrain(mainMap, renderer, "../assets/pictures/map.png");
+
 	SDL_RenderDrawRect(renderer, &rect1);
 	SDL_RenderPresent(renderer);
+
 	while (!closeWindow)
 	{
 
@@ -93,7 +98,7 @@ int mainFenetre2()
 
 int sandboxRenderer()
 {
-	int closeWindow = 0, i = 0;
+	int closeWindow = 0;
 	int click = 0;
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
@@ -298,29 +303,49 @@ int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
 	SDL_BlitSurface(image, NULL, SDL_GetWindowSurface(pWindow), &dest);
 }
 
-//Fonction de création de surface
+//Fonction de chargement d'image dans une surface
 SDL_Surface * loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
 	if (image == NULL)
 	{
-		printf("Unable to load bitmap: %s\n", SDL_GetError());
+		printf("Unable to load image: %s\n", SDL_GetError());
 		return NULL;
-	};
+	}
 	return image;
 }
 
+//Fonction de chargement d'image dans une texture à  partir d'une surface
+SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
+{
+	SDL_Surface * surface = loadImage(file);
+	SDL_Texture * texture = NULL;
+	if (surface != NULL)
+	{
+		texture = SDL_CreateTextureFromSurface(pRenderer, surface);
+		if (texture == NULL)
+		{
+			printf("Unable to load texture: %s\n", SDL_GetError());
+			return NULL;
+		}
+		SDL_FreeSurface(surface);
+		surface = NULL;
+		return texture;
+	}
+	return NULL;
+}
+
 //Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
-void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)
+void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int y2)
 {
 	int x1, y1;
 	SDL_GetMouseState(&x1, &y1);
-	SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
-	SDL_RenderFillRect(rend, rect);
+	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+	SDL_RenderFillRect(pRenderer, rect);
 	rect->x = rect->x + (x1 - x2);
 	rect->y = rect->y + (y1 - y2);
-	SDL_SetRenderDrawColor(rend, 210, 50, 60, 255);
-	SDL_RenderFillRect(rend, rect);
-	SDL_RenderPresent(rend);
+	SDL_SetRenderDrawColor(pRenderer, 210, 50, 60, 255);
+	SDL_RenderFillRect(pRenderer, rect);
+	SDL_RenderPresent(pRenderer);
 }
 
 //Affiche un point aux coordonnées de la souris
