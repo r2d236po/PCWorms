@@ -1,60 +1,6 @@
 #include "AffichageGeneral.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
-//Fonction de création de fenêtre
-SDL_Window * creerFenetre(const int w, const int h, const char * nom){
-	SDL_Window * pWindow = NULL;
-	pWindow = SDL_CreateWindow(nom,	//nom de la fenêtre
-		SDL_WINDOWPOS_CENTERED, //position en x de la fenêtre
-		SDL_WINDOWPOS_CENTERED,	//position en y de la fenêtre
-		w,	//largeur de la fenêtre
-		h,	//hauteur de la fenêtre
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);	//propriétés supplémentaires de la fenêtre
-	if (pWindow == NULL)
-	{
-		fprintf(stderr, "Erreur de création de la fenêtre: %s\n", SDL_GetError());
-		return NULL;
-	}
-	else return pWindow;
-}
-
-int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
-{
-	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 50, 50 };
-	SDL_BlitSurface(image, NULL, SDL_GetWindowSurface(pWindow), &dest);
-}
-
-//Fonction de création de surface
-SDL_Surface * loadImage(const char * file){
-	SDL_Surface* image = IMG_Load(file);
-	if (image == NULL)
-	{
-		printf("Unable to load bitmap: %s\n", SDL_GetError());
-		return NULL;
-	};
-	return image;
-}
-
-void AfficherPoint(SDL_Renderer * r)
-{
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-	SDL_RenderDrawPoint(r, x, y);
-	SDL_RenderPresent(r);
-}
-
-void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)/*x2 et y2 sont les anciennes coordonnées de la souris*/
-{
-	int x1, y1;
-	SDL_GetMouseState(&x1, &y1);
-	SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
-	SDL_RenderFillRect(rend, rect);
-	rect->x = rect->x + (x1 - x2);
-	rect->y = rect->y + (y1 - y2);
-	SDL_SetRenderDrawColor(rend, 210, 50, 60, 255);
-	SDL_RenderFillRect(rend, rect);
-	SDL_RenderPresent(rend);
-}
 
 int sandboxRenderer()
 {
@@ -169,7 +115,8 @@ int mainFenetre() {
 	/*Chargement image*/
 	SDL_Surface * wormsLeft = loadImage("../assets/pictures/worms_left.png");
 	SDL_Surface * wormsRight = loadImage("../assets/pictures/worms_right.png");
-	SDL_SetWindowIcon(pWindow, wormsRight);  //ne fonctionne pas (Nico)
+	SDL_Surface * icon = loadImage("../assets/pictures/worms.bmp");
+	SDL_SetWindowIcon(pWindow, icon);
 
 	if (pWindow != NULL){
 		while (quit != 1)
@@ -316,7 +263,7 @@ int mainFenetre2()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
-					
+
 					deplacementRectangle(renderer, &rect1, x2, y2);
 					SDL_GetMouseState(&x2, &y2);
 				}
@@ -343,3 +290,42 @@ int mainFenetre2()
 	SDL_Quit();
 	return 0;
 }
+	
+int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
+	{
+	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 50, 50 };
+	SDL_BlitSurface(image, NULL, SDL_GetWindowSurface(pWindow), &dest);
+}
+
+//Fonction de création de surface
+SDL_Surface * loadImage(const char * file){
+	SDL_Surface* image = IMG_Load(file);
+	if (image == NULL)
+				{
+		printf("Unable to load bitmap: %s\n", SDL_GetError());
+		return NULL;
+	};
+	return image;
+				}
+
+void AfficherPoint(SDL_Renderer * r)
+				{
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	SDL_RenderDrawPoint(r, x, y);
+	SDL_RenderPresent(r);
+				}
+
+void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2)
+				{
+	int x1, y1;
+	SDL_GetMouseState(&x1, &y1);
+	SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
+	SDL_RenderFillRect(rend, rect);
+	rect->x = rect->x + (x1 - x2);
+	rect->y = rect->y + (y1 - y2);
+	SDL_SetRenderDrawColor(rend, 210, 50, 60, 255);
+	SDL_RenderFillRect(rend, rect);
+	SDL_RenderPresent(rend);
+		}
+
