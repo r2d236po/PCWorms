@@ -7,6 +7,7 @@ int mainFenetre2()
 	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
+	SDL_Rect rect1 = { 0, 0, 50, 50 };
 
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -28,6 +29,9 @@ int mainFenetre2()
 			printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 			return -1;
 		}
+		SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+		SDL_RenderFillRect(renderer, &rect1);
+		SDL_RenderPresent(renderer);
 		while (!closeWindow)
 		{
 
