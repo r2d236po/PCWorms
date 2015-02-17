@@ -3,6 +3,6 @@
 
 int main(int argc, char** argv)
 {
-	mainFenetre();
+	mainFenetre2();
 	return 0;
 }

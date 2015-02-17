@@ -30,6 +30,10 @@ int mainFenetre2()
 		SDL_Quit();
 		return -1;
 	}
+
+	SDL_Surface * icon = loadImage("../assets/pictures/worms.bmp");
+	SDL_SetWindowIcon(pWindow, icon);
+
 	/* Création du renderer */
 	renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer == NULL)//gestion des erreurs
@@ -218,7 +222,8 @@ int mainFenetre() {
 	/*Chargement image*/
 	SDL_Surface * wormsLeft = loadImage("../assets/pictures/worms_left.png");
 	SDL_Surface * wormsRight = loadImage("../assets/pictures/worms_right.png");
-	SDL_SetWindowIcon(pWindow, wormsRight);  //ne fonctionne pas (Nico)
+	SDL_Surface * icon = loadImage("../assets/pictures/worms.bmp");
+	SDL_SetWindowIcon(pWindow, icon);
 
 	if (pWindow != NULL){
 		while (quit != 1)
