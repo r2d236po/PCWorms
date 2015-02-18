@@ -11,6 +11,11 @@ typedef struct{		//structure gérant les différents inputs
 	int y;
 }Point;
 
+typedef struct{
+	Point before;
+	Point now;
+}Cursor;
+
 typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
 	char bend;	//touche pour s'accroupir
@@ -22,7 +27,7 @@ typedef struct{		//structure gérant les différents inputs
 	char down;	//touche de déplacement bas
 	char lclick;	//click gauche de la souris
 	char quit;	//quitte le programme
-	Point cursor;
+	Cursor cursor; //cursor avec pos 
 }Input;
 
 int mainFenetre();
@@ -40,7 +45,8 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
-void moveCam(Terrain * map, SDL_Rect * camera, Point pt);
+void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput);
+
 
 
 SDL_Surface * loadImage(const char * file);
