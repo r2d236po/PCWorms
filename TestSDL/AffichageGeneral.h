@@ -26,6 +26,7 @@ void afficherPoint(SDL_Renderer * r);
 void clearRenderer(SDL_Renderer * r);
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
 void frameRate(int fM);
+void getInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras();
 

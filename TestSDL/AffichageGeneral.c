@@ -8,6 +8,7 @@ int mainFenetre()
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
+	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect rect1 = { 0, 0, 50, 50 };
 	SDL_Rect camera = { 0, 0, 0, 0 };
@@ -37,28 +38,21 @@ int mainFenetre()
 		return -1;
 	}
 
+	//Initialisation du terrain
 	clearRenderer(renderer);
-
 	initialisionTerrain(mainMap, renderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
-	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
-	SDL_RenderDrawRect(renderer, &rect1);
-	SDL_RenderPresent(renderer);
 
 	while (!closeWindow)
 	{
+		//Récupération des inputs
+		getInput(pInput);
 
-		click = 0;/*Booleen de démémorisation du click*/
-		SDL_GetMouseState(&x1, &y1);
-		if (((x1 >= rect1.x) && x1 <= (rect1.x + rect1.w)) && ((y1 >= rect1.y) && y1 <= (rect1.y + rect1.h)))
-		{
-			click = 1;/*Booleen de mémorisation du click*/
-		}
-		if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
-		{
-			deplacementRectangle(renderer, &rect1, x1, y1);
-			SDL_GetMouseState(&x1, &y1);
-		}
-		updateScreen(renderer, &camera, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
+		//Gestion des inputs
+
+		//Update de l'écran
+		updateScreen(renderer, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
+
+		//Gestion du frame Rate
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 	}
@@ -239,7 +233,7 @@ void clearRenderer(SDL_Renderer * r)
 }
 
 //Gestion des input
-void getInput(Input * input)
+void getInput(Input * pInput)
 {
 	SDL_Event event;
 
@@ -260,7 +254,39 @@ void getInput(Input * input)
 		case SDL_MOUSEMOTION:
 			break;
 
-		case SDL_KEYUP:
+		case SDL_KEYDOWN:			
+			if (event.key.keysym.sym == SDLK_LEFT)
+			{
+				pInput->left = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_RIGHT)
+			{
+				pInput->right = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_UP)
+			{
+				pInput->up = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_DOWN)
+			{
+				pInput->down = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_SPACE)
+			{
+				pInput->jump = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_LCTRL)
+			{
+				pInput->bend = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_ESCAPE)
+			{
+				pInput->menu = 1;
+			}
+			else if (event.key.keysym.sym == SDLK_w)
+			{
+				pInput->weaponTab = 1;
+			}
 			break;
 
 		default:
