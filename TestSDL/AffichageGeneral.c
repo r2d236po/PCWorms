@@ -10,7 +10,6 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 };
-	SDL_Rect rect1 = { 0, 0, 50, 50 };
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -37,7 +36,7 @@ int mainFenetre()
 			}
 
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, 3, 0, mainMap, 2, 0xD23C32FF, &rect1);
+			updateScreen(pRenderer, &camera, 1, 0, mainMap);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
