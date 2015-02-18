@@ -254,7 +254,10 @@ void getInput(Input * pInput)
 				pInput->lclick = 1;
 			}
 			else if (event.button.button == SDL_BUTTON_RIGHT)
+			{
 				pInput->rclick = 1;
+				pInput->cursor.before = pInput->cursor.now;
+			}
 			break;
 
 		case SDL_MOUSEBUTTONUP:
