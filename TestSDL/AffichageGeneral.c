@@ -466,22 +466,27 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 }
 
 //movCam
-void moveCam(Terrain * map, SDL_Rect * camera, Point pt){
+void moveCam(Terrain * map, SDL_Rect * camera, Point pt)
+{
 	int w = 0, h = 0, x = 0, y = 0;
 	SDL_GetMouseState(&x, &y);
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
 	camera->x = camera->x + x - pt.x;
 	camera->y = camera->y + y - pt.y;
-	if (camera->x + camera->w > w){
+	if (camera->x + camera->w > w)
+	{
 		camera->x = w - camera->w;
 	}
-	if (camera->y + camera->h > h){
+	if (camera->y + camera->h > h)
+	{
 		camera->y = h - camera->h;
 	}
-	if (camera->x <0){
+	if (camera->x <0)
+	{
 		camera->x = 0;
 	}
-	if (camera->y <0){
+	if (camera->y <0)
+	{
 		camera->y = 0;
 	}
 }
