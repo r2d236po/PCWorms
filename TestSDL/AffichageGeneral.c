@@ -13,7 +13,7 @@ int mainFenetre()
 	SDL_Rect rect1 = { 0, 0, 50, 50 };
 
 	//init SDL + fenetre + renderer
-	if (initSWR(pWindow, pRenderer))
+	if (initSWR(&pWindow, &pRenderer))
 	{
 		//Initialisation de la caméra
 		initCameras(pWindow, &camera);
@@ -431,7 +431,7 @@ void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 }
 
 //Initialisation fenetre renderer
-int initSWR(SDL_Window* pWindow, SDL_Renderer *pRenderer)
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 {
 
 	/* Initialisation simple */
@@ -441,15 +441,15 @@ int initSWR(SDL_Window* pWindow, SDL_Renderer *pRenderer)
 		return -1;
 	}
 	/* Création de la fenêtre */
-	pWindow = creerFenetre(1080, 600, "KaamWorms");
-	if (pWindow == NULL)
+	*pWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (*pWindow == NULL)
 	{
 		SDL_Quit();
 		return -1;
 	}
 	/* Création du renderer */
-	pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (pRenderer == NULL)//gestion des erreurs
+	*pRenderer = SDL_CreateRenderer(*pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (*pRenderer == NULL)//gestion des erreurs
 	{
 		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 		return -1;

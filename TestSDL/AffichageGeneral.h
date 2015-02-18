@@ -33,7 +33,7 @@ int gestInput(Input* pInput);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
-int initSWR(SDL_Window* pWindow, SDL_Renderer *pRenderer);
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);
 
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
