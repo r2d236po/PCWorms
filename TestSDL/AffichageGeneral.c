@@ -258,6 +258,7 @@ void getInput(Input * pInput)
 			break;
 
 		case SDL_MOUSEMOTION:
+			SDL_GetMouseState(&pInput->cursor.x, &pInput->cursor.y);
 			break;
 
 		case SDL_KEYDOWN:
@@ -328,6 +329,8 @@ void initInput(Input* pInput)
 	pInput->click = 0;
 	pInput->weaponTab = 0;
 	pInput->menu = 0;
+	pInput->cursor.x = 0;
+	pInput->cursor.y = 0;
 }
 
 /*affichage de la frame actuelle */

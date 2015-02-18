@@ -6,6 +6,10 @@
 
 #define FRAME_RATE (1000 / 60)
 
+typedef struct{		//structure gérant les différents inputs
+	int x;
+	int y;
+}Point;
 
 typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
@@ -18,12 +22,8 @@ typedef struct{		//structure gérant les différents inputs
 	char down;	//touche de déplacement bas
 	char click;	//click gauche de la souris
 	char quit;	//quitte le programme
+	Point cursor;
 }Input;
-
-typedef struct{		//structure gérant les différents inputs
-	int x;
-	int y;
-}Point;
 
 int mainFenetre();
 int sandboxRenderer();

@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	sandboxRenderer();
-	//mainFenetre();
+	//sandboxRenderer();
+	mainFenetre();
 	return 0;
 }
