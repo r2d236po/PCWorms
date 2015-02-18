@@ -10,8 +10,6 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0,0 }; // rect(x,y,w,h)
-	SDL_Rect rect1 = { 0, 0, 50, 50 };
-	SDL_Rect rect2 = { 0, 0, 25, 25 };
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -400,7 +398,7 @@ void frameRate(int fM)
 	}
 }
 
-//gestion cameras
+//init de la cameras sur le centre
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	int w = 0, h = 0;
 	SDL_GetWindowSize(pWindow, &w, &h);
