@@ -27,9 +27,8 @@ void clearRenderer(SDL_Renderer * r);
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
 void frameRate(int fM);
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);
-
+void cameras();
 void getInput(Input* pInput);
-
 
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
