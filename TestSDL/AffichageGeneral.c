@@ -36,14 +36,8 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
-			rect2.x = pInput->cursor.x - rect2.w / 2;
-			if (rect2.x < 0)
-				rect2.x = 0;
-			rect2.y = pInput->cursor.y - rect2.h / 2;
-			if (rect2.y < 0)
-				rect2.y = 0;
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, 2, 0, mainMap, 1, mainMap->imageMap, &rect1, &rect2);
+			updateScreen(pRenderer, &camera, 2, 0, mainMap, 1, test, &rect1, NULL);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -51,6 +45,7 @@ int mainFenetre()
 		}
 		SDL_DestroyTexture(mainMap->imageBackground);
 		SDL_DestroyTexture(mainMap->imageMap);
+		SDL_DestroyTexture(test);
 		SDL_DestroyRenderer(pRenderer);
 		SDL_DestroyWindow(pWindow);
 	}
@@ -351,6 +346,7 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 	SDL_Texture* text = NULL;
 	va_list list;
 	Uint32 rgb = 0;
+	
 	int i = 0;
 	va_start(list, nb);
 	for (i = 0; i < nb; i++)
