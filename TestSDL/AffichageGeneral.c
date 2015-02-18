@@ -294,6 +294,7 @@ void getInput(Input * pInput)
 //Gestion des input
 int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 {
+	SDL_Rect rect = { 0, 0, 200, 200 };
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
 		... 
