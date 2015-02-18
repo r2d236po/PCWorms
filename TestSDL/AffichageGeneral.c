@@ -11,7 +11,7 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect rect1 = { 0, 0, 50, 50 };
-	SDL_Rect camera;
+	SDL_Rect camera = { 0, 0, 0, 0 };
 
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -30,6 +30,8 @@ int mainFenetre()
 
 	/* Création du renderer */
 	renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	initCameras(pWindow, &camera);
+
 	if (renderer == NULL)//gestion des erreurs
 	{
 		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
@@ -343,7 +345,7 @@ void getInput(Input * pInput)
 int gestInput(Input* pInput)
 {
 	return 1;
-}
+	}
 
 //Init des input
 void initInput(Input* pInput)
@@ -361,9 +363,8 @@ void initInput(Input* pInput)
 }
 
 /*affichage de la frame actuelle */
-void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
+void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 {
-	SDL_Rect back = { 0, 0, 0, 0 };
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
 	va_list list;
@@ -376,16 +377,16 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 		{
 		case 0:
 			map = va_arg(list, Terrain*);
-			SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
-			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
-			SDL_RenderSetViewport(pRenderer, &back);
-			SDL_QueryTexture(map->imageMap, NULL, NULL, &back.w, &back.h);
-			SDL_RenderCopy(pRenderer, map->imageMap, NULL, &back);
+			SDL_QueryTexture(map->imageBackground, NULL, NULL, &camera->w, &camera->h);
+			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, camera);
+			SDL_RenderSetViewport(pRenderer, camera);
+			SDL_QueryTexture(map->imageMap, NULL, NULL, &camera->w, &camera->h);
+			SDL_RenderCopy(pRenderer, map->imageMap, NULL, camera);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
-			SDL_QueryTexture(text, NULL, NULL, &back.w, &back.h);
-			SDL_RenderCopy(pRenderer, text, NULL, &back);
+			SDL_QueryTexture(text, NULL, NULL, &camera->w, &camera->h);
+			SDL_RenderCopy(pRenderer, text, NULL, camera);
 			break;
 		case 2:
 			rgb = va_arg(list, Uint32);
@@ -421,8 +422,30 @@ void frameRate(int fM)
 }
 
 //gestion cameras
-void cameras(const SDL_Window * pWindow,SDL_Rect * camera){
-	/*int x = 0, y = 0;
-	camera.x = SDL_GetWindowSize(pWindow, x, y);*/
+void initCameras(const SDL_Window * pWindow,SDL_Rect * camera){
+	int w = 0, h = 0;
+	SDL_GetWindowSize(pWindow, &w, &h);
+	camera->x = w/2;
+	camera->y = h / 2;
+	camera->w = w;
+	camera->h = h;
+
+	if (camera->x < 0)
+	{
+		camera->x = 0;
+	}
+	if (camera->y < 0)
+	{
+		camera->y = 0;
+	}
+	if (camera->x > w - camera->w)
+	{
+		camera->x = w - camera->w;
+	}
+	if (camera->y > h - camera->h)
+	{
+		camera->y = h - camera->h;
+	}
+
 }
 
