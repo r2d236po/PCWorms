@@ -15,12 +15,12 @@ typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
 	char bend;	//touche pour s'accroupir
 	char menu;	//touche de menu principal
-	char weaponTab;		//touche ouvrant le menu des armes
+	char rclick;		//touche ouvrant le menu des armes
 	char left;	//touche de déplacement à gauche
 	char right;	//touche de déplacement à droite
 	char up;	//touche de déplacement haut
 	char down;	//touche de déplacement bas
-	char click;	//click gauche de la souris
+	char lclick;	//click gauche de la souris
 	char quit;	//quitte le programme
 	Point cursor;
 }Input;

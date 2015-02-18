@@ -248,17 +248,17 @@ void getInput(Input * pInput)
 		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 			{
-				pInput->click = 1;
+				pInput->lclick = 1;
 			}				
 			else if (event.button.button == SDL_BUTTON_RIGHT)
-				pInput->weaponTab = 1;
+				pInput->rclick = 1;
 			break;
 
 		case SDL_MOUSEBUTTONUP:
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
-				pInput->click = 0;
+				pInput->lclick = 0;
 			else if (event.button.button == SDL_BUTTON_RIGHT)
-				pInput->weaponTab = 0;
+				pInput->rclick = 0;
 			break;
 
 		case SDL_MOUSEMOTION:
@@ -329,8 +329,8 @@ void initInput(Input* pInput)
 	pInput->up = 0;
 	pInput->down = 0;
 	pInput->quit = 0;
-	pInput->click = 0;
-	pInput->weaponTab = 0;
+	pInput->lclick = 0;
+	pInput->rclick = 0;
 	pInput->menu = 0;
 	pInput->cursor.x = 0;
 	pInput->cursor.y = 0;
