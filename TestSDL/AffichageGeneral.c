@@ -342,3 +342,5 @@ void frameRate(int fM)
 		SDL_Delay(fM - tick);
 	}
 }
+
+//gestion cameras
