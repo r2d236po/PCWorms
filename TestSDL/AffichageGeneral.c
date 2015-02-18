@@ -9,7 +9,8 @@ int mainFenetre()
 	SDL_Window* pWindow = NULL;
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
-	SDL_Rect camera = { 0, 0, 0,0 }; // rect(x,y,w,h)
+	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
+	Point pt;
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -23,6 +24,8 @@ int mainFenetre()
 		//Initialisation du terrain
 		clearRenderer(pRenderer);
 		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
+		pt.x = pInput->cursor.x;
+		pt.y = pInput->cursor.y;
 
 		while (!(pInput->quit))
 		{
@@ -34,6 +37,12 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
+			if (pInput->rclick){
+				moveCam(mainMap, &camera, pt);
+			}
+
+			pt.x = pInput->cursor.x;
+			pt.y = pInput->cursor.y;
 			//Update de l'écran
 			updateScreen(pRenderer, &camera, 2, 0, mainMap);
 
@@ -247,7 +256,7 @@ void getInput(Input * pInput)
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 			{
 				pInput->lclick = 1;
-			}				
+			}
 			else if (event.button.button == SDL_BUTTON_RIGHT)
 				pInput->rclick = 1;
 			break;
@@ -400,12 +409,12 @@ void frameRate(int fM)
 	}
 }
 
-//init de la cameras sur le centre
+//init de la cameras sur le 0/0
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	int w = 0, h = 0;
 	SDL_GetWindowSize(pWindow, &w, &h);
-	camera->x = w/2;
-	camera->y = h/2;
+	camera->x = 0;
+	camera->y = 0;
 	camera->w = w;
 	camera->h = h;
 
@@ -454,4 +463,25 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 	}
 
 	return 1;
+}
+
+//movCam
+void moveCam(Terrain * map, SDL_Rect * camera, Point pt){
+	int w = 0, h = 0, x = 0, y = 0;
+	SDL_GetMouseState(&x, &y);
+	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
+	camera->x = camera->x + x - pt.x;
+	camera->y = camera->y + y - pt.y;
+	if (camera->x + camera->w > w){
+		camera->x = w - camera->w;
+	}
+	if (camera->y + camera->h > h){
+		camera->y = h - camera->h;
+	}
+	if (camera->x <0){
+		camera->x = 0;
+	}
+	if (camera->y <0){
+		camera->y = 0;
+	}
 }
