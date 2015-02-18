@@ -30,6 +30,6 @@ SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
 SDL_Window * creerFenetre(const int w, const int h, const char * nom);
 void frameRate(int fM);
-void updateScreen(SDL_Renderer * pRenderer, Terrain * map);
+void updateScreen(SDL_Renderer * pRenderer, int nb, ...);
 
 #endif

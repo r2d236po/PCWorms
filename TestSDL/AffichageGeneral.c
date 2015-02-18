@@ -37,7 +37,8 @@ int mainFenetre2()
 
 	clearRenderer(renderer);
 
-	initialisionTerrain(mainMap, renderer, "../assets/pictures/map.png");
+	initialisionTerrain(mainMap, renderer, "../assets/pictures/fond2.png");
+	mainMap->imageMap = loadTexture(renderer, "../assets/pictures/map.png");
 	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
 	SDL_RenderDrawRect(renderer, &rect1);
 	SDL_RenderPresent(renderer);
@@ -71,7 +72,7 @@ int mainFenetre2()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
-					updateScreen(renderer, mainMap);
+					updateScreen(renderer, 1, 0, mainMap);
 					deplacementRectangle(renderer, &rect1, x1, y1);
 					SDL_GetMouseState(&x1, &y1);
 				}
@@ -88,11 +89,12 @@ int mainFenetre2()
 				break;
 			}
 		}
-		updateScreen(renderer, mainMap);
+		//updateScreen(renderer, 1, 0, mainMap);
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 	}
 	SDL_DestroyTexture(mainMap->imageBackground);
+	SDL_DestroyTexture(mainMap->imageMap);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit();
@@ -365,15 +367,41 @@ void clearRenderer(SDL_Renderer * r)
 	SDL_RenderPresent(r);
 }
 
-/*affichage de la frame actuelle (à compléter avec un nombre de paramètres 
+/*affichage de la frame actuelle (à compléter avec un nombre de paramètres
 textures variable mais pour l'instant que l'arrière plan)*/
-void updateScreen(SDL_Renderer * pRenderer, Terrain * map)
+void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
 	SDL_Rect back = { 0, 0, 0, 0 };
-	SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
-	SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
-	SDL_RenderGetViewport(pRenderer, &back);
+	Terrain * map = NULL;
+	SDL_Texture* text = NULL;
+	va_list list;
+	int i = 0;
+	va_start(list, nb);
+	for (i = 0; i < nb; i++)
+	{
+		switch (va_arg(list, int))
+		{
+		case 0:
+			map = va_arg(list, Terrain*);
+			SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
+			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
+			SDL_QueryTexture(map->imageMap, NULL, NULL, &back.w, &back.h);
+			SDL_RenderCopy(pRenderer, map->imageMap, NULL, &back);
+			break;
+		case 1:
+			text = va_arg(list, SDL_Texture*);
+			SDL_QueryTexture(text, NULL, NULL, &back.w, &back.h);
+			SDL_RenderCopy(pRenderer, text, NULL, &back);
+			break;
+		default:
+			break;
+		}
+	}
+	map = NULL;
+	text = NULL;
+	SDL_RenderSetViewport(pRenderer, &back);
 	SDL_RenderPresent(pRenderer);
+	va_end(list);
 }
 
 //gestion du frame rate pour pas bouffer le cpu
