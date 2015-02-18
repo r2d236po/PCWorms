@@ -312,8 +312,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 	Code à éxécuter
 	...
 
-	pInput->right = 0;	//remise à zéro du booléen (si nécessaires
+	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
+
+	
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
