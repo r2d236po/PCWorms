@@ -24,8 +24,6 @@ int mainFenetre()
 		//Initialisation du terrain
 		clearRenderer(pRenderer);
 		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
-		pt.x = pInput->cursor.x;
-		pt.y = pInput->cursor.y;
 
 		while (!(pInput->quit))
 		{
@@ -37,12 +35,10 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
-			if (pInput->rclick){
-				moveCam(mainMap, &camera, pt);
+			if (pInput->rclick)
+			{
+				moveCam(pWindow, mainMap, &camera, pInput);
 			}
-
-			pt.x = pInput->cursor.x;
-			pt.y = pInput->cursor.y;
 			//Update de l'écran
 			updateScreen(pRenderer, &camera, 2, 0, mainMap);
 
@@ -269,7 +265,8 @@ void getInput(Input * pInput)
 			break;
 
 		case SDL_MOUSEMOTION:
-			SDL_GetMouseState(&pInput->cursor.x, &pInput->cursor.y);
+			pInput->cursor.before = pInput->cursor.now;
+			SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
 			break;
 
 		case SDL_KEYDOWN:
@@ -324,7 +321,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
 
-	
+
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
@@ -341,8 +338,10 @@ void initInput(Input* pInput)
 	pInput->lclick = 0;
 	pInput->rclick = 0;
 	pInput->menu = 0;
-	pInput->cursor.x = 0;
-	pInput->cursor.y = 0;
+	pInput->cursor.before.x = 0;
+	pInput->cursor.before.y = 0;
+	pInput->cursor.now.x = 0;
+	pInput->cursor.now.y = 0;
 }
 
 /*affichage de la frame actuelle */
@@ -466,27 +465,23 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 }
 
 //movCam
-void moveCam(Terrain * map, SDL_Rect * camera, Point pt)
+void moveCam(SDL_Window * pWindow, Terrain * map, SDL_Rect * camera, Input * pInput)
 {
-	int w = 0, h = 0, x = 0, y = 0;
-	SDL_GetMouseState(&x, &y);
+	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
-	camera->x = camera->x + x - pt.x;
-	camera->y = camera->y + y - pt.y;
-	if (camera->x + camera->w > w)
-	{
+	SDL_GetWindowSize(pWindow, &wW, &hW);
+	camera->x = camera->x + pInput->cursor.now.x - pInput->cursor.before.x;
+	camera->y = camera->y + pInput->cursor.now.y - pInput->cursor.before.y;
+	if (camera->x + camera->w > w){
 		camera->x = w - camera->w;
 	}
-	if (camera->y + camera->h > h)
-	{
+	if (camera->y + camera->h > h){
 		camera->y = h - camera->h;
 	}
-	if (camera->x <0)
-	{
+	if (camera->x < 0){
 		camera->x = 0;
 	}
-	if (camera->y <0)
-	{
+	if (camera->y < 0){
 		camera->y = 0;
 	}
 }
