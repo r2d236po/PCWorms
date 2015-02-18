@@ -28,6 +28,7 @@ typedef struct{		//structure gérant les différents inputs
 int mainFenetre();
 int sandboxRenderer();
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image);
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);
 
 void afficherPoint(SDL_Renderer * r);
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);
@@ -39,7 +40,8 @@ int gestInput(Input* pInput, SDL_Renderer* pRenderer);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
-int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);
+void moveCam(Terrain * map, SDL_Rect * camera, Point pt);
+
 
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
