@@ -37,7 +37,7 @@ int mainFenetre()
 			}
 			if (pInput->rclick)
 			{
-				moveCam(mainMap, &camera, pInput);
+				moveCam(pWindow, mainMap, &camera, pInput);
 			}
 			//Update de l'écran
 			updateScreen(pRenderer, &camera, 2, 0, mainMap);
