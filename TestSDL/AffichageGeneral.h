@@ -31,14 +31,15 @@ int afficheImage(SDL_Window *pWindow, SDL_Surface * image);
 
 void afficherPoint(SDL_Renderer * r);
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);
-void clearRenderer(SDL_Renderer * r);
+void clearRenderer(SDL_Renderer * pRenderer);
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
 void frameRate(int fM);
 void getInput(Input* pInput);
-int gestInput(Input* pInput);
+int gestInput(Input* pInput, SDL_Renderer* pRenderer);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);
 
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);

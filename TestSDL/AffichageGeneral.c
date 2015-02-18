@@ -4,74 +4,55 @@
 int mainFenetre()
 {
 	int closeWindow = 0, x1 = 0, y1 = 0, fullscreen = 0;
-	int click = 0;
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	SDL_Renderer* renderer = NULL; //déclaration du renderer
+	SDL_Renderer* pRenderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
-	SDL_Rect rect1 = { 0, 0, 50, 50 };
 	SDL_Rect camera = { 0, 0, 0, 0 };
 
-	/* Initialisation simple */
-	if (SDL_VideoInit(NULL) < 0)
+	//init SDL + fenetre + renderer
+	if (initSWR(&pWindow, &pRenderer))
 	{
-		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
-		return -1;
-	}
+		//Initialisation de la caméra
+		initCameras(pWindow, &camera);
 
-	/* Création de la fenêtre */
-	pWindow = creerFenetre(1080, 600, "KaamWorms");
-	if (pWindow == NULL)
-	{
-		SDL_Quit();
-		return -1;
-	}
+		//Initialisation des inputs
+		initInput(pInput);
 
-	/* Création du renderer */
-	renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	initCameras(pWindow, &camera);
+		//Initialisation du terrain
+		clearRenderer(pRenderer);
+		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
 
-	if (renderer == NULL)//gestion des erreurs
-	{
-		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
-		return -1;
-	}
-
-	//Initialisation des input
-	initInput(pInput);
-
-	//Initialisation du terrain
-	clearRenderer(renderer);
-	initialisionTerrain(mainMap, renderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
-	
-	while (!(pInput->quit))
-	{
-		//Récupération des inputs
-		getInput(pInput);
-
-		//Gestion des inputs
-		if (!gestInput(pInput))
+		while (!(pInput->quit))
 		{
-			printf("Erreur lors du traitement de l'entree");
+			//Récupération des inputs
+			getInput(pInput);
+
+			//Gestion des inputs
+			if (!gestInput(pInput, pRenderer))
+			{
+				printf("Erreur lors du traitement de l'entree");
+			}
+
+			//Update de l'écran
+			updateScreen(pRenderer,&camera, 1, 0, mainMap);
+
+			//Gestion du frame Rate
+			frameRate(frame_max);
+			frame_max = SDL_GetTicks() + FRAME_RATE;
 		}
-
-		//Update de l'écran
-		updateScreen(renderer, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
-
-		//Gestion du frame Rate
-		frameRate(frame_max);
-		frame_max = SDL_GetTicks() + FRAME_RATE;
+		SDL_DestroyTexture(mainMap->imageBackground);
+		SDL_DestroyTexture(mainMap->imageMap);
+		SDL_DestroyRenderer(pRenderer);
+		SDL_DestroyWindow(pWindow);
 	}
-	SDL_DestroyTexture(mainMap->imageBackground);
-	SDL_DestroyTexture(mainMap->imageMap);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(pWindow);
 	SDL_Quit();
 	free(mainMap);
 	free(pInput);
 	return 0;
 }
+
 
 
 
@@ -242,11 +223,11 @@ void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2)
 }
 
 //Clear noir du renderer
-void clearRenderer(SDL_Renderer * r)
+void clearRenderer(SDL_Renderer * pRenderer)
 {
-	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
-	SDL_RenderClear(r);
-	SDL_RenderPresent(r);
+	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(pRenderer);
+	SDL_RenderPresent(pRenderer);
 }
 
 //Récupération des input
@@ -279,7 +260,7 @@ void getInput(Input * pInput)
 		case SDL_MOUSEMOTION:
 			break;
 
-		case SDL_KEYDOWN:			
+		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_LEFT)
 			{
 				pInput->left = 1;
@@ -313,37 +294,6 @@ void getInput(Input * pInput)
 				pInput->quit = 1;
 			}
 			break;
-		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_LEFT)
-			{
-				pInput->left = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_RIGHT)
-			{
-				pInput->right = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_UP)
-			{
-				pInput->up = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_DOWN)
-			{
-				pInput->down = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_SPACE)
-			{
-				pInput->jump = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_LCTRL)
-			{
-				pInput->bend = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_ESCAPE)
-			{
-				pInput->menu = 0;
-			}
-			break;
-
 		default:
 			break;
 		}
@@ -351,10 +301,18 @@ void getInput(Input * pInput)
 }
 
 //Gestion des input
-int gestInput(Input* pInput)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 {
-	return 1;
-	}
+	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
+	{
+		... 
+		Code à éxécuter 
+		...
+
+		pInput->right = 0;	//remise à zéro du booléen (si nécessaires
+	}*/
+	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
+}
 
 //Init des input
 void initInput(Input* pInput)
@@ -365,7 +323,7 @@ void initInput(Input* pInput)
 	pInput->right = 0;
 	pInput->up = 0;
 	pInput->down = 0;
-	pInput->quit = 1;
+	pInput->quit = 0;
 	pInput->click = 0;
 	pInput->weaponTab = 0;
 	pInput->menu = 0;
@@ -431,10 +389,10 @@ void frameRate(int fM)
 }
 
 //gestion cameras
-void initCameras(const SDL_Window * pWindow,SDL_Rect * camera){
+void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	int w = 0, h = 0;
 	SDL_GetWindowSize(pWindow, &w, &h);
-	camera->x = w/2;
+	camera->x = w / 2;
 	camera->y = h / 2;
 	camera->w = w;
 	camera->h = h;
@@ -458,3 +416,30 @@ void initCameras(const SDL_Window * pWindow,SDL_Rect * camera){
 
 }
 
+//Initialisation fenetre renderer
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
+{
+
+	/* Initialisation simple */
+	if (SDL_VideoInit(NULL) < 0)
+	{
+		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		return -1;
+	}
+	/* Création de la fenêtre */
+	*pWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (*pWindow == NULL)
+	{
+		SDL_Quit();
+		return -1;
+	}
+	/* Création du renderer */
+	*pRenderer = SDL_CreateRenderer(*pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (*pRenderer == NULL)//gestion des erreurs
+	{
+		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+		return -1;
+	}
+
+	return 1;
+}
