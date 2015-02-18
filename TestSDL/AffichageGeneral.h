@@ -29,7 +29,7 @@ void clearRenderer(SDL_Renderer * pRenderer);
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
 void frameRate(int fM);
 void getInput(Input* pInput);
-int gestInput(Input* pInput);
+int gestInput(Input* pInput, SDL_Renderer* pRenderer);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);

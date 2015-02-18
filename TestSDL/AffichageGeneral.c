@@ -31,13 +31,13 @@ int mainFenetre()
 			getInput(pInput);
 
 			//Gestion des inputs
-			if (!gestInput(pInput))
+			if (!gestInput(pInput, pRenderer))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
 
 			//Update de l'écran
-			updateScreen(pRenderer, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
+			updateScreen(pRenderer,&camera, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -53,6 +53,7 @@ int mainFenetre()
 	free(pInput);
 	return 0;
 }
+
 
 
 
@@ -285,37 +286,6 @@ void getInput(Input * pInput)
 				pInput->quit = 1;
 			}
 			break;
-		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_LEFT)
-			{
-				pInput->left = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_RIGHT)
-			{
-				pInput->right = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_UP)
-			{
-				pInput->up = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_DOWN)
-			{
-				pInput->down = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_SPACE)
-			{
-				pInput->jump = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_LCTRL)
-			{
-				pInput->bend = 0;
-			}
-			else if (event.key.keysym.sym == SDLK_ESCAPE)
-			{
-				pInput->menu = 0;
-			}
-			break;
-
 		default:
 			break;
 		}
@@ -323,8 +293,17 @@ void getInput(Input * pInput)
 }
 
 //Gestion des input
-int gestInput(Input* pInput)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 {
+	SDL_Rect rect = { 0, 0, 200, 200 };
+
+	if (pInput->left)
+	{
+		SDL_SetRenderDrawColor(pRenderer, 201, 40, 20, 255);
+		SDL_RenderFillRect(pRenderer, &rect);
+		SDL_RenderPresent(pRenderer);
+		pInput->left = 0;
+	}
 	return 1;
 }
 
