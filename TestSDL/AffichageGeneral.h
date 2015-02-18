@@ -20,11 +20,17 @@ typedef struct{		//structure gérant les différents inputs
 	char quit;	//quitte le programme
 }Input;
 
+typedef struct{		//structure gérant les différents inputs
+	int x;
+	int y;
+}Point;
+
 int mainFenetre();
 int sandboxRenderer();
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image);
 
 void afficherPoint(SDL_Renderer * r);
+void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);
 void clearRenderer(SDL_Renderer * r);
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
 void frameRate(int fM);

@@ -78,6 +78,7 @@ int mainFenetre()
 int sandboxRenderer()
 {
 	int closeWindow = 0;
+	Point p1, p2;
 	int click = 0;
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Event event;
@@ -129,7 +130,7 @@ int sandboxRenderer()
 					SDL_SetRenderDrawColor(renderer, 50, 210, 60, 255);
 				else if (event.button.button == SDL_BUTTON_MIDDLE)
 					SDL_SetRenderDrawColor(renderer, 50, 60, 210, 255);
-
+				SDL_GetMouseState(&p2.x, &p2.y); //Initialisationn pour affichage ligne
 				afficherPoint(renderer);
 				break;
 
@@ -140,7 +141,7 @@ int sandboxRenderer()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
-					afficherPoint(renderer);
+					afficherLigne(renderer, &p1, &p2);
 				}
 				break;
 
@@ -157,7 +158,6 @@ int sandboxRenderer()
 		}
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
-
 	}
 
 	SDL_DestroyRenderer(renderer);
@@ -229,6 +229,15 @@ void afficherPoint(SDL_Renderer * r)
 	static int x, y;
 	SDL_GetMouseState(&x, &y);
 	SDL_RenderDrawPoint(r, x, y);
+	SDL_RenderPresent(r);
+}
+
+void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2)
+{
+	p1->x = p2->x;
+	p1->y = p2->y;
+	SDL_GetMouseState(&p2->x, &p2->y);
+	SDL_RenderDrawLine(r, p1->x, p1->y, p2->x, p2->y);
 	SDL_RenderPresent(r);
 }
 
