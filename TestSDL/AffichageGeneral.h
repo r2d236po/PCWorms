@@ -4,8 +4,12 @@
 #include "Libraries.h" //Inclus toutes les librairies
 #include "carte.h"
 
-#define FRAME_RATE (1000 / 60)
+#define FRAME_RATE (1000 / 80)
 
+typedef struct{		//structure gérant les différents inputs
+	int x;
+	int y;
+}Point;
 
 typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
@@ -18,6 +22,7 @@ typedef struct{		//structure gérant les différents inputs
 	char down;	//touche de déplacement bas
 	char click;	//click gauche de la souris
 	char quit;	//quitte le programme
+	Point cursor;
 }Input;
 
 int mainFenetre();
@@ -25,15 +30,16 @@ int sandboxRenderer();
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image);
 
 void afficherPoint(SDL_Renderer * r);
+void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);
 void clearRenderer(SDL_Renderer * pRenderer);
 void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
 void frameRate(int fM);
 void getInput(Input* pInput);
-int gestInput(Input* pInput);
+int gestInput(Input* pInput, SDL_Renderer* pRenderer);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
-int initSWR(SDL_Window* pWindow, SDL_Renderer *pRenderer);
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);
 
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
