@@ -16,6 +16,8 @@ typedef struct{		//structure gérant les différents inputs
 	char right;	//touche de déplacement à droite
 	char up;	//touche de déplacement haut
 	char down;	//touche de déplacement bas
+	char click;	//click gauche de la souris
+	char quit;	//quitte le programme
 }Input;
 
 int mainFenetre();

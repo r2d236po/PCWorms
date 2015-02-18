@@ -8,7 +8,7 @@ int mainFenetre()
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
-	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
+	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect rect1 = { 0, 0, 50, 50 };
 	SDL_Rect camera = { 0, 0, 0, 0 };
@@ -38,16 +38,23 @@ int mainFenetre()
 		return -1;
 	}
 
+	//Initialisation des input
+	initInput(pInput);
+
 	//Initialisation du terrain
 	clearRenderer(renderer);
 	initialisionTerrain(mainMap, renderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
-
-	while (!closeWindow)
+	
+	while (!(pInput->quit))
 	{
 		//Récupération des inputs
 		getInput(pInput);
 
 		//Gestion des inputs
+		if (!gestInput(pInput))
+		{
+			printf("Erreur lors du traitement de l'entree");
+		}
 
 		//Update de l'écran
 		updateScreen(renderer, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
@@ -62,6 +69,7 @@ int mainFenetre()
 	SDL_DestroyWindow(pWindow);
 	SDL_Quit();
 	free(mainMap);
+	free(pInput);
 	return 0;
 }
 
@@ -232,7 +240,7 @@ void clearRenderer(SDL_Renderer * r)
 	SDL_RenderPresent(r);
 }
 
-//Gestion des input
+//Récupération des input
 void getInput(Input * pInput)
 {
 	SDL_Event event;
@@ -242,13 +250,21 @@ void getInput(Input * pInput)
 		switch (event.type)
 		{
 		case SDL_QUIT:
+			pInput->quit = 1;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
-
+			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+				pInput->click = 1;
+			else if (event.button.button == SDL_BUTTON_RIGHT)
+				pInput->weaponTab = 1;
 			break;
 
 		case SDL_MOUSEBUTTONUP:
+			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+				pInput->click = 0;
+			else if (event.button.button == SDL_BUTTON_RIGHT)
+				pInput->weaponTab = 0;
 			break;
 
 		case SDL_MOUSEMOTION:
@@ -283,9 +299,39 @@ void getInput(Input * pInput)
 			{
 				pInput->menu = 1;
 			}
-			else if (event.key.keysym.sym == SDLK_w)
+			else if (event.key.keysym.sym == SDLK_q)
 			{
-				pInput->weaponTab = 1;
+				pInput->quit = 1;
+			}
+			break;
+		case SDL_KEYUP:
+			if (event.key.keysym.sym == SDLK_LEFT)
+			{
+				pInput->left = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_RIGHT)
+			{
+				pInput->right = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_UP)
+			{
+				pInput->up = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_DOWN)
+			{
+				pInput->down = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_SPACE)
+			{
+				pInput->jump = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_LCTRL)
+			{
+				pInput->bend = 0;
+			}
+			else if (event.key.keysym.sym == SDLK_ESCAPE)
+			{
+				pInput->menu = 0;
 			}
 			break;
 
@@ -293,6 +339,27 @@ void getInput(Input * pInput)
 			break;
 		}
 	}
+}
+
+//Gestion des input
+int gestInput(Input* pInput)
+{
+	return 1;
+	}
+
+//Init des input
+void initInput(Input* pInput)
+{
+	pInput->bend = 0;
+	pInput->jump = 0;
+	pInput->left = 0;
+	pInput->right = 0;
+	pInput->up = 0;
+	pInput->down = 0;
+	pInput->quit = 1;
+	pInput->click = 0;
+	pInput->weaponTab = 0;
+	pInput->menu = 0;
 }
 
 /*affichage de la frame actuelle */
@@ -381,3 +448,4 @@ void initCameras(const SDL_Window * pWindow,SDL_Rect * camera){
 	}
 
 }
+
