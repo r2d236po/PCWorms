@@ -5,6 +5,6 @@
 int main(int argc, char** argv)
 {
 	//sandboxRenderer();
-	mainFenetre2();
+	mainFenetre();
 	return 0;
 }

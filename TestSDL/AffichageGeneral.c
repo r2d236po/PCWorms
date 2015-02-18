@@ -1,9 +1,9 @@
 #include "AffichageGeneral.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
-int mainFenetre2()
+int mainFenetre()
 {
-	int closeWindow = 0, x1 = 0, y1 = 0;
+	int closeWindow = 0, x1 = 0, y1 = 0, fullscreen = 0;
 	int click = 0;
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Event event;
@@ -83,6 +83,21 @@ int mainFenetre2()
 				{
 					clearRenderer(renderer);
 				}
+				else
+					if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
+					{
+					/* Alterne du mode plein écran au mode fenêtré */
+					if (fullscreen == 0)
+					{
+						fullscreen = 1;
+						SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN);
+					}
+					else if (fullscreen == 1)
+					{
+						fullscreen = 0;
+						SDL_SetWindowFullscreen(pWindow, 0);
+					}
+					}
 				break;
 
 			default:
@@ -193,101 +208,6 @@ int sandboxRenderer()
 	return 0;
 }
 
-int mainFenetre() {
-
-	int quit = 0, fullscreen = 0;
-	SDL_Event event;
-	SDL_Window* pWindow = NULL;
-
-	/* Initialisation simple */
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	{
-		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
-		return -1;
-	}
-
-	/* Création de la fenêtre */
-	pWindow = creerFenetre(1080, 600, "KaamWorms");
-
-	/*Chargement image*/
-	SDL_Surface * wormsLeft = loadImage("../assets/pictures/worms_left.png");
-	SDL_Surface * wormsRight = loadImage("../assets/pictures/worms_right.png");
-	SDL_Surface * icon = loadImage("../assets/pictures/worms.bmp");
-	SDL_SetWindowIcon(pWindow, icon);
-
-	if (pWindow != NULL){
-		while (quit != 1)
-		{
-			SDL_PumpEvents(); // On demande à la SDL de mettre à jour les états sur les périphériques
-
-			// Clavier
-			{
-				Uint8 * pKeyStates = SDL_GetKeyboardState(NULL);
-				if (pKeyStates[SDL_SCANCODE_ESCAPE])
-				{
-					quit = 1;
-				}
-				SDL_Keymod mod = SDL_GetModState();
-				if (mod != KMOD_NONE)
-				{
-					printf("Vous avez appuyé sur une touche spéciale : %d\n", mod);
-				}
-				if (pKeyStates[SDL_SCANCODE_LEFT]){
-					afficheImage(pWindow, wormsLeft);//affichage du worms si arrow left
-				}
-				if (pKeyStates[SDL_SCANCODE_RIGHT]){
-					afficheImage(pWindow, wormsRight);// affichage du worms si arrow right
-				}
-			}
-			printf("\n");
-			// Souris
-			{
-				int x = 0;
-				int y = 0;
-				Uint32 boutons = SDL_GetMouseState(&x, &y);
-
-				printf("Position de la souris : %d;%d\n", x, y);
-				printf("Bouton de la souris : %d\n", boutons);
-
-				SDL_GetRelativeMouseState(&x, &y);
-				printf("Déplacement de la souris : %d;%d\n", x, y);
-			}
-			printf("\n");
-
-			while (SDL_PollEvent(&event)) /* Récupération des actions de l'utilisateur */
-			{
-				switch (event.type)
-				{
-				case SDL_QUIT: /* Clic sur la croix */
-					quit = 1;
-					break;
-				case SDL_KEYUP: /* Relâchement d'une touche */
-					if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
-					{
-						/* Alterne du mode plein écran au mode fenêtré */
-						if (fullscreen == 0)
-						{
-							fullscreen = 1;
-							SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN);
-						}
-						else if (fullscreen == 1)
-						{
-							fullscreen = 0;
-							SDL_SetWindowFullscreen(pWindow, 0);
-						}
-					}
-				}
-
-				SDL_UpdateWindowSurface(pWindow);
-			}
-		}
-		SDL_DestroyWindow(pWindow);
-	}
-	SDL_FreeSurface(wormsLeft);
-	SDL_FreeSurface(wormsRight);
-	SDL_Quit();
-}
-
 //Fonction de création de fenêtre
 SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 	SDL_Window * pWindow = NULL;
@@ -383,8 +303,8 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 		{
 		case 0:
 			map = va_arg(list, Terrain*);
-			SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
-			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
+	SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
+	SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
 			SDL_QueryTexture(map->imageMap, NULL, NULL, &back.w, &back.h);
 			SDL_RenderCopy(pRenderer, map->imageMap, NULL, &back);
 			break;
