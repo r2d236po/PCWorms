@@ -255,7 +255,7 @@ void getInput(Input * pInput)
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 			{
 				pInput->click = 1;
-			}
+			}				
 			else if (event.button.button == SDL_BUTTON_RIGHT)
 				pInput->weaponTab = 1;
 			break;
