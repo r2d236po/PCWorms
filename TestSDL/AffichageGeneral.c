@@ -10,6 +10,8 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 };
+	SDL_Rect rect1 = { 0, 0, 50, 50 };
+	SDL_Rect rect2 = { 0, 0, 25, 25 };
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -34,9 +36,14 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
-
+			rect2.x = pInput->cursor.x - rect2.w / 2;
+			if (rect2.x < 0)
+				rect2.x = 0;
+			rect2.y = pInput->cursor.y - rect2.h / 2;
+			if (rect2.y < 0)
+				rect2.y = 0;
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, 1, 0, mainMap);
+			updateScreen(pRenderer, &camera, 2, 0, mainMap, 1, mainMap->imageMap, &rect1, &rect2);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -200,6 +207,7 @@ void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int
 {
 	int x1, y1;
 	SDL_GetMouseState(&x1, &y1);
+	//gestionCollision(pRenderer, );
 	rect->x = rect->x + (x1 - x2);
 	rect->y = rect->y + (y1 - y2);
 }
@@ -247,7 +255,7 @@ void getInput(Input * pInput)
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 			{
 				pInput->click = 1;
-			}				
+			}
 			else if (event.button.button == SDL_BUTTON_RIGHT)
 				pInput->weaponTab = 1;
 			break;
@@ -337,6 +345,8 @@ void initInput(Input* pInput)
 /*affichage de la frame actuelle */
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 {
+	SDL_Rect* rect = NULL;
+	SDL_Rect* rect2 = NULL;
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
 	va_list list;
@@ -357,8 +367,9 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
-			SDL_QueryTexture(text, NULL, NULL, &camera->w, &camera->h);
-			SDL_RenderCopy(pRenderer, text, NULL, camera);
+			rect = va_arg(list, SDL_Rect*);
+			rect2 = va_arg(list, SDL_Rect*);
+			SDL_RenderCopy(pRenderer, text, rect2, rect);
 			break;
 		case 2:
 			rgb = va_arg(list, Uint32);
@@ -371,6 +382,7 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 	}
 	map = NULL;
 	text = NULL;
+	rect = NULL;
 	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }

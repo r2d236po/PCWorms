@@ -21,5 +21,6 @@ typedef struct{
 } Caisse;
 
 void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file, const char * file2);
+int gestionCollision(SDL_Renderer* pRenderer, SDL_Texture* pTexture);
 
 #endif

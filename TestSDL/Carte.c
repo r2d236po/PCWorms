@@ -15,5 +15,11 @@ void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * f
 	SDL_RenderPresent(pRenderer);
 }
 
+int gestionCollision(SDL_Renderer* pRenderer, SDL_Texture* pTexture)
+{
+	
+	return 1;
+}
+
 
 

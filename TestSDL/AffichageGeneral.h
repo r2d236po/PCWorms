@@ -4,7 +4,7 @@
 #include "Libraries.h" //Inclus toutes les librairies
 #include "carte.h"
 
-#define FRAME_RATE (1000 / 80)
+#define FRAME_RATE (1000 / 70)
 
 typedef struct{		//structure gérant les différents inputs
 	int x;
