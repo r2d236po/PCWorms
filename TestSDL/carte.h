@@ -20,6 +20,6 @@ typedef struct{
 	//image?
 } Caisse;
 
-void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file);
+void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file, const char * file2);
 
 #endif

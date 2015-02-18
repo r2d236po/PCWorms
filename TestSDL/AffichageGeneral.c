@@ -37,8 +37,7 @@ int mainFenetre()
 
 	clearRenderer(renderer);
 
-	initialisionTerrain(mainMap, renderer, "../assets/pictures/fond2.png");
-	mainMap->imageMap = loadTexture(renderer, "../assets/pictures/map.png");
+	initialisionTerrain(mainMap, renderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
 	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
 	SDL_RenderDrawRect(renderer, &rect1);
 	SDL_RenderPresent(renderer);
@@ -72,7 +71,6 @@ int mainFenetre()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
-					updateScreen(renderer, 1, 0, mainMap);
 					deplacementRectangle(renderer, &rect1, x1, y1);
 					SDL_GetMouseState(&x1, &y1);
 				}
@@ -104,7 +102,7 @@ int mainFenetre()
 				break;
 			}
 		}
-		//updateScreen(renderer, 1, 0, mainMap);
+		updateScreen(renderer, 3, 0, mainMap,2,0xD2323CFF,&rect1);
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 	}
@@ -265,9 +263,7 @@ void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int
 	SDL_RenderFillRect(pRenderer, rect);*/
 	rect->x = rect->x + (x1 - x2);
 	rect->y = rect->y + (y1 - y2);
-	SDL_SetRenderDrawColor(pRenderer, 210, 50, 60, 255);
-	SDL_RenderFillRect(pRenderer, rect);
-	SDL_RenderPresent(pRenderer);
+	//SDL_RenderFillRect(pRenderer, rect);
 }
 
 //Affiche un point aux coordonnées de la souris
@@ -287,14 +283,14 @@ void clearRenderer(SDL_Renderer * r)
 	SDL_RenderPresent(r);
 }
 
-/*affichage de la frame actuelle (à compléter avec un nombre de paramètres
-textures variable mais pour l'instant que l'arrière plan)*/
+/*affichage de la frame actuelle */
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
 	SDL_Rect back = { 0, 0, 0, 0 };
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
 	va_list list;
+	Uint32 rgb = 0;
 	int i = 0;
 	va_start(list, nb);
 	for (i = 0; i < nb; i++)
@@ -303,8 +299,9 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 		{
 		case 0:
 			map = va_arg(list, Terrain*);
-	SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
-	SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
+			SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
+			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
+			SDL_RenderSetViewport(pRenderer, &back);
 			SDL_QueryTexture(map->imageMap, NULL, NULL, &back.w, &back.h);
 			SDL_RenderCopy(pRenderer, map->imageMap, NULL, &back);
 			break;
@@ -313,13 +310,17 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 			SDL_QueryTexture(text, NULL, NULL, &back.w, &back.h);
 			SDL_RenderCopy(pRenderer, text, NULL, &back);
 			break;
+		case 2:
+			rgb = va_arg(list, Uint32);
+			SDL_SetRenderDrawColor(pRenderer, rgb >> 24, (rgb >> 16) & 0x00FF, (rgb >> 8) & 0x0000FF, (rgb & 0x000000FF));
+			SDL_RenderFillRect(pRenderer, va_arg(list, SDL_Rect*));
+			break;
 		default:
 			break;
 		}
 	}
 	map = NULL;
 	text = NULL;
-	SDL_RenderSetViewport(pRenderer, &back);
 	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
