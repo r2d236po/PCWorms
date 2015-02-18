@@ -6,7 +6,6 @@ int mainFenetre()
 	int closeWindow = 0, x1 = 0, y1 = 0, fullscreen = 0;
 	int click = 0;
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	SDL_Event event;
 	SDL_Renderer* renderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
 	Terrain * mainMap = malloc(sizeof(Terrain));
@@ -45,64 +44,18 @@ int mainFenetre()
 	while (!closeWindow)
 	{
 
-		while (SDL_PollEvent(&event))
+		click = 0;/*Booleen de démémorisation du click*/
+		SDL_GetMouseState(&x1, &y1);
+		if (((x1 >= rect1.x) && x1 <= (rect1.x + rect1.w)) && ((y1 >= rect1.y) && y1 <= (rect1.y + rect1.h)))
 		{
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				closeWindow = 1;
-				break;
-
-			case SDL_MOUSEBUTTONDOWN:
-				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
-				{
-					SDL_GetMouseState(&x1, &y1);
-					if (((x1 >= rect1.x) && x1 <= (rect1.x + rect1.w)) && ((y1 >= rect1.y) && y1 <= (rect1.y + rect1.h)))
-					{
-						click = 1;/*Booleen de mémorisation du click*/
-					}
-				}
-				break;
-
-			case SDL_MOUSEBUTTONUP:
-				click = 0;/*Booleen de démémorisation du click*/
-				break;
-
-			case SDL_MOUSEMOTION:
-				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
-				{
-					deplacementRectangle(renderer, &rect1, x1, y1);
-					SDL_GetMouseState(&x1, &y1);
-				}
-				break;
-
-			case SDL_KEYUP:
-				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
-				{
-					clearRenderer(renderer);
-				}
-				else
-					if (event.key.keysym.sym == SDLK_KP_ENTER) /* Touche enter pour passer en plein écran ! */
-					{
-					/* Alterne du mode plein écran au mode fenêtré */
-					if (fullscreen == 0)
-					{
-						fullscreen = 1;
-						SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN);
-					}
-					else if (fullscreen == 1)
-					{
-						fullscreen = 0;
-						SDL_SetWindowFullscreen(pWindow, 0);
-					}
-					}
-				break;
-
-			default:
-				break;
-			}
+			click = 1;/*Booleen de mémorisation du click*/
 		}
-		updateScreen(renderer, 3, 0, mainMap,2,0xD2323CFF,&rect1);
+		if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
+		{
+			deplacementRectangle(renderer, &rect1, x1, y1);
+			SDL_GetMouseState(&x1, &y1);
+		}
+		updateScreen(renderer, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 	}
@@ -114,6 +67,8 @@ int mainFenetre()
 	free(mainMap);
 	return 0;
 }
+
+
 
 int sandboxRenderer()
 {
@@ -259,11 +214,8 @@ void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int
 {
 	int x1, y1;
 	SDL_GetMouseState(&x1, &y1);
-	/*SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-	SDL_RenderFillRect(pRenderer, rect);*/
 	rect->x = rect->x + (x1 - x2);
 	rect->y = rect->y + (y1 - y2);
-	//SDL_RenderFillRect(pRenderer, rect);
 }
 
 //Affiche un point aux coordonnées de la souris
@@ -281,6 +233,37 @@ void clearRenderer(SDL_Renderer * r)
 	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
 	SDL_RenderClear(r);
 	SDL_RenderPresent(r);
+}
+
+//Gestion des input
+void getInput(Input * input)
+{
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+		case SDL_QUIT:
+			break;
+
+		case SDL_MOUSEBUTTONDOWN:
+
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			break;
+
+		case SDL_MOUSEMOTION:
+			break;
+
+		case SDL_KEYUP:
+			break;
+
+		default:
+			break;
+		}
+	}
 }
 
 /*affichage de la frame actuelle */
@@ -333,7 +316,7 @@ void frameRate(int fM)
 	{
 		return;
 	}
-	else if (fM > tick + 16)
+	else if (fM > tick + FRAME_RATE)
 	{
 		SDL_Delay(FRAME_RATE);
 	}
