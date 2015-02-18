@@ -9,7 +9,7 @@ int mainFenetre()
 	SDL_Window* pWindow = NULL;
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
-	SDL_Rect camera = { 0, 0, 0, 0 };
+	SDL_Rect camera = { 0, 0, 0,0 }; // rect(x,y,w,h)
 	SDL_Rect rect1 = { 0, 0, 50, 50 };
 	SDL_Rect rect2 = { 0, 0, 25, 25 };
 
@@ -36,14 +36,8 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
-			rect2.x = pInput->cursor.x - rect2.w / 2;
-			if (rect2.x < 0)
-				rect2.x = 0;
-			rect2.y = pInput->cursor.y - rect2.h / 2;
-			if (rect2.y < 0)
-				rect2.y = 0;
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, 2, 0, mainMap, 1, mainMap->imageMap, &rect1, &rect2);
+			updateScreen(pRenderer, &camera, 2, 0, mainMap);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -347,6 +341,7 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
+	SDL_Rect temp = { 0, 0, 0, 0 };
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
 	va_list list;
@@ -359,11 +354,11 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 		{
 		case 0:
 			map = va_arg(list, Terrain*);
-			SDL_QueryTexture(map->imageBackground, NULL, NULL, &camera->w, &camera->h);
-			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, camera);
-			SDL_RenderSetViewport(pRenderer, camera);
-			SDL_QueryTexture(map->imageMap, NULL, NULL, &camera->w, &camera->h);
-			SDL_RenderCopy(pRenderer, map->imageMap, NULL, camera);
+			SDL_QueryTexture(map->imageBackground, NULL, NULL, &temp.w, &temp.h);
+			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
+			SDL_RenderSetViewport(pRenderer, &temp);
+			//SDL_QueryTexture(map->imageMap, NULL, NULL, &temp.w, &temp.h);
+			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -409,8 +404,8 @@ void frameRate(int fM)
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	int w = 0, h = 0;
 	SDL_GetWindowSize(pWindow, &w, &h);
-	camera->x = w / 2;
-	camera->y = h / 2;
+	camera->x = w/2;
+	camera->y = h/2;
 	camera->w = w;
 	camera->h = h;
 
