@@ -16,6 +16,8 @@ typedef struct{		//structure gérant les différents inputs
 	char right;	//touche de déplacement à droite
 	char up;	//touche de déplacement haut
 	char down;	//touche de déplacement bas
+	char click;	//click gauche de la souris
+	char quit;	//quitte le programme
 }Input;
 
 int mainFenetre();
@@ -29,6 +31,8 @@ void frameRate(int fM);
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);
 void cameras();
 void getInput(Input* pInput);
+int gestInput(Input* pInput);
+void initInput(Input* pInput);
 
 SDL_Surface * loadImage(const char * file);
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);
