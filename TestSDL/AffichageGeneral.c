@@ -10,7 +10,6 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 };
-	SDL_Rect rect1 = { 0, 0, 50, 50 };
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -37,7 +36,7 @@ int mainFenetre()
 			}
 
 			//Update de l'écran
-			updateScreen(pRenderer,&camera, 3, 0, mainMap, 2, 0xD2323CFF, &rect1);
+			updateScreen(pRenderer,&camera, 1, 0, mainMap);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -295,16 +294,15 @@ void getInput(Input * pInput)
 //Gestion des input
 int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 {
-	SDL_Rect rect = { 0, 0, 200, 200 };
-
-	if (pInput->left)
+	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
-		SDL_SetRenderDrawColor(pRenderer, 201, 40, 20, 255);
-		SDL_RenderFillRect(pRenderer, &rect);
-		SDL_RenderPresent(pRenderer);
-		pInput->left = 0;
-	}
-	return 1;
+		... 
+		Code à éxécuter 
+		...
+
+		pInput->right = 0;	//remise à zéro du booléen (si nécessaires
+	}*/
+	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
 //Init des input
