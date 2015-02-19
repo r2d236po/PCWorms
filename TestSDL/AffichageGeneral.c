@@ -357,7 +357,7 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 	SDL_Texture* text = NULL;
 	va_list list;
 	Uint32 rgb = 0;
-	int i = 0;
+	int i = 0, w = 0, h = 0;
 	va_start(list, nb);
 	for (i = 0; i < nb; i++)
 	{
@@ -365,13 +365,13 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 		{
 		case 0:
 			map = va_arg(list, Terrain*);
-			SDL_QueryTexture(map->imageBackground, NULL, NULL, &temp.w, &temp.h);
+			SDL_GetRendererOutputSize(pRenderer,&w, &h);
+			temp.w = w;
+			temp.h = h;
+			camera->w = w;
+			camera->h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
-			SDL_RenderSetViewport(pRenderer, &temp);
-			SDL_QueryTexture(map->imageMap, NULL, NULL, &temp.w, &temp.h);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
-			SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
-			SDL_RenderDrawRect(pRenderer, camera);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
