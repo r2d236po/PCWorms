@@ -28,16 +28,12 @@ int mainFenetre()
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
-			getInput(pInput);
+			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer))
+			if (!gestInput(pInput, pRenderer, mainMap, &camera))
 			{
 				printf("Erreur lors du traitement de l'entree");
-			}
-			if (pInput->rclick)
-			{
-				moveCam(mainMap, &camera, pInput);
 			}
 			//Update de l'écran
 			updateScreen(pRenderer, &camera, 2, 0, mainMap);
@@ -236,9 +232,11 @@ void clearRenderer(SDL_Renderer * pRenderer)
 }
 
 //Récupération des input
-void getInput(Input * pInput)
+void getInput(Input * pInput, SDL_Window* pWindow)
 {
 	SDL_Event event;
+	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+	Uint32 flags = (SDL_GetWindowFlags(pWindow) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
 
 	while (SDL_PollEvent(&event))
 	{
@@ -305,15 +303,26 @@ void getInput(Input * pInput)
 			{
 				pInput->quit = 1;
 			}
+			else if (event.key.keysym.sym == SDLK_TAB)
+			{
+				pInput->weaponTab = 1;
+			}
 			break;
 		default:
 			break;
+		}
+		//Gestion du plein écran
+		if (keystate[SDL_SCANCODE_RETURN] && (keystate[SDL_SCANCODE_RCTRL] || keystate[SDL_SCANCODE_LCTRL]))
+		{
+			if (SDL_SetWindowFullscreen(pWindow, flags) < 0)
+				printf("ERROR lors du passage en mode fenetre : %s", SDL_GetError());
+			SDL_Delay(10);
 		}
 	}
 }
 
 //Gestion des input
-int gestInput(Input* pInput, SDL_Renderer * pRenderer)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -323,7 +332,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer)
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-
+	if (pInput->rclick)
+	{
+		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
+	}
 
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
@@ -345,6 +357,7 @@ void initInput(Input* pInput)
 	pInput->cursor.before.y = 0;
 	pInput->cursor.now.x = 0;
 	pInput->cursor.now.y = 0;
+	pInput->weaponTab = 0;
 }
 
 /*affichage de la frame actuelle */
@@ -365,7 +378,7 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 		{
 		case 0:
 			map = va_arg(list, Terrain*);
-			SDL_GetRendererOutputSize(pRenderer,&w, &h);
+			SDL_GetRendererOutputSize(pRenderer, &w, &h);
 			temp.w = w;
 			temp.h = h;
 			camera->w = w;
