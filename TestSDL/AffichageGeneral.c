@@ -37,7 +37,7 @@ int mainFenetre()
 			}
 			if (pInput->rclick)
 			{
-				moveCam(pWindow, mainMap, &camera, pInput);
+				moveCam(mainMap, &camera, pInput);
 			}
 			//Update de l'écran
 			updateScreen(pRenderer, &camera, 2, 0, mainMap);
@@ -470,11 +470,10 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 }
 
 //movCam
-void moveCam(SDL_Window * pWindow, Terrain * map, SDL_Rect * camera, Input * pInput)
+void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 {
-	int w = 0, h = 0, wW = 0, hW = 0;
+	int w = 0, h = 0;
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
-	SDL_GetWindowSize(pWindow, &wW, &hW);
 	camera->x = camera->x + pInput->cursor.now.x - pInput->cursor.before.x;
 	camera->y = camera->y + pInput->cursor.now.y - pInput->cursor.before.y;
 	if (camera->x + camera->w > w){

@@ -45,7 +45,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer);
 void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
-void moveCam(SDL_Window * pWindow, Terrain * map, SDL_Rect * camera, Input * pInput);
+void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput);
 
 
 
