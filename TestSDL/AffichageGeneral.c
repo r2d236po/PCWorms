@@ -368,8 +368,10 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 			SDL_QueryTexture(map->imageBackground, NULL, NULL, &temp.w, &temp.h);
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderSetViewport(pRenderer, &temp);
-			//SDL_QueryTexture(map->imageMap, NULL, NULL, &temp.w, &temp.h);
+			SDL_QueryTexture(map->imageMap, NULL, NULL, &temp.w, &temp.h);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
+			SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
+			SDL_RenderDrawRect(pRenderer, camera);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -475,7 +477,7 @@ void moveCam(SDL_Window * pWindow, Terrain * map, SDL_Rect * camera, Input * pIn
 	SDL_GetWindowSize(pWindow, &wW, &hW);
 	camera->x = camera->x + pInput->cursor.now.x - pInput->cursor.before.x;
 	camera->y = camera->y + pInput->cursor.now.y - pInput->cursor.before.y;
-	if (camera->w - camera->x <= w - camera->x){
+	if (camera->x + camera->w > w){
 		camera->x = w - camera->w;
 	}
 	if (camera->y + camera->h > h){
