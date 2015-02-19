@@ -475,7 +475,7 @@ void moveCam(SDL_Window * pWindow, Terrain * map, SDL_Rect * camera, Input * pIn
 	SDL_GetWindowSize(pWindow, &wW, &hW);
 	camera->x = camera->x + pInput->cursor.now.x - pInput->cursor.before.x;
 	camera->y = camera->y + pInput->cursor.now.y - pInput->cursor.before.y;
-	if (camera->w - camera->x <= w - camera->x){
+	if (camera->x + camera->w >w){
 		camera->x = w - camera->w;
 	}
 	if (camera->y + camera->h > h){
