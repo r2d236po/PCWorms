@@ -1,16 +1,16 @@
 #include "AffichageGeneral.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
+
+
 int mainFenetre()
 {
-	int closeWindow = 0, x1 = 0, y1 = 0, fullscreen = 0;
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Renderer* pRenderer = NULL; //déclaration du renderer
 	SDL_Window* pWindow = NULL;
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
-	Point pt;
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -35,8 +35,9 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
+
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, 2, 0, mainMap);
+			updateScreen(pRenderer, &camera, 1, 0, mainMap);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -47,6 +48,7 @@ int mainFenetre()
 		SDL_DestroyRenderer(pRenderer);
 		SDL_DestroyWindow(pWindow);
 	}
+	IMG_Quit();
 	SDL_Quit();
 	free(mainMap);
 	free(pInput);
@@ -457,7 +459,6 @@ void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 //Initialisation fenetre renderer
 int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 {
-
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
 	{
@@ -478,8 +479,12 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 		return -1;
 	}
-
 	return 1;
+	if (IMG_Init(IMG_INIT_PNG) < 0)
+	{
+		printf("Erreur Img_init : %s", SDL_GetError());
+		return -1;
+	}
 }
 
 //movCam
