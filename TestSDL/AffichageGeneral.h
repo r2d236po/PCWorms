@@ -28,8 +28,8 @@ typedef struct{		//structure gérant les différents inputs
 	char lclick;	//click gauche de la souris
 	char quit;	//quitte le programme
 	char weaponTab;
-	char wheelUp;
-	char wheelDown;
+	char wheelUp; //zoomIn
+	char wheelDown; //zoomOut
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 

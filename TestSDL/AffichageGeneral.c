@@ -405,6 +405,8 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 			temp.h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
+			SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
+			SDL_RenderDrawRect(pRenderer, camera);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -532,8 +534,12 @@ void zoomIn(Terrain * map, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
-	camera->w = camera->w - 20 * ((float)w / (float)h);// keep the ratio depending of the size image
+	camera->x = camera->x + (camera->w) / 2;
+	camera->y = camera->y + (camera->h) / 2;
+	camera->w = camera->w - 20 * (int)((float)w / (float)h);// keep the ratio depending of the size image
 	camera->h = camera->h - 20;
+	camera->x = camera->x - (camera->w) / 2;
+	camera->y = camera->y - (camera->h) / 2;
 }
 
 //ZoomCamera retrécissement
@@ -541,6 +547,8 @@ void zoomOut(Terrain * map, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
+	camera->x = camera->x + (camera->w) / 2;
+	camera->y = camera->y + (camera->h) / 2;
 	camera->w = camera->w + 20 * ((float)w / (float)h);
 	camera->h = camera->h + 20;
 	if (camera->w > w){
@@ -549,10 +557,20 @@ void zoomOut(Terrain * map, SDL_Rect * camera)
 	if (camera->h > h){
 		camera->h = h;
 	}
+	camera->x = camera->x - ((camera->w) / 2);
+	camera->y = camera->y - ((camera->h) / 2);
+
 	if (camera->x + camera->w > w){
 		camera->x = w - camera->w;
 	}
 	if (camera->y + camera->h > h){
 		camera->y = h - camera->h;
-	}	
+	}
+	if (camera->x < 0){
+		camera->x = 0;
+	}
+	if (camera->y < 0){
+		camera->y = 0;
+	}
+
 }
