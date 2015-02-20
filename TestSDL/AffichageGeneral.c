@@ -16,6 +16,7 @@ int mainFenetre()
 	int x = 0, y = 0;
 	int XE = 0, YE = 0;
 	SDL_Surface * Worms = loadImage("../assets/pictures/worms.png");
+	SDL_Texture* texture = NULL;
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
@@ -33,11 +34,15 @@ int mainFenetre()
 			mainMap->imageMapSurface->format->Gmask,
 			mainMap->imageMapSurface->format->Bmask,
 			mainMap->imageMapSurface->format->Amask);
+
 		SDL_Texture* Worms_texture = SDL_CreateTextureFromSurface(pRenderer, Worms);
 
 		rect.w = Worms->clip_rect.w;
 		rect.h = Worms->clip_rect.h;
+		initCameras(pRenderer, mainMap, &camera);
 		updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL);
+		SDL_RenderPresent(pRenderer);
+		updateCamera(pRenderer, &camera, pWindow,&texture);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -103,7 +108,7 @@ int mainFenetre()
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, &camera);
+				updateScreen(pRenderer, &camera, &surfaceCollision, 2, 1, texture,NULL,&camera, 1, Worms_texture, &rect, NULL);
 			}
 
 			//Gestion du frame Rate
@@ -114,6 +119,7 @@ int mainFenetre()
 		SDL_DestroyTexture(mainMap->imageMap);
 		SDL_FreeSurface(mainMap->imageMapSurface);
 		SDL_FreeSurface(Worms);
+		SDL_DestroyTexture(texture);
 		SDL_DestroyRenderer(pRenderer);
 		SDL_DestroyWindow(pWindow);
 	}
@@ -327,6 +333,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_WINDOWEVENT:
 			if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
 				pInput->windowResized = 1;
+				pInput->raffraichissement = 1;
 			}
 			break;
 
@@ -497,7 +504,6 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 	SDL_Rect temp = { 0, 0, 0, 0 };
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
-	void * pixel;
 	va_list list;
 	Uint32 rgb = 0;
 	int i = 0, w = 0, h = 0;
@@ -517,17 +523,11 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 			{
 				*pSurface = crop_surface(map->imageMapSurface, camera->x, camera->y, camera->w, camera->h);
 			}
-			text  = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, w, h);
-			SDL_RenderReadPixels(pRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, &pixel, 4 * w);
-			Uint32 * pixels = (Uint32*)pixel;
-			SDL_SetTextureBlendMode(text, SDL_BLENDMODE_BLEND);
-			SDL_UpdateTexture(text, NULL,pixels, 4 * camera->w);
-			SDL_RenderCopy(pRenderer, text, NULL, NULL);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
 			rect = va_arg(list, SDL_Rect*);
-			rect2 = va_arg(list, SDL_Rect*); 			
+			rect2 = va_arg(list, SDL_Rect*);
 			SDL_RenderCopy(pRenderer, text, rect2, rect);
 			break;
 		case 2:
@@ -542,8 +542,7 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 	map = NULL;
 	text = NULL;
 	rect = NULL;
-	SDL_RenderPresent(pRenderer);
-	SDL_DestroyTexture(text);
+	//SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
 
@@ -576,7 +575,7 @@ void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camer
 		camera->w = wW;
 	}
 	else{
-	camera->w = w;
+		camera->w = w;
 	}
 	if (h >= hW){
 		camera->h = hW;
@@ -661,10 +660,10 @@ void zoomOut(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera)
 
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
 	if (camera->h <= hM && camera->w <= wM - 20){
-	camera->x = camera->x + (camera->w) / 2;
-	camera->y = camera->y + (camera->h) / 2;
-	camera->h = camera->h + 20;
-		camera->w = camera->h * ((float)w/ (float)h);// keep the ratio depending of the size of the window!!!!!
+		camera->x = camera->x + (camera->w) / 2;
+		camera->y = camera->y + (camera->h) / 2;
+		camera->h = camera->h + 20;
+		camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
 	}
 	if (camera->w > w){
 		camera->w = w;
@@ -698,6 +697,47 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 	surface = surfaceTemp;
 	SDL_FreeSurface(surfaceTemp);
 	surfaceTemp = NULL;
-
 	return surface;
+}
+
+
+int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow, SDL_Texture** pTexture)
+{
+	SDL_Texture* textureTemp = NULL;
+	SDL_Surface* surfaceTemp = SDL_GetWindowSurface(pWindow);
+	int h = 0, w = 0;
+	SDL_Rect temp = { 0, 0, 0, 0 };
+	unsigned char* pixels = NULL;
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+	temp.w = 1080;
+	temp.h = 600;
+	if (surfaceTemp == NULL)
+	{
+		printf("Failed to create info surface from window in saveScreenshotBMP(string) %s", SDL_GetError());
+		return 0;
+	}
+	pixels = malloc(w * h * surfaceTemp->format->BytesPerPixel * sizeof(int));
+	if (pixels == 0)
+	{
+		printf("Unable to allocate memory for screenshot pointeur data buffer!\n ");
+		return 0;
+	}
+	if (SDL_RenderReadPixels(pRenderer, NULL, surfaceTemp->format->format, pixels, w * surfaceTemp->format->BytesPerPixel) != 0)
+	{
+		printf("Failed to read pointeur data from SDL_Renderer object");
+		pixels = NULL;
+		return 0;
+	}
+	textureTemp = SDL_CreateTexture(pRenderer, surfaceTemp->format->format, SDL_TEXTUREACCESS_STREAMING, w, h);
+	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
+	SDL_UpdateTexture(textureTemp, NULL, pixels, surfaceTemp->pitch);	
+
+	
+	SDL_RenderCopy(pRenderer, textureTemp, camera, &temp);
+	SDL_RenderPresent(pRenderer);
+	SDL_FreeSurface(surfaceTemp);
+	free(pixels);
+	*pTexture = textureTemp;
+	
+	return 1;
 }

@@ -115,10 +115,10 @@ int detectionCollisionSurface(SDL_Renderer* pRenderer, SDL_Surface* pSurface, in
 	int x = 0, y = 0, w = 0, h = 0;
 	int collision = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-	/*if ((w - pSurface2->clip_rect.x <= pSurface2->clip_rect.w) || (pSurface2->clip_rect.x <= 0) || (pSurface2->clip_rect.y <= 0) || (h - pSurface2->clip_rect.y) <= pSurface2->clip_rect.h)
+	if ((w - pSurface2->clip_rect.x < pSurface2->clip_rect.w) || (pSurface2->clip_rect.x < 0) || (pSurface2->clip_rect.y < 0) || (h - pSurface2->clip_rect.y) < pSurface2->clip_rect.h)
 	{
 	return 1;
-	}*/
+	}
 	for (y = pSurface2->clip_rect.y; (y <= pSurface2->clip_rect.h + pSurface2->clip_rect.y) && (collision == 0); y++)
 	{
 			for (x = pSurface2->clip_rect.x; (x <= pSurface2->clip_rect.x + pSurface2->clip_rect.w) && (collision == 0); x++)
