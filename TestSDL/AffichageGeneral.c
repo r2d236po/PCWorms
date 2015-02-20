@@ -24,7 +24,7 @@ int mainFenetre()
 
 		//Initialisation du terrain
 		clearRenderer(pRenderer);
-		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map2.png");
+		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
 
 		/*surfaceCollision = SDL_CreateRGBSurface(mainMap->imageMapSurface->flags,
 			mainMap->imageMapSurface->w,
@@ -34,7 +34,7 @@ int mainFenetre()
 			mainMap->imageMapSurface->format->Gmask,
 			mainMap->imageMapSurface->format->Bmask,
 			mainMap->imageMapSurface->format->Amask);
-		SDL_BlitSurface(mainMap->imageMapSurface, NULL, surfaceCollision, NULL);*/
+			SDL_BlitSurface(mainMap->imageMapSurface, NULL, surfaceCollision, NULL);*/
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -47,12 +47,12 @@ int mainFenetre()
 			}
 			/*if (pInput->lclick)
 			{
-				if ((x >= rect.x && x <= rect.x + rect.w) && (y >= rect.y && y <= rect.y + rect.h))
-				{
-					deplacementRectangle(pRenderer, &rect, x, y, 1);
-					if (detectionCollision(pRenderer, surfaceCollision, &XE, &YE, &rect))
-						deplacementRectangle(pRenderer, &rect, x, y, -1);
-				}
+			if ((x >= rect.x && x <= rect.x + rect.w) && (y >= rect.y && y <= rect.y + rect.h))
+			{
+			deplacementRectangle(pRenderer, &rect, x, y, 1);
+			if (detectionCollision(pRenderer, surfaceCollision, &XE, &YE, &rect))
+			deplacementRectangle(pRenderer, &rect, x, y, -1);
+			}
 			}
 			x = pInput->cursor.now.x;
 			y = pInput->cursor.now.y;*/
@@ -496,17 +496,11 @@ void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camer
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	camera->x = 0;
 	camera->y = 0;
-	if (w >= wW){
-		camera->w = wW;
-	}
-	else{
-	camera->w = w;
-	}
-	if (h >= hW){
-		camera->h = hW;
-	}
-	else{
+	camera->w = wW;
+	camera->h = hW;
+	if (h < hW||w<wW){
 		camera->h = h;
+		camera->w = camera->h * ((float)wW / (float)hW);
 	}
 }
 
@@ -582,22 +576,22 @@ void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
 	SDL_GetRendererOutputSize(fenetre, &w, &h);
-
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
-	if (camera->h <= hM && camera->w <= wM - 20){
-	camera->x = camera->x + (camera->w) / 2;
-	camera->y = camera->y + (camera->h) / 2;
-	camera->h = camera->h + 20;
-		camera->w = camera->h * ((float)w/ (float)h);// keep the ratio depending of the size of the window!!!!!
+	if (camera->h < hM){
+		camera->x = camera->x + (camera->w) / 2;
+		camera->y = camera->y + (camera->h) / 2;
+		camera->h = camera->h + 20;
+		camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
+		if (camera->w > w){
+			camera->w = w;
+		}
+		if (camera->h > h){
+			camera->h = h;
+		}
+		camera->x = camera->x - ((camera->w) / 2);
+		camera->y = camera->y - ((camera->h) / 2);
 	}
-	if (camera->w > w){
-		camera->w = w;
-	}
-	if (camera->h > h){
-		camera->h = h;
-	}
-	camera->x = camera->x - ((camera->w) / 2);
-	camera->y = camera->y - ((camera->h) / 2);
+
 	if (camera->x + camera->w > wM){
 		camera->x = wM - camera->w;
 	}
@@ -622,6 +616,6 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 	surface = surfaceTemp;
 	SDL_FreeSurface(surfaceTemp);
 	surfaceTemp = NULL;
-	
+
 	return surface;
 }
