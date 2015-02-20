@@ -19,9 +19,6 @@ int mainFenetre()
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
-		//Initialisation de la caméra
-		initCameras(pWindow, &camera);
-
 		//Initialisation des inputs
 		initInput(pInput);
 
@@ -327,6 +324,12 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			pInput->quit = 1;
 			break;
 
+		case SDL_WINDOWEVENT:
+			if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+				pInput->windowResized = 1;
+			}
+			break;
+
 		case SDL_MOUSEBUTTONDOWN:
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 			{
@@ -456,7 +459,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 		zoomOut(pRenderer, pTexture, camera);
 		pInput->wheelDown = 0;
 	}
-
+	if (pInput->windowResized){
+		initCameras(pRenderer, pTexture, camera);
+		pInput->windowResized = 0;
+	}
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
@@ -560,31 +566,24 @@ void frameRate(int fM)
 }
 
 //init de la cameras sur le 0/0
-void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
-	int w = 0, h = 0;
-	SDL_GetWindowSize(pWindow, &w, &h);
+void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
+	int w = 0, h = 0, wW = 0, hW = 0;
+	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
+	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	camera->x = 0;
 	camera->y = 0;
+	if (w >= wW){
+		camera->w = wW;
+	}
+	else{
 	camera->w = w;
-	camera->h = h;
-
-	if (camera->x < 0)
-	{
-		camera->x = 0;
 	}
-	if (camera->y < 0)
-	{
-		camera->y = 0;
+	if (h >= hW){
+		camera->h = hW;
 	}
-	if (camera->x > w - camera->w)
-	{
-		camera->x = w - camera->w;
+	else{
+		camera->h = h;
 	}
-	if (camera->y > h - camera->h)
-	{
-		camera->y = h - camera->h;
-	}
-
 }
 
 //Initialisation fenetre renderer
@@ -648,8 +647,8 @@ void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
 	SDL_GetRendererOutputSize(fenetre, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w - 20 * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
 	camera->h = camera->h - 20;
+	camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
 	camera->x = camera->x - (camera->w) / 2;
 	camera->y = camera->y - (camera->h) / 2;
 }
@@ -659,11 +658,14 @@ void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
 	SDL_GetRendererOutputSize(fenetre, &w, &h);
+
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
+	if (camera->h <= hM && camera->w <= wM - 20){
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w + 20 * ((float)w / (float)h) + 1;
 	camera->h = camera->h + 20;
+		camera->w = camera->h * ((float)w/ (float)h);// keep the ratio depending of the size of the window!!!!!
+	}
 	if (camera->w > w){
 		camera->w = w;
 	}
