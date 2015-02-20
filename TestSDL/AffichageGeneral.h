@@ -39,7 +39,6 @@ int mainFenetre();
 int sandboxRenderer();
 int afficheImage(SDL_Window *pWindow, SDL_Surface * image);
 int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera);
 
 void afficherPoint(SDL_Renderer * r);
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);
@@ -48,6 +47,7 @@ void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int
 void frameRate(int fM);
 void getInput(Input* pInput, SDL_Window* pWindow);
 void initInput(Input* pInput);
+int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* pTexture, SDL_Rect* camera, SDL_Rect* camera2);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSurface, int nb, ...);
 void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera);
 void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput);

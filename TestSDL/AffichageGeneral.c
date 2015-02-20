@@ -11,12 +11,14 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
+	SDL_Rect camera2 = { 0, 0, 0, 0 };
 	SDL_Rect rect = { 0, 0, 25, 25 };
 	SDL_Surface * surfaceCollision = NULL;
 	int x = 0, y = 0;
 	int XE = 0, YE = 0;
 	SDL_Surface * Worms = loadImage("../assets/pictures/worms.png");
 	SDL_Texture* texture = NULL;
+	SDL_Texture* display = NULL;
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
@@ -40,16 +42,17 @@ int mainFenetre()
 		rect.w = Worms->clip_rect.w;
 		rect.h = Worms->clip_rect.h;
 		initCameras(pRenderer, mainMap, &camera);
+		initCameras(pRenderer, mainMap, &camera2);
 		updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL);
-		SDL_RenderPresent(pRenderer);
-		updateCamera(pRenderer, &camera, pWindow,&texture);
+
+		display = SDL_CreateTexture(pRenderer, SDL_GetWindowSurface(pWindow)->format->format, SDL_TEXTUREACCESS_TARGET, SDL_GetWindowSurface(pWindow)->w, SDL_GetWindowSurface(pWindow)->h);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, mainMap, &camera))
+			if (!gestInput(pInput, pRenderer, mainMap, &camera, &camera2))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
@@ -108,7 +111,11 @@ int mainFenetre()
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				updateScreen(pRenderer, &camera, &surfaceCollision, 2, 1, texture,NULL,&camera, 1, Worms_texture, &rect, NULL);
+				SDL_SetRenderTarget(pRenderer, display);
+				updateScreen(pRenderer, &camera2, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL);
+				SDL_SetRenderTarget(pRenderer, NULL);
+				SDL_RenderCopy(pRenderer, display, NULL, NULL);
+				updateCamera(pRenderer, &camera, pWindow, &texture);
 			}
 
 			//Gestion du frame Rate
@@ -117,6 +124,7 @@ int mainFenetre()
 		}
 		SDL_DestroyTexture(mainMap->imageBackground);
 		SDL_DestroyTexture(mainMap->imageMap);
+		SDL_DestroyTexture(display);
 		SDL_FreeSurface(mainMap->imageMapSurface);
 		SDL_FreeSurface(Worms);
 		SDL_DestroyTexture(texture);
@@ -444,7 +452,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 }
 
 //Gestion des input
-int gestInput(Input* pInput, const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera)
+int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera, SDL_Rect* camera2)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -456,18 +464,20 @@ int gestInput(Input* pInput, const SDL_Renderer * pRenderer, SDL_Texture* pTextu
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
+		moveCam(map, camera, pInput); //gestion du scrolling de caméra
+		moveCam(map, camera2, pInput); //gestion du scrolling de caméra
+		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
 		zoomIn(pRenderer, camera);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
-		zoomOut(pRenderer, pTexture, camera);
+		zoomOut(pRenderer, map, camera);
 		pInput->wheelDown = 0;
 	}
 	if (pInput->windowResized){
-		initCameras(pRenderer, pTexture, camera);
+		initCameras(pRenderer, map, camera);
 		pInput->windowResized = 0;
 	}
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
@@ -519,7 +529,7 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 			temp.h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
-			if (pSurface != NULL)
+			if (*pSurface != NULL)
 			{
 				*pSurface = crop_surface(map->imageMapSurface, camera->x, camera->y, camera->w, camera->h);
 			}
@@ -542,7 +552,7 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 	map = NULL;
 	text = NULL;
 	rect = NULL;
-	//SDL_RenderPresent(pRenderer);
+	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
 
@@ -636,7 +646,6 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 	if (camera->y < 0){
 		camera->y = 0;
 	}
-	pInput->cursor.before = pInput->cursor.now;
 }
 
 //ZoomCamera grossissement
@@ -706,11 +715,8 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 	SDL_Texture* textureTemp = NULL;
 	SDL_Surface* surfaceTemp = SDL_GetWindowSurface(pWindow);
 	int h = 0, w = 0;
-	SDL_Rect temp = { 0, 0, 0, 0 };
 	unsigned char* pixels = NULL;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-	temp.w = 1080;
-	temp.h = 600;
 	if (surfaceTemp == NULL)
 	{
 		printf("Failed to create info surface from window in saveScreenshotBMP(string) %s", SDL_GetError());
@@ -728,16 +734,22 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 		pixels = NULL;
 		return 0;
 	}
-	textureTemp = SDL_CreateTexture(pRenderer, surfaceTemp->format->format, SDL_TEXTUREACCESS_STREAMING, w, h);
-	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
-	SDL_UpdateTexture(textureTemp, NULL, pixels, surfaceTemp->pitch);	
+	if (*pTexture == NULL)
+	{
+		textureTemp = SDL_CreateTexture(pRenderer, surfaceTemp->format->format, SDL_TEXTUREACCESS_STREAMING, w, h);
+		SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
+		SDL_UpdateTexture(textureTemp, NULL, pixels, surfaceTemp->pitch);
+		*pTexture = textureTemp;
+	}
+	else
+	{
+		SDL_UpdateTexture(*pTexture, NULL, pixels, surfaceTemp->pitch);
+	}
 
-	
-	SDL_RenderCopy(pRenderer, textureTemp, camera, &temp);
+	SDL_RenderCopy(pRenderer, *pTexture, camera, NULL);
 	SDL_RenderPresent(pRenderer);
 	SDL_FreeSurface(surfaceTemp);
 	free(pixels);
-	*pTexture = textureTemp;
-	
+	SDL_RenderPresent(pRenderer);
 	return 1;
 }
