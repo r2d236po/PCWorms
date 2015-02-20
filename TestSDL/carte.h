@@ -22,7 +22,8 @@ typedef struct{
 } Caisse;
 
 void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file, const char * file2);
-int detectionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
+int detectionCollisionSurface(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Surface* pSurface2);
+int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
 int gestionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE);
 Uint32 ReadPixel(SDL_Surface *surface, int x, int y);
 void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);

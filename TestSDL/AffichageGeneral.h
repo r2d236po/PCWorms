@@ -51,6 +51,7 @@ void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
 void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput);
 void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera);
 void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera);
+SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height);
 
 
 SDL_Surface * loadImage(const char * file);

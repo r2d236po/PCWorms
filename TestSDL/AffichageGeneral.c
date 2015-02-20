@@ -11,7 +11,7 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
-	SDL_Rect rect = { 0, 0, 50, 50 };
+	SDL_Rect rect = { 0, 0, 25, 25 };
 	SDL_Surface * surfaceCollision = NULL;
 	int x = 0, y = 0;
 	int XE = 0, YE = 0;
@@ -27,9 +27,9 @@ int mainFenetre()
 
 		//Initialisation du terrain
 		clearRenderer(pRenderer);
-		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
+		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map2.png");
 
-		surfaceCollision = SDL_CreateRGBSurface(mainMap->imageMapSurface->flags,
+		/*surfaceCollision = SDL_CreateRGBSurface(mainMap->imageMapSurface->flags,
 			mainMap->imageMapSurface->w,
 			mainMap->imageMapSurface->h,
 			mainMap->imageMapSurface->format->BitsPerPixel,
@@ -37,8 +37,7 @@ int mainFenetre()
 			mainMap->imageMapSurface->format->Gmask,
 			mainMap->imageMapSurface->format->Bmask,
 			mainMap->imageMapSurface->format->Amask);
-		SDL_BlitSurface(mainMap->imageMapSurface, NULL, surfaceCollision, NULL);
-
+		SDL_BlitSurface(mainMap->imageMapSurface, NULL, surfaceCollision, NULL);*/
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -49,7 +48,7 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
-			if (pInput->lclick)
+			/*if (pInput->lclick)
 			{
 				if ((x >= rect.x && x <= rect.x + rect.w) && (y >= rect.y && y <= rect.y + rect.h))
 				{
@@ -59,10 +58,10 @@ int mainFenetre()
 				}
 			}
 			x = pInput->cursor.now.x;
-			y = pInput->cursor.now.y;
+			y = pInput->cursor.now.y;*/
 
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, surfaceCollision, 2, 0, mainMap, 2, 0xD2323CFF, &rect);
+			updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 2, 0xD2323CFF, &rect);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -70,7 +69,6 @@ int mainFenetre()
 		}
 		SDL_DestroyTexture(mainMap->imageBackground);
 		SDL_DestroyTexture(mainMap->imageMap);
-		SDL_FreeSurface(surfaceCollision);
 		SDL_FreeSurface(mainMap->imageMapSurface);
 		SDL_DestroyRenderer(pRenderer);
 		SDL_DestroyWindow(pWindow);
@@ -418,7 +416,7 @@ void initInput(Input* pInput)
 }
 
 /*affichage de la frame actuelle */
-void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSurface, int nb, ...)
+void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
@@ -440,10 +438,10 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSur
 			temp.h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
-			SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
-			SDL_RenderDrawRect(pRenderer, camera);
-			if (SDL_BlitSurface(map->imageMapSurface, camera, pSurface, NULL) < 0)
-				printf("Erreur %s", SDL_GetError());
+			if (pSurface != NULL)
+			{
+				*pSurface = crop_surface(map->imageMapSurface, camera->x, camera->y, camera->w, camera->h);
+			}
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -610,4 +608,18 @@ void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
 	if (camera->y < 0){
 		camera->y = 0;
 	}
+}
+
+
+SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height)
+{
+	SDL_Surface* surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height, sprite_sheet->format->BitsPerPixel, sprite_sheet->format->Rmask, sprite_sheet->format->Gmask, sprite_sheet->format->Bmask, sprite_sheet->format->Amask);
+	SDL_Surface* surface = NULL;
+	SDL_Rect rect = { x, y, width, height };
+	SDL_BlitSurface(sprite_sheet, &rect, surfaceTemp, 0);
+	surface = surfaceTemp;
+	SDL_FreeSurface(surfaceTemp);
+	surfaceTemp = NULL;
+	
+	return surface;
 }
