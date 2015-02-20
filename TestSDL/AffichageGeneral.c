@@ -11,14 +11,14 @@ int mainFenetre()
 	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = malloc(sizeof(Terrain));
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
-	SDL_Rect camera2 = { 0, 0, 0, 0 };
+	SDL_Rect camera2 = { 0, 0, 0, 0 }; //Camera 2 NE DOIS JAMAIS ZOOMER
 	SDL_Rect rect = { 0, 0, 25, 25 };
 	SDL_Surface * surfaceCollision = NULL;
 	int x = 0, y = 0;
 	int XE = 0, YE = 0;
 	SDL_Surface * Worms = loadImage("../assets/pictures/worms.png");
-	SDL_Texture* texture = NULL;
-	SDL_Texture* display = NULL;
+	SDL_Texture* texture = NULL; //Texture globale
+	SDL_Texture* display = NULL;	//Buffer
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
@@ -42,7 +42,7 @@ int mainFenetre()
 		rect.w = Worms->clip_rect.w;
 		rect.h = Worms->clip_rect.h;
 		initCameras(pRenderer, mainMap, &camera);
-		initCameras(pRenderer, mainMap, &camera2);
+		initCameras(pRenderer, mainMap, &camera2); //init camera2 NE DOIS JAMAIS ZOOMER
 		updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL);
 
 		display = SDL_CreateTexture(pRenderer, SDL_GetWindowSurface(pWindow)->format->format, SDL_TEXTUREACCESS_TARGET, SDL_GetWindowSurface(pWindow)->w, SDL_GetWindowSurface(pWindow)->h);
@@ -112,10 +112,10 @@ int mainFenetre()
 			if (pInput->raffraichissement)
 			{
 				SDL_SetRenderTarget(pRenderer, display);
-				updateScreen(pRenderer, &camera2, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL);
+				updateScreen(pRenderer, &camera2, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL); //calcul du déplacement dans le jeu camera2 NE DOIS JAMAIS ZOOMER
 				SDL_SetRenderTarget(pRenderer, NULL);
 				SDL_RenderCopy(pRenderer, display, NULL, NULL);
-				updateCamera(pRenderer, &camera, pWindow, &texture);
+				updateCamera(pRenderer, &camera, pWindow, &texture);	//application du zoom sur la texture globale
 			}
 
 			//Gestion du frame Rate
@@ -714,9 +714,12 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 {
 	SDL_Texture* textureTemp = NULL;
 	SDL_Surface* surfaceTemp = SDL_GetWindowSurface(pWindow);
+	SDL_Rect rect = { 0, 0, 0, 0 };
 	int h = 0, w = 0;
 	unsigned char* pixels = NULL;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+	rect.w = w;
+	rect.h = h;
 	if (surfaceTemp == NULL)
 	{
 		printf("Failed to create info surface from window in saveScreenshotBMP(string) %s", SDL_GetError());
@@ -746,7 +749,7 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 		SDL_UpdateTexture(*pTexture, NULL, pixels, surfaceTemp->pitch);
 	}
 
-	SDL_RenderCopy(pRenderer, *pTexture, camera, NULL);
+	SDL_RenderCopy(pRenderer, *pTexture, camera, &rect);
 	SDL_RenderPresent(pRenderer);
 	SDL_FreeSurface(surfaceTemp);
 	free(pixels);
