@@ -60,6 +60,7 @@ int mainFenetre()
 			}
 			x = pInput->cursor.now.x;
 			y = pInput->cursor.now.y;
+
 			//Update de l'écran
 			updateScreen(pRenderer, &camera, surfaceCollision, 2, 0, mainMap, 2, 0xD2323CFF, &rect);
 
