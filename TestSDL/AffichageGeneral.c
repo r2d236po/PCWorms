@@ -536,7 +536,7 @@ void zoomIn(Terrain * map, SDL_Rect * camera)
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w - 20 * (int)((float)w / (float)h);// keep the ratio depending of the size image
+	camera->w = camera->w - 20 * (int)((float)w / (float)h);// keep the ratio depending of the size image A REFAIRE !!!!!
 	camera->h = camera->h - 20;
 	camera->x = camera->x - (camera->w) / 2;
 	camera->y = camera->y - (camera->h) / 2;
