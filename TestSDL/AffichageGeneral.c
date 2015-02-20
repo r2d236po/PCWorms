@@ -338,6 +338,9 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 	{
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 	}
+	if (pInput->wheelUp){
+		
+	}
 
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
@@ -360,6 +363,8 @@ void initInput(Input* pInput)
 	pInput->cursor.now.x = 0;
 	pInput->cursor.now.y = 0;
 	pInput->weaponTab = 0;
+	pInput->wheelUp = 0;
+	pInput->wheelDown = 0;
 }
 
 /*affichage de la frame actuelle */
@@ -432,8 +437,8 @@ void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	SDL_GetWindowSize(pWindow, &w, &h);
 	camera->x = 0;
 	camera->y = 0;
-	camera->w = w/1.5;
-	camera->h = h/1.5;
+	camera->w = w/1.3;
+	camera->h = h/1.3;
 
 	if (camera->x < 0)
 	{
@@ -505,4 +510,12 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 		camera->y = 0;
 	}
 	pInput->cursor.before = pInput->cursor.now;
+}
+void zoomIn(SDL_Rect * camera){
+	camera->w = camera->w - 20;
+	camera->h = camera->h - 20;
+}
+void zoomOut(SDL_Rect * camera){
+	camera->w = camera->w + 20;
+	camera->h = camera->h + 20;
 }
