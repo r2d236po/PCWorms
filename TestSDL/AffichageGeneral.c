@@ -440,6 +440,8 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSur
 			temp.h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
+			SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
+			SDL_RenderDrawRect(pRenderer, camera);
 			if (SDL_BlitSurface(map->imageMapSurface, camera, pSurface, NULL) < 0)
 				printf("Erreur %s", SDL_GetError());
 			break;
@@ -596,10 +598,10 @@ void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
 	}
 	camera->x = camera->x - ((camera->w) / 2);
 	camera->y = camera->y - ((camera->h) / 2);
-	if (camera->x + camera->w > w){
+	if (camera->x + camera->w > wM){
 		camera->x = wM - camera->w;
 	}
-	if (camera->y + camera->h > h){
+	if (camera->y + camera->h > hM){
 		camera->y = hM - camera->h;
 	}
 	if (camera->x < 0){
