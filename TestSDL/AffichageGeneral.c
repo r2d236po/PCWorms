@@ -357,11 +357,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer,camera);
+		zoomIn(pRenderer, camera);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
-		zoomOut(pRenderer, camera);
+		zoomOut(pRenderer, pTexture, camera);
 		pInput->wheelDown = 0;
 	}
 
@@ -545,20 +545,21 @@ void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
 	SDL_GetRendererOutputSize(fenetre, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w - 20 * ((float)w / (float)h);// keep the ratio depending of the size image A REFAIRE !!!!!
+	camera->w = camera->w - 20 * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
 	camera->h = camera->h - 20;
 	camera->x = camera->x - (camera->w) / 2;
 	camera->y = camera->y - (camera->h) / 2;
 }
 
 //ZoomCamera retrécissement
-void zoomOut(SDL_Renderer * fenetre, SDL_Rect * camera)
+void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
 {
-	int w = 0, h = 0;
+	int w = 0, h = 0, wM = 0, hM = 0;
 	SDL_GetRendererOutputSize(fenetre, &w, &h);
+	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w + 20 * ((float)w / (float)h)+1;
+	camera->w = camera->w + 20 * ((float)w / (float)h) + 1;
 	camera->h = camera->h + 20;
 	if (camera->w > w){
 		camera->w = w;
@@ -568,12 +569,11 @@ void zoomOut(SDL_Renderer * fenetre, SDL_Rect * camera)
 	}
 	camera->x = camera->x - ((camera->w) / 2);
 	camera->y = camera->y - ((camera->h) / 2);
-
 	if (camera->x + camera->w > w){
-		camera->x = w - camera->w;
+		camera->x = wM - camera->w;
 	}
 	if (camera->y + camera->h > h){
-		camera->y = h - camera->h;
+		camera->y = hM - camera->h;
 	}
 	if (camera->x < 0){
 		camera->x = 0;
@@ -581,5 +581,4 @@ void zoomOut(SDL_Renderer * fenetre, SDL_Rect * camera)
 	if (camera->y < 0){
 		camera->y = 0;
 	}
-
 }
