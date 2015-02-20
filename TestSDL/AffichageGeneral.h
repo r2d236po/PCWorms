@@ -49,8 +49,8 @@ void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSurface, int nb, ...);
 void initCameras(const SDL_Window * pWindow, SDL_Rect * camera);
 void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput);
-void zoomIn(Terrain * map, SDL_Rect * camera);
-void zoomOut(Terrain * map, SDL_Rect * camera);
+void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera);
+void zoomOut(SDL_Renderer * fenetre, SDL_Rect * camera);
 
 
 SDL_Surface * loadImage(const char * file);
