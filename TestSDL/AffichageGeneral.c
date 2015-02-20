@@ -437,7 +437,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 }
 
 //Gestion des input
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera)
+int gestInput(Input* pInput, const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -490,7 +490,7 @@ void initInput(Input* pInput)
 }
 
 /*affichage de la frame actuelle */
-void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
+void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
@@ -641,10 +641,10 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 }
 
 //ZoomCamera grossissement
-void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
+void zoomIn(const SDL_Renderer * pRenderer, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
-	SDL_GetRendererOutputSize(fenetre, &w, &h);
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
 	camera->h = camera->h - 20;
@@ -654,10 +654,10 @@ void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
 }
 
 //ZoomCamera retrécissement
-void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
+void zoomOut(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
-	SDL_GetRendererOutputSize(fenetre, &w, &h);
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
 
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
 	if (camera->h <= hM && camera->w <= wM - 20){

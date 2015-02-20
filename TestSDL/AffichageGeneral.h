@@ -31,6 +31,7 @@ typedef struct{		//structure gérant les différents inputs
 	char wheelUp; //zoomIn
 	char wheelDown; //zoomOut
 	char raffraichissement;
+	char windowResized;
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 
@@ -50,8 +51,8 @@ void initInput(Input* pInput);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSurface, int nb, ...);
 void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera);
 void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput);
-void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera);
-void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera);
+void zoomIn(const SDL_Renderer * pRenderer, SDL_Rect * camera);
+void zoomOut(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera);
 SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height);
 
 
