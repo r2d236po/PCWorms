@@ -198,13 +198,20 @@ SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 }
 
 //Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
-void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int y2)
+void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int y2, int dir)
 {
-	int x1, y1;
+	int x1 = 0, y1 = 0;
 	SDL_GetMouseState(&x1, &y1);
-	//gestionCollision(pRenderer, );
-	rect->x = rect->x + (x1 - x2);
-	rect->y = rect->y + (y1 - y2);
+	if (dir == 1)
+	{
+		rect->x = rect->x + (x1 - x2);
+		rect->y = rect->y + (y1 - y2);
+	}
+	else if (dir == -1)
+	{
+		rect->x = rect->x - (x1 - x2);
+		rect->y = rect->y - (y1 - y2);
+	}
 }
 
 //Affiche un point aux coordonnées de la souris
@@ -252,6 +259,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
 			{
 				pInput->lclick = 1;
+				pInput->cursor.before = pInput->cursor.now;
 			}
 			else if (event.button.button == SDL_BUTTON_RIGHT)
 			{
@@ -500,6 +508,7 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 		return -1;
 	}
 	return 1;
+	/*Initialisation SDL_Image*/
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
 		printf("Erreur Img_init : %s", SDL_GetError());

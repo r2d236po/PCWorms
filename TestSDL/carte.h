@@ -10,6 +10,7 @@ typedef struct {	/* Structure terrain */
 	//mapcollision?				
 	SDL_Texture* imageBackground; /* background */
 	SDL_Texture* imageMap; /* background */
+	SDL_Surface* imageMapSurface;
 	//mapdestruction?
 } Terrain;
 
@@ -21,6 +22,10 @@ typedef struct{
 } Caisse;
 
 void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file, const char * file2);
-int gestionCollision(SDL_Renderer* pRenderer, SDL_Texture* pTexture);
+int detectionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
+int gestionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE);
+Uint32 ReadPixel(SDL_Surface *surface, int x, int y);
+void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+SDL_Surface* ScaleSurface(SDL_Surface *Surface, Uint16 Width, Uint16 Height);
 
 #endif

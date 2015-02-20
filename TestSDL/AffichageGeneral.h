@@ -42,7 +42,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 void afficherPoint(SDL_Renderer * r);
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);
 void clearRenderer(SDL_Renderer * pRenderer);
-void deplacementRectangle(SDL_Renderer * rend, SDL_Rect * rect, int x2, int y2);
+void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int y2,int dir);
 void frameRate(int fM);
 void getInput(Input* pInput, SDL_Window* pWindow);
 void initInput(Input* pInput);
