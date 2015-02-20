@@ -357,11 +357,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 	}
 	if (pInput->wheelUp){
-		zoomIn(pTexture,camera);
+		zoomIn(pRenderer,camera);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
-		zoomOut(pTexture, camera);
+		zoomOut(pRenderer, camera);
 		pInput->wheelDown = 0;
 	}
 
@@ -539,26 +539,26 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 }
 
 //ZoomCamera grossissement
-void zoomIn(Terrain * map, SDL_Rect * camera)
+void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
-	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
+	SDL_GetRendererOutputSize(fenetre, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w - 20 * (int)((float)w / (float)h);// keep the ratio depending of the size image A REFAIRE !!!!!
+	camera->w = camera->w - 20 * ((float)w / (float)h);// keep the ratio depending of the size image A REFAIRE !!!!!
 	camera->h = camera->h - 20;
 	camera->x = camera->x - (camera->w) / 2;
 	camera->y = camera->y - (camera->h) / 2;
 }
 
 //ZoomCamera retrécissement
-void zoomOut(Terrain * map, SDL_Rect * camera)
+void zoomOut(SDL_Renderer * fenetre, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
-	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
+	SDL_GetRendererOutputSize(fenetre, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w + 20 * ((float)w / (float)h);
+	camera->w = camera->w + 20 * ((float)w / (float)h)+1;
 	camera->h = camera->h + 20;
 	if (camera->w > w){
 		camera->w = w;
