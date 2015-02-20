@@ -31,7 +31,7 @@ int mainFenetre()
 
 		surfaceCollision = SDL_CreateRGBSurface(mainMap->imageMapSurface->flags,
 			mainMap->imageMapSurface->w,
-			mainMap->imageMapSurface->h, 
+			mainMap->imageMapSurface->h,
 			mainMap->imageMapSurface->format->BitsPerPixel,
 			mainMap->imageMapSurface->format->Rmask,
 			mainMap->imageMapSurface->format->Gmask,
@@ -61,7 +61,7 @@ int mainFenetre()
 			x = pInput->cursor.now.x;
 			y = pInput->cursor.now.y;
 			//Update de l'écran
-			updateScreen(pRenderer, &camera,surfaceCollision, 2, 0, mainMap,2,0xD2323CFF,&rect);
+			updateScreen(pRenderer, &camera, surfaceCollision, 2, 0, mainMap, 2, 0xD2323CFF, &rect);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -383,7 +383,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer,camera);
+		zoomIn(pRenderer, camera);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
@@ -417,7 +417,7 @@ void initInput(Input* pInput)
 }
 
 /*affichage de la frame actuelle */
-void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera,SDL_Surface* pSurface, int nb, ...)
+void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSurface, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
@@ -436,10 +436,10 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera,SDL_Surface* pSurf
 			map = va_arg(list, Terrain*);
 			SDL_GetRendererOutputSize(pRenderer, &w, &h);
 			temp.w = w;
-			temp.h = h;			
+			temp.h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
-			if (SDL_BlitSurface(map->imageMapSurface, camera, pSurface, &temp) < 0)
+			if (SDL_BlitSurface(map->imageMapSurface, camera, pSurface, NULL) < 0)
 				printf("Erreur %s", SDL_GetError());
 			break;
 		case 1:
@@ -488,8 +488,8 @@ void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	SDL_GetWindowSize(pWindow, &w, &h);
 	camera->x = 0;
 	camera->y = 0;
-	camera->w = w ;
-	camera->h = h ;
+	camera->w = w;
+	camera->h = h;
 
 	if (camera->x < 0)
 	{
@@ -584,7 +584,7 @@ void zoomOut(SDL_Renderer * fenetre, SDL_Rect * camera)
 	SDL_GetRendererOutputSize(fenetre, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
-	camera->w = camera->w + 20 * ((float)w / (float)h)+1;
+	camera->w = camera->w + 20 * ((float)w / (float)h) + 1;
 	camera->h = camera->h + 20;
 	if (camera->w > w){
 		camera->w = w;
