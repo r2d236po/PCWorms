@@ -30,6 +30,7 @@ typedef struct{		//structure gérant les différents inputs
 	char weaponTab;
 	char wheelUp; //zoomIn
 	char wheelDown; //zoomOut
+	char raffraichissement;
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 
