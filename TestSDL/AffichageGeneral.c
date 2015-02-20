@@ -383,8 +383,6 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, int nb, ...)
 			SDL_GetRendererOutputSize(pRenderer, &w, &h);
 			temp.w = w;
 			temp.h = h;
-			camera->w = w;
-			camera->h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
 			break;
@@ -434,8 +432,8 @@ void initCameras(const SDL_Window * pWindow, SDL_Rect * camera){
 	SDL_GetWindowSize(pWindow, &w, &h);
 	camera->x = 0;
 	camera->y = 0;
-	camera->w = w;
-	camera->h = h;
+	camera->w = w/1.5;
+	camera->h = h/1.5;
 
 	if (camera->x < 0)
 	{
@@ -492,8 +490,8 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 {
 	int w = 0, h = 0;
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
-	camera->x = camera->x + pInput->cursor.now.x - pInput->cursor.before.x;
-	camera->y = camera->y + pInput->cursor.now.y - pInput->cursor.before.y;
+	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
+	camera->y = camera->y - (pInput->cursor.now.y - pInput->cursor.before.y);
 	if (camera->x + camera->w > w){
 		camera->x = w - camera->w;
 	}
@@ -506,4 +504,5 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 	if (camera->y < 0){
 		camera->y = 0;
 	}
+	pInput->cursor.before = pInput->cursor.now;
 }
