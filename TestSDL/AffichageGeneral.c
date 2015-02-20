@@ -272,6 +272,16 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
 			break;
 
+		case SDL_MOUSEWHEEL:
+			if (event.wheel.y < 0){
+				pInput->wheelDown = 1;
+			}
+			else
+			{
+				pInput->wheelUp = 1;
+			}
+			break;
+
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_LEFT)
 			{
@@ -339,7 +349,12 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SD
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 	}
 	if (pInput->wheelUp){
-		
+		zoomIn(camera);
+		pInput->wheelUp = 0;
+	}
+	if (pInput->wheelDown){
+		zoomOut(camera);
+		pInput->wheelDown = 0;
 	}
 
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
