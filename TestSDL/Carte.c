@@ -18,7 +18,6 @@ void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * f
 	SDL_SetTextureBlendMode(map->imageMap, SDL_BLENDMODE_BLEND);
 	SDL_UpdateTexture(map->imageMap, NULL, map->imageMapSurface->pixels, map->imageMapSurface->pitch);
 	SDL_RenderCopy(pRenderer, map->imageMap, NULL, NULL);
-	SDL_FreeSurface(map->imageMapSurface);
 	SDL_RenderPresent(pRenderer);
 }
 
