@@ -15,7 +15,7 @@ int mainFenetre()
 	SDL_Surface * surfaceCollision = NULL;
 	int x = 0, y = 0;
 	int XE = 0, YE = 0;
-
+	SDL_Surface * Worms = loadImage("../assets/pictures/worms.png");
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
@@ -25,8 +25,7 @@ int mainFenetre()
 		//Initialisation du terrain
 		clearRenderer(pRenderer);
 		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
-
-		/*surfaceCollision = SDL_CreateRGBSurface(mainMap->imageMapSurface->flags,
+		surfaceCollision = SDL_CreateRGBSurface(mainMap->imageMapSurface->flags,
 			mainMap->imageMapSurface->w,
 			mainMap->imageMapSurface->h,
 			mainMap->imageMapSurface->format->BitsPerPixel,
@@ -34,7 +33,11 @@ int mainFenetre()
 			mainMap->imageMapSurface->format->Gmask,
 			mainMap->imageMapSurface->format->Bmask,
 			mainMap->imageMapSurface->format->Amask);
-			SDL_BlitSurface(mainMap->imageMapSurface, NULL, surfaceCollision, NULL);*/
+		SDL_Texture* Worms_texture = SDL_CreateTextureFromSurface(pRenderer, Worms);
+
+		rect.w = Worms->clip_rect.w;
+		rect.h = Worms->clip_rect.h;
+		updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, NULL);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -45,20 +48,63 @@ int mainFenetre()
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
-			/*if (pInput->lclick)
+			if (pInput->right)
 			{
-			if ((x >= rect.x && x <= rect.x + rect.w) && (y >= rect.y && y <= rect.y + rect.h))
+				rect.x += 1;
+				Worms->clip_rect.x = rect.x;
+				Worms->clip_rect.y = rect.y;
+				if (detectionCollisionSurface(pRenderer, surfaceCollision, &XE, &YE, Worms))
+				{
+					rect.x -= 1;
+					Worms->clip_rect.x = rect.x;
+					Worms->clip_rect.y = rect.y;
+				}
+				pInput->right = 0;
+			}
+			if (pInput->left)
 			{
-			deplacementRectangle(pRenderer, &rect, x, y, 1);
-			if (detectionCollision(pRenderer, surfaceCollision, &XE, &YE, &rect))
-			deplacementRectangle(pRenderer, &rect, x, y, -1);
+				rect.x -= 1;
+				Worms->clip_rect.x = rect.x;
+				Worms->clip_rect.y = rect.y;
+				if (detectionCollisionSurface(pRenderer, surfaceCollision, &XE, &YE, Worms))
+				{
+					rect.x += 1;
+					Worms->clip_rect.x = rect.x;
+					Worms->clip_rect.y = rect.y;
+				}
+				pInput->left = 0;
 			}
+			if (pInput->down)
+			{
+				rect.y += 1;
+				Worms->clip_rect.x = rect.x;
+				Worms->clip_rect.y = rect.y;
+				if (detectionCollisionSurface(pRenderer, surfaceCollision, &XE, &YE, Worms))
+				{
+					rect.y -= 1;
+					Worms->clip_rect.x = rect.x;
+					Worms->clip_rect.y = rect.y;
+				}
+				pInput->down = 0;
 			}
-			x = pInput->cursor.now.x;
-			y = pInput->cursor.now.y;*/
-
+			if (pInput->up)
+			{
+				rect.y -= 1;
+				Worms->clip_rect.x = rect.x;
+				Worms->clip_rect.y = rect.y;
+				if (detectionCollisionSurface(pRenderer, surfaceCollision, &XE, &YE, Worms))
+				{
+					rect.y += 1;
+					Worms->clip_rect.x = rect.x;
+					Worms->clip_rect.y = rect.y;
+				}
+				pInput->up = 0;
+			}
 			//Update de l'écran
-			updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 2, 0xD2323CFF, &rect);
+			if (pInput->raffraichissement)
+			{
+				updateScreen(pRenderer, &camera, &surfaceCollision, 2, 0, mainMap, 1, Worms_texture, &rect, &camera);
+			}
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -67,6 +113,7 @@ int mainFenetre()
 		SDL_DestroyTexture(mainMap->imageBackground);
 		SDL_DestroyTexture(mainMap->imageMap);
 		SDL_FreeSurface(mainMap->imageMapSurface);
+		SDL_FreeSurface(Worms);
 		SDL_DestroyRenderer(pRenderer);
 		SDL_DestroyWindow(pWindow);
 	}
@@ -288,19 +335,27 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			{
 				pInput->lclick = 1;
 				pInput->cursor.before = pInput->cursor.now;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.button.button == SDL_BUTTON_RIGHT)
 			{
 				pInput->rclick = 1;
 				pInput->cursor.before = pInput->cursor.now;
+				pInput->raffraichissement = 1;
 			}
 			break;
 
 		case SDL_MOUSEBUTTONUP:
 			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+			{
+				pInput->raffraichissement = 1;
 				pInput->lclick = 0;
+			}
 			else if (event.button.button == SDL_BUTTON_RIGHT)
+			{
+				pInput->raffraichissement = 1;
 				pInput->rclick = 0;
+			}
 			break;
 
 		case SDL_MOUSEMOTION:
@@ -311,10 +366,12 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_MOUSEWHEEL:
 			if (event.wheel.y < 0){
 				pInput->wheelDown = 1;
+				pInput->raffraichissement = 1;
 			}
 			else
 			{
 				pInput->wheelUp = 1;
+				pInput->raffraichissement = 1;
 			}
 			break;
 
@@ -322,41 +379,51 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			if (event.key.keysym.sym == SDLK_LEFT)
 			{
 				pInput->left = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_RIGHT)
 			{
 				pInput->right = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_UP)
 			{
 				pInput->up = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_DOWN)
 			{
 				pInput->down = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_SPACE)
 			{
 				pInput->jump = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_LCTRL)
 			{
 				pInput->bend = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_ESCAPE)
 			{
 				pInput->menu = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_q)
 			{
 				pInput->quit = 1;
+				pInput->raffraichissement = 1;
 			}
 			else if (event.key.keysym.sym == SDLK_TAB)
 			{
 				pInput->weaponTab = 1;
+				pInput->raffraichissement = 1;
 			}
 			break;
 		default:
+			pInput->raffraichissement = 0;
 			break;
 		}
 		//Gestion du plein écran
@@ -370,7 +437,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 }
 
 //Gestion des input
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera)
+int gestInput(Input* pInput, const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect* camera)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -419,16 +486,18 @@ void initInput(Input* pInput)
 	pInput->weaponTab = 0;
 	pInput->wheelUp = 0;
 	pInput->wheelDown = 0;
+	pInput->raffraichissement = 1;
 }
 
 /*affichage de la frame actuelle */
-void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
+void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
 	SDL_Rect temp = { 0, 0, 0, 0 };
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
+	void * pixel;
 	va_list list;
 	Uint32 rgb = 0;
 	int i = 0, w = 0, h = 0;
@@ -448,6 +517,12 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSu
 			{
 				*pSurface = crop_surface(map->imageMapSurface, camera->x, camera->y, camera->w, camera->h);
 			}
+			text  = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, w, h);
+			SDL_RenderReadPixels(pRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, &pixel, 4 * w);
+			Uint32 * pixels = (Uint32*)pixel;
+			SDL_SetTextureBlendMode(text, SDL_BLENDMODE_BLEND);
+			SDL_UpdateTexture(text, NULL,pixels, 4 * camera->w);
+			SDL_RenderCopy(pRenderer, text, NULL, NULL);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -468,6 +543,7 @@ void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSu
 	text = NULL;
 	rect = NULL;
 	SDL_RenderPresent(pRenderer);
+	SDL_DestroyTexture(text);
 	va_end(list);
 }
 
@@ -496,8 +572,8 @@ void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camer
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	camera->x = 0;
 	camera->y = 0;
-	camera->w = wW;
-	camera->h = hW;
+		camera->w = wW;
+		camera->h = hW;
 	if (h < hW||w<wW){
 		camera->h = h;
 		camera->w = camera->h * ((float)wW / (float)hW);
@@ -559,10 +635,10 @@ void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
 }
 
 //ZoomCamera grossissement
-void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
+void zoomIn(const SDL_Renderer * pRenderer, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
-	SDL_GetRendererOutputSize(fenetre, &w, &h);
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
 	camera->h = camera->h - 20;
@@ -572,24 +648,25 @@ void zoomIn(SDL_Renderer * fenetre, SDL_Rect * camera)
 }
 
 //ZoomCamera retrécissement
-void zoomOut(SDL_Renderer * fenetre, Terrain * map, SDL_Rect * camera)
+void zoomOut(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
-	SDL_GetRendererOutputSize(fenetre, &w, &h);
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
 	if (camera->h < hM){
-		camera->x = camera->x + (camera->w) / 2;
-		camera->y = camera->y + (camera->h) / 2;
-		camera->h = camera->h + 20;
+	camera->x = camera->x + (camera->w) / 2;
+	camera->y = camera->y + (camera->h) / 2;
+	camera->h = camera->h + 20;
 		camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
-		if (camera->w > w){
-			camera->w = w;
-		}
-		if (camera->h > h){
-			camera->h = h;
-		}
-		camera->x = camera->x - ((camera->w) / 2);
-		camera->y = camera->y - ((camera->h) / 2);
+	if (camera->w > w){
+		camera->w = w;
+	}
+	if (camera->h > h){
+		camera->h = h;
+	}
+	camera->x = camera->x - ((camera->w) / 2);
+	camera->y = camera->y - ((camera->h) / 2);
 	}
 
 	if (camera->x + camera->w > wM){
@@ -616,6 +693,6 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 	surface = surfaceTemp;
 	SDL_FreeSurface(surfaceTemp);
 	surfaceTemp = NULL;
-
+	
 	return surface;
 }
