@@ -52,7 +52,7 @@ int mainFenetre()
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, mainMap, &camera, &camera2))
+			if (!gestInput(pInput, pRenderer, mainMap, &camera2, texture, &camera))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
@@ -452,7 +452,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 }
 
 //Gestion des input
-int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera, SDL_Rect* camera2)
+int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera2, SDL_Texture* pTexture, SDL_Rect* camera)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -464,8 +464,8 @@ int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_R
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(map, camera, pInput); //gestion du scrolling de caméra
-		moveCam(map, camera2, pInput); //gestion du scrolling de caméra
+		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
+		moveCam(map->imageMap, camera2, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
@@ -473,7 +473,7 @@ int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_R
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
-		zoomOut(pRenderer, map, camera);
+		zoomOut(pRenderer, pTexture, camera);
 		pInput->wheelDown = 0;
 	}
 	if (pInput->windowResized){
@@ -537,7 +537,7 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 		case 1:
 			text = va_arg(list, SDL_Texture*);
 			rect = va_arg(list, SDL_Rect*);
-			rect2 = va_arg(list, SDL_Rect*); 			
+			rect2 = va_arg(list, SDL_Rect*);
 			SDL_RenderCopy(pRenderer, text, rect2, rect);
 			break;
 		case 2:
@@ -581,9 +581,9 @@ void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camer
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	camera->x = 0;
 	camera->y = 0;
-		camera->w = wW;
-		camera->h = hW;
-	if (h < hW||w<wW){
+	camera->w = wW;
+	camera->h = hW;
+	if (h < hW || w < wW){
 		camera->h = h;
 		camera->w = camera->h * ((float)wW / (float)hW);
 	}
@@ -622,10 +622,10 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 }
 
 //movCam
-void moveCam(Terrain * map, SDL_Rect * camera, Input * pInput)
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int w = 0, h = 0;
-	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
+	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
 	camera->y = camera->y - (pInput->cursor.now.y - pInput->cursor.before.y);
 	if (camera->x + camera->w > w){
@@ -656,25 +656,25 @@ void zoomIn(const SDL_Renderer * pRenderer, SDL_Rect * camera)
 }
 
 //ZoomCamera retrécissement
-void zoomOut(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera)
+void zoomOut(const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
 
-	SDL_QueryTexture(map->imageMap, NULL, NULL, &wM, &hM);
+	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
 	if (camera->h < hM){
-	camera->x = camera->x + (camera->w) / 2;
-	camera->y = camera->y + (camera->h) / 2;
-	camera->h = camera->h + 20;
+		camera->x = camera->x + (camera->w) / 2;
+		camera->y = camera->y + (camera->h) / 2;
+		camera->h = camera->h + 20;
 		camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
-	if (camera->w > w){
-		camera->w = w;
-	}
-	if (camera->h > h){
-		camera->h = h;
-	}
-	camera->x = camera->x - ((camera->w) / 2);
-	camera->y = camera->y - ((camera->h) / 2);
+		if (camera->w > w){
+			camera->w = w;
+		}
+		if (camera->h > h){
+			camera->h = h;
+		}
+		camera->x = camera->x - ((camera->w) / 2);
+		camera->y = camera->y - ((camera->h) / 2);
 	}
 
 	if (camera->x + camera->w > wM){
