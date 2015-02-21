@@ -572,9 +572,8 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms* worms)
 {
 	int w = 0, h = 0;
-	int dx = 0, dy = 0;
+	int dx = 0;
 	dx = camera->x;
-	dy = camera->y;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
 	camera->y = camera->y - (pInput->cursor.now.y - pInput->cursor.before.y);
