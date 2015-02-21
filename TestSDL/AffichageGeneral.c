@@ -214,7 +214,7 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 		return -1;
 	}
 	/* Création de la fenêtre */
-	*pWindow = creerFenetre(1080, 600, "KaamWorms");
+	*pWindow = creerFenetre(1200, 700, "KaamWorms");
 	if (*pWindow == NULL)
 	{
 		SDL_Quit();
@@ -546,6 +546,7 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 			{
 				*pSurface = crop_surface(map->imageMapSurface, camera->x, camera->y, camera->w, camera->h);
 			}
+
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -626,7 +627,7 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms* wo
 	if (worms != NULL)
 	{
 		worms->wormsRect.x = worms->wormsRect.x + (dx - camera->x);
-		worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSurface->clip_rect.x = worms->wormsRect.x + (dx - camera->x);
 		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 	}
 }
