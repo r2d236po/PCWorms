@@ -14,7 +14,7 @@ typedef struct {		//Structure worms
 	int posy;				//Position en Y
 	int dir;				//Direction : gauche ou droite
 	SDL_Rect wormsRect;
-	SDL_Surface* wormsSuface;
+	SDL_Surface* wormsSurface;
 	SDL_Texture* wormsTexture;
 	//son?
 } Worms;

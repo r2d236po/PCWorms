@@ -22,7 +22,7 @@ typedef struct{
 	//image?
 } Caisse;
 
-void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file, const char * file2);
+int initialisionTerrain(Terrain ** map, SDL_Renderer * pRenderer, const char * file, const char * file2);
 int detectionCollisionSurface(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Surface* pSurface2);
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
 int gestionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE);

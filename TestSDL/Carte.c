@@ -2,30 +2,76 @@
 #include "AffichageGeneral.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
-void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * file, const char * file2)
+int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * file, const char * file2)
 {
+	Terrain * mapTemp = NULL;
 	SDL_Rect back = { 0, 0, 0, 0 };
 	int i = 0;
+	
+	//Creation du pointeur de Terrain
+	mapTemp = (Terrain*)malloc(sizeof(Terrain));
+	if (mapTemp == NULL)
+	{
+		printf("Probleme de lors de l'allocation memoire du terrain");
+		return -1;
+	}
+	mapTemp->imageBackground = NULL;
+	mapTemp->imageMap = NULL;
+	mapTemp->imageMapSurface = NULL;
+	mapTemp->mapCollision = NULL;
 
-	map->imageBackground = loadTexture(pRenderer, file);
-	SDL_QueryTexture(map->imageBackground, NULL, NULL, &back.w, &back.h);
-	SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &back);
-	/*map->imageMap = loadTexture(pRenderer, file2);
-	SDL_QueryTexture(map->imageMap, NULL, NULL, &back.w, &back.h);
-	SDL_RenderCopy(pRenderer, map->imageMap, NULL, &back);*/
-	map->imageMapSurface = loadImage(file2);
-	map->imageMap = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, map->imageMapSurface->w, map->imageMapSurface->h);
-	SDL_SetTextureBlendMode(map->imageMap, SDL_BLENDMODE_BLEND);
-	SDL_UpdateTexture(map->imageMap, NULL, map->imageMapSurface->pixels, map->imageMapSurface->pitch);
-	SDL_RenderCopy(pRenderer, map->imageMap, NULL, NULL); 
-	map->mapCollision = SDL_CreateRGBSurface(map->imageMapSurface->flags,
-		map->imageMapSurface->w,
-		map->imageMapSurface->h,
-		map->imageMapSurface->format->BitsPerPixel,
-		map->imageMapSurface->format->Rmask,
-		map->imageMapSurface->format->Gmask,
-		map->imageMapSurface->format->Bmask,
-		map->imageMapSurface->format->Amask);
+	//Creation de la texture de l'image de fond
+	mapTemp->imageBackground = loadTexture(pRenderer, file);
+	if (mapTemp->imageBackground == NULL)
+	{
+		printf("Probleme de lors de la creation de la texture Background");
+		destroyMap(&mapTemp);
+		return -1;
+	}
+
+	//Creation de la surface de la map qui servira pour la collision
+	mapTemp->imageMapSurface = loadImage(file2);
+	if (mapTemp->imageMapSurface == NULL) //Verification qu'il n'y a pas eu d'erreur lors de l'allocation en mémoire
+	{
+		printf("Probleme de lors de la creation de la surface de la map");
+		destroyMap(&mapTemp);
+		return -1;
+	}
+
+	//Creation de la texture de la map qui servira pour l'affichage
+	mapTemp->imageMap = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, mapTemp->imageMapSurface->w, mapTemp->imageMapSurface->h);
+	if (mapTemp->imageMap == NULL)
+	{
+		printf("Probleme de lors de la creation de la texture de la map");
+		destroyMap(&mapTemp);
+		return -1;
+	}
+	SDL_SetTextureBlendMode(mapTemp->imageMap, SDL_BLENDMODE_BLEND);
+	SDL_UpdateTexture(mapTemp->imageMap, NULL, mapTemp->imageMapSurface->pixels, mapTemp->imageMapSurface->pitch);
+	
+	//Creation de la deuxieme surface de collision qui pourra être redimensionné sans affecter la surface de base
+	mapTemp->mapCollision = SDL_CreateRGBSurface(mapTemp->imageMapSurface->flags,
+		mapTemp->imageMapSurface->w,
+		mapTemp->imageMapSurface->h,
+		mapTemp->imageMapSurface->format->BitsPerPixel,
+		mapTemp->imageMapSurface->format->Rmask,
+		mapTemp->imageMapSurface->format->Gmask,
+		mapTemp->imageMapSurface->format->Bmask,
+		mapTemp->imageMapSurface->format->Amask);
+	if (mapTemp->mapCollision == NULL)
+	{
+		printf("Probleme de lors de la creation de la surface de collision de la map");
+		destroyMap(&mapTemp);
+		return -1;
+	}
+
+	SDL_QueryTexture(mapTemp->imageBackground, NULL, NULL, &back.w, &back.h);
+	SDL_RenderCopy(pRenderer, mapTemp->imageBackground, NULL, &back);
+	SDL_RenderCopy(pRenderer, mapTemp->imageMap, NULL, &back);
+	SDL_RenderPresent(pRenderer);
+	(*map) = mapTemp; //récupération du pointeur du terrain
+	mapTemp = NULL;
+	return 1;
 }
 
 

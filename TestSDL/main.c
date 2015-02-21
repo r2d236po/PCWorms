@@ -5,6 +5,9 @@
 int main(int argc, char** argv)
 {
 	//sandboxRenderer();
-	mainFenetre();
+	if (mainFenetre() < 0)
+	{
+		printf("Une erreur s'est produite");
+	}
 	return 0;
 }

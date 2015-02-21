@@ -7,43 +7,64 @@ int mainFenetre()
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Renderer* pRenderer = NULL; //déclaration du renderer
-	SDL_Window* pWindow = NULL;
-	Input * pInput = malloc(sizeof(Input)); //structure contenant les informations relatives aux inputs clavier
-	Terrain * mainMap = malloc(sizeof(Terrain));
+	SDL_Window* pWindow = NULL;	//déclaration de la window
+	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
+	Terrain * mainMap = NULL;
 	SDL_Texture* texture = NULL; //Texture globale
 	SDL_Texture* display = NULL;	//Buffer
+	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
 	SDL_Rect camera2 = { 0, 0, 0, 0 }; //Camera 2 NE DOIS JAMAIS ZOOMER
-	Worms * worms1 = NULL;
 	int x = 0, y = 0;
+
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
 		//Initialisation des inputs
-		initInput(pInput);
+		pInput = initInput();
+		if (pInput == NULL)
+		{
+			printf("Erreur lors de l'allocation de pInput");
+			cleanUp(&pWindow, &pRenderer, &pInput);
+			return -1;
+		}
 
 		//Initialisation du terrain
-		clearRenderer(pRenderer);
-		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png") < 0)
+		{
+			printf("Probleme lors de la creation du terrain");
+			cleanUp(&pWindow, &pRenderer, &pInput);
+			return -1;
+		}
 
-		//initialisation worms
+		//Initialisation worms
 		worms1 = createWorms(pRenderer, "../assets/pictures/worms.png");
 		if (worms1 == NULL)
 		{
 			printf("Erreur creation worms");
+			destroyMap(&mainMap);
+			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
 
-		//init des caméras
+		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
 		initCameras(pRenderer, mainMap, &camera2); //init camera2 NE DOIS JAMAIS ZOOMER
 		
-		//init de l'affichage
+		//Initialisation de l'affichage
 		updateScreen(pRenderer, &camera, &mainMap->mapCollision, 2, 0, mainMap, 1, worms1->wormsTexture, &worms1->wormsRect, NULL);
 
-		//création de la texture buffer
+		//Création de la texture buffer
 		display = SDL_CreateTexture(pRenderer, SDL_GetWindowSurface(pWindow)->format->format, SDL_TEXTUREACCESS_TARGET, SDL_GetWindowSurface(pWindow)->w, SDL_GetWindowSurface(pWindow)->h);
-		
+		if (display == NULL)
+		{
+			printf("Erreur lors de la creation de la texture de buffer");
+			destroyWorms(&worms1);
+			destroyMap(&mainMap);
+			cleanUp(&pWindow, &pRenderer, &pInput);
+			return -1;
+		}
+
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -63,7 +84,10 @@ int mainFenetre()
 				updateScreen(pRenderer, &camera2, &mainMap->mapCollision, 2, 0, mainMap, 1, worms1->wormsTexture, &worms1->wormsRect, NULL); //calcul du déplacement dans le jeu en camera2, NE DOIS JAMAIS ZOOMER
 				SDL_SetRenderTarget(pRenderer, NULL);//on remet la fenêtre comme cible du renderer
 				SDL_RenderCopy(pRenderer, display, NULL, NULL);//on copie les modif
-				updateCamera(pRenderer, &camera, pWindow, &texture);	//application du zoom sur la texture globale
+				if (updateCamera(pRenderer, &camera, pWindow, &texture) < 0)	//application du zoom sur la texture globale
+				{
+					printf("Erreur lors de l'updateCamera");
+				}
 			}
 
 			//Gestion du frame Rate
@@ -73,14 +97,16 @@ int mainFenetre()
 		destroyMap(&mainMap);
 		destroyWorms(&worms1);
 		SDL_DestroyTexture(display);
-		SDL_DestroyTexture(texture);
-		SDL_DestroyRenderer(pRenderer);
-		SDL_DestroyWindow(pWindow);
+		display = NULL;
+		if (texture != NULL)
+		{
+			SDL_DestroyTexture(texture);
+			texture = NULL;
+		}
+		cleanUp(&pWindow, &pRenderer, &pInput);
 	}
 	IMG_Quit();
 	SDL_Quit();
-	free(mainMap);
-	free(pInput);
 	return 0;
 }
 
@@ -178,6 +204,43 @@ int sandboxRenderer()
 	return 0;
 }
 
+//Initialisation fenetre renderer
+int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
+{
+	/* Initialisation simple */
+	if (SDL_VideoInit(NULL) < 0)
+	{
+		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		return -1;
+	}
+	/* Création de la fenêtre */
+	*pWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (*pWindow == NULL)
+	{
+		SDL_Quit();
+		return -1;
+	}
+	/* Création du renderer */
+	*pRenderer = SDL_CreateRenderer(*pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (*pRenderer == NULL)//gestion des erreurs
+	{
+		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+		SDL_DestroyWindow(*pWindow);
+		(*pWindow) = NULL;
+		SDL_Quit();
+		return -1;
+	}
+	/*Initialisation SDL_Image*/
+	if (IMG_Init(IMG_INIT_PNG) < 0)
+	{
+		printf("Erreur Img_init : %s", SDL_GetError());
+		cleanUp(*pWindow, *pRenderer, NULL);
+		SDL_Quit();
+		return -1;
+	}
+	return 1;
+}
+
 //Fonction de création de fenêtre
 SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 	SDL_Window * pWindow = NULL;
@@ -193,13 +256,6 @@ SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 		return NULL;
 	}
 	else return pWindow;
-}
-
-//Chargement image SDL_image
-int afficheImage(SDL_Window *pWindow, SDL_Surface * image)
-{
-	SDL_Rect dest = { 1080 / 2 - image->w / 2, 600 / 2 - image->h / 2, 50, 50 };
-	SDL_BlitSurface(image, NULL, SDL_GetWindowSurface(pWindow), &dest);
 }
 
 //Fonction de chargement d'image dans une surface
@@ -431,8 +487,17 @@ int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_R
 }
 
 //Init des input
-void initInput(Input* pInput)
+Input* initInput()
 {
+	Input* pInput = NULL;
+
+	pInput = (Input*)malloc(sizeof(Input));
+	if (pInput == NULL)
+	{
+		printf("Erreur lors de l'allocation de memoire de pInput");
+		pInput = NULL;
+		return NULL;
+	}
 	pInput->bend = 0;
 	pInput->jump = 0;
 	pInput->left = 0;
@@ -451,6 +516,7 @@ void initInput(Input* pInput)
 	pInput->wheelUp = 0;
 	pInput->wheelDown = 0;
 	pInput->raffraichissement = 1;
+	return pInput;
 }
 
 /*affichage de la frame actuelle */
@@ -536,39 +602,7 @@ void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camer
 	}
 }
 
-//Initialisation fenetre renderer
-int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
-{
-	/* Initialisation simple */
-	if (SDL_VideoInit(NULL) < 0)
-	{
-		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
-		return -1;
-	}
-	/* Création de la fenêtre */
-	*pWindow = creerFenetre(1080, 600, "KaamWorms");
-	if (*pWindow == NULL)
-	{
-		SDL_Quit();
-		return -1;
-	}
-	/* Création du renderer */
-	*pRenderer = SDL_CreateRenderer(*pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (*pRenderer == NULL)//gestion des erreurs
-	{
-		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
-		return -1;
-	}
-	return 1;
-	/*Initialisation SDL_Image*/
-	if (IMG_Init(IMG_INIT_PNG) < 0)
-	{
-		printf("Erreur Img_init : %s", SDL_GetError());
-		return -1;
-	}
-}
-
-//movCam
+//moveCam
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms* worms)
 {
 	int w = 0, h = 0;
@@ -592,8 +626,8 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms* wo
 	if (worms != NULL)
 	{
 		worms->wormsRect.x = worms->wormsRect.x + (dx - camera->x);
-		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
+		worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 	}
 }
 
@@ -646,20 +680,7 @@ void zoomOut(const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * c
 	}
 }
 
-
-SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height)
-{
-	SDL_Surface* surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height, sprite_sheet->format->BitsPerPixel, sprite_sheet->format->Rmask, sprite_sheet->format->Gmask, sprite_sheet->format->Bmask, sprite_sheet->format->Amask);
-	SDL_Surface* surface = NULL;
-	SDL_Rect rect = { x, y, width, height };
-	SDL_BlitSurface(sprite_sheet, &rect, surfaceTemp, 0);
-	surface = surfaceTemp;
-	SDL_FreeSurface(surfaceTemp);
-	surfaceTemp = NULL;
-	return surface;
-}
-
-
+//met à jour le zoom de la texture globale
 int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow, SDL_Texture** pTexture)
 {
 	SDL_Texture* textureTemp = NULL;
@@ -673,26 +694,39 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 	if (surfaceTemp == NULL)
 	{
 		printf("Failed to create info surface from window in saveScreenshotBMP(string) %s", SDL_GetError());
-		return 0;
+		SDL_FreeSurface(surfaceTemp);
+		return -1;
 	}
 	pixels = malloc(w * h * surfaceTemp->format->BytesPerPixel * sizeof(int));
 	if (pixels == 0)
 	{
 		printf("Unable to allocate memory for screenshot pointeur data buffer!\n ");
-		return 0;
+		pixels = NULL;
+		return -1;
 	}
 	if (SDL_RenderReadPixels(pRenderer, NULL, surfaceTemp->format->format, pixels, w * surfaceTemp->format->BytesPerPixel) != 0)
 	{
 		printf("Failed to read pointeur data from SDL_Renderer object");
+		free(pixels);
 		pixels = NULL;
-		return 0;
+		return -1;
 	}
 	if (*pTexture == NULL)
 	{
 		textureTemp = SDL_CreateTexture(pRenderer, surfaceTemp->format->format, SDL_TEXTUREACCESS_STREAMING, w, h);
+		if (textureTemp == NULL)
+		{
+			printf("Erreur lors de la creation de la texture");
+			SDL_FreeSurface(surfaceTemp);
+			surfaceTemp = NULL;
+			free(pixels);
+			pixels = NULL;
+			return -1;
+		}
 		SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
 		SDL_UpdateTexture(textureTemp, NULL, pixels, surfaceTemp->pitch);
 		*pTexture = textureTemp;
+		textureTemp = NULL;
 	}
 	else
 	{
@@ -702,61 +736,68 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 	SDL_RenderCopy(pRenderer, *pTexture, camera, &rect);
 	SDL_RenderPresent(pRenderer);
 	SDL_FreeSurface(surfaceTemp);
+	surfaceTemp = NULL;
 	free(pixels);
+	pixels = NULL;
 	SDL_RenderPresent(pRenderer);
-	return 1;
+	return 0;
 }
 
+//Rescale de la surface
+SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height)
+{
+	SDL_Surface* surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height, sprite_sheet->format->BitsPerPixel, sprite_sheet->format->Rmask, sprite_sheet->format->Gmask, sprite_sheet->format->Bmask, sprite_sheet->format->Amask);
+	SDL_Surface* surface = NULL;
+	SDL_Rect rect = { x, y, width, height };
+	SDL_BlitSurface(sprite_sheet, &rect, surfaceTemp, 0);
+	surface = surfaceTemp;
+	SDL_FreeSurface(surfaceTemp);
+	surfaceTemp = NULL;
+	return surface;
+}
 
 //Initialisation Worms
 Worms* createWorms(SDL_Renderer* pRenderer, const char *file)
 {
-	Worms * worms = malloc(sizeof(Worms));
-	SDL_Surface * wormsSurface = loadImage(file);
+	Worms * worms = NULL;
+	SDL_Surface * wormsSurface = NULL;
 	SDL_Texture* wormsTexture = NULL;
+	worms = (Worms*)malloc(sizeof(Worms));
+	if (worms == NULL)
+	{
+		printf("Probleme lors de l'allocation de memoire du worms");
+		return NULL;
+	}
 	worms->wormsRect.x = 0;
 	worms->wormsRect.y = 0;
+	worms->wormsSurface = NULL;
+	worms->wormsTexture = NULL;
 
+	wormsSurface = loadImage(file);
 	if (wormsSurface == NULL)
 	{
 		printf("Erreur création surface worms, %s", SDL_GetError());
-		SDL_FreeSurface(wormsSurface);
+		destroyWorms(&worms);
 		return NULL;
 	}
+
 	wormsTexture = SDL_CreateTextureFromSurface(pRenderer, wormsSurface);
 	if (wormsTexture == NULL)
 	{
 		printf("Erreur création texture worms, %s", SDL_GetError());
+		SDL_FreeSurface(wormsSurface);
+		wormsSurface = NULL;
 		SDL_DestroyTexture(wormsTexture);
+		destroyWorms(&worms);
 		return NULL;
 	}
 	worms->wormsRect.w = wormsSurface->clip_rect.w;
 	worms->wormsRect.h = wormsSurface->clip_rect.h;
-	worms->wormsSuface = wormsSurface;
+	worms->wormsSurface = wormsSurface;
 	worms->wormsTexture = wormsTexture;
 	wormsSurface = NULL;
 	wormsTexture = NULL;
 	return worms;
-}
-
-
-//Detruit un worms
-void destroyWorms(Worms** worms)
-{
-	SDL_DestroyTexture((*worms)->wormsTexture);
-	SDL_FreeSurface((*worms)->wormsSuface);
-	*worms = NULL;
-}
-
-
-//Détruit une map
-void destroyMap(Terrain** map)
-{
-	SDL_DestroyTexture((*map)->imageBackground);
-	SDL_DestroyTexture((*map)->imageMap);
-	SDL_FreeSurface((*map)->imageMapSurface);
-	SDL_FreeSurface((*map)->mapCollision);
-	*map = NULL;
 }
 
 //Déplace un worms
@@ -766,53 +807,115 @@ void deplacementWorms(Input* pInput, SDL_Renderer* pRenderer, Worms* worms, SDL_
 	if (pInput->right)
 	{
 		worms->wormsRect.x += 1;
-		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
-		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSuface))
+		worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
+		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSurface))
 		{
 			worms->wormsRect.x -= 1;
-			worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-			worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
+			worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+			worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 		}
 		pInput->right = 0;
 	}
 	if (pInput->left)
 	{
 		worms->wormsRect.x -= 1;
-		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
-		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSuface))
+		worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
+		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSurface))
 		{
 			worms->wormsRect.x += 1;
-			worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-			worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
+			worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+			worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 		}
 		pInput->left = 0;
 	}
 	if (pInput->down)
 	{
 		worms->wormsRect.y += 1;
-		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
-		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSuface))
+		worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
+		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSurface))
 		{
 			worms->wormsRect.y -= 1;
-			worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-			worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
+			worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+			worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 		}
 		pInput->down = 0;
 	}
 	if (pInput->up)
 	{
 		worms->wormsRect.y -= 1;
-		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
-		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSuface))
+		worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
+		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSurface))
 		{
 			worms->wormsRect.y += 1;
-			worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-			worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
+			worms->wormsSurface->clip_rect.x = worms->wormsRect.x;
+			worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 		}
 		pInput->up = 0;
 	}
+}
+
+//Detruit un worms
+void destroyWorms(Worms** worms)
+{
+	if ((*worms)->wormsTexture != NULL)
+	{
+		SDL_DestroyTexture((*worms)->wormsTexture);
+		(*worms)->wormsTexture = NULL;
+	}
+	if ((*worms)->wormsSurface != NULL)
+	{
+		SDL_FreeSurface((*worms)->wormsSurface);
+		(*worms)->wormsSurface = NULL;
+	}
+	free(*worms);
+	*worms = NULL;
+}
+
+//Détruit une map
+void destroyMap(Terrain** map)
+{
+	if ((*map)->imageBackground != NULL)
+	{
+		SDL_DestroyTexture((*map)->imageBackground);
+		(*map)->imageBackground = NULL;
+	}
+	if ((*map)->imageMap != NULL)
+	{
+		SDL_DestroyTexture((*map)->imageMap);
+		(*map)->imageMap = NULL;
+	}
+	if ((*map)->imageMapSurface != NULL)
+	{
+		SDL_FreeSurface((*map)->imageMapSurface);
+		(*map)->imageMapSurface = NULL;
+	}
+	if ((*map)->mapCollision != NULL)
+	{
+		SDL_FreeSurface((*map)->mapCollision);
+		(*map)->mapCollision = NULL;
+	}
+	free((*map));
+	*map = NULL;
+}
+
+//Nettoyage de fin de programme
+void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer,Input** pInput)
+{
+	if ((*pInput) != NULL)
+	{
+		free(*pInput);
+		(*pInput) = NULL;
+	}	
+	
+	SDL_DestroyRenderer(*pRenderer);
+	(*pRenderer) = NULL;
+	SDL_DestroyWindow(*pWindow);
+	(*pWindow) = NULL;
+
+	IMG_Quit();
+	SDL_Quit();
 }
