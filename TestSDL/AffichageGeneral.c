@@ -34,11 +34,16 @@ int mainFenetre()
 			return -1;
 		}
 
+		//init des caméras
 		initCameras(pRenderer, mainMap, &camera);
 		initCameras(pRenderer, mainMap, &camera2); //init camera2 NE DOIS JAMAIS ZOOMER
+		
+		//init de l'affichage
 		updateScreen(pRenderer, &camera, &mainMap->mapCollision, 2, 0, mainMap, 1, worms1->wormsTexture, &worms1->wormsRect, NULL);
 
+		//création de la texture buffer
 		display = SDL_CreateTexture(pRenderer, SDL_GetWindowSurface(pWindow)->format->format, SDL_TEXTUREACCESS_TARGET, SDL_GetWindowSurface(pWindow)->w, SDL_GetWindowSurface(pWindow)->h);
+		
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -53,10 +58,11 @@ int mainFenetre()
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				SDL_SetRenderTarget(pRenderer, display);
-				updateScreen(pRenderer, &camera2, &mainMap->mapCollision, 2, 0, mainMap, 1, worms1->wormsTexture, &worms1->wormsRect, NULL); //calcul du déplacement dans le jeu camera2 NE DOIS JAMAIS ZOOMER
-				SDL_SetRenderTarget(pRenderer, NULL);
-				SDL_RenderCopy(pRenderer, display, NULL, NULL);
+				//Utilisation d'un double buffer pour éviter la supperposition de deux frames
+				SDL_SetRenderTarget(pRenderer, display); //on défini la dexture display comme cible du renderer
+				updateScreen(pRenderer, &camera2, &mainMap->mapCollision, 2, 0, mainMap, 1, worms1->wormsTexture, &worms1->wormsRect, NULL); //calcul du déplacement dans le jeu en camera2, NE DOIS JAMAIS ZOOMER
+				SDL_SetRenderTarget(pRenderer, NULL);//on remet la fenêtre comme cible du renderer
+				SDL_RenderCopy(pRenderer, display, NULL, NULL);//on copie les modif
 				updateCamera(pRenderer, &camera, pWindow, &texture);	//application du zoom sur la texture globale
 			}
 
