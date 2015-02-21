@@ -746,9 +746,21 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 //Rescale de la surface
 SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height)
 {
-	SDL_Surface* surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height, sprite_sheet->format->BitsPerPixel, sprite_sheet->format->Rmask, sprite_sheet->format->Gmask, sprite_sheet->format->Bmask, sprite_sheet->format->Amask);
+	SDL_Surface* surfaceTemp = NULL;
 	SDL_Surface* surface = NULL;
 	SDL_Rect rect = { x, y, width, height };
+	surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height, 
+		sprite_sheet->format->BitsPerPixel, 
+		sprite_sheet->format->Rmask, 
+		sprite_sheet->format->Gmask, 
+		sprite_sheet->format->Bmask, 
+		sprite_sheet->format->Amask);
+
+	if (surfaceTemp == NULL)
+	{
+		printf("Erreur lors de la creation de la surface");
+		return NULL;
+	}
 	SDL_BlitSurface(sprite_sheet, &rect, surfaceTemp, 0);
 	surface = surfaceTemp;
 	SDL_FreeSurface(surfaceTemp);
@@ -888,15 +900,15 @@ void destroyMap(Terrain** map)
 		SDL_DestroyTexture((*map)->imageMap);
 		(*map)->imageMap = NULL;
 	}
-	if ((*map)->imageMapSurface != NULL)
-	{
-		SDL_FreeSurface((*map)->imageMapSurface);
-		(*map)->imageMapSurface = NULL;
-	}
 	if ((*map)->mapCollision != NULL)
 	{
 		SDL_FreeSurface((*map)->mapCollision);
 		(*map)->mapCollision = NULL;
+	}
+	if ((*map)->imageMapSurface != NULL)
+	{
+		SDL_FreeSurface((*map)->imageMapSurface);
+		(*map)->imageMapSurface = NULL;
 	}
 	free((*map));
 	*map = NULL;

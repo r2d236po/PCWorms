@@ -64,6 +64,7 @@ int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * fi
 		destroyMap(&mapTemp);
 		return -1;
 	}
+	SDL_BlitSurface(mapTemp->imageMapSurface, NULL, mapTemp->mapCollision, NULL);
 
 	SDL_QueryTexture(mapTemp->imageBackground, NULL, NULL, &back.w, &back.h);
 	SDL_RenderCopy(pRenderer, mapTemp->imageBackground, NULL, &back);
