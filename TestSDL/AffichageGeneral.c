@@ -24,7 +24,7 @@ int mainFenetre()
 
 		//Initialisation du terrain
 		clearRenderer(pRenderer);
-		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");	
+		initialisionTerrain(mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png");
 
 		//initialisation worms
 		worms1 = createWorms(pRenderer, "../assets/pictures/worms.png");
@@ -63,11 +63,11 @@ int mainFenetre()
 			//Gestion du frame Rate
 			frameRate(frame_max);
 			frame_max = SDL_GetTicks() + FRAME_RATE;
-		}		
+		}
 		destroyMap(&mainMap);
 		destroyWorms(&worms1);
 		SDL_DestroyTexture(display);
-		SDL_DestroyTexture(texture); 
+		SDL_DestroyTexture(texture);
 		SDL_DestroyRenderer(pRenderer);
 		SDL_DestroyWindow(pWindow);
 	}
@@ -404,11 +404,8 @@ int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_R
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
-		moveCam(map->imageMap, camera2, pInput); //gestion du scrolling de caméra
-		worms->wormsRect.x = worms->wormsRect.x + (pInput->cursor.now.x - pInput->cursor.before.x);
-		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
-		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
+		moveCam(pTexture, camera, pInput, NULL); //gestion du scrolling de caméra
+		moveCam(map->imageMap, camera2, pInput, worms); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
@@ -566,9 +563,12 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 }
 
 //movCam
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms* worms)
 {
 	int w = 0, h = 0;
+	int dx = 0, dy = 0;
+	dx = camera->x;
+	dy = camera->y;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
 	camera->y = camera->y - (pInput->cursor.now.y - pInput->cursor.before.y);
@@ -583,6 +583,12 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 	}
 	if (camera->y < 0){
 		camera->y = 0;
+	}
+	if (worms != NULL)
+	{
+		worms->wormsRect.x = worms->wormsRect.x + (dx - camera->x);
+		worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
+		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
 	}
 }
 
@@ -733,7 +739,7 @@ Worms* createWorms(SDL_Renderer* pRenderer, const char *file)
 void destroyWorms(Worms** worms)
 {
 	SDL_DestroyTexture((*worms)->wormsTexture);
-	SDL_FreeSurface((*worms)->wormsSuface);	
+	SDL_FreeSurface((*worms)->wormsSuface);
 	*worms = NULL;
 }
 
@@ -749,7 +755,7 @@ void destroyMap(Terrain** map)
 }
 
 //Déplace un worms
-void deplacementWorms(Input* pInput,SDL_Renderer* pRenderer, Worms* worms,SDL_Surface* surfaceCollision)
+void deplacementWorms(Input* pInput, SDL_Renderer* pRenderer, Worms* worms, SDL_Surface* surfaceCollision)
 {
 	int x = 0, y = 0;
 	if (pInput->right)
@@ -759,7 +765,7 @@ void deplacementWorms(Input* pInput,SDL_Renderer* pRenderer, Worms* worms,SDL_Su
 		worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
 		if (detectionCollisionSurface(pRenderer, surfaceCollision, &x, &y, worms->wormsSuface))
 		{
-			worms->wormsRect.y += 1;
+			worms->wormsRect.x -= 1;
 			worms->wormsSuface->clip_rect.x = worms->wormsRect.x;
 			worms->wormsSuface->clip_rect.y = worms->wormsRect.y;
 		}
