@@ -17,7 +17,15 @@ void initialisionTerrain(Terrain * map, SDL_Renderer * pRenderer, const char * f
 	map->imageMap = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, map->imageMapSurface->w, map->imageMapSurface->h);
 	SDL_SetTextureBlendMode(map->imageMap, SDL_BLENDMODE_BLEND);
 	SDL_UpdateTexture(map->imageMap, NULL, map->imageMapSurface->pixels, map->imageMapSurface->pitch);
-	SDL_RenderCopy(pRenderer, map->imageMap, NULL, NULL);
+	SDL_RenderCopy(pRenderer, map->imageMap, NULL, NULL); 
+	map->mapCollision = SDL_CreateRGBSurface(map->imageMapSurface->flags,
+		map->imageMapSurface->w,
+		map->imageMapSurface->h,
+		map->imageMapSurface->format->BitsPerPixel,
+		map->imageMapSurface->format->Rmask,
+		map->imageMapSurface->format->Gmask,
+		map->imageMapSurface->format->Bmask,
+		map->imageMapSurface->format->Amask);
 }
 
 

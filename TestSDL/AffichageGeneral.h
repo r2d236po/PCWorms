@@ -3,6 +3,7 @@
 
 #include "Libraries.h" //Inclus toutes les librairies
 #include "carte.h"
+#include "worms.h"
 
 #define FRAME_RATE (1000 / 70)
 
@@ -47,7 +48,7 @@ void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int
 void frameRate(int fM);
 void getInput(Input* pInput, SDL_Window* pWindow);
 void initInput(Input* pInput);
-int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera2, SDL_Texture* pTexture, SDL_Rect* camera);
+int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera2, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface* pSurface, int nb, ...);
 void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera);
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);
@@ -55,6 +56,10 @@ void zoomIn(const SDL_Renderer * pRenderer, SDL_Rect * camera);
 void zoomOut(const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera);
 SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height);
 int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow);
+Worms* createWorms(SDL_Renderer* pRenderer, const char *file);
+void destroyWorms(Worms** worms);
+void destroyMap(Terrain** map);
+void deplacementWorms(Input* pInput, SDL_Renderer* pRenderer, Worms* worms, SDL_Surface* surfaceCollision);
 
 
 SDL_Surface * loadImage(const char * file);
