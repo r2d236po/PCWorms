@@ -49,8 +49,10 @@ int mainFenetre()
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
-		initCameras(pRenderer, mainMap, &camera2); //init camera2 NE DOIS JAMAIS ZOOMER
-		
+		camera2.w = 1080;
+		camera2.h = 600;
+		//initCameras(pRenderer, mainMap, &camera2); //init camera2 NE DOIS JAMAIS ZOOMER
+
 		//Initialisation de l'affichage
 		updateScreen(pRenderer, &camera, &mainMap->mapCollision, 2, 0, mainMap, 1, worms1->wormsTexture, &worms1->wormsRect, NULL);
 
@@ -541,6 +543,8 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 			temp.w = w;
 			temp.h = h;
 			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
+			camera->w = w;
+			temp.h = camera->h;
 			SDL_RenderCopy(pRenderer, map->imageMap, camera, &temp);
 			if (*pSurface != NULL)
 			{
@@ -733,7 +737,6 @@ int updateCamera(SDL_Renderer* pRenderer, SDL_Rect* camera, SDL_Window* pWindow,
 	{
 		SDL_UpdateTexture(*pTexture, NULL, pixels, surfaceTemp->pitch);
 	}
-
 	SDL_RenderCopy(pRenderer, *pTexture, camera, &rect);
 	SDL_RenderPresent(pRenderer);
 	SDL_FreeSurface(surfaceTemp);
@@ -750,11 +753,11 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 	SDL_Surface* surfaceTemp = NULL;
 	SDL_Surface* surface = NULL;
 	SDL_Rect rect = { x, y, width, height };
-	surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height, 
-		sprite_sheet->format->BitsPerPixel, 
-		sprite_sheet->format->Rmask, 
-		sprite_sheet->format->Gmask, 
-		sprite_sheet->format->Bmask, 
+	surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height,
+		sprite_sheet->format->BitsPerPixel,
+		sprite_sheet->format->Rmask,
+		sprite_sheet->format->Gmask,
+		sprite_sheet->format->Bmask,
 		sprite_sheet->format->Amask);
 
 	if (surfaceTemp == NULL)
@@ -916,14 +919,14 @@ void destroyMap(Terrain** map)
 }
 
 //Nettoyage de fin de programme
-void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer,Input** pInput)
+void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
 {
 	if ((*pInput) != NULL)
 	{
 		free(*pInput);
 		(*pInput) = NULL;
-	}	
-	
+	}
+
 	SDL_DestroyRenderer(*pRenderer);
 	(*pRenderer) = NULL;
 	SDL_DestroyWindow(*pWindow);
