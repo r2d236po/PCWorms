@@ -15,7 +15,6 @@ int mainFenetre()
 	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
 	SDL_Rect camera2 = { 0, 0, 0, 0 }; //Camera 2 NE DOIS JAMAIS ZOOMER
-	int x = 0, y = 0;
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -216,7 +215,7 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 		return -1;
 	}
 	/* Création de la fenêtre */
-	*pWindow = creerFenetre(1200, 700, "KaamWorms");
+	*pWindow = creerFenetre(1080, 600, "KaamWorms");
 	if (*pWindow == NULL)
 	{
 		SDL_Quit();
@@ -236,7 +235,7 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
 		printf("Erreur Img_init : %s", SDL_GetError());
-		cleanUp(*pWindow, *pRenderer, NULL);
+		cleanUp(pWindow, pRenderer, NULL);
 		SDL_Quit();
 		return -1;
 	}
@@ -285,7 +284,7 @@ SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 }
 
 //Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
-void deplacementRectangle(SDL_Renderer * pRenderer, SDL_Rect * rect, int x2, int y2, int dir)
+void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir)
 {
 	int x1 = 0, y1 = 0;
 	SDL_GetMouseState(&x1, &y1);
@@ -456,7 +455,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 }
 
 //Gestion des input
-int gestInput(Input* pInput, const SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera2, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera2, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -522,7 +521,7 @@ Input* initInput()
 }
 
 /*affichage de la frame actuelle */
-void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
+void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
@@ -575,7 +574,7 @@ void updateScreen(const SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface
 }
 
 //gestion du frame rate pour pas bouffer le cpu
-void frameRate(int fM)
+void frameRate(unsigned int fM)
 {
 	unsigned int tick = SDL_GetTicks();
 	if (fM < tick)
@@ -593,7 +592,7 @@ void frameRate(int fM)
 }
 
 //init de la cameras sur le 0/0
-void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
+void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_QueryTexture(map->imageMap, NULL, NULL, &w, &h);
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
@@ -603,7 +602,7 @@ void initCameras(const SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camer
 	camera->h = hW;
 	if (h < hW || w < wW){
 		camera->h = h;
-		camera->w = camera->h * ((float)wW / (float)hW);
+		camera->w = (int)(camera->h * ((float)wW / (float)hW));
 	}
 }
 
@@ -637,20 +636,20 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms* wo
 }
 
 //ZoomCamera grossissement
-void zoomIn(const SDL_Renderer * pRenderer, SDL_Rect * camera)
+void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
 	camera->x = camera->x + (camera->w) / 2;
 	camera->y = camera->y + (camera->h) / 2;
 	camera->h = camera->h - 20;
-	camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
+	camera->w = (int)(camera->h * ((float)w / (float)h));// keep the ratio depending of the size of the window!!!!!
 	camera->x = camera->x - (camera->w) / 2;
 	camera->y = camera->y - (camera->h) / 2;
 }
 
 //ZoomCamera retrécissement
-void zoomOut(const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
+void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
@@ -660,7 +659,7 @@ void zoomOut(const SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * c
 		camera->x = camera->x + (camera->w) / 2;
 		camera->y = camera->y + (camera->h) / 2;
 		camera->h = camera->h + 20;
-		camera->w = camera->h * ((float)w / (float)h);// keep the ratio depending of the size of the window!!!!!
+		camera->w = (int)(camera->h * ((float)w / (float)h));// keep the ratio depending of the size of the window!!!!!
 		if (camera->w > w){
 			camera->w = w;
 		}
@@ -752,7 +751,11 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 {
 	SDL_Surface* surfaceTemp = NULL;
 	SDL_Surface* surface = NULL;
-	SDL_Rect rect = { x, y, width, height };
+	SDL_Rect rect = { 0, 0, 0, 0 };
+	rect.x = x;
+	rect.y = y;
+	rect.w = width;
+	rect.h = height;
 	surfaceTemp = SDL_CreateRGBSurface(sprite_sheet->flags, width, height,
 		sprite_sheet->format->BitsPerPixel,
 		sprite_sheet->format->Rmask,
