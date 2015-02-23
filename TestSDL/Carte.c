@@ -66,9 +66,9 @@ int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * fi
 	SDL_BlitSurface(mapTemp->imageMapSurface, NULL, mapTemp->mapCollision, NULL);
 	mapTemp->imageMapSurface->refcount += 1;
 	SDL_QueryTexture(mapTemp->imageBackground, NULL, NULL, &back.w, &back.h);
-	SDL_RenderCopy(pRenderer, mapTemp->imageBackground, NULL, &back);
+	/*SDL_RenderCopy(pRenderer, mapTemp->imageBackground, NULL, &back);
 	SDL_RenderCopy(pRenderer, mapTemp->imageMap, NULL, &back);
-	SDL_RenderPresent(pRenderer);
+	SDL_RenderPresent(pRenderer);*/
 	(*map) = mapTemp; //récupération du pointeur du terrain
 	mapTemp = NULL;
 	return 1;

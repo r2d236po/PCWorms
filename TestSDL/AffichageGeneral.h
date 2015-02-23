@@ -37,6 +37,7 @@ typedef struct{		//structure gérant les différents inputs
 }Input;
 
 int mainFenetre();
+int mainFenetre2();
 int sandboxRenderer();
 
 
@@ -48,6 +49,7 @@ SDL_Surface * loadImage(const char * file);	//Charge une image dans une surface
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);	//Charge une image dans une texture
 SDL_Window * creerFenetre(const int w, const int h, const char * nom);	//Créé une fenêtre de largeur w, hauteur h et de nom nom
 void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera);	//Initialise la position de la caméra
+int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture** pTexture, SDL_Renderer* pRenderer, SDL_Window* pWindow, SDL_Rect* camera);
 
 //Fonctions diverses
 void afficherPoint(SDL_Renderer * r);	//affiche un point 
@@ -56,6 +58,7 @@ void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace u
 void deplacementWorms(Input* pInput,SDL_Renderer* pRenderer, Worms* worms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
 void frameRate(unsigned int fM);	//gère le framerate
 void getInput(Input* pInput, SDL_Window* pWindow);	//récupère les inputs
+int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Window* pWindow, SDL_Texture* pTexture, int nbSurface, int numSurface);
 //gestion des inputs
 int gestInput(Input* pInput,SDL_Renderer * pRenderer, Terrain* map, SDL_Rect* camera2, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms);
 void updateScreen(SDL_Renderer * pRenderer, SDL_Rect * camera, SDL_Surface** pSurface, int nb, ...);	//actualise l'affichage
