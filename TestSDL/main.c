@@ -5,11 +5,7 @@
 int main(int argc, char** argv)
 {
 	//sandboxRenderer();
-	/*if (mainFenetre() < 0)
-	{
-		printf("Une erreur s'est produite");
-	}*/
-	if (mainFenetre2() < 0)
+	if (mainFenetre() < 0)
 	{
 		printf("Une erreur s'est produite");
 	}
