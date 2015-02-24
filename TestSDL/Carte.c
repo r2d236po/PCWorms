@@ -127,7 +127,7 @@ int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* 
 }
 
 //Détection collision V2.0
-int detectionCollisionSurface(SDL_Surface* pSurface, int* xE, int* yE, SDL_Surface* pSurface2)
+int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 {
 	Uint32 p = ReadPixel(pSurface, 0, 0);
 	Uint8 r = 0, g = 0, b = 0, a = 0;
@@ -153,8 +153,6 @@ int detectionCollisionSurface(SDL_Surface* pSurface, int* xE, int* yE, SDL_Surfa
 			}
 			else
 			{
-				*xE = x;
-				*yE = y;
 				collision = 1;
 			}
 		}
