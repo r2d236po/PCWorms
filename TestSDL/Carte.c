@@ -42,7 +42,16 @@ int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * fi
 }
 
 
-//Récupère un pixel
+/**
+* \fn Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
+* \brief Lit un pixel aux coordonnees x et y d'une surface.
+*
+* \param[in] surface, surface dans laquelle on lit le pixel
+* \param[in] x, abscisse dans la surface
+* \param[in] y, ordonne dans la surface
+* \returns Uint32, pixel lu aux coordonnees contenant les 4 canaux (RGBA)
+* \remarks Faire attention que x et y soient bien compris dans la surface.
+*/
 Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
 {
 	//Convert the pixels to 32 bit
@@ -51,7 +60,16 @@ Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
 	return pixels[(y * surface->w) + x];
 }
 
-//Ecris un pixel
+/**
+* \fn void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+* \brief Ecrit un pixel aux coordonnees x et y d'une surface.
+*
+* \param[in] surface, surface dans laquelle on ecrit le pixel
+* \param[in] x, abscisse dans la surface
+* \param[in] y, ordonne dans la surface
+* \param[in] pixel, pixel a ecrire
+* \remarks Faire attention que x et y soient bien compris dans la surface.
+*/
 void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
 	//Convert the pixels to 32 bit
@@ -61,7 +79,17 @@ void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	pixels[(y * surface->w) + x] = pixel;
 }
 
-//détection de collision V1.0
+/**
+* \fn int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect)
+* \brief Detecte s'il y a collision entre un rectangle et une surface.
+*
+* \param[in] pRenderer, pointeur vers le renderer de la fenetre
+* \param[in] pSurface, pointeur vers la surface de la surface a tester
+* \param[in] xE, pointeur vers la variable contenant l'abscisse de la collision
+* \param[in] yE, pointeur vers la variable contenant l'ordonne de la collision
+* \param[in] pRect, pointeur vers le rectangle a tester
+* \returns int, indicateur de collision : 1 = collision, 0 sinon
+*/
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect)
 {
 	SDL_Rect rect = { 0, 0, 0, 0 };
@@ -126,7 +154,14 @@ int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* 
 	return collision;
 }
 
-//Détection collision V2.0
+/**
+* \fn int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
+* \brief Detecte s'il y a collision entre deux surfaces.
+*
+* \param[in] pSurface, pointeur vers la surface de la map
+* \param[in] pSurface2, pointeur vers la surface en mouvement dans la map
+* \returns int, indicateur de collision : 1 = collision, 0 sinon
+*/
 int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 {
 	Uint32 p = ReadPixel(pSurface, 0, 0);
