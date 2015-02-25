@@ -5,6 +5,7 @@
 
 SDL_Surface * bombExplo(int x, int y, int rayon){
 	int i = 0, j = 0;
+	int vTest1 = 0, vTest2 = 0;
 
 	Uint32 rmask, gmask, bmask, amask;
 	Uint32* pixelWrite = NULL;
@@ -24,10 +25,13 @@ SDL_Surface * bombExplo(int x, int y, int rayon){
 	{
 		for (i = 0; i < cercle->w; i++)
 		{
-			if(/*(x-i<rayon)&&(y-j<rayon)*/1){
+			vTest1 = (rayon - i)*(rayon - i);
+			vTest2 = (rayon - j)*(rayon - j);
+
+			if (vTest1+vTest2<(rayon*rayon)){
 				DrawPixel(cercle, i, j, pixelTest);
 			}
-			
+
 		}
 	}
 	return cercle;
