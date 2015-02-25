@@ -820,25 +820,18 @@ int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture**
 			}
 		}
 	}
-	if (*pTexture == NULL)
+	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurfaceTab[0]->w, pSurfaceTab[0]->h);
+	if (textureTemp == NULL)
 	{
-		textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurfaceTab[0]->w, pSurfaceTab[0]->h);
-		if (textureTemp == NULL)
-		{
-			printf("Erreur lors de la creation de la texture");
-			free(pixelWrite);
-			pixelWrite = NULL;
-			return -1;
-		}
-		SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
-		SDL_UpdateTexture(textureTemp, NULL, pixelWrite, pSurfaceTab[0]->pitch);
-		*pTexture = textureTemp;
-		textureTemp = NULL;
+		printf("Erreur lors de la creation de la texture");
+		free(pixelWrite);
+		pixelWrite = NULL;
+		return -1;
 	}
-	else
-	{
-		SDL_UpdateTexture(*pTexture, NULL, pixelWrite, pSurfaceTab[0]->pitch);
-	}
+	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
+	SDL_UpdateTexture(textureTemp, NULL, pixelWrite, pSurfaceTab[0]->pitch);
+	*pTexture = textureTemp;
+	textureTemp = NULL;
 	SDL_RenderCopy(pRenderer, *pTexture, camera, &rect);
 	SDL_RenderPresent(pRenderer);
 	free(pixelWrite);
@@ -854,8 +847,14 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
 	int x = 0, y = 0, surfaceIndex = 0;
-	nombrePixel = pSurfaceTab[surface]->w * pSurfaceTab[surface]->h;
+	if (pSurfaceTab[surface]->clip_rect.x < 0 || pSurfaceTab[surface]->clip_rect.y < 0)
+	{
+		printf("La surface est sortie de l'écran");
+		return -1;
+	}
 
+	nombrePixel = pSurfaceTab[surface]->w * pSurfaceTab[surface]->h;
+	
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
 	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surface)
 	{
