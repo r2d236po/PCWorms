@@ -2,6 +2,16 @@
 #include "AffichageGeneral.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
+
+/**
+* \fn int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * file, const char * file2)
+* \brief Initialise un terrain avec son image de fond et l'image de la map.
+*
+* \param[in] surface, surface dans laquelle on lit le pixel
+* \param[in] file, nom du fichier de l'image de fond
+* \param[in] file2, nom du fichier de l'image de la map
+* \returns int, Indicateur de reussite de la fonction : 1 = succes, -1 = echec
+*/
 int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * file, const char * file2)
 {
 	Terrain * mapTemp = NULL;

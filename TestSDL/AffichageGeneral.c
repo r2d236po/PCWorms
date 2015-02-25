@@ -584,11 +584,17 @@ Input* initInput()
 * Cette fonction est appelée à chaque changement dans l'image pour
 * réactuliser l'affichage.
 * Elle peut prendre plusieurs types de paramètre pour réaliser des actions
-* diverses (affichage de la map, d'un (des) rectangle(s) ou d'une (des) textures).
+* diverses (affichage de la map, d'un (de) rectangle(s) ou d'une (de) textures).
 *
 * \param[in] pRenderer, pointeur vers le renderer de la fenêtre
 * \param[in] nb, nombre de paramètres dans l'appel
-* \returns Input*, pointeur vers la structure créée, NULL si echec
+* \remarks Le formatage des paramètres supplémentaire est le suivant :
+*	pour le background de la map : 0,Terrain* map
+*	pour une texture : 1,Texture* pTexture,SDL_Rect* rectSource, SDL_Rect* rectDest
+*	pour remplir un rectangle : 2,Uint32 couleurRemplissage,SDL_Rect* rect à remplir
+*
+* ATTENTION : Penser a incrementer nb en fonction du nombre de paramètre en plus,
+* par exemple : une texture et un rectangle => nb = 2
 */
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
