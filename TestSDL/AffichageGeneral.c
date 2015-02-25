@@ -665,7 +665,18 @@ void frameRate(unsigned int fM)
 	}
 }
 
-//init de la cameras sur le 0/0
+/**
+* \fn void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera)
+* \brief Initialise une camera.
+*
+* \param[in] pRenderer, le renderer de la fenêtre.
+*
+* \param[in] map, la texture de la map.
+*
+* \param[in] camera, le rect de la camera à initialiser.
+*
+* \returns void
+*/
 void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
 	int w = 0, h = 0, wW = 0, hW = 0;
 	w = map->imageMapSurface->w;
@@ -681,7 +692,18 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
 	}
 }
 
-//moveCam
+/**
+* \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
+* \brief Déplace la camera suivant la souris.
+*
+* \param[in] pTexture, la texture de la fenêtre courante.
+*
+* \param[in] camera, le rect de la camera courante.
+*
+* \param[in] pInput, les iputs utilisateur.
+*
+* \returns void
+*/
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int w = 0, h = 0;
