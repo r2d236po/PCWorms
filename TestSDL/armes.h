@@ -2,6 +2,7 @@
 #define WEAPONS_H
 
 #include "Libraries.h" //Inclus toutes les librairies
+#include "carte.h"
 
 
 /* Déclaration des structures concernant les armes */
@@ -25,5 +26,8 @@ typedef struct {	/* Structure arme */
 	//image?
 	//son?
 } Arme;
+
+
+SDL_Surface * bombExplo(int x, int y, int rayon);
 
 #endif

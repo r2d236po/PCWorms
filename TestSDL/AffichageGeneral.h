@@ -4,6 +4,7 @@
 #include "Libraries.h" //Inclus toutes les librairies
 #include "carte.h"
 #include "worms.h"
+#include "armes.h"
 
 #define FRAME_RATE (1000 / 70)
 
@@ -33,6 +34,7 @@ typedef struct{		//structure gérant les différents inputs
 	char wheelDown; //zoomOut
 	char raffraichissement;
 	char windowResized;
+	char acceleration;
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 

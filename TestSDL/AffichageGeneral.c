@@ -42,10 +42,11 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		surfaceTab = malloc(2 * sizeof(SDL_Surface*));
+		surfaceTab = malloc(3 * sizeof(SDL_Surface*));
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
+		//surfaceTab[2] = bombExplo(100, 100, 100);
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
@@ -60,7 +61,7 @@ int mainFenetre()
 			return -1;
 
 		}
-		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+		updateScreen(pRenderer, 3, 0, mainMap, 1, display, &camera, NULL);
 
 		while (!(pInput->quit))
 		{
@@ -84,6 +85,7 @@ int mainFenetre()
 			frameRate(frame_max);
 			frame_max = SDL_GetTicks() + FRAME_RATE;
 		}
+		//SDL_FreeSurface(surfaceTab[2]);
 		free(surfaceTab);
 		surfaceTab = NULL;
 		destroyMap(&mainMap);
@@ -427,6 +429,15 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				pInput->weaponTab = 1;
 				pInput->raffraichissement = 1;
 			}
+			else if (event.key.keysym.sym == SDLK_s)
+			{
+				if (pInput->acceleration == 1)
+				{
+					pInput->acceleration = 10;
+				}
+				else pInput->acceleration = 1;
+				
+			}
 			break;
 		default:
 			pInput->raffraichissement = 0;
@@ -505,6 +516,7 @@ Input* initInput()
 	pInput->wheelUp = 0;
 	pInput->wheelDown = 0;
 	pInput->raffraichissement = 1;
+	pInput->acceleration = 1;
 	return pInput;
 }
 
@@ -694,38 +706,38 @@ void deplacementWorms(Input* pInput,Worms* worms, SDL_Surface* surfaceCollision)
 	int x = 0, y = 0;
 	if (pInput->right)
 	{
-		worms->wormsSurface->clip_rect.x += 1;
+		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		if (detectionCollisionSurface(surfaceCollision, &x, &y, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.x -= 1;
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		}
 		pInput->right = 0;
 	}
 	if (pInput->left)
 	{
-		worms->wormsSurface->clip_rect.x -= 1;
+		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
 		if (detectionCollisionSurface(surfaceCollision, &x, &y, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.x += 1;
+			worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		}
 		pInput->left = 0;
 	}
 	if (pInput->down)
 	{
-		worms->wormsSurface->clip_rect.y += 1;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
 		if (detectionCollisionSurface(surfaceCollision, &x, &y, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.y -= 1;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 		}
 		pInput->down = 0;
 	}
 	if (pInput->up)
 	{
-		worms->wormsSurface->clip_rect.y -= 1;
+		worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 		if (detectionCollisionSurface(surfaceCollision, &x, &y, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.y += 1;
+			worms->wormsSurface->clip_rect.y += pInput->acceleration;
 		}
 		pInput->up = 0;
 	}
