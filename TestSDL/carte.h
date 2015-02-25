@@ -7,10 +7,8 @@
 
 
 typedef struct {	/* Structure terrain */
-	//mapcollision?				
 	SDL_Texture* imageBackground; /* background */
 	SDL_Surface* imageMapSurface;
-	//mapdestruction?
 } Terrain;
 
 typedef struct{
@@ -22,8 +20,8 @@ typedef struct{
 
 int initialisionTerrain(Terrain ** map, SDL_Renderer * pRenderer, const char * file, const char * file2);
 int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2);
-int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
-int gestionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE);
+int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect); 
+int gestionPhysique(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE);
 Uint32 ReadPixel(SDL_Surface *surface, int x, int y);
 void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 

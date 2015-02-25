@@ -13,6 +13,7 @@ int mainFenetre()
 	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
 
+
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
@@ -46,13 +47,13 @@ int mainFenetre()
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
-		//surfaceTab[2] = bombExplo(100, 100, 100);
+		surfaceTab[2] = bombExplo(150, 150, 100);
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
 
 		//Initialisation de l'affichage
-		if (createGlobalTexture(surfaceTab, 2, &display, pRenderer, &camera) < 0)
+		if (createGlobalTexture(surfaceTab, 3, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
 			destroyWorms(&worms1);
@@ -436,7 +437,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 					pInput->acceleration = 10;
 				}
 				else pInput->acceleration = 1;
-				
+
 			}
 			break;
 		default:
@@ -707,7 +708,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	if (pInput->right)
 	{
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		 if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
 			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		}
@@ -815,9 +816,9 @@ int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture**
 	}
 	for (i = 0; i < nbSurface; i++)
 	{
-		for (y = 0; y < pSurfaceTab[i]->h; y++)
+		for (y = pSurfaceTab[i]->clip_rect.y; y < pSurfaceTab[i]->clip_rect.y + pSurfaceTab[i]->h; y++)
 		{
-			for (x = 0; x < pSurfaceTab[i]->w; x++)
+			for (x = pSurfaceTab[i]->clip_rect.x; x < pSurfaceTab[i]->clip_rect.x + pSurfaceTab[i]->w; x++)
 			{
 				pixelRead = ReadPixel(pSurfaceTab[i], x - pSurfaceTab[i]->clip_rect.x, y - pSurfaceTab[i]->clip_rect.y);
 				SDL_GetRGBA(pixelRead, pSurfaceTab[i]->format, &r, &g, &b, &a);
@@ -832,18 +833,18 @@ int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture**
 			}
 		}
 	}
-		textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurfaceTab[0]->w, pSurfaceTab[0]->h);
-		if (textureTemp == NULL)
-		{
-			printf("Erreur lors de la creation de la texture");
-			free(pixelWrite);
-			pixelWrite = NULL;
-			return -1;
-		}
-		SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
-		SDL_UpdateTexture(textureTemp, NULL, pixelWrite, pSurfaceTab[0]->pitch);
-		*pTexture = textureTemp;
-		textureTemp = NULL;
+	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurfaceTab[0]->w, pSurfaceTab[0]->h);
+	if (textureTemp == NULL)
+	{
+		printf("Erreur lors de la creation de la texture");
+		free(pixelWrite);
+		pixelWrite = NULL;
+		return -1;
+	}
+	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
+	SDL_UpdateTexture(textureTemp, NULL, pixelWrite, pSurfaceTab[0]->pitch);
+	*pTexture = textureTemp;
+	textureTemp = NULL;
 	SDL_RenderCopy(pRenderer, *pTexture, camera, &rect);
 	SDL_RenderPresent(pRenderer);
 	free(pixelWrite);
@@ -870,21 +871,21 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
 	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surface)
 	{
-	for (y = pRect->y; y < pRect->y + pRect->h; y++)
-	{
-		for (x = pRect->x; x < pRect->x + pRect->w; x++)
+		for (y = pRect->y; y < pRect->y + pRect->h; y++)
 		{
-				if (surfaceIndex == surface)
-		{
-					pixelRead = ReadPixel(pSurfaceTab[surface], x - pRect->x, y - pRect->y);
-			SDL_GetRGBA(pixelRead, pSurfaceTab[surface]->format, &r, &g, &b, &a);
-			if (a < 150)
+			for (x = pRect->x; x < pRect->x + pRect->w; x++)
 			{
-				pixelRead = ReadPixel(pSurfaceTab[0], x, y);
-			}
+				if (surfaceIndex == surface)
+				{
+					pixelRead = ReadPixel(pSurfaceTab[surface], x - pRect->x, y - pRect->y);
+					SDL_GetRGBA(pixelRead, pSurfaceTab[surface]->format, &r, &g, &b, &a);
+					if (a < 150)
+					{
+						pixelRead = ReadPixel(pSurfaceTab[0], x, y);
+					}
 				}
 				else pixelRead = ReadPixel(pSurfaceTab[0], x, y);
-			pixelWrite[x - pRect->x + (y - pRect->y)* pRect->w] = pixelRead;
+				pixelWrite[x - pRect->x + (y - pRect->y)* pRect->w] = pixelRead;
 			}
 		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, pSurfaceTab[surface]->pitch);

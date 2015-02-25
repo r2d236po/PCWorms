@@ -160,13 +160,13 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 	return collision;
 }
 
-/*int gestionCollision(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE)
+int gestionPhysique(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE)
 {
-int success = 0;
+/*int success = 0;
 
 while (detectionCollision(pRenderer, pSurface, xE, yE))
 {
 
 }
-return success;
-}*/
+return success;*/
+}
