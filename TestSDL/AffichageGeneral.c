@@ -47,7 +47,7 @@ int mainFenetre()
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
-		surfaceTab[2] = bombExplo(300, 400, 50);
+		surfaceTab[2] = bombExplo(300, 400, 100);
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
