@@ -185,7 +185,7 @@ int sandboxRenderer()
 		}
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
-	}
+	} //comment
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(pWindow);
