@@ -24,7 +24,10 @@ SDL_Surface * bombExplo(int x, int y, int rayon){
 	{
 		for (i = 0; i < cercle->w; i++)
 		{
-			DrawPixel(cercle, i, j, pixelTest);
+			if(/*(x-i<rayon)&&(y-j<rayon)*/1){
+				DrawPixel(cercle, i, j, pixelTest);
+			}
+			
 		}
 	}
 	return cercle;
