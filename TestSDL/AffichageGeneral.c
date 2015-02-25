@@ -196,7 +196,18 @@ int sandboxRenderer()
 	return 0;
 }
 
-//Initialisation fenetre renderer
+/**
+* \brief Initialisation de la fenêtre.
+*
+*La fonction initSWR initialise la SDL, la SDL_Image et les pointeurs
+*pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
+*Elle retourne 1 si tout c'est bien passé, -1 sinon.
+*
+* \param[in] pWindow, adresse du pointeur pWindow pour l'initialiser
+* \param[in] pRenderer, adresse du pointeur pRenderer pour l'initialiser
+* \returns int, indicateur si la fonction a bien fonctionnée.
+* \returns les pointeurs pWindow et pRenderer
+*/
 int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 {
 	/* Initialisation simple */
@@ -317,7 +328,13 @@ void clearRenderer(SDL_Renderer * pRenderer)
 	SDL_RenderPresent(pRenderer);
 }
 
-//Récupération des input
+/**
+* \brief Récupère les inputs.
+*
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pWindow, pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \returns int, indicateur si la fonction a bien fonctionnée
+*/
 void getInput(Input * pInput, SDL_Window* pWindow)
 {
 	SDL_Event event;
@@ -455,7 +472,17 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 	}
 }
 
-//Gestion des input
+/**
+* \brief Gère les inputs.
+* Génère les actions correspondant aux inputs.
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \param[in] map pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la caméra.
+* \param[in] caméra pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
+* \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
+* \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
+*/
 int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
@@ -487,7 +514,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
-//Init des input
+/**
+* \brief Créer et initialise une structure Input.
+*
+* \returns Input*, pointeur vers la structure créée, NULL si echec
+*/
 Input* initInput()
 {
 	Input* pInput = NULL;
@@ -521,7 +552,18 @@ Input* initInput()
 	return pInput;
 }
 
-/*affichage de la frame actuelle */
+/**
+* \brief Actualise l'affichage.
+*
+* Cette fonction est appelée à chaque changement dans l'image pour 
+* réactuliser l'affichage. 
+* Elle peut prendre plusieurs types de paramètre pour réaliser des actions 
+* diverses (affichage de la map, d'un (des) rectangle(s) ou d'une (des) textures).
+* 
+* \param[in] pRenderer, pointeur vers le renderer de la fenêtre
+* \param[in] nb, nombre de paramètres dans l'appel
+* \returns Input*, pointeur vers la structure créée, NULL si echec
+*/
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
