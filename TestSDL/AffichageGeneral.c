@@ -356,7 +356,6 @@ void clearRenderer(SDL_Renderer * pRenderer)
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pWindow, pointeur pWindow pour récupérer les informations relative à la fenêtre.
-* \returns int, indicateur si la fonction a bien fonctionnée
 */
 void getInput(Input * pInput, SDL_Window* pWindow)
 {
