@@ -515,7 +515,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 }
 
 /**
-* \brief Créer et initialise une structure Input.
+* \brief Créé et initialise une structure Input.
 *
 * \returns Input*, pointeur vers la structure créée, NULL si echec
 */
@@ -555,11 +555,11 @@ Input* initInput()
 /**
 * \brief Actualise l'affichage.
 *
-* Cette fonction est appelée à chaque changement dans l'image pour 
-* réactuliser l'affichage. 
-* Elle peut prendre plusieurs types de paramètre pour réaliser des actions 
+* Cette fonction est appelée à chaque changement dans l'image pour
+* réactuliser l'affichage.
+* Elle peut prendre plusieurs types de paramètre pour réaliser des actions
 * diverses (affichage de la map, d'un (des) rectangle(s) ou d'une (des) textures).
-* 
+*
 * \param[in] pRenderer, pointeur vers le renderer de la fenêtre
 * \param[in] nb, nombre de paramètres dans l'appel
 * \returns Input*, pointeur vers la structure créée, NULL si echec
@@ -608,7 +608,12 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 	va_end(list);
 }
 
-//gestion du frame rate pour pas bouffer le cpu
+/**
+* \brief Actualise l'affichage.
+*
+* Cette fonction est appelée à chaque boucle principale du programme pour 
+* réguler le frame rate et limiter l'usage du CPU par la fonction getInput.
+*/
 void frameRate(unsigned int fM)
 {
 	unsigned int tick = SDL_GetTicks();
@@ -714,7 +719,13 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 	}
 }
 
-//Initialisation Worms
+/**
+* \brief Créé et initialise une structure worms.
+*
+* \param[in] file, chaine de caractères correspondant au nom du fichier image du worms.
+*
+* \returns pointeur vers la structure worms créé, NULL si echec
+*/
 Worms* createWorms(const char *file)
 {
 	Worms * worms = NULL;
@@ -786,7 +797,11 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 }
 
-//Detruit un worms
+/**
+* \brief Détruit une structure Worms et remet son pointeur à NULL.
+*
+* \param[in] worms, adresse du pointeur de la structure du Worms à détruire.
+*/
 void destroyWorms(Worms** worms)
 {
 	if ((*worms)->wormsSurface != NULL)
@@ -798,7 +813,11 @@ void destroyWorms(Worms** worms)
 	*worms = NULL;
 }
 
-//Détruit une map
+/**
+* \brief Détruit une structure Terrain et remet son pointeur à NULL.
+*
+* \param[in] map, adresse du pointeur de la structure du Terrain à détruire.
+*/
 void destroyMap(Terrain** map)
 {
 	if ((*map)->imageBackground != NULL)
@@ -815,7 +834,13 @@ void destroyMap(Terrain** map)
 	*map = NULL;
 }
 
-//Nettoyage de fin de programme
+/**
+* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL et la SDL_Image.
+*
+* \param[in] pWindow, adresse du pointeur de la fenêtre.
+* \param[in] pRenderer, adresse du pointeur du renderer.
+* \param[in] pInput, adresse du pointeur de la structure Input.
+*/
 void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
 {
 	if ((*pInput) != NULL)
