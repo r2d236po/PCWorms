@@ -196,7 +196,19 @@ int sandboxRenderer()
 	return 0;
 }
 
-//Initialisation fenetre renderer
+/**
+* \fn int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
+* \brief Initialisation de la fenêtre.
+*
+*La fonction initSWR initialise la SDL, la SDL_Image et les pointeurs
+*pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
+*Elle retourne 1 si tout c'est bien passé, -1 sinon.
+*
+* \param[in] pWindow, adresse du pointeur pWindow pour l'initialiser
+* \param[in] pRenderer, adresse du pointeur pRenderer pour l'initialiser
+* \returns int, indicateur si la fonction a bien fonctionnée.
+* \returns les pointeurs pWindow et pRenderer
+*/
 int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 {
 	/* Initialisation simple */
@@ -233,7 +245,15 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 	return 1;
 }
 
-//Fonction de création de fenêtre
+/**
+* \fn SDL_Window * creerFenetre(const int w, const int h, const char * nom)
+* \brief Cree une fenetre SDL.
+*
+* \param[in] w, largeur de la fenetre
+* \param[in] h, hauteur de la fenetre
+* \param[in] nom, nom de la fenetre
+* \returns pointeur vers la fenetre creee, NULL si echec
+*/
 SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 	SDL_Window * pWindow = NULL;
 	pWindow = SDL_CreateWindow(nom,	//nom de la fenêtre
@@ -250,7 +270,13 @@ SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 	else return pWindow;
 }
 
-//Fonction de chargement d'image dans une surface
+/**
+* \fn SDL_Surface * loadImage(const char * file)
+* \brief Cree une surface a partir d'une image exterieur.
+*
+* \param[in] file, nom du fichier image a ouvrir
+* \returns pointeur vers la surface creee, NULL si echec
+*/
 SDL_Surface * loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
 	if (image == NULL)
@@ -261,7 +287,14 @@ SDL_Surface * loadImage(const char * file){
 	return image;
 }
 
-//Fonction de chargement d'image dans une texture à  partir d'une surface
+/**
+* \fn SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
+* \brief Cree une texture a partir d'une image exterieur dans le renderer.
+*
+* \param[in] pRenderer, pointeur vers le renderer de la fenetre
+* \param[in] file, nom du fichier image a ouvrir
+* \returns pointeur vers la texture creee, NULL si echec
+*/
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 {
 
@@ -317,7 +350,14 @@ void clearRenderer(SDL_Renderer * pRenderer)
 	SDL_RenderPresent(pRenderer);
 }
 
-//Récupération des input
+/**
+* \fn void getInput(Input * pInput, SDL_Window* pWindow)
+* \brief Récupère les inputs.
+*
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pWindow, pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \returns int, indicateur si la fonction a bien fonctionnée
+*/
 void getInput(Input * pInput, SDL_Window* pWindow)
 {
 	SDL_Event event;
@@ -455,7 +495,18 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 	}
 }
 
-//Gestion des input
+/**
+* \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
+* \brief Gère les inputs.
+* Génère les actions correspondant aux inputs.
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \param[in] map pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la caméra.
+* \param[in] caméra pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
+* \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
+* \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
+*/
 int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
@@ -487,7 +538,12 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
-//Init des input
+/**
+* \fn Input* initInput()
+* \brief Créé et initialise une structure Input.
+*
+* \returns Input*, pointeur vers la structure créée, NULL si echec
+*/
 Input* initInput()
 {
 	Input* pInput = NULL;
@@ -521,7 +577,25 @@ Input* initInput()
 	return pInput;
 }
 
-/*affichage de la frame actuelle */
+/**
+* \fn void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
+* \brief Actualise l'affichage.
+*
+* Cette fonction est appelée à chaque changement dans l'image pour
+* réactuliser l'affichage.
+* Elle peut prendre plusieurs types de paramètre pour réaliser des actions
+* diverses (affichage de la map, d'un (de) rectangle(s) ou d'une (de) textures).
+*
+* \param[in] pRenderer, pointeur vers le renderer de la fenêtre
+* \param[in] nb, nombre de paramètres dans l'appel
+* \remarks Le formatage des paramètres supplémentaire est le suivant :
+*	pour le background de la map : 0,Terrain* map
+*	pour une texture : 1,Texture* pTexture,SDL_Rect* rectSource, SDL_Rect* rectDest
+*	pour remplir un rectangle : 2,Uint32 couleurRemplissage,SDL_Rect* rect à remplir
+*
+* ATTENTION : Penser a incrementer nb en fonction du nombre de paramètre en plus,
+* par exemple : une texture et un rectangle => nb = 2
+*/
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
@@ -566,7 +640,14 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 	va_end(list);
 }
 
-//gestion du frame rate pour pas bouffer le cpu
+/**
+* \fn void frameRate(unsigned int fM)
+* \brief Actualise l'affichage.
+*
+* Cette fonction est appelée à chaque boucle principale du programme pour
+* réguler le frame rate et limiter l'usage du CPU par la fonction getInput.
+* \param[in] fM, valeur du temps ecoule lors de la derniere boucle
+*/
 void frameRate(unsigned int fM)
 {
 	unsigned int tick = SDL_GetTicks();
@@ -672,7 +753,14 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 	}
 }
 
-//Initialisation Worms
+/**
+* \fn Worms* createWorms(const char *file)
+* \brief Créé et initialise une structure worms.
+*
+* \param[in] file, chaine de caractères correspondant au nom du fichier image du worms.
+*
+* \returns pointeur vers la structure worms créé, NULL si echec
+*/
 Worms* createWorms(const char *file)
 {
 	Worms * worms = NULL;
@@ -744,7 +832,12 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 }
 
-//Detruit un worms
+/**
+* \fn void destroyWorms(Worms** worms)
+* \brief Détruit une structure Worms et remet son pointeur à NULL.
+*
+* \param[in] worms, adresse du pointeur de la structure du Worms à détruire.
+*/
 void destroyWorms(Worms** worms)
 {
 	if ((*worms)->wormsSurface != NULL)
@@ -756,7 +849,12 @@ void destroyWorms(Worms** worms)
 	*worms = NULL;
 }
 
-//Détruit une map
+/**
+* \fn void destroyMap(Terrain** map)
+* \brief Détruit une structure Terrain et remet son pointeur à NULL.
+*
+* \param[in] map, adresse du pointeur de la structure du Terrain à détruire.
+*/
 void destroyMap(Terrain** map)
 {
 	if ((*map)->imageBackground != NULL)
@@ -773,7 +871,14 @@ void destroyMap(Terrain** map)
 	*map = NULL;
 }
 
-//Nettoyage de fin de programme
+/**
+* \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
+* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL et la SDL_Image.
+*
+* \param[in] pWindow, adresse du pointeur de la fenêtre.
+* \param[in] pRenderer, adresse du pointeur du renderer.
+* \param[in] pInput, adresse du pointeur de la structure Input.
+*/
 void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
 {
 	if ((*pInput) != NULL)
@@ -791,7 +896,18 @@ void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
 	SDL_Quit();
 }
 
-//Creation de la texture globale
+/**
+* \fn int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture** pTexture, SDL_Renderer* pRenderer, SDL_Rect* camera)
+* \brief Cree une texture globale a partir des pixels de toutes les surfaces composant le jeu.
+*
+* \param[in] pSurfaceTab, tableau de pointeur vers les surfaces.
+* \param[in] nbSurface, nombre de surfaces dans le tableau.
+* \param[in] pTexture, adresse du pointeur de la texture a initialiser.
+* \param[in] pRenderer, pointeur du renderer.
+* \param[in] camera, pointeur de la struture camera.
+* \returns int, indicateur de reussite de la fonction : 0 = succes, -1 = echec
+* \remarks si -1, le pointeur de la structure Texture sera mis a NULL sinon il pointera vers la texture globale.
+*/
 int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture** pTexture, SDL_Renderer* pRenderer, SDL_Rect* camera)
 {
 	int i = 0, x = 0, y = 0;
@@ -852,7 +968,17 @@ int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture**
 	return 0;
 }
 
-//Mise à jour de la texture globale
+/**
+* \fn int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int surface, SDL_Rect* pRect)
+* \brief Met a jour la texture globale sur une zone bien determinee.
+*
+* \param[in] pSurfaceTab, tableau de pointeur vers les surfaces.
+* \param[in] pTexture, pointeur vers la texture globale cree avec createGlobalTexture.
+* \param[in] surface, indice de la surface a update dans le tableau.
+* \param[in] pRect, pointeur vers la structure SDL_Rect associe a la surface a update, contient les coordonnees d'avant update.
+* \returns int, indicateur de reussite de la fonction : 0 = succes, -1 = echec
+* \remarks le SDL_Rect est mis a jour dans la fonction vers les nouvelles coordonnees de la surface
+*/
 int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int surface, SDL_Rect* pRect)
 {
 	Uint32* pixelWrite = NULL;
