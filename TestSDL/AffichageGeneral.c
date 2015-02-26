@@ -1127,7 +1127,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 				pixelWrite[x - pRect->x + (y - pRect->y)* pRect->w] = pixelRead;
 			}
 		}
-		SDL_UpdateTexture(pTexture, pRect, pixelWrite, pSurfaceTab[surface]->pitch);
+		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4*pRect->w);
 		pRect->y = pSurfaceTab[surface]->clip_rect.y;
 		pRect->x = pSurfaceTab[surface]->clip_rect.x;
 	}

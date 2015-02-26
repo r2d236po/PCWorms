@@ -24,5 +24,5 @@ void * bombExplo(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Te
 			}
 		}
 	}
-	/*updateGlobaleTexture(imageMapSurface, ptexture, 0, &rect);*/
+	updateGlobaleTexture(imageMapSurface, ptexture, 0, &rect);
 }
