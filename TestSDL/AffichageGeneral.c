@@ -870,6 +870,58 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		}
 		pInput->up = 0;
 	}
+	if (pInput->right && pInput->up)
+	{
+		worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
+		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+		}
+		pInput->right = 0;
+		pInput->up = 0;
+	}
+	if (pInput->left && pInput->up)
+	{
+		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
+		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x += pInput->acceleration;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+		}
+		pInput->right = 0;
+		pInput->up = 0;
+	}
+	if (pInput->right && pInput->up)
+	{
+		worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
+		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+		}
+		pInput->right = 0;
+		pInput->up = 0;
+	}
+	if (pInput->right && pInput->up)
+	{
+		worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
+		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+		}
+		pInput->right = 0;
+		pInput->up = 0;
+	}
 }
 
 /**
