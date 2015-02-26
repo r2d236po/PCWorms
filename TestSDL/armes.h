@@ -28,6 +28,6 @@ typedef struct {	/* Structure arme */
 } Arme;
 
 
-SDL_Surface * bombExplo(int x, int y, int rayon);
+void * bombExplo(int x, int y, int rayon, SDL_Surface* imageMapSurface, SDL_Texture * ptexture);
 
 #endif

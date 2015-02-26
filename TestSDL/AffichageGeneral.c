@@ -43,17 +43,16 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		surfaceTab = malloc(3 * sizeof(SDL_Surface*));
+		surfaceTab = malloc(2 * sizeof(SDL_Surface*));
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
-		surfaceTab[2] = bombExplo(300, 400, 100);
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
 
 		//Initialisation de l'affichage
-		if (createGlobalTexture(surfaceTab, 3, &display, pRenderer, &camera) < 0)
+		if (createGlobalTexture(surfaceTab, 2, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
 			destroyWorms(&worms1);
@@ -62,15 +61,14 @@ int mainFenetre()
 			return -1;
 
 		}
-		updateScreen(pRenderer, 3, 0, mainMap, 1, display, &camera, NULL);
-
+		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, worms1))
+			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, worms1, surfaceTab))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
@@ -479,6 +477,11 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				else pInput->acceleration = 1;
 
 			}
+			else if (event.key.keysym.sym == SDLK_b)
+			{
+				pInput->bombe = 1;
+				pInput->raffraichissement = 1;
+			}
 			break;
 		default:
 			pInput->raffraichissement = 0;
@@ -507,7 +510,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 * \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[])
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -534,7 +537,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		initCameras(pRenderer, map, camera);
 		pInput->windowResized = 0;
 	}
-	deplacementWorms(pInput, worms, map->imageMapSurface);
+	if (pInput->bombe){
+		bombExplo(500, 300, 200, surfaceTab, pTexture);
+		pInput->bombe = 0;
+	}
+	deplacementWorms(pInput, worms, surfaceTab, pTexture);
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
@@ -574,6 +581,7 @@ Input* initInput()
 	pInput->wheelDown = 0;
 	pInput->raffraichissement = 1;
 	pInput->acceleration = 1;
+	pInput->bombe = 0;
 	return pInput;
 }
 
@@ -1007,7 +1015,10 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	Uint32 pixelRead;
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
-	int x = 0, y = 0, surfaceIndex = 0;
+	int x = 0, y = 0, surfaceIndex = 0, surfaceIcr = 1;
+	if (surface != 0){
+		surfaceIcr = surface;
+	}
 	if (pSurfaceTab[surface]->clip_rect.x < 0 || pSurfaceTab[surface]->clip_rect.y < 0)
 	{
 		printf("La surface est sortie de l'écran");
@@ -1017,13 +1028,13 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	nombrePixel = pSurfaceTab[surface]->w * pSurfaceTab[surface]->h;
 
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
-	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surface)
+	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surfaceIcr)
 	{
 		for (y = pRect->y; y < pRect->y + pRect->h; y++)
 		{
 			for (x = pRect->x; x < pRect->x + pRect->w; x++)
 			{
-				if (surfaceIndex == surface)
+				if (surfaceIndex == surface && surface != 0)
 				{
 					pixelRead = ReadPixel(pSurfaceTab[surface], x - pRect->x, y - pRect->y);
 					SDL_GetRGBA(pixelRead, pSurfaceTab[surface]->format, &r, &g, &b, &a);
