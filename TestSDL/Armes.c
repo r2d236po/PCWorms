@@ -4,7 +4,8 @@
 
 /* Fonctions concernant la gestion des armes */
 
-void * bombExplo(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Texture * ptexture){
+void bombExplo(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Texture * ptexture)
+{
 	int i = 0, j = 0, xP = 0, yP = 0, offsetX = 0, offsetY = 0;
 
 	Uint32 pixelTest;

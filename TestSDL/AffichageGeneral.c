@@ -520,6 +520,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
+	static Uint32 tPrevious = 0;
 	if (pInput->rclick)
 	{
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
@@ -541,6 +542,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		bombExplo(500, 400, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
+	//gestionPhysique(pRenderer, map, pTexture, pInput, &tPrevious, 0, worms);
 	deplacementWorms(pInput, worms, map->imageMapSurface);
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
@@ -801,13 +803,11 @@ Worms* createWorms(const char *file1, const char *file2)
 		printf("Probleme lors de l'allocation de memoire du worms");
 		return NULL;
 	}
-	worms->wormsRect.x = 0;
-	worms->wormsRect.y = 0;
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
-	worms->vitx = 2;
-	worms->vity = 0;
+	worms->vitx = 0;
+	worms->vity = sin(3.1415 / 3) * 0.6;
 
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
@@ -824,13 +824,19 @@ Worms* createWorms(const char *file1, const char *file2)
 		destroyWorms(&worms);
 		return NULL;
 	}
-	worms->wormsRect.w = wormsSurfaceLeft->clip_rect.w;
-	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	//A changer avec un truc adapté à la map ?
 	worms->wormsSurface = wormsSurface;
 	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+	worms->wormsSurface->clip_rect.x = 100;
+	worms->wormsSurface->clip_rect.y = 100;
+	worms->wormsRect.x = worms->wormsSurface->clip_rect.x;
+	worms->wormsRect.y = worms->wormsSurface->clip_rect.y;
+	worms->wormsRect.w = wormsSurfaceLeft->clip_rect.w;
+	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
+	worms->xAbs = worms->wormsSurface->clip_rect.x;
+	worms->yAbs = worms->wormsSurface->clip_rect.y;
 	wormsSurface = NULL;
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
@@ -1077,7 +1083,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 				{
 					pixelRead = ReadPixel(pSurfaceTab[surface], x - pRect->x, y - pRect->y);
 					SDL_GetRGBA(pixelRead, pSurfaceTab[surface]->format, &r, &g, &b, &a);
-					if (a < 150)
+					if (a < 200)
 					{
 						pixelRead = ReadPixel(pSurfaceTab[0], x, y);
 					}
@@ -1086,7 +1092,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 				pixelWrite[x - pRect->x + (y - pRect->y)* pRect->w] = pixelRead;
 			}
 		}
-		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4*pRect->w);
+		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
 		pRect->y = pSurfaceTab[surface]->clip_rect.y;
 		pRect->x = pSurfaceTab[surface]->clip_rect.x;
 	}

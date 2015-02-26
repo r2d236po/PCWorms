@@ -209,11 +209,11 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 
 int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay, Input* pInput, Uint32* tPrevious, ...)
 {
-	const double g = 3.7; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
+	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	const double pi = 3.1415;
-	float vit_x = 0;
 	float vit_y = 0;
 	float vit = 0;
+	static int xRel = 0, yRel = 0, t = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	Uint32 time = 0;
@@ -227,25 +227,40 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 	{
 	case 0:
 		worms = va_arg(list, Worms*);
-		vit_x = worms->vitx;
-		vit_y = worms->vity;
-		worms->wormsRect.x = (unsigned int)(worms->wormsRect.x + vit_x*time);
-		worms->wormsRect.y = (unsigned int)(worms->wormsRect.y + vit_y*time - g * (time*time) / 2000);
-		worms->vity += g * time;
+		worms->wormsSurface->clip_rect.x = worms->xAbs;
+		worms->wormsSurface->clip_rect.y = worms->yAbs;
+		xRel = (int)(worms->vitx *time);
+		yRel = (int)((worms->vity*time) - ((g*time*time) / 2000));
+
+		//On calcule maintenant les valeurs abs
+		worms->wormsSurface->clip_rect.x = worms->wormsSurface->clip_rect.x + xRel;
+		if (pInput->jump)
+		{
+			worms->vitx = cos(pi / 3)*0.6;
+			worms->wormsSurface->clip_rect.y = worms->wormsSurface->clip_rect.y - yRel;
+			pInput->jump = 0;
+		}
+		else worms->wormsSurface->clip_rect.y = worms->wormsSurface->clip_rect.y + yRel;
+
+		t += 10;
+		if (detectionCollisionSurface(map->imageMapSurface, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x = worms->wormsSurface->clip_rect.x - xRel;
+			worms->wormsSurface->clip_rect.y = worms->wormsSurface->clip_rect.y - yRel;
+			worms->xAbs = worms->wormsSurface->clip_rect.x;
+			worms->yAbs = worms->wormsSurface->clip_rect.y;
+			t = 0;
+		}
+		/*if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h >= 400))
+		{
+		t = 0;
+		}*/
 		break;
 	case 1:
 		//cas d'une arme
 		break;
 	}
 
-
-	/*int success = 0;
-
-	while (detectionCollision(pRenderer, pSurface, xE, yE))
-	{
-
-	}
-	return success;*/
 	*tPrevious = SDL_GetTicks();
 	va_end(list);
 	return 0;
