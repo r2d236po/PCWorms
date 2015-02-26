@@ -1,5 +1,5 @@
-#ifndef ARMES_H
-#define ARMES_H
+#ifndef GAME_H
+#define GA_H
 
 #include "worms.h"
 #include "carte.h"
