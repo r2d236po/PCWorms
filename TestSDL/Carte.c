@@ -205,13 +205,48 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 	return collision;
 }
 
-int gestionPhysique(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE)
-{
-/*int success = 0;
 
-while (detectionCollision(pRenderer, pSurface, xE, yE))
-{
 
-}
-return success;*/
+int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay, Input* pInput, Uint32* tPrevious, ...)
+{
+	const double g = 3.7; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
+	const double pi = 3.1415;
+	float vit_x = 0;
+	float vit_y = 0;
+	float vit = 0;
+	Worms* worms = NULL;
+	//Arme* weapon = NULL;
+	Uint32 time = 0;
+	Uint32 tNow = SDL_GetTicks();
+	va_list list;
+
+	time = tNow - (*tPrevious);
+
+	va_start(list, tPrevious);
+	switch (va_arg(list, int))
+	{
+	case 0:
+		worms = va_arg(list, Worms*);
+		vit_x = worms->vitx;
+		vit_y = worms->vity;
+		worms->wormsRect.x = (unsigned int)(worms->wormsRect.x + vit_x*time);
+		worms->wormsRect.y = (unsigned int)(worms->wormsRect.y + vit_y*time - g * (time*time) / 2000);
+		worms->vity += g * time;
+		break;
+	case 1:
+		//cas d'une arme
+		break;
+	}
+
+
+	/*int success = 0;
+
+	while (detectionCollision(pRenderer, pSurface, xE, yE))
+	{
+
+	}
+	return success;*/
+	*tPrevious = SDL_GetTicks();
+	va_end(list);
+	return 0;
 }

@@ -2,7 +2,6 @@
 #define WEAPONS_H
 
 #include "Libraries.h" //Inclus toutes les librairies
-#include "carte.h"
 
 
 /* Déclaration des structures concernant les armes */
