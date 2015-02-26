@@ -35,7 +35,7 @@ int mainFenetre()
 		}
 
 		//Initialisation worms
-		worms1 = createWorms("../assets/pictures/worms.png");
+		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
 		if (worms1 == NULL)
 		{
 			printf("Erreur creation worms");
@@ -782,10 +782,12 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 *
 * \returns pointeur vers la structure worms créé, NULL si echec
 */
-Worms* createWorms(const char *file)
+Worms* createWorms(const char *file1, const char *file2)
 {
 	Worms * worms = NULL;
-	SDL_Surface * wormsSurface = NULL;
+	SDL_Surface* wormsSurface = NULL;
+	SDL_Surface * wormsSurfaceLeft = NULL;
+	SDL_Surface * wormsSurfaceRight = NULL;
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
@@ -794,19 +796,35 @@ Worms* createWorms(const char *file)
 	}
 	worms->wormsRect.x = 0;
 	worms->wormsRect.y = 0;
+	worms->wormsSurfaceLeft = NULL;
+	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 
-	wormsSurface = loadImage(file);
-	if (wormsSurface == NULL)
+	wormsSurfaceLeft = loadImage(file1);
+	wormsSurfaceRight = loadImage(file2);
+	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
 		printf("Erreur création surface worms, %s", SDL_GetError());
 		destroyWorms(&worms);
 		return NULL;
 	}
-	worms->wormsRect.w = wormsSurface->clip_rect.w;
-	worms->wormsRect.h = wormsSurface->clip_rect.h;
+	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceRight->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+	if (wormsSurface == NULL)
+	{
+		printf("Erreur allocation memoire");
+		destroyWorms(&worms);
+		return NULL;
+	}
+	worms->wormsRect.w = wormsSurfaceLeft->clip_rect.w;
+	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
+	worms->wormsSurfaceLeft = wormsSurfaceLeft;
+	worms->wormsSurfaceRight = wormsSurfaceRight;
+	//A changer avec un truc adapté à la map ?
 	worms->wormsSurface = wormsSurface;
+	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 	wormsSurface = NULL;
+	wormsSurfaceLeft = NULL;
+	wormsSurfaceRight = NULL;
 	return worms;
 }
 
@@ -815,8 +833,9 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 {
 	int dx = 0, dy = 0;
 	if (pInput->right)
-	{
+	{	
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
 			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
@@ -826,7 +845,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	if (pInput->left)
 	{
 		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		worms->wormsSurface->clip_rect.y = worms->wormsRect.y;
+		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
 			worms->wormsSurface->clip_rect.x += pInput->acceleration;
@@ -865,6 +884,16 @@ void destroyWorms(Worms** worms)
 	{
 		SDL_FreeSurface((*worms)->wormsSurface);
 		(*worms)->wormsSurface = NULL;
+	}
+	if ((*worms)->wormsSurfaceLeft != NULL)
+	{
+		SDL_FreeSurface((*worms)->wormsSurfaceLeft);
+		(*worms)->wormsSurfaceLeft = NULL;
+	}
+	if ((*worms)->wormsSurfaceRight != NULL)
+	{
+		SDL_FreeSurface((*worms)->wormsSurfaceRight);
+		(*worms)->wormsSurfaceRight = NULL;
 	}
 	free(*worms);
 	*worms = NULL;
