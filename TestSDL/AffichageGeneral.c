@@ -540,7 +540,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		bombExplo(500, 300, 200, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
-	deplacementWorms(pInput, worms, surfaceTab, pTexture);
+	deplacementWorms(pInput, worms, map->imageMapSurface);
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
 
