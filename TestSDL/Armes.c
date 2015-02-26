@@ -20,7 +20,7 @@ void * bombExplo(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Te
 			yP = (rayon - j)*(rayon - j);
 
 			if (xP + yP < (rayon*rayon)){
-				DrawPixel(imageMapSurface[0], i - 1 + offsetX, j - 1 + offsetY, pixelTest);
+				DrawPixel(imageMapSurface[0], i + offsetX, j + offsetY, pixelTest);
 			}
 		}
 	}
