@@ -27,7 +27,7 @@ int mainFenetre()
 		}
 
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/mapTest.png") < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
@@ -539,7 +539,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->windowResized = 0;
 	}
 	if (pInput->bombe){
-		bombExplo(500, 300, 200, surfaceTab, pTexture);
+		bombExplo(500, 400, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
 	//gestionPhysique(pRenderer, map, pTexture, pInput, &tPrevious, 0, worms);
@@ -817,7 +817,7 @@ Worms* createWorms(const char *file1, const char *file2)
 		destroyWorms(&worms);
 		return NULL;
 	}
-	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceRight->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 	if (wormsSurface == NULL)
 	{
 		printf("Erreur allocation memoire");
@@ -863,7 +863,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 	if (pInput->left)
 	{
-
+		
 		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
@@ -887,10 +887,10 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 	if (pInput->up)
 	{
-		worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.y += pInput->acceleration;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
 		}
 		pInput->up = 0;
 	}
