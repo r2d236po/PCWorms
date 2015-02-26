@@ -69,7 +69,7 @@ int mainFenetre()
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, worms1))
+			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, worms1, surfaceTab))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
@@ -477,6 +477,11 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				else pInput->acceleration = 1;
 
 			}
+			else if (event.key.keysym.sym == SDLK_b)
+			{
+				pInput->bombe = 1;
+				pInput->raffraichissement = 1;
+			}
 			break;
 		default:
 			pInput->raffraichissement = 0;
@@ -505,7 +510,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 * \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[])
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -532,7 +537,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		initCameras(pRenderer, map, camera);
 		pInput->windowResized = 0;
 	}
-	//gestionPhysique(pRenderer, map, pTexture, pInput, 0, worms);
+	if (pInput->bombe){
+		bombExplo(500, 300, 200, surfaceTab, pTexture);
+		pInput->bombe = 0;
+	}
 	deplacementWorms(pInput, worms, map->imageMapSurface);
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
@@ -573,6 +581,7 @@ Input* initInput()
 	pInput->wheelDown = 0;
 	pInput->raffraichissement = 1;
 	pInput->acceleration = 1;
+	pInput->bombe = 0;
 	return pInput;
 }
 
@@ -833,7 +842,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 {
 	int dx = 0, dy = 0;
 	if (pInput->right)
-	{		
+	{
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
@@ -872,10 +881,10 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 	if (pInput->up)
 	{
-		worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.y += pInput->acceleration;
+		worms->wormsSurface->clip_rect.y += pInput->acceleration;
 		}
 		pInput->up = 0;
 	}

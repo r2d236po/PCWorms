@@ -33,7 +33,7 @@ void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace u
 void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
 void frameRate(unsigned int fM);	//gère le framerate
 void getInput(Input* pInput, SDL_Window* pWindow);	//récupère les inputs
-int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int surface, SDL_Rect* pRect);
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[]);
 //gestion des inputs
 int gestInput(Input* pInput,SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms);
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage

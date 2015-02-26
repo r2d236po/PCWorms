@@ -41,6 +41,7 @@ typedef struct{		//structure gérant les différents inputs
 	char raffraichissement;
 	char windowResized;
 	char acceleration;
+	char bombe;
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 
