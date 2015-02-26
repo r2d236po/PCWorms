@@ -43,17 +43,16 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		surfaceTab = malloc(3 * sizeof(SDL_Surface*));
+		surfaceTab = malloc(2 * sizeof(SDL_Surface*));
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
-		surfaceTab[2] = bombExplo(300, 400, 100);
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
 
 		//Initialisation de l'affichage
-		if (createGlobalTexture(surfaceTab, 3, &display, pRenderer, &camera) < 0)
+		if (createGlobalTexture(surfaceTab, 2, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
 			destroyWorms(&worms1);
@@ -62,7 +61,7 @@ int mainFenetre()
 			return -1;
 
 		}
-		updateScreen(pRenderer, 3, 0, mainMap, 1, display, &camera, NULL);
+		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
 
 		while (!(pInput->quit))
 		{
@@ -834,22 +833,31 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 {
 	int dx = 0, dy = 0;
 	if (pInput->right)
-	{
+	{		
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
 			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		}
+		while (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		}
 		pInput->right = 0;
 	}
 	if (pInput->left)
 	{
+		
 		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
 			worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		}
+		while (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		}
 		pInput->left = 0;
 	}
@@ -869,58 +877,6 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		{
 			worms->wormsSurface->clip_rect.y += pInput->acceleration;
 		}
-		pInput->up = 0;
-	}
-	if (pInput->right && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		pInput->right = 0;
-		pInput->up = 0;
-	}
-	if (pInput->left && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		pInput->right = 0;
-		pInput->up = 0;
-	}
-	if (pInput->right && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		pInput->right = 0;
-		pInput->up = 0;
-	}
-	if (pInput->right && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		pInput->right = 0;
 		pInput->up = 0;
 	}
 }
@@ -1088,7 +1044,11 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	Uint32 pixelRead;
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
-	int x = 0, y = 0, surfaceIndex = 0;
+	int x = 0, y = 0, surfaceIndex = 0, surfaceIcr = 1;
+	if (surface != 0)
+	{
+		surfaceIcr = surface;
+	}
 	if (pSurfaceTab[surface]->clip_rect.x < 0 || pSurfaceTab[surface]->clip_rect.y < 0)
 	{
 		printf("La surface est sortie de l'écran");
@@ -1098,13 +1058,13 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	nombrePixel = pSurfaceTab[surface]->w * pSurfaceTab[surface]->h;
 
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
-	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surface)
+	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surfaceIcr)
 	{
 		for (y = pRect->y; y < pRect->y + pRect->h; y++)
 		{
 			for (x = pRect->x; x < pRect->x + pRect->w; x++)
 			{
-				if (surfaceIndex == surface)
+				if (surfaceIndex == surface && surface != 0)
 				{
 					pixelRead = ReadPixel(pSurfaceTab[surface], x - pRect->x, y - pRect->y);
 					SDL_GetRGBA(pixelRead, pSurfaceTab[surface]->format, &r, &g, &b, &a);
