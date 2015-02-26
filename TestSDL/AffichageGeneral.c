@@ -62,6 +62,7 @@ int mainFenetre()
 
 		}
 		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -848,15 +849,24 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		{
 			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		}
+		while (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		}
 		pInput->right = 0;
 	}
 	if (pInput->left)
 	{
+		
 		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
 			worms->wormsSurface->clip_rect.x += pInput->acceleration;
+		}
+		while (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
+		{
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		}
 		pInput->left = 0;
 	}
@@ -871,63 +881,11 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 	if (pInput->up)
 	{
-		worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		}
-		pInput->up = 0;
-	}
-	if (pInput->right && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-}
-		pInput->right = 0;
-		pInput->up = 0;
-	}
-	if (pInput->left && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
 		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		pInput->right = 0;
-		pInput->up = 0;
-	}
-	if (pInput->right && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 		}
-		pInput->right = 0;
-		pInput->up = 0;
-	}
-	if (pInput->right && pInput->up)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		pInput->right = 0;
 		pInput->up = 0;
 	}
 }
@@ -1096,7 +1054,8 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
 	int x = 0, y = 0, surfaceIndex = 0, surfaceIcr = 1;
-	if (surface != 0){
+	if (surface != 0)
+	{
 		surfaceIcr = surface;
 	}
 	if (pSurfaceTab[surface]->clip_rect.x < 0 || pSurfaceTab[surface]->clip_rect.y < 0)
