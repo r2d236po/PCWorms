@@ -62,7 +62,6 @@ int mainFenetre()
 
 		}
 		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -895,6 +894,26 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		pInput->up = 0;
 	}
 }
+
+/*void animationWorms(SDL_Surface * display)
+{
+	const int largeurSprite = 632;
+	const int hauteurSprite = 317;
+	SDL_Surface *sprite = loadImage("../assets/pictures/sprite.png");
+	SDL_Rect offset;
+	offset.x = 0;
+	offset.y = 0;
+	SDL_Rect clip[15];
+	int i;
+	for (i = 0; i < 15; i++) {
+	clip[i].x = 8 + (i + 1) * 27;
+	clip[i].y = 27;
+	clip[i].w = 27;
+	clip[i].h = 40;
+	SDL_BlitSurface(sprite, &clip[i], display, &offset);
+	}
+
+}*/
 
 /**
 * \fn void destroyWorms(Worms** worms)
