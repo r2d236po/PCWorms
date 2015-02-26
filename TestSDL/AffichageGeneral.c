@@ -533,6 +533,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		initCameras(pRenderer, map, camera);
 		pInput->windowResized = 0;
 	}
+	//gestionPhysique(pRenderer, map, pTexture, pInput, 0, worms);
 	deplacementWorms(pInput, worms, map->imageMapSurface);
 	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
 }
@@ -699,15 +700,13 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
 *
 * \param[in] camera, le rect de la camera courante.
 *
-* \param[in] pInput, les iputs utilisateur.
+* \param[in] pInput, les inputs utilisateur.
 *
 * \returns void
 */
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int w = 0, h = 0;
-	int dx = 0;
-	dx = camera->x;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
 	camera->y = camera->y - (pInput->cursor.now.y - pInput->cursor.before.y);
@@ -799,6 +798,8 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
+	worms->vitx = 2;
+	worms->vity = 0;
 
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
@@ -833,7 +834,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 {
 	int dx = 0, dy = 0;
 	if (pInput->right)
-	{	
+	{
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 		if (detectionCollisionSurface(surfaceCollision, worms->wormsSurface))

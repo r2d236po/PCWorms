@@ -10,13 +10,16 @@ typedef struct {		//Structure worms
 	char* nom;				//Nom du joueur
 	char* arme;				//Arme en cours d'utilisation
 	Arme* invent[TAILLEINV];//Inventaire des armes et objets disponibles
-	int posx;				//Position en X
-	int posy;				//Position en Y
+	int dx;				//Décalage en X
+	int dy;				//Décalage en Y
+	float vitx;
+	float vity;
 	int dir;				//Direction : gauche ou droite
 	SDL_Rect wormsRect;
 	SDL_Surface* wormsSurface;
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
+
 	//son?
 } Worms;
 

@@ -12,4 +12,38 @@
 #include <math.h>
 
 
+//structures globales
+
+typedef struct{		//structure Point
+	int x;
+	int y;
+}Point;
+
+typedef struct{ //structure Curseur
+	Point before;
+	Point now;
+}Cursor;
+
+typedef struct{		//structure gérant les différents inputs
+	char jump;	//touche de saut
+	char bend;	//touche pour s'accroupir
+	char menu;	//touche de menu principal
+	char rclick;		//click droite de la souris
+	char left;	//touche de déplacement à gauche
+	char right;	//touche de déplacement à droite
+	char up;	//touche de déplacement haut
+	char down;	//touche de déplacement bas
+	char lclick;	//click gauche de la souris
+	char quit;	//quitte le programme
+	char weaponTab;
+	char wheelUp; //zoomIn
+	char wheelDown; //zoomOut
+	char raffraichissement;
+	char windowResized;
+	char acceleration;
+	Cursor cursor; //cursor avec position actuelle et précédente
+}Input;
+
+
+
 #endif
