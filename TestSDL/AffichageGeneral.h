@@ -35,7 +35,7 @@ void frameRate(unsigned int fM);	//gère le framerate
 void getInput(Input* pInput, SDL_Window* pWindow);	//récupère les inputs
 int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[]);
 //gestion des inputs
-int gestInput(Input* pInput,SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms);
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[]);
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
 void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera);	//Zoom In, grossis

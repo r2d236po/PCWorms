@@ -10,8 +10,8 @@ typedef struct {		//Structure worms
 	char* nom;				//Nom du joueur
 	char* arme;				//Arme en cours d'utilisation
 	Arme* invent[TAILLEINV];//Inventaire des armes et objets disponibles
-	int dx;				//Décalage en X
-	int dy;				//Décalage en Y
+	int xAbs;				//Décalage en X
+	int yAbs;				//Décalage en Y
 	float vitx;
 	float vity;
 	int dir;				//Direction : gauche ou droite
