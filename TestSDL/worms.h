@@ -10,8 +10,8 @@ typedef struct {		//Structure worms
 	char* nom;				//Nom du joueur
 	char* arme;				//Arme en cours d'utilisation
 	Arme* invent[TAILLEINV];//Inventaire des armes et objets disponibles
-	int xAbs;				//Décalage en X
-	int yAbs;				//Décalage en Y
+	int xAbs;				//position "absolu" en X
+	int yAbs;				//position "absolu" en Y
 	float vitx;
 	float vity;
 	int dir;				//Direction : gauche ou droite
@@ -23,6 +23,10 @@ typedef struct {		//Structure worms
 	//son?
 } Worms;
 
+
+Worms* createWorms(const char *file1, const char* file2);	//Créé un worms à partir d'une image
+void destroyWorms(Worms** worms);	//détruit un worms
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
 #endif // !1
 
 

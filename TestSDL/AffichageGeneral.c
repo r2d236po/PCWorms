@@ -244,6 +244,31 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 }
 
 /**
+* \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
+* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL et la SDL_Image.
+*
+* \param[in] pWindow, adresse du pointeur de la fenêtre.
+* \param[in] pRenderer, adresse du pointeur du renderer.
+* \param[in] pInput, adresse du pointeur de la structure Input.
+*/
+void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
+{
+	if ((*pInput) != NULL)
+	{
+		free(*pInput);
+		(*pInput) = NULL;
+	}
+
+	SDL_DestroyRenderer(*pRenderer);
+	(*pRenderer) = NULL;
+	SDL_DestroyWindow(*pWindow);
+	(*pWindow) = NULL;
+
+	IMG_Quit();
+	SDL_Quit();
+}
+
+/**
 * \fn SDL_Window * creerFenetre(const int w, const int h, const char * nom)
 * \brief Cree une fenetre SDL.
 *
@@ -732,7 +757,16 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 	}
 }
 
-//ZoomCamera grossissement
+/**
+* \fn void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
+* \brief Réajuste la taille de la caméra pour un grossissement de l'image.
+*
+* \param[in] pRenderer, le renderer de la fenêtre courante.
+*
+* \param[in] camera, le rect de la camera courante.
+*
+* \returns void
+*/
 void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
 {
 	int w = 0, h = 0;
@@ -745,12 +779,22 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
 	camera->y = camera->y - (camera->h) / 2;
 }
 
-//ZoomCamera retrécissement
+/**
+* \fn void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
+* \brief Réajuste la taille de la caméra pour un rétrécissement de l'image.
+*
+* \param[in] pRenderer, le renderer de la fenêtre courante.
+*
+* \param[in] pTexture, la texture de la fenêtre courante.
+*
+* \param[in] camera, le rect de la camera courante.
+*
+* \returns void
+*/
 void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-
 	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
 	if (camera->h < hM){
 		camera->x = camera->x + (camera->w) / 2;
@@ -781,138 +825,6 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 	}
 }
 
-/**
-* \fn Worms* createWorms(const char *file)
-* \brief Créé et initialise une structure worms.
-*
-* \param[in] file, chaine de caractères correspondant au nom du fichier image du worms.
-*
-* \returns pointeur vers la structure worms créé, NULL si echec
-*/
-Worms* createWorms(const char *file1, const char *file2)
-{
-	Worms * worms = NULL;
-	SDL_Surface* wormsSurface = NULL;
-	SDL_Surface * wormsSurfaceLeft = NULL;
-	SDL_Surface * wormsSurfaceRight = NULL;
-	worms = (Worms*)malloc(sizeof(Worms));
-	if (worms == NULL)
-	{
-		printf("Probleme lors de l'allocation de memoire du worms");
-		return NULL;
-	}
-	worms->wormsSurfaceLeft = NULL;
-	worms->wormsSurfaceRight = NULL;
-	worms->wormsSurface = NULL;
-	worms->vitx = 0;
-	worms->vity =(float) (sin(3.1415 / 3) * 0.6); 
-
-	wormsSurfaceLeft = loadImage(file1);
-	wormsSurfaceRight = loadImage(file2);
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
-	{
-		printf("Erreur création surface worms, %s", SDL_GetError());
-		destroyWorms(&worms);
-		return NULL;
-	}
-	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-	if (wormsSurface == NULL)
-	{
-		printf("Erreur allocation memoire");
-		destroyWorms(&worms);
-		return NULL;
-	}
-	worms->wormsSurfaceLeft = wormsSurfaceLeft;
-	worms->wormsSurfaceRight = wormsSurfaceRight;
-	//A changer avec un truc adapté à la map ?
-	worms->wormsSurface = wormsSurface;
-	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-	worms->wormsSurface->clip_rect.x = 100;
-	worms->wormsSurface->clip_rect.y = 100;
-	worms->wormsRect.x = worms->wormsSurface->clip_rect.x;
-	worms->wormsRect.y = worms->wormsSurface->clip_rect.y;
-	worms->wormsRect.w = wormsSurfaceLeft->clip_rect.w;
-	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
-	worms->xAbs = worms->wormsSurface->clip_rect.x;
-	worms->yAbs = worms->wormsSurface->clip_rect.y;
-	wormsSurface = NULL;
-	wormsSurfaceLeft = NULL;
-	wormsSurfaceRight = NULL;
-	return worms;
-}
-
-//Déplace un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision)
-{
-	int  t = 0;
-	int collision = 0;
-	enum DIRECTION dir = NONE;
-	if (pInput->right)
-	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-		dir = RIGHT;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		}
-		while (collision && t < 5)
-		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-			t++;
-		}
-		t = 0;
-		dir = NONE;
-		pInput->right = 0;
-	}
-	if (pInput->left)
-	{
-
-		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
-		dir = LEFT;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		}
-		while (collision && t < 5)
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-			t++;
-		}
-		t = 0;
-		dir = NONE;
-		pInput->left = 0;
-	}
-	if (pInput->down)
-	{
-		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		dir = NONE;
-		pInput->down = 0;
-	}
-	if (pInput->up)
-	{
-		worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		}
-		dir = NONE;
-		pInput->up = 0;
-	}
-}
 
 /*void animationWorms(SDL_Surface * display)
 {
@@ -933,80 +845,6 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 
 }*/
-
-/**
-* \fn void destroyWorms(Worms** worms)
-* \brief Détruit une structure Worms et remet son pointeur à NULL.
-*
-* \param[in] worms, adresse du pointeur de la structure du Worms à détruire.
-*/
-void destroyWorms(Worms** worms)
-{
-	if ((*worms)->wormsSurface != NULL)
-	{
-		SDL_FreeSurface((*worms)->wormsSurface);
-		(*worms)->wormsSurface = NULL;
-	}
-	if ((*worms)->wormsSurfaceLeft != NULL)
-	{
-		SDL_FreeSurface((*worms)->wormsSurfaceLeft);
-		(*worms)->wormsSurfaceLeft = NULL;
-	}
-	if ((*worms)->wormsSurfaceRight != NULL)
-	{
-		SDL_FreeSurface((*worms)->wormsSurfaceRight);
-		(*worms)->wormsSurfaceRight = NULL;
-	}
-	free(*worms);
-	*worms = NULL;
-}
-
-/**
-* \fn void destroyMap(Terrain** map)
-* \brief Détruit une structure Terrain et remet son pointeur à NULL.
-*
-* \param[in] map, adresse du pointeur de la structure du Terrain à détruire.
-*/
-void destroyMap(Terrain** map)
-{
-	if ((*map)->imageBackground != NULL)
-	{
-		SDL_DestroyTexture((*map)->imageBackground);
-		(*map)->imageBackground = NULL;
-	}
-	if ((*map)->imageMapSurface != NULL)
-	{
-		SDL_FreeSurface((*map)->imageMapSurface);
-		(*map)->imageMapSurface = NULL;
-	}
-	free((*map));
-	*map = NULL;
-}
-
-/**
-* \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
-* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL et la SDL_Image.
-*
-* \param[in] pWindow, adresse du pointeur de la fenêtre.
-* \param[in] pRenderer, adresse du pointeur du renderer.
-* \param[in] pInput, adresse du pointeur de la structure Input.
-*/
-void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
-{
-	if ((*pInput) != NULL)
-	{
-		free(*pInput);
-		(*pInput) = NULL;
-	}
-
-	SDL_DestroyRenderer(*pRenderer);
-	(*pRenderer) = NULL;
-	SDL_DestroyWindow(*pWindow);
-	(*pWindow) = NULL;
-
-	IMG_Quit();
-	SDL_Quit();
-}
 
 /**
 * \fn int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture** pTexture, SDL_Renderer* pRenderer, SDL_Rect* camera)

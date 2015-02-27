@@ -92,6 +92,7 @@
     </ClCompile>
     <ClCompile Include="Carte.c" />
     <ClCompile Include="Partie.c" />
+    <ClCompile Include="Worms.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h" />

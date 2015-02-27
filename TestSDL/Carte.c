@@ -51,6 +51,28 @@ int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * fi
 	return 1;
 }
 
+/**
+* \fn void destroyMap(Terrain** map)
+* \brief Détruit une structure Terrain et remet son pointeur à NULL.
+*
+* \param[in] map, adresse du pointeur de la structure du Terrain à détruire.
+*/
+void destroyMap(Terrain** map)
+{
+	if ((*map)->imageBackground != NULL)
+	{
+		SDL_DestroyTexture((*map)->imageBackground);
+		(*map)->imageBackground = NULL;
+	}
+	if ((*map)->imageMapSurface != NULL)
+	{
+		SDL_FreeSurface((*map)->imageMapSurface);
+		(*map)->imageMapSurface = NULL;
+	}
+	free((*map));
+	*map = NULL;
+}
+
 
 /**
 * \fn Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
