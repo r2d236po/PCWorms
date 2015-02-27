@@ -49,4 +49,6 @@ void destroyMap(Terrain** map);	//détruit un terrain
 void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput);	//nettoie et quit la SDL
 void clearRenderer(SDL_Renderer * pRenderer);	//Clear de l'écran
 
+void animationWorms(SDL_Surface * display);
+
 #endif
