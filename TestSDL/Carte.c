@@ -184,9 +184,9 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2, enu
 	{
 		return 1;
 	}
-	for (y = pSurface2->clip_rect.y; (y <= pSurface2->clip_rect.h + pSurface2->clip_rect.y) && (collision == 0); y++)
+	for (y = pSurface2->clip_rect.y; (y < pSurface2->clip_rect.h + pSurface2->clip_rect.y) && (collision == 0); y++)
 	{
-		for (x = pSurface2->clip_rect.x; (x <= pSurface2->clip_rect.x + pSurface2->clip_rect.w) && (collision == 0); x++)
+		for (x = pSurface2->clip_rect.x; (x < pSurface2->clip_rect.x + pSurface2->clip_rect.w) && (collision == 0); x++)
 		{
 			p = ReadPixel(pSurface, x, y);
 			p2 = ReadPixel(pSurface2, x - pSurface2->clip_rect.x, y - pSurface2->clip_rect.y);
@@ -200,7 +200,7 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2, enu
 			{
 				if (dir != NULL)
 				{
-					*dir = calculDirection(x, y, *dir, pSurface2->w, pSurface2->h);
+					*dir = calculDirection(x - pSurface2->clip_rect.x, y - pSurface2->clip_rect.y, *dir, pSurface2->w, pSurface2->h);
 				}
 				collision = 1;
 			}
@@ -217,11 +217,10 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2, enu
 * \param[in] y, ordonnée de la collision
 * \param[in] x, abscisse de la collision
 * \param[in] impulse, direction du déplacement
-* \param[in] w, largeur
+* \param[in] w, largeur de l'objet
 * \param[in] h, hauteur de l'objet
 * \return int, direction de la collision
 */
-
 
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
 {
@@ -233,11 +232,11 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 	{
 		return impulse; //retourne soit RIGHT si impulse est droite soit LEFT si impulse est gauche
 	}
-	else if (y < (h / 8))
+	else if (y <= (h / 8))
 	{
 		return UP;
 	}
-	else if (y > (7 * h / 8))
+	else if (y >= (7 * h / 8))
 	{
 		return DOWN;
 	}
@@ -276,7 +275,7 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 		worms->wormsSurface->clip_rect.x = worms->wormsSurface->clip_rect.x + xRel;
 		if (pInput->jump)
 		{
-			worms->vitx = cos(pi / 3)*0.6;
+			worms->vitx = (float) (cos(pi / 3)*0.6);
 			worms->wormsSurface->clip_rect.y = worms->wormsSurface->clip_rect.y - yRel;
 			pInput->jump = 0;
 		}
@@ -291,10 +290,6 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 			worms->yAbs = worms->wormsSurface->clip_rect.y;
 			t = 0;
 		}
-		/*if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h >= 400))
-		{
-		t = 0;
-		}*/
 		break;
 	case 1:
 		//cas d'une arme

@@ -27,7 +27,7 @@ int mainFenetre()
 		}
 
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest.png") < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
@@ -805,7 +805,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->vitx = 0;
-	worms->vity = sin(3.1415 / 3) * 0.6;
+	worms->vity =(float) (sin(3.1415 / 3) * 0.6); 
 
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
@@ -851,6 +851,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	{
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		dir = RIGHT;
 		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
 		if (collision)
 		{
@@ -872,6 +873,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 
 		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+		dir = LEFT;
 		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
 		if (collision)
 		{
