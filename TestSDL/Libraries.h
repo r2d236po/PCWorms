@@ -45,6 +45,6 @@ typedef struct{		//structure gérant les différents inputs
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 
-
+enum DIRECTION { RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, NONE = 5 };
 
 #endif

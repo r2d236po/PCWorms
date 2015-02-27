@@ -172,7 +172,7 @@ int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* 
 * \param[in] pSurface2, pointeur vers la surface en mouvement dans la map
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
-int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
+int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2, enum DIRECTION* dir)
 {
 	Uint32 p = ReadPixel(pSurface, 0, 0);
 	Uint8 r = 0, g = 0, b = 0, a = 0;
@@ -198,11 +198,50 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 			}
 			else
 			{
+				if (dir != NULL)
+				{
+					*dir = calculDirection(x, y, *dir, pSurface2->w, pSurface2->h);
+				}
 				collision = 1;
 			}
 		}
 	}
 	return collision;
+}
+
+/**
+* \fn int calculDirection(int y, int x)
+*
+* \brief Deteremine la direction de la collision.
+*
+* \param[in] y, ordonnée de la collision
+* \param[in] x, abscisse de la collision
+* \param[in] impulse, direction du déplacement
+* \param[in] w, largeur
+* \param[in] h, hauteur de l'objet
+* \return int, direction de la collision
+*/
+
+
+enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
+{
+	if ((impulse == RIGHT && x < (w / 2)) || (impulse == LEFT && x >(w / 2)))
+	{
+		return NONE;
+	}
+	if (y > (h / 8) && y < (7 * h / 8))
+	{
+		return impulse; //retourne soit RIGHT si impulse est droite soit LEFT si impulse est gauche
+	}
+	else if (y < (h / 8))
+	{
+		return UP;
+	}
+	else if (y > (7 * h / 8))
+	{
+		return DOWN;
+	}
+	return NONE;
 }
 
 
@@ -214,6 +253,7 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 	float vit_y = 0;
 	float vit = 0;
 	static int xRel = 0, yRel = 0, t = 0;
+	enum DIRECTION dir;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	Uint32 time = 0;
@@ -243,7 +283,7 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 		else worms->wormsSurface->clip_rect.y = worms->wormsSurface->clip_rect.y + yRel;
 
 		t += 10;
-		if (detectionCollisionSurface(map->imageMapSurface, worms->wormsSurface))
+		if (detectionCollisionSurface(map->imageMapSurface, worms->wormsSurface, &dir))
 		{
 			worms->wormsSurface->clip_rect.x = worms->wormsSurface->clip_rect.x - xRel;
 			worms->wormsSurface->clip_rect.y = worms->wormsSurface->clip_rect.y - yRel;

@@ -19,7 +19,7 @@ int sandboxRenderer();
 //Fonctions d'initialisation
 int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer);	//Initialise la SDL, la SDL_Image, le pWindow et le pRenderer
 Input* initInput();	//Initialise les Input
-Worms* createWorms(const char *file);	//Créé un worms à partir d'une image
+Worms* createWorms(const char *file1, const char* file2);	//Créé un worms à partir d'une image
 SDL_Surface * loadImage(const char * file);	//Charge une image dans une surface
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);	//Charge une image dans une texture
 SDL_Window * creerFenetre(const int w, const int h, const char * nom);	//Créé une fenêtre de largeur w, hauteur h et de nom nom
