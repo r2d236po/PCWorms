@@ -14,7 +14,7 @@ typedef struct {		//Structure worms
 	int yAbs;				//position "absolu" en Y
 	float vitx;
 	float vity;
-	int dir;				//Direction : gauche ou droite
+	enum DIRECTION dir;				//Direction : gauche ou droite
 	SDL_Rect wormsRect;
 	SDL_Surface* wormsSurface;
 	SDL_Surface* wormsSurfaceLeft;

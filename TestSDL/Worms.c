@@ -25,8 +25,6 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
-	worms->vitx = 0;
-	worms->vity = (float)(sin(3.1415 / 3) * 0.6);
 
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
@@ -45,17 +43,25 @@ Worms* createWorms(const char *file1, const char *file2)
 	}
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
-	//A changer avec un truc adapté à la map ?
 	worms->wormsSurface = wormsSurface;
 	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+
+	//A changer avec un truc adapté à la map ?
 	worms->wormsSurface->clip_rect.x = 100;
 	worms->wormsSurface->clip_rect.y = 100;
 	worms->wormsRect.x = worms->wormsSurface->clip_rect.x;
 	worms->wormsRect.y = worms->wormsSurface->clip_rect.y;
 	worms->wormsRect.w = wormsSurfaceLeft->clip_rect.w;
 	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
+
+	//initialisation des variables autres
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
-	worms->yAbs = worms->wormsSurface->clip_rect.y;
+	worms->yAbs = worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h;
+	worms->vitx = 0;
+	worms->vity = (float)(sin(pi / 3) * 0.58);
+	worms->dir = RIGHT;
+
+	//remise à null des pointeurs temporaires
 	wormsSurface = NULL;
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
@@ -93,72 +99,47 @@ void destroyWorms(Worms** worms)
 //Déplace un worms
 void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision)
 {
-	int  t = 0;
-	int collision = 0;
-	enum DIRECTION dir = NONE;
+	enum DIRECTION dir = DOWN;
+	int retournement = 0;
 	if (pInput->right)
 	{
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
 		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		if (worms->dir == LEFT)
+		{
+			retournement = 1;
+		}
+		else retournement = 0;
+		worms->dir = RIGHT;
 		dir = RIGHT;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		}
-		while (collision && t < 5)
-		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-			t++;
-		}
-		t = 0;
-		dir = NONE;
 		pInput->right = 0;
 	}
 	if (pInput->left)
 	{
-
 		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels; 
+		if (worms->dir == RIGHT)
+		{
+			retournement = 1;
+		}
+		else retournement = 0;
+		worms->dir = LEFT;
 		dir = LEFT;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		}
-		while (collision && t < 5)
-		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-			collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-			t++;
-		}
-		t = 0;
-		dir = NONE;
 		pInput->left = 0;
 	}
 	if (pInput->down)
 	{
 		worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		}
-		dir = NONE;
+		dir = DOWN;
 		pInput->down = 0;
 	}
 	if (pInput->up)
 	{
 		worms->wormsSurface->clip_rect.y -= pInput->acceleration;
-		collision = detectionCollisionSurface(surfaceCollision, worms->wormsSurface, &dir);
-		if (collision)
-		{
-			worms->wormsSurface->clip_rect.y += pInput->acceleration;
-		}
-		dir = NONE;
+		dir = UP;
 		pInput->up = 0;
 	}
+	gestionCollision(pInput, worms, surfaceCollision, dir, retournement);
+	worms->xAbs = worms->wormsSurface->clip_rect.x;
+	worms->yAbs = worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h;
 }

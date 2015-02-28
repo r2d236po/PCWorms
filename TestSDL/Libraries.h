@@ -13,7 +13,8 @@
 
 
 //structures globales
-
+#define MY_ABS(a) ((a) < 0 ? (-a) : (a))
+#define pi 3.1415
 typedef struct{		//structure Point
 	int x;
 	int y;

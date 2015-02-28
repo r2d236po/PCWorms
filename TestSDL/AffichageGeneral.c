@@ -27,7 +27,7 @@ int mainFenetre()
 		}
 
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest2.png") < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
@@ -543,7 +543,6 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	static Uint32 tPrevious = 0;
 	if (pInput->rclick)
 	{
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
@@ -565,9 +564,9 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		bombExplo(500, 400, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
-	//gestionPhysique(pRenderer, map, pTexture, pInput, &tPrevious, 0, worms);
+	//gestionPhysique(pRenderer, map, pTexture, pInput, 0, worms);
 	deplacementWorms(pInput, worms, map->imageMapSurface);
-	return 1;	//flag de gestion d'erreur, 0 il y a eu un problème, 1 c'est okay
+	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
 /**
@@ -828,21 +827,21 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 
 /*void animationWorms(SDL_Surface * display)
 {
-	const int largeurSprite = 632;
-	const int hauteurSprite = 317;
-	SDL_Surface *sprite = loadImage("../assets/pictures/sprite.png");
-	SDL_Rect offset;
-	offset.x = 0;
-	offset.y = 0;
-	SDL_Rect clip[15];
-	int i;
-	for (i = 0; i < 15; i++) {
-	clip[i].x = 8 + (i + 1) * 27;
-	clip[i].y = 27;
-	clip[i].w = 27;
-	clip[i].h = 40;
-	SDL_BlitSurface(sprite, &clip[i], display, &offset);
-	}
+const int largeurSprite = 632;
+const int hauteurSprite = 317;
+SDL_Surface *sprite = loadImage("../assets/pictures/sprite.png");
+SDL_Rect offset;
+offset.x = 0;
+offset.y = 0;
+SDL_Rect clip[15];
+int i;
+for (i = 0; i < 15; i++) {
+clip[i].x = 8 + (i + 1) * 27;
+clip[i].y = 27;
+clip[i].w = 27;
+clip[i].h = 40;
+SDL_BlitSurface(sprite, &clip[i], display, &offset);
+}
 
 }*/
 
