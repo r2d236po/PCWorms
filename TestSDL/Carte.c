@@ -243,29 +243,6 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 	return collision;
 }
 
-/**
-* \fn int calculDirection(int y, int x)
-*
-* \brief Deteremine la direction de la collision.
-*
-* \param[in] vit_x, vitesse sur x du worms
-* \return int, direction de la collision
-*/
-
-enum DIRECTION calculDirection(float vit_x)
-{
-	if (vit_x > 0)
-	{
-		return RIGHT;
-	}
-	if (vit_x < 0)
-	{
-		return LEFT;
-	}
-	return DOWN;
-}
-
-
 
 int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay, Input* pInput, ...)
 {
@@ -273,6 +250,7 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 	int xRel = 0, yRel = 0;
 	enum DIRECTION dir = DOWN;
 	static int  t = 0;
+	static int stop = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	va_list list;
@@ -289,55 +267,47 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 			else worms->vitx = -(float)(cos(pi / 3)*0.28); //saut vers la gauche
 			pInput->up = 1;
 			pInput->jump = 0;
+			stop = 0;
 			return 0;
 		}
-
-
-		//On regarde si on est déjà au sol
-		worms->wormsSurface->clip_rect.y += 1;
-		if (detectionCollisionSurface(map->imageMapSurface, worms->wormsSurface))
+		if (pInput->up)
 		{
-
-			worms->wormsSurface->clip_rect.y -= 1;
-			t = 0;
-			break;
-		}
-		//Réalisation du saut
-		//On remet à zero x et y par rapport à sa position absolu de départ
-		worms->wormsSurface->clip_rect.x = worms->xAbs;
-		worms->wormsSurface->clip_rect.y = worms->yAbs - worms->wormsSurface->h;
-
-		//On calcul les écarts relatifs sur x et y
-		xRel = (int)(worms->vitx *t);
-		yRel = (int)((worms->vity*t) - ((g*t*t) / 2000));
-
-		//On calcule maintenant les valeurs de x et y
-		worms->wormsSurface->clip_rect.x += xRel;
-		worms->wormsSurface->clip_rect.y -= yRel;
-		if (worms->wormsSurface->clip_rect.y < 0)
-		{
-			worms->wormsSurface->clip_rect.y += yRel;
-		}
-
-		t += 10;
-		//On calcul la direction du saut
-		dir = calculDirection(worms->vitx);
-		while (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, dir))
-		{
-			worms->wormsSurface->clip_rect.y -= 1;
-			if (dir == RIGHT)
-			{
-				worms->wormsSurface->clip_rect.x -= 1;
-			}
-			else if (dir == LEFT)
-			{
-				worms->wormsSurface->clip_rect.x += 1;
-			}
-			worms->xAbs = worms->wormsSurface->clip_rect.x;
-			worms->yAbs = worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h;
+			pInput->up = 0;
 			worms->vitx = 0;
-			t = 0;
+			stop = 0;
+			return 0;
 		}
+		if (!stop)
+		{
+			//Réalisation du saut
+			//On remet à zero x et y par rapport à sa position absolu de départ
+			worms->wormsSurface->clip_rect.x = worms->xAbs;
+			worms->wormsSurface->clip_rect.y = worms->yAbs - worms->wormsSurface->h;
+
+			//On calcul les écarts relatifs sur x et y
+			xRel = (int)(worms->vitx *t);
+			yRel = (int)((worms->vity*t) - ((g*t*t) / 2000));
+
+			//On calcule maintenant les valeurs de x et y
+			worms->wormsSurface->clip_rect.x += xRel;
+			worms->wormsSurface->clip_rect.y -= yRel;
+			if (xRel < 0)
+			{
+				dir = LEFT;
+			}
+			else if (xRel > 0)
+			{
+				dir = RIGHT;
+			}
+			if (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, dir))
+			{
+				yRel = 0;
+				t = 0;
+				stop = 1;
+			}
+			t += 10;
+		}
+		gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, dir, 0);
 		break;
 	case 1:
 		//cas d'une arme
@@ -430,10 +400,10 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 * \param[in] retournement, indicateur de retournement du worms
 * \returns void
 */
-void gestionCollision(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION dir, int retournement)
+void gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION dir, int retournement)
 {
-
-	while (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir))
+	int t = 0;
+	while (detectionCollisionSurfaceV2(surfaceCollision, surfaceMotion, dir) && t < surfaceMotion->w)
 	{
 		switch (dir)
 		{
@@ -443,7 +413,7 @@ void gestionCollision(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 				dir = LEFT;
 				retournement = 0;
 			}
-			else worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+			else surfaceMotion->clip_rect.x -= vitesse;
 			break;
 		case LEFT:
 			if (retournement)
@@ -451,15 +421,22 @@ void gestionCollision(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 				dir = RIGHT;
 				retournement = 0;
 			}
-			else worms->wormsSurface->clip_rect.x += pInput->acceleration;
+			else surfaceMotion->clip_rect.x += vitesse;
 			break;
 		case DOWN:
-			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
+			surfaceMotion->clip_rect.y -= vitesse;
 			break;
 		case UP:
-			worms->wormsSurface->clip_rect.y += pInput->acceleration;
+			surfaceMotion->clip_rect.y += vitesse;
 			break;
 		default:
+			break;
+		}
+		t++;
+		if (surfaceMotion->clip_rect.y > surfaceCollision->h || surfaceMotion->clip_rect.x > surfaceCollision->w || surfaceMotion->clip_rect.y < 0 || surfaceMotion->clip_rect.y < 0)
+		{
+			surfaceMotion->clip_rect.y = 0;
+			surfaceMotion->clip_rect.x = 0;
 			break;
 		}
 	}

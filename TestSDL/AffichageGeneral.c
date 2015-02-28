@@ -564,7 +564,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		bombExplo(500, 400, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
-	//gestionPhysique(pRenderer, map, pTexture, pInput, 0, worms);
+	gestionPhysique(pRenderer, map, pTexture, pInput, 0, worms);
 	deplacementWorms(pInput, worms, map->imageMapSurface);
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }

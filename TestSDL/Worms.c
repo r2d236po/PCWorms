@@ -139,7 +139,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		dir = UP;
 		pInput->up = 0;
 	}
-	gestionCollision(pInput, worms, surfaceCollision, dir, retournement);
+	gestionCollision(pInput->acceleration, worms->wormsSurface, surfaceCollision, dir, retournement);
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 	worms->yAbs = worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h;
 }
