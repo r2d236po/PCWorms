@@ -78,6 +78,9 @@ int mainFenetre()
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+				SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 255);
+				SDL_RenderDrawPoint(pRenderer, worms1->xAbs, worms1->yAbs);
+				SDL_RenderPresent(pRenderer);
 			}
 
 			//Gestion du frame Rate
@@ -564,8 +567,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		bombExplo(500, 400, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
-	gestionPhysique(pRenderer, map, pTexture, pInput, 0, worms);
-	deplacementWorms(pInput, worms, map->imageMapSurface);
+	gestionPhysique(map, pInput, 0, worms);
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -668,7 +670,7 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 	map = NULL;
 	text = NULL;
 	rect = NULL;
-	SDL_RenderPresent(pRenderer);
+	//SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
 

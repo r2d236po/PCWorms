@@ -244,13 +244,14 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 }
 
 
-int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay, Input* pInput, ...)
+int gestionPhysique(Terrain* map, Input* pInput, ...)
 {
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
-	enum DIRECTION dir = DOWN;
+	static enum DIRECTION dir = DOWN;
+	int retournement = 0;
 	static int  t = 0;
-	static int stop = 0;
+	static int stop = 0, jump = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	va_list list;
@@ -260,29 +261,41 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 	{
 	case 0:
 		worms = va_arg(list, Worms*);
-		if (pInput->jump)
+		if (pInput->jump && !jump)
 		{
 			if (worms->dir == RIGHT)
-				worms->vitx = (float)(cos(pi / 3)*0.28); //saut vers la droite
-			else worms->vitx = -(float)(cos(pi / 3)*0.28); //saut vers la gauche
-			pInput->up = 1;
-			pInput->jump = 0;
+			{
+				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
+				dir = RIGHT;
+			}
+			else
+			{
+				worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+				dir = LEFT;
+			}
+			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 			stop = 0;
-			return 0;
+			jump = 1;
 		}
-		if (pInput->up)
+		else if (pInput->up)
 		{
 			pInput->up = 0;
 			worms->vitx = 0;
 			stop = 0;
-			return 0;
+			jump = 1;
+			dir = DOWN;
+		}
+		else if (!jump)
+		{
+			worms->wormsSurface->clip_rect.y += 1;
+			dir = DOWN;
 		}
 		if (!stop)
 		{
 			//Réalisation du saut
 			//On remet à zero x et y par rapport à sa position absolu de départ
 			worms->wormsSurface->clip_rect.x = worms->xAbs;
-			worms->wormsSurface->clip_rect.y = worms->yAbs - worms->wormsSurface->h;
+			worms->wormsSurface->clip_rect.y = worms->yAbs;
 
 			//On calcul les écarts relatifs sur x et y
 			xRel = (int)(worms->vitx *t);
@@ -290,24 +303,43 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 
 			//On calcule maintenant les valeurs de x et y
 			worms->wormsSurface->clip_rect.x += xRel;
+			if (worms->wormsSurface->clip_rect.x < 0)
+			{
+				worms->wormsSurface->clip_rect.x = 0;
+				worms->xAbs = worms->wormsSurface->clip_rect.x;
+			}
+			else if (worms->wormsSurface->clip_rect.x + worms->wormsSurface->clip_rect.w > map->imageMapSurface->w)
+			{
+				worms->wormsSurface->clip_rect.x = map->imageMapSurface->w - worms->wormsSurface->clip_rect.w;
+				worms->xAbs = worms->wormsSurface->clip_rect.x;
+			}
+
 			worms->wormsSurface->clip_rect.y -= yRel;
-			if (xRel < 0)
+			if (worms->wormsSurface->clip_rect.y < 0)
 			{
-				dir = LEFT;
+				worms->wormsSurface->clip_rect.y = 0;
+				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			}
-			else if (xRel > 0)
+			else if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h > map->imageMapSurface->h)
 			{
-				dir = RIGHT;
+				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h;
+				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			}
-			if (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, dir))
+			if (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, &dir))
 			{
-				yRel = 0;
 				t = 0;
 				stop = 1;
+				jump = 0;
 			}
-			t += 10;
+			t += 7;
 		}
-		gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, dir, 0);
+		deplacementWorms(pInput, worms, map->imageMapSurface, &retournement, &dir);
+		if (gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir, retournement))
+		{
+			worms->xAbs = worms->wormsSurface->clip_rect.x;
+			worms->yAbs = worms->wormsSurface->clip_rect.y;
+		}
+		pInput->jump = 0;
 		break;
 	case 1:
 		//cas d'une arme
@@ -327,7 +359,7 @@ int gestionPhysique(SDL_Renderer* pRenderer, Terrain* map, SDL_Texture* pDisplay
 * \param[in] dir, direction du deplacement du worms
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
-int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, enum DIRECTION dir)
+int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, enum DIRECTION* dir)
 {
 	//Variables d'acquisitions
 	Uint32 pixelS1 = 0;
@@ -353,13 +385,13 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 		return 1;
 	}
 	//Détermination de yStart, yEnd, yInc
-	if (dir == DOWN)
+	if (*dir == DOWN)
 	{
 		yStart = -(pSurface2->clip_rect.y + pSurface2->clip_rect.h) + 1;
 		yEnd = -pSurface2->clip_rect.y + 1;
 	}
 	//Détermination de xStart, xEnd, xInc
-	if (dir == RIGHT)
+	if (*dir == RIGHT)
 	{
 		xStart = -(pSurface2->clip_rect.x + pSurface2->clip_rect.w) + 1;
 		xEnd = -pSurface2->clip_rect.x + 1;
@@ -381,7 +413,11 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 			{
 				collision = 0;
 			}
-			else collision = 1;
+			else
+			{
+				*dir = calculDirection(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurface2->w, pSurface2->h);
+				collision = 1;
+			}
 		}
 	}
 	formatS1 = NULL;
@@ -400,17 +436,18 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 * \param[in] retournement, indicateur de retournement du worms
 * \returns void
 */
-void gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION dir, int retournement)
+int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION* dir, int retournement)
 {
 	int t = 0;
+	int collision = 0;
 	while (detectionCollisionSurfaceV2(surfaceCollision, surfaceMotion, dir) && t < surfaceMotion->w)
 	{
-		switch (dir)
+		switch (*dir)
 		{
 		case RIGHT:
 			if (retournement)
 			{
-				dir = LEFT;
+				*dir = LEFT;
 				retournement = 0;
 			}
 			else surfaceMotion->clip_rect.x -= vitesse;
@@ -418,7 +455,7 @@ void gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surf
 		case LEFT:
 			if (retournement)
 			{
-				dir = RIGHT;
+				*dir = RIGHT;
 				retournement = 0;
 			}
 			else surfaceMotion->clip_rect.x += vitesse;
@@ -439,5 +476,41 @@ void gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surf
 			surfaceMotion->clip_rect.x = 0;
 			break;
 		}
+		collision = 1;
 	}
+	return collision;
+}
+
+/**
+* \fn int calculDirection(int y, int x)
+*
+* \brief Deteremine la direction de la collision.
+*
+* \param[in] y, ordonnée de la collision
+* \param[in] x, abscisse de la collision
+* \param[in] impulse, direction du déplacement
+* \param[in] w, largeur de l'objet
+* \param[in] h, hauteur de l'objet
+* \return int, direction de la collision
+*/
+
+enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
+{
+	if ((impulse == RIGHT && x < (w / 2)))
+	{
+		return LEFT;
+	}
+	if (impulse == LEFT && x > (w / 2))
+	{
+		return RIGHT;
+	}
+	if (y >= (5 * h / 8))
+	{
+		return DOWN;
+	}
+	else if (y > (h / 8) && y < (6 * h / 8))
+	{
+		return impulse; //retourne soit RIGHT si impulse est droite soit LEFT si impulse est gauche
+	}
+	return impulse;
 }
