@@ -32,6 +32,7 @@ void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace u
 void frameRate(unsigned int fM);	//gère le framerate
 void getInput(Input* pInput, SDL_Window* pWindow);	//récupère les inputs
 int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[]);
+
 //gestion des inputs
 int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[]);
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
