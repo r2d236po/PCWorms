@@ -322,7 +322,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			}
 			else if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h > map->imageMapSurface->h)
 			{
-				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h;
+				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h-1;
 				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			}
 			if (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, &dir))

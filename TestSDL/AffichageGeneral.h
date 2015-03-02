@@ -8,7 +8,7 @@
 #include "armes.h"
 #include "carte.h"
 
-#define FRAME_RATE (1000 / 70)
+#define FRAME_RATE (1000 / 80)
 
 
 

@@ -25,6 +25,8 @@ typedef struct{ //structure Curseur
 	Point now;
 }Cursor;
 
+enum DIRECTION {RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, NONE = 5 };
+
 typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
 	char bend;	//touche pour s'accroupir
@@ -34,6 +36,7 @@ typedef struct{		//structure gérant les différents inputs
 	char right;	//touche de déplacement à droite
 	char up;	//touche de déplacement haut
 	char down;	//touche de déplacement bas
+	//enum DIRECTION direction;
 	char lclick;	//click gauche de la souris
 	char quit;	//quitte le programme
 	char weaponTab;
@@ -46,6 +49,5 @@ typedef struct{		//structure gérant les différents inputs
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 
-enum DIRECTION { RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, NONE = 5 };
 
 #endif
