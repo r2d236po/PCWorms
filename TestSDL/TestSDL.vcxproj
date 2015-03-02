@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="AffichageGeneral.c" />
     <ClCompile Include="Armes.c" />
+    <ClCompile Include="input.c" />
     <ClCompile Include="main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -98,6 +99,7 @@
     <ClInclude Include="AffichageGeneral.h" />
     <ClInclude Include="armes.h" />
     <ClInclude Include="carte.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="Libraries.h" />
     <ClInclude Include="partie.h" />
     <ClInclude Include="worms.h" />

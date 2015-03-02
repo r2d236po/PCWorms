@@ -4,10 +4,10 @@
 
 int main(int argc, char** argv)
 {
-	sandboxRenderer();
-	/*if (mainFenetre() < 0)
+	//sandboxRenderer();
+	if (mainFenetre() < 0)
 	{
 		printf("Une erreur s'est produite");
-	}*/
+	}
 	return 0;
 }

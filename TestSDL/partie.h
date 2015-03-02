@@ -1,5 +1,5 @@
 #ifndef GAME_H
-#define GA_H
+#define GAME_H
 
 #include "worms.h"
 #include "carte.h"
