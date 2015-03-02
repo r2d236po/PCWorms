@@ -450,6 +450,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			break;
 
 		case SDL_KEYDOWN:
+			//a optimiser avec une enum DIRECTION dispo dans libraries.h
 			if (event.key.keysym.sym == SDLK_LEFT)
 			{
 				pInput->left = 1;
@@ -608,6 +609,7 @@ Input* initInput()
 	pInput->raffraichissement = 1;
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
+	//pInput->direction = NONE;
 	return pInput;
 }
 

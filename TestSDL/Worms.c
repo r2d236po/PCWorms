@@ -99,6 +99,7 @@ void destroyWorms(Worms** worms)
 //Déplace un worms
 void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir)
 {
+	//switch(pInput->direction)
 	if (pInput->right)
 	{
 		worms->wormsSurface->clip_rect.x += pInput->acceleration;
