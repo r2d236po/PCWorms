@@ -76,20 +76,19 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			break;
 
 		case SDL_KEYDOWN:
-			//a optimiser avec une enum DIRECTION dispo dans libraries.h
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_LEFT:
-				pInput->left = 1;
+				pInput->direction = LEFT;
 				break;
 			case SDLK_RIGHT:
-				pInput->right = 1;
+				pInput->direction = RIGHT;
 				break;
 			case SDLK_UP:
-				pInput->up = 1;
+				pInput->direction = UP;
 				break;
 			case SDLK_DOWN:
-				pInput->down = 1;
+				pInput->direction = DOWN;
 				break;
 			case SDLK_SPACE:
 				pInput->jump = 1;
@@ -202,10 +201,7 @@ Input* initInput()
 	pInput->bend = 0;
 	pInput->jump = 0;
 	pInput->jumpOnGoing = 0;
-	pInput->left = 0;
-	pInput->right = 0;
-	pInput->up = 0;
-	pInput->down = 0;
+	pInput->direction = NONE;
 	pInput->quit = 0;
 	pInput->lclick = 0;
 	pInput->rclick = 0;
@@ -220,6 +216,5 @@ Input* initInput()
 	pInput->raffraichissement = 1;
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
-	//pInput->direction = NONE;
 	return pInput;
 }

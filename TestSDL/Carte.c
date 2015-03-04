@@ -277,9 +277,9 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			stop = 0;
 			pInput->jumpOnGoing = 1;
 		}
-		else if (pInput->up)
+		else if (pInput->direction == UP)
 		{
-			pInput->up = 0;
+			pInput->direction = NONE;
 			worms->vitx = 0;
 			stop = 0;
 			pInput->jumpOnGoing = 1;
