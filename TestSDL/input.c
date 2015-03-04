@@ -32,31 +32,31 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+			switch (event.button.button)
 			{
+			case SDL_BUTTON_LEFT :
 				pInput->lclick = 1;
 				pInput->cursor.before = pInput->cursor.now;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.button.button == SDL_BUTTON_RIGHT)
-			{
+				break;
+			case SDL_BUTTON_RIGHT :
 				pInput->rclick = 1;
 				pInput->cursor.before = pInput->cursor.now;
-				pInput->raffraichissement = 1;
+				break;
 			}
+			pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEBUTTONUP:
-			if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
+			switch (event.button.button)
 			{
-				pInput->raffraichissement = 1;
+			case SDL_BUTTON_LEFT:
 				pInput->lclick = 0;
-			}
-			else if (event.button.button == SDL_BUTTON_RIGHT)
-			{
-				pInput->raffraichissement = 1;
+				break;
+			case SDL_BUTTON_RIGHT:
 				pInput->rclick = 0;
+				break;
 			}
+			pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEMOTION:
@@ -67,13 +67,12 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_MOUSEWHEEL:
 			if (event.wheel.y < 0){
 				pInput->wheelDown = 1;
-				pInput->raffraichissement = 1;
 			}
 			else
 			{
 				pInput->wheelUp = 1;
-				pInput->raffraichissement = 1;
 			}
+			pInput->raffraichissement = 1;
 			break;
 
 		case SDL_KEYDOWN:
@@ -202,6 +201,7 @@ Input* initInput()
 	}
 	pInput->bend = 0;
 	pInput->jump = 0;
+	pInput->jumpOnGoing = 0;
 	pInput->left = 0;
 	pInput->right = 0;
 	pInput->up = 0;

@@ -251,7 +251,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 	static enum DIRECTION dir = DOWN;
 	int retournement = 0;
 	static int  t = 0;
-	static int stop = 0, jump = 0;
+	static int stop = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	va_list list;
@@ -261,7 +261,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 	{
 	case 0:
 		worms = va_arg(list, Worms*);
-		if (pInput->jump && !jump)
+		if (pInput->jump && !pInput->jumpOnGoing)
 		{
 			if (worms->dir == RIGHT)
 			{
@@ -275,17 +275,17 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			}
 			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 			stop = 0;
-			jump = 1;
+			pInput->jumpOnGoing = 1;
 		}
 		else if (pInput->up)
 		{
 			pInput->up = 0;
 			worms->vitx = 0;
 			stop = 0;
-			jump = 1;
+			pInput->jumpOnGoing = 1;
 			dir = DOWN;
 		}
-		else if (!jump)
+		else if (!pInput->jumpOnGoing)
 		{
 			worms->wormsSurface->clip_rect.y += 1;
 			dir = DOWN;
@@ -329,7 +329,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			{
 				t = 0;
 				stop = 1;
-				jump = 0;
+				pInput->jumpOnGoing = 0;
 			}
 			t += 7;
 		}

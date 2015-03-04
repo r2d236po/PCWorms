@@ -29,6 +29,7 @@ enum DIRECTION {RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, NONE = 5 };
 
 typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
+	char jumpOnGoing;	//indique qu'un saut est en cours et désactive les touches de direction
 	char bend;	//touche pour s'accroupir
 	char menu;	//touche de menu principal
 	char rclick;		//click droite de la souris

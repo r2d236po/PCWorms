@@ -102,46 +102,53 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	//switch(pInput->direction)
 	if (pInput->right)
 	{
-		worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		
 		if (worms->dir == LEFT)
 		{
 			*retournement = 1;
 		}
 		else *retournement = 0;
-		if ((worms->wormsSurface->clip_rect.x + worms->wormsSurface->w) > surfaceCollision->w)
+		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+		if (!pInput->jumpOnGoing)
 		{
-			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		}
-		worms->dir = RIGHT;
-		*dir = RIGHT;
-		pInput->right = 0;
-		if (!*retournement)
-		{
-			worms->xAbs = worms->wormsSurface->clip_rect.x;
-			worms->yAbs = worms->wormsSurface->clip_rect.y;
+			worms->wormsSurface->clip_rect.x += pInput->acceleration;
+			if ((worms->wormsSurface->clip_rect.x + worms->wormsSurface->w) > surfaceCollision->w)
+			{
+				worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+			}
+			worms->dir = RIGHT;
+			*dir = RIGHT;
+			pInput->right = 0;
+			if (!*retournement)
+			{
+				worms->xAbs = worms->wormsSurface->clip_rect.x;
+				worms->yAbs = worms->wormsSurface->clip_rect.y;
+			}
 		}
 	}
 	if (pInput->left)
 	{
-		worms->wormsSurface->clip_rect.x -= pInput->acceleration;
-		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		if (worms->dir == RIGHT)
 		{
 			*retournement = 1;
 		}
 		else *retournement = 0;
-		if (worms->wormsSurface->clip_rect.x < 0)
+		worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+		if (!pInput->jumpOnGoing)
 		{
-			worms->wormsSurface->clip_rect.x += pInput->acceleration;
-		}
-		worms->dir = LEFT;
-		*dir = LEFT;
-		pInput->left = 0;
-		if (!*retournement)
-		{
-			worms->xAbs = worms->wormsSurface->clip_rect.x;
-			worms->yAbs = worms->wormsSurface->clip_rect.y;
+			worms->wormsSurface->clip_rect.x -= pInput->acceleration;
+			if (worms->wormsSurface->clip_rect.x < 0)
+			{
+				worms->wormsSurface->clip_rect.x += pInput->acceleration;
+			}
+			worms->dir = LEFT;
+			*dir = LEFT;
+			pInput->left = 0;
+			if (!*retournement)
+			{
+				worms->xAbs = worms->wormsSurface->clip_rect.x;
+				worms->yAbs = worms->wormsSurface->clip_rect.y;
+			}
 		}
 	}
 	if (pInput->down)
