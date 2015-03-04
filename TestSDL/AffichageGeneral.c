@@ -1,4 +1,5 @@
 #include "AffichageGeneral.h"
+#include "input.h"
 #include "Libraries.h" //Inclus toutes les librairies
 
 int mainFenetre()
