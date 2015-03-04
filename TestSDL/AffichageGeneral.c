@@ -604,7 +604,7 @@ offset.x = 0;
 offset.y = 0;
 SDL_Rect clip[15];
 int i;
-for (i = 0; i < 15; i++) {
+for (i = 0; i < 15; i++){
 clip[i].x = 8 + (i + 1) * 27;
 clip[i].y = 27;
 clip[i].w = 27;
