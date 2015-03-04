@@ -78,65 +78,48 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 
 		case SDL_KEYDOWN:
 			//a optimiser avec une enum DIRECTION dispo dans libraries.h
-			if (event.key.keysym.sym == SDLK_LEFT)
+			switch (event.key.keysym.sym)
 			{
+			case SDLK_LEFT:
 				pInput->left = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_RIGHT)
-			{
+				break;
+			case SDLK_RIGHT:
 				pInput->right = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_UP)
-			{
+				break;
+			case SDLK_UP:
 				pInput->up = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_DOWN)
-			{
+				break;
+			case SDLK_DOWN:
 				pInput->down = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_SPACE)
-			{
+				break;
+			case SDLK_SPACE:
 				pInput->jump = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_LCTRL)
-			{
+				break;
+			case SDLK_LCTRL:
 				pInput->bend = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_ESCAPE)
-			{
+				break;
+			case SDLK_ESCAPE:
 				pInput->menu = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_q)
-			{
+				break;
+			case SDLK_q:
 				pInput->quit = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_TAB)
-			{
-				pInput->weaponTab = 1;
-				pInput->raffraichissement = 1;
-			}
-			else if (event.key.keysym.sym == SDLK_s)
-			{
+				break;
+			case SDLK_s:
 				if (pInput->acceleration == 1)
 				{
 					pInput->acceleration = 10;
 				}
 				else pInput->acceleration = 1;
+				break;
+			case SDLK_TAB:
+				pInput->weaponTab = 1;
+				break;
+			case SDLK_b:
+				pInput->bombe = 1;
+				break;
 
 			}
-			else if (event.key.keysym.sym == SDLK_b)
-			{
-				pInput->bombe = 1;
-				pInput->raffraichissement = 1;
-			}
+			pInput->raffraichissement = 1;
 			break;
 		default:
 			break;
