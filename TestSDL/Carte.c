@@ -266,18 +266,14 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			if (worms->dir == RIGHT)
 			{
 				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
-				dir = RIGHT;
 			}
-			else
-			{
-				worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
-				dir = LEFT;
-			}
+			else worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+			dir = worms->dir;
 			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 			stop = 0;
 			pInput->jumpOnGoing = 1;
 		}
-		else if (pInput->direction == UP)
+		else if (pInput->direction == UP && !pInput->jumpOnGoing)
 		{
 			pInput->direction = NONE;
 			worms->vitx = 0;
@@ -322,7 +318,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			}
 			else if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h > map->imageMapSurface->h)
 			{
-				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h-1;
+				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h;
 				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			}
 			if (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, &dir))
