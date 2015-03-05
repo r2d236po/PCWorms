@@ -34,7 +34,7 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-
+		   
 		//Initialisation worms
 		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
 		if (worms1 == NULL)
