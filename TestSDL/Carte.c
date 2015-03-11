@@ -251,7 +251,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 	static enum DIRECTION dir = DOWN;
 	int retournement = 0;
 	static int  t = 0;
-	static int stop = 0, jump = 0;
+	static int stop = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	va_list list;
@@ -261,31 +261,27 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 	{
 	case 0:
 		worms = va_arg(list, Worms*);
-		if (pInput->jump && !jump)
+		if (pInput->jump && !pInput->jumpOnGoing)
 		{
 			if (worms->dir == RIGHT)
 			{
 				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
-				dir = RIGHT;
 			}
-			else
-			{
-				worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
-				dir = LEFT;
-			}
+			else worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+			dir = worms->dir;
 			worms->wormsSurface->clip_rect.y -= pInput->acceleration;
 			stop = 0;
-			jump = 1;
+			pInput->jumpOnGoing = 1;
 		}
-		else if (pInput->up)
+		else if (pInput->direction == UP && !pInput->jumpOnGoing)
 		{
-			pInput->up = 0;
+			pInput->direction = NONE;
 			worms->vitx = 0;
 			stop = 0;
-			jump = 1;
+			pInput->jumpOnGoing = 1;
 			dir = DOWN;
 		}
-		else if (!jump)
+		else if (!pInput->jumpOnGoing)
 		{
 			worms->wormsSurface->clip_rect.y += 1;
 			dir = DOWN;
@@ -322,14 +318,14 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			}
 			else if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h > map->imageMapSurface->h)
 			{
-				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h-1;
+				worms->wormsSurface->clip_rect.y = map->imageMapSurface->h - worms->wormsSurface->clip_rect.h;
 				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			}
 			if (detectionCollisionSurfaceV2(map->imageMapSurface, worms->wormsSurface, &dir))
 			{
 				t = 0;
 				stop = 1;
-				jump = 0;
+				pInput->jumpOnGoing = 0;
 			}
 			t += 7;
 		}
