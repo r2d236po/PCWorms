@@ -2,7 +2,7 @@
 #define WORMS_H
 
 #include "armes.h"
-#include "Libraries.h" //Inclus toutes les librairies
+
 #define TAILLEINV 5
 
 typedef struct {		//Structure worms

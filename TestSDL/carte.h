@@ -1,9 +1,6 @@
-
-
 #ifndef CARTE_H
 #define CARTE_H
 
-#include "Libraries.h" //Inclus toutes les librairies
 #include "worms.h"
 /* Déclaration des structures et constantes relatives à la carte jouée */
 

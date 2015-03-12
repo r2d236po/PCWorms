@@ -1,6 +1,4 @@
 #include "carte.h"
-#include "AffichageGeneral.h"
-#include "Libraries.h" //Inclus toutes les librairies
 
 
 /**

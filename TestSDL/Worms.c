@@ -1,6 +1,4 @@
 #include "worms.h"
-#include "AffichageGeneral.h"
-#include "Libraries.h"
 
 /**
 * \fn Worms* createWorms(const char *file)

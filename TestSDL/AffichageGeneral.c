@@ -1,16 +1,17 @@
 #include "AffichageGeneral.h"
-#include "input.h"
-#include "Libraries.h" //Inclus toutes les librairies
+
+
 
 int mainFenetre()
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	SDL_Renderer* pRenderer = NULL; //déclaration du renderer
-	SDL_Window* pWindow = NULL;	//déclaration de la window
+	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
+	SDL_Window * pWindow = NULL;	//déclaration de la window
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = NULL;
-	SDL_Texture* display = NULL;	//Texture globale
-	SDL_Surface** surfaceTab = NULL;
+	SDL_Texture * display = NULL;	//Texture globale
+	SDL_Surface ** surfaceTab = NULL;
+	TTF_Font * policeName = NULL;
 	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
 
@@ -34,6 +35,9 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
+
+		initialisationPolice(&policeName); /*Ouvre la police pour le HUD*/
+
 
 		//Initialisation worms
 		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
@@ -93,10 +97,12 @@ int mainFenetre()
 		surfaceTab = NULL;
 		destroyMap(&mainMap);
 		destroyWorms(&worms1);
+		destroyPolice(&policeName);
 		SDL_DestroyTexture(display);
 		display = NULL;
 		cleanUp(&pWindow, &pRenderer, &pInput);
 	}
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 	return 0;
@@ -202,7 +208,7 @@ int sandboxRenderer()
 * \fn int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 * \brief Initialisation de la fenêtre.
 *
-*La fonction initSWR initialise la SDL, la SDL_Image et les pointeurs
+*La fonction initSWR initialise la SDL, la SDL_Image, la SDL_TTF et les pointeurs
 *pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
 *Elle retourne 1 si tout c'est bien passé, -1 sinon.
 *
@@ -211,7 +217,7 @@ int sandboxRenderer()
 * \returns int, indicateur si la fonction a bien fonctionnée.
 * \returns les pointeurs pWindow et pRenderer
 */
-int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
+int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 {
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -244,8 +250,15 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 		SDL_Quit();
 		return -1;
 	}
+	/*Initialisation SDL_TTF*/
+	if (TTF_Init() == -1)
+	{
+		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+		return -1;
+	}
 	return 1;
 }
+
 
 /**
 * \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
