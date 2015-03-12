@@ -15,6 +15,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	SDL_Surface* wormsSurface = NULL;
 	SDL_Surface * wormsSurfaceLeft = NULL;
 	SDL_Surface * wormsSurfaceRight = NULL;
+	SDL_Surface * texteSurface = NULL;
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
@@ -24,9 +25,13 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
+	worms->texteSurface = NULL;
 
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
+
+	worms->nom = "J-G.Cousin <3";
+
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
 		printf("Erreur création surface worms, %s", SDL_GetError());
@@ -40,6 +45,10 @@ Worms* createWorms(const char *file1, const char *file2)
 		destroyWorms(&worms);
 		return NULL;
 	}
+
+	texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
+
+	worms->texteSurface = texteSurface;
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	worms->wormsSurface = wormsSurface;
@@ -64,6 +73,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	wormsSurface = NULL;
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
+	texteSurface = NULL;
 	return worms;
 }
 
