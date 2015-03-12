@@ -12,7 +12,6 @@ int mainFenetre()
 	Terrain * mainMap = NULL;
 	SDL_Texture * display = NULL;	//Texture globale
 	SDL_Surface ** surfaceTab = NULL;
-	TTF_Font * policeName = NULL;
 	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
 
@@ -37,7 +36,7 @@ int mainFenetre()
 			return -1;
 		}
 		   
-		initialisationPolice(&policeName); /*Ouvre la police pour le HUD*/
+		initialisationPolice(); /*Ouvre des polices pour le HUD*/
 
 
 		//Initialisation worms
@@ -49,10 +48,11 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		surfaceTab = malloc(2 * sizeof(SDL_Surface*));
+		surfaceTab = malloc(3 * sizeof(SDL_Surface*));
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
+		surfaceTab[2] = worms1->texteSurface;
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera);
@@ -95,7 +95,7 @@ int mainFenetre()
 		surfaceTab = NULL;
 		destroyMap(&mainMap);
 		destroyWorms(&worms1);
-		destroyPolice(&policeName);
+		destroyPolice();
 		SDL_DestroyTexture(display);
 		display = NULL;
 		cleanUp(&pWindow, &pRenderer, &pInput);
