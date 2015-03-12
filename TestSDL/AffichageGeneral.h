@@ -3,10 +3,10 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "Libraries.h" //Inclus toutes les librairies
 #include "worms.h"
-#include "armes.h"
+#include "HUD.h"
 #include "carte.h"
+#include "armes.h"
 
 #define FRAME_RATE (1000 / 80)
 

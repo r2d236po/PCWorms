@@ -1,6 +1,5 @@
 #include "armes.h"
-#include "Libraries.h" //Inclus toutes les librairies
-#include "AffichageGeneral.h"
+
 
 /* Fonctions concernant la gestion des armes */
 

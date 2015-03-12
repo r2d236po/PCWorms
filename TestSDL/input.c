@@ -1,6 +1,5 @@
 #include "input.h"
 #include "AffichageGeneral.h"
-#include "Libraries.h"
 
 
 /**

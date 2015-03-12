@@ -1,6 +1,6 @@
-#include "AffichageGeneral.h"
-#include "Libraries.h" //Inclus toutes les librairies
 
+#include "Libraries.h" //Inclus toutes les librairies
+#include "AffichageGeneral.h"
 
 int main(int argc, char** argv)
 {

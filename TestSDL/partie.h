@@ -3,7 +3,7 @@
 
 #include "worms.h"
 #include "carte.h"
-#include "Libraries.h" //Inclus toutes les librairies
+
 
 #define TAILLETEAM 5
 #define NBTEAM 5
