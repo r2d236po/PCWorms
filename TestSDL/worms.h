@@ -26,7 +26,9 @@ typedef struct {		//Structure worms
 
 Worms* createWorms(const char *file1, const char* file2);	//Créé un worms à partir d'une image
 void destroyWorms(Worms** worms);	//détruit un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir);	//déplace un worms au clavier
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir);	//déplace un worms au clavier
+char retournementWorms(Input* pInput, Worms* worms);
+void replaceWorms(Worms* worms, SDL_Surface* surfaceMap);
 #endif // !1
 
 

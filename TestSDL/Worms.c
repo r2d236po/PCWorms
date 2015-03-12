@@ -58,7 +58,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
 	worms->vitx = 0;
-	worms->vity = (float)(sin(pi / 3) * 1.3);
+	worms->vity = 0;
 	worms->dir = RIGHT;
 
 	//remise à null des pointeurs temporaires
@@ -70,7 +70,7 @@ Worms* createWorms(const char *file1, const char *file2)
 
 /**
 * \fn void destroyWorms(Worms** worms)
-* \brief Détruit une structure Worms et remet son pointeur à NULL.
+* \brief Détruit une structure Worms et remet ses pointeurs à NULL.
 *
 * \param[in] worms, adresse du pointeur de la structure du Worms à détruire.
 */
@@ -96,23 +96,21 @@ void destroyWorms(Worms** worms)
 }
 
 
-//Déplace un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir)
+/**
+* \fn void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir)
+* \brief Deplace un worms dans l'espace.
+*
+* \param[in] pInput, pointeur de la structure contenant les Input.
+* \param[in] worms, pointeur du worms a deplacer
+* \param[in] surfaceCollision, pointeur vers la surface de la map
+* \param[in/out] retournement, parametre indiquant un retournement du worms, peut etre modifie par la fonction
+* \param[in/out] dir, direction de deplacement du worms, peut etre modifie par la fonction
+*/
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir)
 {
 	int deplacement = 0;
 	if (pInput->direction != NONE)
 	{
-		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dir != pInput->direction))
-		{
-			*retournement = 1;
-			worms->dir = pInput->direction;
-			if (worms->dir == RIGHT)
-			{
-				worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-			}
-			else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
-		}
-		else *retournement = 0;
 		if (!pInput->jumpOnGoing)
 		{
 			switch (pInput->direction)
@@ -150,4 +148,44 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		*dir = pInput->direction;
 	}
 	pInput->direction = NONE;
+}
+
+
+char retournementWorms(Input* pInput, Worms* worms)
+{
+	char retournement = 0;
+	if (pInput->direction != NONE)
+	{
+		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dir != pInput->direction))
+		{
+			retournement = 1;
+			worms->dir = pInput->direction;
+			if (worms->dir == RIGHT)
+			{
+				worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+			}
+			else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+		}
+	}
+	return retournement;
+}
+
+void replaceWorms(Worms* worms, SDL_Surface* surfaceMap)
+{
+	if (worms->wormsSurface->clip_rect.x < 0)
+	{
+		worms->wormsSurface->clip_rect.x = 0;
+	}
+	else if (worms->wormsSurface->clip_rect.x + worms->wormsSurface->clip_rect.w > surfaceMap->w)
+	{
+		worms->wormsSurface->clip_rect.x = surfaceMap->w - worms->wormsSurface->clip_rect.w;
+	}
+	if (worms->wormsSurface->clip_rect.y < 0)
+	{
+		worms->wormsSurface->clip_rect.y = 0;
+	}
+	/*else if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h > surfaceMap->h)
+	{
+		worms->wormsSurface->clip_rect.y = surfaceMap->h - worms->wormsSurface->clip_rect.h;
+	}*/
 }

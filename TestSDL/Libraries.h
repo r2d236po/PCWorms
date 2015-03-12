@@ -14,6 +14,7 @@
 
 //structures globales
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
+#define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
 #define pi 3.1415
 typedef struct{		//structure Point
 	int x;
