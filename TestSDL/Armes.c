@@ -1,4 +1,6 @@
 #include "armes.h"
+#include "carte.h"
+#include "AffichageGeneral.h"
 
 
 /* Fonctions concernant la gestion des armes */
