@@ -482,6 +482,10 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfa
 
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
 {
+	if (y <= (h / 8))
+	{
+		return UP;
+	}
 	if ((impulse == RIGHT && x < (w / 2)))
 	{
 		return LEFT;
