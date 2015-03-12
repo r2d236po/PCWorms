@@ -30,7 +30,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
 
-	worms->nom = "J-G.Cousin";
+	worms->nom = "J-G.Cousin <3";
 
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
@@ -73,6 +73,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	wormsSurface = NULL;
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
+	texteSurface = NULL;
 	return worms;
 }
 

@@ -58,7 +58,7 @@ int mainFenetre()
 		initCameras(pRenderer, mainMap, &camera);
 
 		//Initialisation de l'affichage
-		if (createGlobalTexture(surfaceTab, 2, &display, pRenderer, &camera) < 0)
+		if (createGlobalTexture(surfaceTab, 3, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
 			destroyWorms(&worms1);

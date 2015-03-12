@@ -2,10 +2,10 @@
 
 void initialisationPolice()
 {
-	setSDLColor(&font.couleurNameBleu, 127, 131, 238);
-	setSDLColor(&font.couleurNameRouge, 255, 125, 130);
-	setSDLColor(&font.couleurNameVert, 123, 250, 119);
-	setSDLColor(&font.couleurNameJaune, 255, 255, 120);
+	setSDLColor(&font.couleurNameBleu, 238, 131, 127);
+	setSDLColor(&font.couleurNameRouge, 130, 125, 255);
+	setSDLColor(&font.couleurNameVert, 119, 250, 123);
+	setSDLColor(&font.couleurNameJaune, 120, 255, 255);
 
 	font.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 20);
 }
