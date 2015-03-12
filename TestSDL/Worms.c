@@ -1,4 +1,5 @@
 #include "worms.h"
+#include "AffichageGeneral.h"
 
 /**
 * \fn Worms* createWorms(const char *file)
@@ -168,22 +169,4 @@ char retournementWorms(Input* pInput, Worms* worms)
 	return retournement;
 }
 
-void replaceWorms(Worms* worms, SDL_Surface* surfaceMap)
-{
-	if (worms->wormsSurface->clip_rect.x < 0)
-	{
-		worms->wormsSurface->clip_rect.x = 0;
-	}
-	else if (worms->wormsSurface->clip_rect.x + worms->wormsSurface->clip_rect.w > surfaceMap->w)
-	{
-		worms->wormsSurface->clip_rect.x = surfaceMap->w - worms->wormsSurface->clip_rect.w;
-	}
-	if (worms->wormsSurface->clip_rect.y < 0)
-	{
-		worms->wormsSurface->clip_rect.y = 0;
-	}
-	/*else if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->clip_rect.h > surfaceMap->h)
-	{
-		worms->wormsSurface->clip_rect.y = surfaceMap->h - worms->wormsSurface->clip_rect.h;
-	}*/
-}
+

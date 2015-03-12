@@ -1,5 +1,5 @@
 #include "carte.h"
-
+#include "AffichageGeneral.h"
 
 /**
 * \fn int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * file, const char * file2)
@@ -335,7 +335,6 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 	int yStart = pSurface2->clip_rect.y, yEnd = pSurface2->clip_rect.y + pSurface2->clip_rect.h, yInc = 1;
 	//Variable de collision
 	int collision = 0;
-
 	//Test des limites de la map et de la fenetre
 	if (limitMap(pSurface->h, pSurface->w, pSurface2, dir))
 		return 1;
@@ -351,7 +350,6 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 		xStart = -(pSurface2->clip_rect.x + pSurface2->clip_rect.w) + 1;
 		xEnd = -pSurface2->clip_rect.x + 1;
 	}
-
 	//Calcul de la collision
 	for (y = yStart; (y < yEnd) && (collision == 0); y += yInc)
 	{
@@ -377,6 +375,7 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 	formatS2 = NULL;
 	return collision;
 }
+
 /**
 * \fn int limitMap(unsigned int mapHight, unsigned int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir)
 * \brief Test les limites de la map avec l'objet en mouvement.
