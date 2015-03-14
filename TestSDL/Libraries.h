@@ -14,7 +14,9 @@
 
 //structures globales
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
+#define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
 #define pi 3.1415
+
 typedef struct{		//structure Point
 	int x;
 	int y;
@@ -46,5 +48,14 @@ typedef struct{		//structure gérant les différents inputs
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 
+typedef struct{		//structure gérant les polices
+	TTF_Font * FontName;
+	SDL_Color couleurNameBleu;
+	SDL_Color couleurNameRouge;
+	SDL_Color couleurNameVert;
+	SDL_Color couleurNameJaune;
+}Police;
+
+Police font;
 
 #endif

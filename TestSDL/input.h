@@ -1,7 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include "Libraries.h" //Inclus toutes les librairies
 #include "carte.h"
 
 void getInput(Input* pInput, SDL_Window* pWindow);	//récupère les inputs

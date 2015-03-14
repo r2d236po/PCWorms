@@ -2,7 +2,7 @@
 #define WORMS_H
 
 #include "armes.h"
-#include "Libraries.h" //Inclus toutes les librairies
+
 #define TAILLEINV 5
 
 typedef struct {		//Structure worms
@@ -19,6 +19,7 @@ typedef struct {		//Structure worms
 	SDL_Surface* wormsSurface;
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
+	SDL_Surface* texteSurface;
 
 	//son?
 } Worms;
@@ -26,7 +27,8 @@ typedef struct {		//Structure worms
 
 Worms* createWorms(const char *file1, const char* file2);	//Créé un worms à partir d'une image
 void destroyWorms(Worms** worms);	//détruit un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir);	//déplace un worms au clavier
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir);	//déplace un worms au clavier
+char retournementWorms(Input* pInput, Worms* worms);
 #endif // !1
 
 

@@ -1,6 +1,5 @@
 #include "worms.h"
 #include "AffichageGeneral.h"
-#include "Libraries.h"
 
 /**
 * \fn Worms* createWorms(const char *file)
@@ -16,6 +15,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	SDL_Surface* wormsSurface = NULL;
 	SDL_Surface * wormsSurfaceLeft = NULL;
 	SDL_Surface * wormsSurfaceRight = NULL;
+	SDL_Surface * texteSurface = NULL;
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
@@ -25,9 +25,13 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
+	worms->texteSurface = NULL;
 
 	wormsSurfaceLeft = loadImage(file1);
 	wormsSurfaceRight = loadImage(file2);
+
+	worms->nom = "J-G.Cousin <3";
+
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
 		printf("Erreur création surface worms, %s", SDL_GetError());
@@ -41,6 +45,10 @@ Worms* createWorms(const char *file1, const char *file2)
 		destroyWorms(&worms);
 		return NULL;
 	}
+
+	texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
+
+	worms->texteSurface = texteSurface;
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	worms->wormsSurface = wormsSurface;
@@ -58,19 +66,20 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
 	worms->vitx = 0;
-	worms->vity = (float)(sin(pi / 3) * 1.3);
+	worms->vity = 0;
 	worms->dir = RIGHT;
 
 	//remise à null des pointeurs temporaires
 	wormsSurface = NULL;
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
+	texteSurface = NULL;
 	return worms;
 }
 
 /**
 * \fn void destroyWorms(Worms** worms)
-* \brief Détruit une structure Worms et remet son pointeur à NULL.
+* \brief Détruit une structure Worms et remet ses pointeurs à NULL.
 *
 * \param[in] worms, adresse du pointeur de la structure du Worms à détruire.
 */
@@ -96,23 +105,21 @@ void destroyWorms(Worms** worms)
 }
 
 
-//Déplace un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir)
+/**
+* \fn void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir)
+* \brief Deplace un worms dans l'espace.
+*
+* \param[in] pInput, pointeur de la structure contenant les Input.
+* \param[in] worms, pointeur du worms a deplacer
+* \param[in] surfaceCollision, pointeur vers la surface de la map
+* \param[in/out] retournement, parametre indiquant un retournement du worms, peut etre modifie par la fonction
+* \param[in/out] dir, direction de deplacement du worms, peut etre modifie par la fonction
+*/
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir)
 {
 	int deplacement = 0;
 	if (pInput->direction != NONE)
 	{
-		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dir != pInput->direction))
-		{
-			*retournement = 1;
-			worms->dir = pInput->direction;
-			if (worms->dir == RIGHT)
-			{
-				worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-			}
-			else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
-		}
-		else *retournement = 0;
 		if (!pInput->jumpOnGoing)
 		{
 			switch (pInput->direction)
@@ -151,3 +158,25 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	}
 	pInput->direction = NONE;
 }
+
+
+char retournementWorms(Input* pInput, Worms* worms)
+{
+	char retournement = 0;
+	if (pInput->direction != NONE)
+	{
+		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dir != pInput->direction))
+		{
+			retournement = 1;
+			worms->dir = pInput->direction;
+			if (worms->dir == RIGHT)
+			{
+				worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+			}
+			else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+		}
+	}
+	return retournement;
+}
+
+

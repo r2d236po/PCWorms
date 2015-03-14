@@ -60,7 +60,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>kernel32.lib;user32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_TTF.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="AffichageGeneral.c" />
     <ClCompile Include="Armes.c" />
+    <ClCompile Include="HUD.c" />
     <ClCompile Include="input.c" />
     <ClCompile Include="main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -99,6 +100,7 @@
     <ClInclude Include="AffichageGeneral.h" />
     <ClInclude Include="armes.h" />
     <ClInclude Include="carte.h" />
+    <ClInclude Include="HUD.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="Libraries.h" />
     <ClInclude Include="partie.h" />
