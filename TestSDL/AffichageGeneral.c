@@ -79,9 +79,6 @@ int mainFenetre()
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-				SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 255);
-				SDL_RenderDrawPoint(pRenderer, worms1->xAbs, worms1->yAbs);
-				SDL_RenderPresent(pRenderer);
 			}
 
 			//Gestion du frame Rate
@@ -437,7 +434,7 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 	map = NULL;
 	text = NULL;
 	rect = NULL;
-	//SDL_RenderPresent(pRenderer);
+	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
 
