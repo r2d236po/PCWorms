@@ -248,9 +248,8 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
 	static enum DIRECTION dir = DOWN;
-	char retournement = 0;
+	static char retournement = 0;
 	static int  t = 0;
-	static int stop = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
 	va_list list;
@@ -265,25 +264,24 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			//On remet à zero x et y par rapport à sa position absolu de départ
 			worms->wormsSurface->clip_rect.x = worms->xAbs;
 			worms->wormsSurface->clip_rect.y = worms->yAbs;
-			stop = 0;
+			if (pInput->direction == UP)
+				dir = UP;
+			else if (dir != UP)
+				dir = worms->dir;
 		}
-		if (!pInput->jumpOnGoing)
+		else if (!pInput->jumpOnGoing)
 			dir = DOWN;
-		else if (pInput->direction == UP)
-			dir = UP;
-		else
-			dir = worms->dir;
 		/*Réalisation du saut*/
 
 		//On calcul les écarts relatifs sur x et y
 		xRel = (int)(worms->vitx *t);
 		yRel = (int)((worms->vity*t) - ((g*t*t) / 2000));
+		if (dir == UP && yRel <= 0)
+			dir = DOWN;
 		//On calcule maintenant les valeurs de x et y
 		worms->wormsSurface->clip_rect.x += xRel;
 		worms->wormsSurface->clip_rect.y -= yRel;
 		t += 7;
-		//détection de possibles dépassement de la map
-		//replaceWorms(worms, map->imageMapSurface);
 		//detection du sens du worms
 		retournement = retournementWorms(pInput, worms);
 		//Fonction de déplacement du worms
@@ -291,13 +289,15 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 		//Si on a eu une collision (donc on est en fin de saut) on réattribut les nouvelles coordonnées absolues
 		if (gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir, retournement))
 		{
+			if (worms->xAbs != worms->wormsSurface->clip_rect.x || dir == DOWN || dir == UP)
+				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			worms->xAbs = worms->wormsSurface->clip_rect.x;
-			worms->yAbs = worms->wormsSurface->clip_rect.y;
 			t = 0;
-			stop = 1;
- 			pInput->jump = pInput->jumpOnGoing = 0;
+			pInput->jump = pInput->jumpOnGoing = 0;
 			worms->vitx = 0;
-			worms->vity = 0; 
+			worms->vity = 0;
+			pInput->direction = NONE;
+			retournement = 0;
 		}
 		break;
 	case 1:
@@ -383,10 +383,10 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 * \param[in] mapHight, hauteur de la map
 * \param[in] mapWidth, largeur de la map
 * \param[in] pSurface, surface de l'objet en mouvement
-* \param[in] dir, direction du deplacement du worms, peut etre modifie
+* \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
 * \return 1 = depassement de la map, 0 = pas de depassement de la map
 */
-int limitMap(int mapHight,int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir)
+int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir)
 {
 	int xSurface = pSurface->clip_rect.x;
 	int ySurface = pSurface->clip_rect.y;
@@ -410,7 +410,7 @@ int limitMap(int mapHight,int mapWidth, SDL_Surface* pSurface, enum DIRECTION* d
 	}
 	else if (ySurface + pSurface->h > mapHight)
 	{
-		pSurface->clip_rect.y = mapHight - pSurface->clip_rect.h;
+		pSurface->clip_rect.y = mapHight - pSurface->clip_rect.h + 1;
 		*dir = DOWN;
 		return 1;
 	}
@@ -437,20 +437,10 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfa
 		switch (*dir)
 		{
 		case RIGHT:
-			if (retournement)
-			{
-				*dir = LEFT;
-				retournement = 0;
-			}
-			else surfaceMotion->clip_rect.x -= vitesse;
+			surfaceMotion->clip_rect.x -= vitesse;
 			break;
 		case LEFT:
-			if (retournement)
-			{
-				*dir = RIGHT;
-				retournement = 0;
-			}
-			else surfaceMotion->clip_rect.x += vitesse;
+			surfaceMotion->clip_rect.x += vitesse;
 			break;
 		case DOWN:
 			surfaceMotion->clip_rect.y -= vitesse;
@@ -482,23 +472,23 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfa
 
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
 {
-	if (y <= (h / 8))
+	if (impulse == UP || (y <= (h / 8) && x > (2 * w / 7) && x < (5 * w / 7)))
 	{
 		return UP;
 	}
-	if ((impulse == RIGHT && x < (w / 2)))
+	else if ((impulse == RIGHT && x < (w / 2)))
 	{
 		return LEFT;
 	}
-	if (impulse == LEFT && x >(w / 2))
+	else if (impulse == LEFT && x >(w / 2))
 	{
 		return RIGHT;
 	}
-	if (y >= (5 * h / 8))
+	else if (y >= (5 * h / 8))
 	{
 		return DOWN;
 	}
-	else if (y > (h / 8) && y < (6 * h / 8))
+	else if (y >(h / 8) && y < (7 * h / 8))
 	{
 		return impulse; //retourne soit RIGHT si impulse est droite soit LEFT si impulse est gauche
 	}

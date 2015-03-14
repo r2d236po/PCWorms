@@ -77,7 +77,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
 			{
-			case SDLK_LEFT:
+			case SDLK_LEFT: 
 				pInput->direction = LEFT;
 				break;
 			case SDLK_RIGHT:
@@ -190,8 +190,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 			worms->vity = (float)(sin(pi / 3)*1.3);
 		}
 		else if (pInput->direction == UP)
-		{
-			pInput->direction = NONE;
+		{			
 			worms->vitx = 0;
 			pInput->jumpOnGoing = 1;
 			worms->wormsSurface->clip_rect.y -= 1;
