@@ -34,7 +34,7 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		   
+
 		//Initialisation worms
 		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
 		if (worms1 == NULL)
@@ -50,7 +50,7 @@ int mainFenetre()
 		surfaceTab[1] = worms1->wormsSurface;
 
 		//Initialisation des caméras
-		initCameras(pRenderer, mainMap, &camera);
+		initCameras(pRenderer, mainMap, &camera, worms1);
 
 		//Initialisation de l'affichage
 		if (createGlobalTexture(surfaceTab, 2, &display, pRenderer, &camera) < 0)
@@ -478,23 +478,31 @@ void frameRate(unsigned int fM)
 *
 * \returns void
 */
-void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
+void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Worms * worms){
 	int w = 0, h = 0, wW = 0, hW = 0;
-	w = map->imageMapSurface->w;
-	h = map->imageMapSurface->h;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
-	camera->x = 0;
-	camera->y = 0;
-	camera->w = wW;
-	camera->h = hW;
-	if (h < hW || w < wW){
-		camera->h = h;
-		camera->w = (int)(camera->h * ((float)wW / (float)hW));
+	if (worms == NULL){
+		w = map->imageMapSurface->w;
+		h = map->imageMapSurface->h;
+		camera->x = 0;
+		camera->y = 0;
+		if (h > hW || w > wW){
+			camera->h = h;
+			camera->w = (int)(camera->h * ((float)wW / (float)hW));
+		}
+	}
+	else{
+		camera->h = worms->wormsSurface->h * 10;
+		camera->w = camera->h * ((float)wW / (float)hW);
+		camera->x = worms->xAbs - (camera->w / 2);
+		camera->y = worms->yAbs - (camera->h / 2);
+		if (camera->x < 0)camera->x = 0;
+		if (camera->y < 0)camera->y = 0;
 	}
 }
 
 /**
-* \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
+* \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput,...)
 * \brief Déplace la camera suivant la souris.
 *
 * \param[in] pTexture, la texture de la fenêtre courante.
@@ -505,7 +513,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera){
 *
 * \returns void
 */
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms * worms)
 {
 	int w = 0, h = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);

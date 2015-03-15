@@ -158,7 +158,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
+		moveCam(pTexture, camera, pInput, NULL); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
@@ -170,7 +170,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->wheelDown = 0;
 	}
 	if (pInput->windowResized){
-		initCameras(pRenderer, map, camera);
+		initCameras(pRenderer, map, camera,worms);
 		pInput->windowResized = 0;
 	}
 	if (pInput->bombe){
@@ -178,6 +178,9 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->bombe = 0;
 	}
 	gestionPhysique(map, pInput, 0, worms);
+	/*if (!pInput->rclick){
+		moveCam(pTexture, camera, pInput, NULL);
+	}*/
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
