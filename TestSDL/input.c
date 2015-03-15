@@ -59,8 +59,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			break;
 
 		case SDL_MOUSEMOTION:
-			pInput->cursor.before = pInput->cursor.now;
-			SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+			pInput->cursor.motion = 1;
 			break;
 
 		case SDL_MOUSEWHEEL:
@@ -172,8 +171,15 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		initCameras(pRenderer, map, camera,worms);
 		pInput->windowResized = 0;
 	}
+	if (pInput->cursor.motion){
+		pInput->cursor.before = pInput->cursor.now;
+		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+		pInput->cursor.motion = 0;
+	}
 	if (pInput->bombe){
-		bombExplo(pInput->cursor.now.x + camera->x, pInput->cursor.now.y + camera->y, 100, surfaceTab, pTexture);
+		static int rW, rH;
+		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
+		bombExplo((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
 	if (!pInput->jumpOnGoing)
@@ -229,6 +235,7 @@ Input* initInput()
 	pInput->lclick = 0;
 	pInput->rclick = 0;
 	pInput->menu = 0;
+	pInput->cursor.motion = 0;
 	pInput->cursor.before.x = 0;
 	pInput->cursor.before.y = 0;
 	pInput->cursor.now.x = 0;
