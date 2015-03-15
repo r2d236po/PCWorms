@@ -88,7 +88,9 @@ Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
 	//Convert the pixels to 32 bit
 	Uint32 *pixels = (Uint32 *)surface->pixels;
 	//Get the requested pixel
-	return pixels[(y * surface->w) + x];
+	if ((y * surface->w) + x <= surface->w * surface->h)
+		return pixels[(y * surface->w) + x];
+	return EXIT_FAILURE;
 }
 
 /**
@@ -107,7 +109,8 @@ void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	Uint32 *pixels = (Uint32 *)surface->pixels;
 
 	//Set the pixel
-	pixels[(y * surface->w) + x] = pixel;
+	if ((y * surface->w) + x <= surface->w * surface->h)
+		pixels[(y * surface->w) + x] = pixel;
 }
 
 /**
@@ -488,7 +491,7 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 	{
 		return DOWN;
 	}
-	else if (y >(h / 8) && y < (7 * h / 8))
+	else if (y > (h / 8) && y < (7 * h / 8))
 	{
 		return impulse; //retourne soit RIGHT si impulse est droite soit LEFT si impulse est gauche
 	}

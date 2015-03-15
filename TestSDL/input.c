@@ -173,7 +173,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->windowResized = 0;
 	}
 	if (pInput->bombe){
-		bombExplo(500, 400, 100, surfaceTab, pTexture);
+		bombExplo(pInput->cursor.now.x + camera->x, pInput->cursor.now.y + camera->y, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
 	if (!pInput->jumpOnGoing)
