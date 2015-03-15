@@ -1,16 +1,17 @@
 #include "AffichageGeneral.h"
 #include "input.h"
-#include "Libraries.h" //Inclus toutes les librairies
+
+
 
 int mainFenetre()
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	SDL_Renderer* pRenderer = NULL; //déclaration du renderer
-	SDL_Window* pWindow = NULL;	//déclaration de la window
+	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
+	SDL_Window * pWindow = NULL;	//déclaration de la window
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = NULL;
-	SDL_Texture* display = NULL;	//Texture globale
-	SDL_Surface** surfaceTab = NULL;
+	SDL_Texture * display = NULL;	//Texture globale
+	SDL_Surface ** surfaceTab = NULL;
 	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
 
@@ -26,14 +27,16 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/mapHD2.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest2.png") < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
+		   
+		initialisationPolice(); /*Ouvre des polices pour le HUD*/
+
 
 		//Initialisation worms
 		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
@@ -44,16 +47,17 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		surfaceTab = malloc(2 * sizeof(SDL_Surface*));
+		surfaceTab = malloc(3 * sizeof(SDL_Surface*));
 
 		surfaceTab[0] = mainMap->imageMapSurface;
 		surfaceTab[1] = worms1->wormsSurface;
+		surfaceTab[2] = worms1->texteSurface;
 
 		//Initialisation des caméras
 		initCameras(pRenderer, mainMap, &camera, worms1);
 
 		//Initialisation de l'affichage
-		if (createGlobalTexture(surfaceTab, 2, &display, pRenderer, &camera) < 0)
+		if (createGlobalTexture(surfaceTab, 3, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
 			destroyWorms(&worms1);
@@ -79,7 +83,7 @@ int mainFenetre()
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-				SDL_SetRenderDrawColor(pRenderer, 0, 0, 255, 255);
+				SDL_SetRenderDrawColor(pRenderer, 255,0,0, 255);
 				SDL_RenderDrawPoint(pRenderer, worms1->xAbs, worms1->yAbs);
 				SDL_RenderPresent(pRenderer);
 			}
@@ -93,17 +97,16 @@ int mainFenetre()
 		surfaceTab = NULL;
 		destroyMap(&mainMap);
 		destroyWorms(&worms1);
+		destroyPolice();
 		SDL_DestroyTexture(display);
 		display = NULL;
 		cleanUp(&pWindow, &pRenderer, &pInput);
 	}
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 	return 0;
 }
-
-
-
 
 
 
@@ -202,7 +205,7 @@ int sandboxRenderer()
 * \fn int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 * \brief Initialisation de la fenêtre.
 *
-*La fonction initSWR initialise la SDL, la SDL_Image et les pointeurs
+*La fonction initSWR initialise la SDL, la SDL_Image, la SDL_TTF et les pointeurs
 *pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
 *Elle retourne 1 si tout c'est bien passé, -1 sinon.
 *
@@ -211,7 +214,7 @@ int sandboxRenderer()
 * \returns int, indicateur si la fonction a bien fonctionnée.
 * \returns les pointeurs pWindow et pRenderer
 */
-int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
+int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 {
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -244,8 +247,15 @@ int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
 		SDL_Quit();
 		return -1;
 	}
+	/*Initialisation SDL_TTF*/
+	if (TTF_Init() == -1)
+	{
+		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+		return -1;
+	}
 	return 1;
 }
+
 
 /**
 * \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
@@ -482,14 +492,14 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (worms == NULL){
-		w = map->imageMapSurface->w;
-		h = map->imageMapSurface->h;
-		camera->x = 0;
-		camera->y = 0;
+	w = map->imageMapSurface->w;
+	h = map->imageMapSurface->h;
+	camera->x = 0;
+	camera->y = 0;
 		if (h > hW || w > wW){
-			camera->h = h;
-			camera->w = (int)(camera->h * ((float)wW / (float)hW));
-		}
+		camera->h = h;
+		camera->w = (int)(camera->h * ((float)wW / (float)hW));
+	}
 	}
 	else{
 		camera->h = worms->wormsSurface->h * 10;

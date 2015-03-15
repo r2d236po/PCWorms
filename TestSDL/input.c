@@ -1,6 +1,5 @@
 #include "input.h"
 #include "AffichageGeneral.h"
-#include "Libraries.h"
 
 
 /**
@@ -34,11 +33,11 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_MOUSEBUTTONDOWN:
 			switch (event.button.button)
 			{
-			case SDL_BUTTON_LEFT :
+			case SDL_BUTTON_LEFT:
 				pInput->lclick = 1;
 				pInput->cursor.before = pInput->cursor.now;
 				break;
-			case SDL_BUTTON_RIGHT :
+			case SDL_BUTTON_RIGHT:
 				pInput->rclick = 1;
 				pInput->cursor.before = pInput->cursor.now;
 				break;
@@ -176,6 +175,27 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	if (pInput->bombe){
 		bombExplo(500, 400, 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
+	}
+	if (!pInput->jumpOnGoing)
+	{
+		if (pInput->jump)
+		{
+			if (worms->dir == RIGHT)
+			{
+				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
+			}
+			else worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+			worms->wormsSurface->clip_rect.y -= 1;
+			pInput->jumpOnGoing = 1;
+			worms->vity = (float)(sin(pi / 3)*1.3);
+		}
+		else if (pInput->direction == UP)
+		{			
+			worms->vitx = 0;
+			pInput->jumpOnGoing = 1;
+			worms->wormsSurface->clip_rect.y -= 1;
+			worms->vity = (float)(sin(pi / 3)*1.3);
+		}
 	}
 	gestionPhysique(map, pInput, 0, worms);
 	/*if (!pInput->rclick){

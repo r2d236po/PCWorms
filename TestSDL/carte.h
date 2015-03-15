@@ -1,9 +1,6 @@
-
-
 #ifndef CARTE_H
 #define CARTE_H
 
-#include "Libraries.h" //Inclus toutes les librairies
 #include "worms.h"
 /* Déclaration des structures et constantes relatives à la carte jouée */
 
@@ -23,7 +20,8 @@ int initialisionTerrain(Terrain ** map, SDL_Renderer * pRenderer, const char * f
 void destroyMap(Terrain** map);	//détruit un terrain
 int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2);
 int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, enum DIRECTION* dir);
-int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION *dir, int retournement);
+int limitMap(int mapHight,int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir);
+int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION *dir, char retournement);
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
 int gestionPhysique(Terrain* map, Input* pInput, ...);
 Uint32 ReadPixel(SDL_Surface *surface, int x, int y);
