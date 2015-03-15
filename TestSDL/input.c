@@ -179,7 +179,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	if (pInput->bombe){
 		static int rW, rH;
 		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
-		bombExplo((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 100, surfaceTab, pTexture);
+		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 100, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
 	if (!pInput->jumpOnGoing)
