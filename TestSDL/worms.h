@@ -21,14 +21,13 @@ typedef struct {		//Structure worms
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
 	SDL_Surface* texteSurface;
-
 	//son?
 } Worms;
 
 
-Worms* createWorms(const char name);	//Créé un worms à partir d'une image
+Worms* createWorms(const char* name);	//Créé un worms à partir d'une image
 void destroyWorms(Worms** worms, int nbWorms);	//détruit un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir);	//déplace un worms au clavier
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
 char retournementWorms(Input* pInput, Worms* worms);
 #endif // !1
 

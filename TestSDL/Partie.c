@@ -7,7 +7,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
 	Jeu * jeu = NULL;
 
-	jeu = (Jeu*)malloc(sizeof(Worms));
+	jeu = (Jeu*)malloc(sizeof(Jeu));
 
 	if (jeu == NULL)
 	{
@@ -18,7 +18,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	jeu->temps = 1000;
 	strcpy(jeu->nomMap, "../assets/pictures/maptest3.png");
 
-	jeu->equipes = (Equipe*)malloc(nbE * sizeof(Equipe*));
+	jeu->equipes = malloc(nbE * sizeof(Equipe*));
 	for ( int i = 0; i < nbE; i++)
 	{
 		jeu->equipes[i] = nouvelleEquipe("Equipe", font.couleurNameBleu, nbW );
@@ -28,7 +28,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 
 void destroyJeu(Jeu ** game)
 {
-	destroyEquipe(&(*game)->equipes, (*game)->nbEquipe);
+	destroyEquipe((*game)->equipes, (*game)->nbEquipe);
 
 	free(*game);
 	*game = NULL;
@@ -58,17 +58,17 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 	}
 
 
-	team->vie = vieEquipe(&team);
+	team->vie = vieEquipe(team);
 	return team;
 }
 
 void destroyEquipe(Equipe ** team, int nbE)
 {
 	int i;
-	for (i = 0; i < nbE; i++){
-		destroyWorms(&team[i]->worms, team[i]->nbWormsStart);
+	for (i = 0; i < nbE; i++)
+	{
+		destroyWorms(team[i]->worms, team[i]->nbWormsStart);
 	}
-
 	free(*team);
 	*team = NULL;
 }

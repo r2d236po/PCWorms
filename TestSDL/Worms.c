@@ -9,7 +9,7 @@
 *
 * \returns pointeur vers la structure worms créé, NULL si echec
 */
-Worms* createWorms(const char name)
+Worms* createWorms(const char* name)
 {
 	Worms * worms = NULL;
 	SDL_Surface* wormsSurface = NULL;
@@ -29,7 +29,7 @@ Worms* createWorms(const char name)
 	wormsSurfaceLeft = loadImage("../assets/pictures/wormsg.png");
 	wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
 
-	//worms->nom = name;
+	worms->nom = name;
 
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
@@ -104,8 +104,7 @@ void destroyWorms(Worms** worms, int nbWorms)
 			(worms[i])->wormsSurfaceRight = NULL;
 		}
 		free(worms[i]);
-	}
-	
+	}	
 	*worms = NULL;
 }
 
@@ -120,7 +119,7 @@ void destroyWorms(Worms** worms, int nbWorms)
 * \param[in/out] retournement, parametre indiquant un retournement du worms, peut etre modifie par la fonction
 * \param[in/out] dir, direction de deplacement du worms, peut etre modifie par la fonction
 */
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir)
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision)
 {
 	int deplacement = 0;
 	if (pInput->direction != UP)
@@ -156,8 +155,6 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		{
 			worms->wormsSurface->clip_rect.y -= deplacement;
 		}
-	//	if (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir) && pInput->direction != NONE)
-	//		*dir = worms->dir;
 		pInput->direction = NONE;
 	}
 

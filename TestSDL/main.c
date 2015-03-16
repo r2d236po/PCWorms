@@ -7,9 +7,7 @@
 int main(int argc, char** argv)
 {
 	int nbEquipe = 1;
-	int nbWormsEquipe = 1;
-
-	
+	int nbWormsEquipe = 1;	
 
 	Jeu * game = nouveauJeu(nbEquipe, nbWormsEquipe, "../assets/pictures/maptest3.png");
 	
