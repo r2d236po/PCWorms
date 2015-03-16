@@ -57,7 +57,7 @@ int mainFenetre(Jeu * jeu)
 
 		}
 		updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
-		updateGlobaleTexture(mainMap->imageMapSurface, worms1->texteSurface, display, &worms1->texteSurface->clip_rect);
+
 		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
 		while (!(pInput->quit))
 		{
