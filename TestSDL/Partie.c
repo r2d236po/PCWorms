@@ -7,7 +7,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
 	Jeu * jeu = NULL;
 
-	jeu = (Jeu*)malloc(sizeof(Jeu));
+	jeu = malloc(sizeof(Jeu));
 
 	if (jeu == NULL)
 	{
@@ -39,7 +39,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 {
 	Equipe * team = NULL;
 
-	team = (Equipe*)malloc(sizeof(Equipe));
+	team = malloc(sizeof(Equipe));
 
 	if (team == NULL)
 	{
