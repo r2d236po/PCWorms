@@ -35,7 +35,7 @@ int mainFenetre(Jeu * jeu)
 		}
 		   
 		//Initialisation worms
-		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
+		worms1 = createWorms("Jacouille");
 		if (worms1 == NULL)
 		{
 			printf("Erreur creation worms");

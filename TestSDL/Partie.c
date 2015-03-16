@@ -56,8 +56,6 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 	{
 		team->worms[i] = createWorms("NomWorms");
 	}
-
-
 	team->vie = vieEquipe(team);
 	return team;
 }

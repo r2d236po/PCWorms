@@ -137,7 +137,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 			retournement = retournementWorms(pInput, worms);
 		//Fonction de déplacement du worms si non saut
 		if (!pInput->jumpOnGoing)
-			deplacementWorms(pInput, worms, map->imageMapSurface, &dir);
+			deplacementWorms(pInput, worms, map->imageMapSurface);
 		if (retournement && (dir != DOWN) && !pInput->jumpOnGoing)
 		{
 			switch (worms->dirSurface)
