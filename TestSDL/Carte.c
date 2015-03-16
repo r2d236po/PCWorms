@@ -243,7 +243,7 @@ int detectionCollisionSurface(SDL_Surface* pSurface, SDL_Surface* pSurface2)
 }
 
 
-int gestionPhysique(Terrain* map, Input* pInput, ...)
+int gestionPhysique(Terrain* map,SDL_Texture* display, Input* pInput, ...)
 {
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
@@ -303,6 +303,7 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 			worms->dir = DOWN;
 			retournement = 0;
 		}
+		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
 		break;
 	case 1:
 		//cas d'une arme
@@ -378,7 +379,7 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 			else
 			{
 				collision = 1;
-				*dir = calculDirection(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurface2->w, pSurface2->h, pInput);
+				*dir = calculDirection(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurface2->w, pSurface2->h);
 			}
 		}
 	}
@@ -497,7 +498,7 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfa
 * \return int, direction de la collision
 */
 
-enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h, Input* pInput)
+enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
 {
 
 	if (x >= 7 * w / 8 && impulse != DOWN)

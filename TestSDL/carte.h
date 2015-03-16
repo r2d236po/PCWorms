@@ -23,8 +23,8 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurface, SDL_Surface* pSurface2, e
 int limitMap(int mapHight,int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir);
 int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION *dir, Input* pInput);
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurface, int* xE, int* yE, SDL_Rect* pRect);
-int gestionPhysique(Terrain* map, Input* pInput, ...);
+int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...);
 Uint32 ReadPixel(SDL_Surface *surface, int x, int y);
 void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
-enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h, Input* pInput);
+enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h);
 #endif

@@ -144,7 +144,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 * \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[])
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -156,11 +156,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(pTexture,camera,pInput); //gestion du scrolling de caméra
+		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer,pTexture, camera,pInput);
+		zoomIn(pRenderer, pTexture, camera, pInput);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
@@ -168,7 +168,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->wheelDown = 0;
 	}
 	if (pInput->windowResized){
-		initCameras(pRenderer, map, camera,NULL);
+		initCameras(pRenderer, map, camera, NULL);
 		pInput->windowResized = 0;
 	}
 	if (pInput->cursor.motion){
@@ -179,7 +179,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	if (pInput->bombe){
 		static int rW, rH;
 		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
-		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, surfaceTab, pTexture);
+		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, map->imageMapSurface, pTexture);
 		pInput->bombe = 0;
 	}
 	if (pInput->direction == RIGHT || pInput->direction == LEFT)
@@ -203,7 +203,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 			worms->vity = (float)(sin(pi / 3)*1.3);
 		}
 		else if (pInput->direction == UP)
-		{			
+		{
 			worms->vitx = 0;
 			pInput->jumpOnGoing = 1;
 			worms->wormsSurface->clip_rect.y -= 1;
@@ -211,7 +211,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 			worms->dir = UP;
 		}
 	}
-	gestionPhysique(map, pInput, 0, worms);
+	gestionPhysique(map, pTexture, pInput, 0, worms);
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
