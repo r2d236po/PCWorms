@@ -34,7 +34,7 @@ void frameRate(unsigned int fM);	//gère le framerate
 //gestion des inputs
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
-void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera);	//Zoom In, grossis
+void zoomIn(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//Zoom In, grossis
 void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera);	//Zoom out, rétrécis
 int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int surface, SDL_Rect* pRect);	//Met à jour la texture globale
 SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, int height);	//Met à l'échelle la surface de collision
