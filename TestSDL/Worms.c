@@ -67,7 +67,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
 	worms->vitx = 0;
 	worms->vity = 0;
-	worms->dir = RIGHT;
+	worms->dir = DOWN;
 	worms->dirSurface = RIGHT;
 
 	//remise à null des pointeurs temporaires
@@ -121,45 +121,42 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	int deplacement = 0;
 	if (pInput->direction != UP)
 	{
-		if (!pInput->jumpOnGoing)
+		switch (worms->dir)
 		{
-			switch (worms->dir)
-			{
-			case RIGHT:
-				deplacement = pInput->acceleration;
-				break;
-			case LEFT:
-				deplacement = -pInput->acceleration;
-				break;
-			case UP:
-				deplacement = -pInput->acceleration;
-				break;
-			case DOWN:
-				deplacement = pInput->acceleration;
-				break;
-			}
-			if (worms->dir == RIGHT || worms->dir == LEFT)
-			{
-				worms->wormsSurface->clip_rect.x += deplacement;
-			}
-			else if (worms->dir == UP || worms->dir == DOWN)
-			{
-				worms->wormsSurface->clip_rect.y += deplacement;
-			}
-			if ((worms->wormsSurface->clip_rect.x + worms->wormsSurface->w) > surfaceCollision->w || worms->wormsSurface->clip_rect.x < 0)
-			{
-				worms->wormsSurface->clip_rect.x -= deplacement;
-			}
-			if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h) > surfaceCollision->h || worms->wormsSurface->clip_rect.y < 0)
-			{
-				worms->wormsSurface->clip_rect.y -= deplacement;
-			}
+		case RIGHT:
+			deplacement = pInput->acceleration;
+			break;
+		case LEFT:
+			deplacement = -pInput->acceleration;
+			break;
+		case UP:
+			deplacement = -pInput->acceleration;
+			break;
+		case DOWN:
+			deplacement = pInput->acceleration;
+			break;
 		}
-		if (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir, pInput) && pInput->direction != NONE)
-			*dir = worms->dir;
+		if (worms->dir == RIGHT || worms->dir == LEFT)
+		{
+			worms->wormsSurface->clip_rect.x += deplacement;
+		}
+		else if (worms->dir == UP || worms->dir == DOWN)
+		{
+			worms->wormsSurface->clip_rect.y += deplacement;
+		}
+		if ((worms->wormsSurface->clip_rect.x + worms->wormsSurface->w) > surfaceCollision->w || worms->wormsSurface->clip_rect.x < 0)
+		{
+			worms->wormsSurface->clip_rect.x -= deplacement;
+		}
+		if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h) > surfaceCollision->h || worms->wormsSurface->clip_rect.y < 0)
+		{
+			worms->wormsSurface->clip_rect.y -= deplacement;
+		}
+	//	if (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir) && pInput->direction != NONE)
+	//		*dir = worms->dir;
 		pInput->direction = NONE;
 	}
-	
+
 }
 
 
