@@ -33,7 +33,7 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-
+		   
 		initialisationPolice(); /*Ouvre des polices pour le HUD*/
 
 
@@ -480,14 +480,14 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (worms == NULL){
-		w = map->imageMapSurface->w;
-		h = map->imageMapSurface->h;
-		camera->x = 0;
-		camera->y = 0;
+	w = map->imageMapSurface->w;
+	h = map->imageMapSurface->h;
+	camera->x = 0;
+	camera->y = 0;
 		if (h > hW || w > wW){
-			camera->h = h;
-			camera->w = (int)(camera->h * ((float)wW / (float)hW));
-		}
+		camera->h = h;
+		camera->w = (int)(camera->h * ((float)wW / (float)hW));
+	}
 	}
 	else{
 		camera->h = worms->wormsSurface->h * 10;
@@ -544,12 +544,16 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int wW = 0, hW = 0, w = 0, h = 0;
+	float x = 0, y = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
-	camera->h = camera->h - 20;
+	camera->h = camera->h - 10;
 	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
-	camera->x = pInput->cursor.now.x - camera->w / 2;
-	camera->y = pInput->cursor.now.y - camera->h / 2;
+
+	x = (pInput->cursor.now.x / (float)wW) - (1 / 2.0);
+	y = (pInput->cursor.now.y / (float)hW) - (1 / 2.0);
+	camera->x += x * 30;
+	camera->y += y * 30;
 
 	if (camera->x < 0)camera->x = 0;
 	if (camera->y < 0)camera->y = 0;
@@ -664,12 +668,12 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 		{
 			pixelRead = ReadPixel(pSurfaceMap, x - pSurfaceMap->clip_rect.x, y - pSurfaceMap->clip_rect.y);
 			SDL_GetRGBA(pixelRead, pSurfaceMap->format, &r, &g, &b, &a);
-			if (a < 150)
-			{
+				if (a < 150)
+				{
 				pixelWrite[x + y *  pSurfaceMap->w] = pixelTransparent;
-			}
-			else
-			{
+				}
+				else
+				{
 				pixelWrite[x + y *  pSurfaceMap->w] = pixelRead;
 			}
 		}
