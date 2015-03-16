@@ -34,7 +34,7 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		   
+
 		initialisationPolice(); /*Ouvre des polices pour le HUD*/
 
 
@@ -83,7 +83,7 @@ int mainFenetre()
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-				SDL_SetRenderDrawColor(pRenderer, 255,0,0, 255);
+				SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
 				SDL_RenderDrawPoint(pRenderer, worms1->xAbs, worms1->yAbs);
 				SDL_RenderPresent(pRenderer);
 			}
@@ -492,14 +492,14 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (worms == NULL){
-	w = map->imageMapSurface->w;
-	h = map->imageMapSurface->h;
-	camera->x = 0;
-	camera->y = 0;
+		w = map->imageMapSurface->w;
+		h = map->imageMapSurface->h;
+		camera->x = 0;
+		camera->y = 0;
 		if (h > hW || w > wW){
-		camera->h = h;
-		camera->w = (int)(camera->h * ((float)wW / (float)hW));
-	}
+			camera->h = h;
+			camera->w = (int)(camera->h * ((float)wW / (float)hW));
+		}
 	}
 	else{
 		camera->h = worms->wormsSurface->h * 10;
@@ -553,16 +553,20 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms * w
 *
 * \returns void
 */
-void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
+void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 {
-	int w = 0, h = 0;
-	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-	camera->x = camera->x + (camera->w) / 2;
-	camera->y = camera->y + (camera->h) / 2;
+	int wW = 0, hW = 0, w = 0, h = 0;
+	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
+	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	camera->h = camera->h - 20;
-	camera->w = (int)(camera->h * ((float)w / (float)h));// keep the ratio depending of the size of the window!!!!!
-	camera->x = camera->x - (camera->w) / 2;
-	camera->y = camera->y - (camera->h) / 2;
+	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
+	camera->x = pInput->cursor.now.x - camera->w/2;
+	camera->y = pInput->cursor.now.y - camera->h/2;
+
+	if (camera->x < 0)camera->x = 0;
+	if (camera->y < 0)camera->y = 0;
+	if (camera->x + camera->w > w) camera->x = w - camera->w;
+	if (camera->y + camera->h > h) camera->y = h - camera->h;
 }
 
 /**

@@ -161,7 +161,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer, camera);
+		zoomIn(pRenderer,pTexture, camera,pInput);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
@@ -198,9 +198,6 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		}
 	}
 	gestionPhysique(map, pInput, 0, worms);
-	/*if (!pInput->rclick){
-		moveCam(pTexture, camera, pInput, NULL);
-	}*/
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
