@@ -96,6 +96,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
 	static enum DIRECTION dir = DOWN;
+	enum DIRECTION dir2 = NONE;
 	static char retournement = 0;
 	static int  t = 0;
 	int collision = 0;
@@ -137,8 +138,21 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 		//Fonction de déplacement du worms si non saut
 		if (!pInput->jumpOnGoing)
 			deplacementWorms(pInput, worms, map->imageMapSurface, &dir);
+		if (retournement && (dir != DOWN))
+		{
+			switch (worms->dirSurface)
+			{
+			case RIGHT:
+				dir2 = LEFT;
+				break;
+			case LEFT:
+				dir2 = RIGHT;
+				break;
+			}
+			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir2);
+		}
+		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir);
 		//Si on a eu une collision (donc on est en fin de saut) on réattribut les nouvelles coordonnées absolues
-		collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir);
 		if (collision)
 		{
 			if (worms->xAbs != worms->wormsSurface->clip_rect.x || dir == DOWN || dir == UP)
@@ -302,8 +316,12 @@ enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensObjet,
 			break;
 		}
 	}
+	else if (yRel < 0)
+		return DOWN;
 	return sensObjet;
 }
+
+
 /**
 * \fn int endJumpTest(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 *
