@@ -122,7 +122,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	{
 		if (!pInput->jumpOnGoing)
 		{
-			switch (pInput->direction)
+			switch (pInput->direction) 
 			{
 			case RIGHT:
 				deplacement = pInput->acceleration;
