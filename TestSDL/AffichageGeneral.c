@@ -34,7 +34,7 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		   
+
 		initialisationPolice(); /*Ouvre des polices pour le HUD*/
 
 
@@ -83,7 +83,7 @@ int mainFenetre()
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-				SDL_SetRenderDrawColor(pRenderer, 255,0,0, 255);
+				SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
 				SDL_RenderDrawPoint(pRenderer, worms1->xAbs, worms1->yAbs);
 				SDL_RenderPresent(pRenderer);
 			}
@@ -492,14 +492,14 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (worms == NULL){
-	w = map->imageMapSurface->w;
-	h = map->imageMapSurface->h;
-	camera->x = 0;
-	camera->y = 0;
+		w = map->imageMapSurface->w;
+		h = map->imageMapSurface->h;
+		camera->x = 0;
+		camera->y = 0;
 		if (h > hW || w > wW){
-		camera->h = h;
-		camera->w = (int)(camera->h * ((float)wW / (float)hW));
-	}
+			camera->h = h;
+			camera->w = (int)(camera->h * ((float)wW / (float)hW));
+		}
 	}
 	else{
 		camera->h = worms->wormsSurface->h * 10;
@@ -733,7 +733,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	}
 
 	nombrePixel = pSurfaceTab[surface]->w * pSurfaceTab[surface]->h;
-
+	secureRect(pRect, pSurfaceTab[0]);
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
 	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surfaceIcr)
 	{
@@ -764,4 +764,20 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	return 0;
 }
 
-
+void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+{
+	if (pRect->x < 0) {
+		pRect->w -= pRect->x;
+		pRect->x = 0;
+	}
+	if (pRect->y < 0) {
+		pRect->h -= pRect->y;
+		pRect->y = 0;
+	}
+	if (pRect->x + pRect->w >= pSurface->clip_rect.w){
+		pRect->w -= pRect->x + pRect->w - pSurface->clip_rect.w;
+	}
+	if (pRect->y + pRect->h >= pSurface->clip_rect.h){
+		pRect->h -= pRect->y + pRect->h - pSurface->clip_rect.h;
+	}
+}

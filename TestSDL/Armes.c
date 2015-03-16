@@ -33,21 +33,7 @@ void explosion(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Text
 			}
 		}
 	}
-
-	if (rect.x < 0) {
-		rect.w -= rect.x;
-		rect.x = 0;
-	}
-	if (rect.y < 0) {
-		rect.h -= rect.y;
-		rect.y = 0;
-	}
-	if (rect.x + rect.w >= imageMapSurface[0]->clip_rect.w){
-		rect.w -= rect.x + rect.w - imageMapSurface[0]->clip_rect.w;
-	}
-	if (rect.y + rect.h >= imageMapSurface[0]->clip_rect.h){
-		rect.h -= rect.y + rect.h - imageMapSurface[0]->clip_rect.h;
-	}
+	secureRect(&rect, imageMapSurface[0]);
 
 	if (updateGlobaleTexture(imageMapSurface, ptexture, 0, &rect) < 0)
 	{
