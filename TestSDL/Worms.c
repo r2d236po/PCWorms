@@ -9,7 +9,7 @@
 *
 * \returns pointeur vers la structure worms créé, NULL si echec
 */
-Worms* createWorms(const char *file1, const char *file2)
+Worms* createWorms(const char name)
 {
 	Worms * worms = NULL;
 	SDL_Surface* wormsSurface = NULL;
@@ -26,27 +26,26 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
+	wormsSurfaceLeft = loadImage("../assets/pictures/wormsg.png");
+	wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
 
-	wormsSurfaceLeft = loadImage(file1);
-	wormsSurfaceRight = loadImage(file2);
-
-	worms->nom = "J-G.Cousin <3";
+	//worms->nom = name;
 
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
 		printf("Erreur création surface worms, %s", SDL_GetError());
-		destroyWorms(&worms);
+		destroyWorms(&worms, 1);
 		return NULL;
 	}
 	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 	if (wormsSurface == NULL)
 	{
 		printf("Erreur allocation memoire");
-		destroyWorms(&worms);
+		destroyWorms(&worms, 1);
 		return NULL;
 	}
 
-	texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
+	//texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
 
 	worms->texteSurface = texteSurface;
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
@@ -83,24 +82,29 @@ Worms* createWorms(const char *file1, const char *file2)
 *
 * \param[in] worms, adresse du pointeur de la structure du Worms à détruire.
 */
-void destroyWorms(Worms** worms)
+void destroyWorms(Worms** worms, int nbWorms)
 {
-	if ((*worms)->wormsSurface != NULL)
+	int i;
+	for ( i = 0; i < nbWorms; i++)
 	{
-		SDL_FreeSurface((*worms)->wormsSurface);
-		(*worms)->wormsSurface = NULL;
+		if (worms[i]->wormsSurface != NULL)
+		{
+			SDL_FreeSurface(worms[i]->wormsSurface);
+			(worms[i])->wormsSurface = NULL;
+		}
+		if ((worms[i])->wormsSurfaceLeft != NULL)
+		{
+			SDL_FreeSurface((worms[i])->wormsSurfaceLeft);
+			(worms[i])->wormsSurfaceLeft = NULL;
+		}
+		if ((worms[i])->wormsSurfaceRight != NULL)
+		{
+			SDL_FreeSurface((worms[i])->wormsSurfaceRight);
+			(worms[i])->wormsSurfaceRight = NULL;
+		}
+		free(worms[i]);
 	}
-	if ((*worms)->wormsSurfaceLeft != NULL)
-	{
-		SDL_FreeSurface((*worms)->wormsSurfaceLeft);
-		(*worms)->wormsSurfaceLeft = NULL;
-	}
-	if ((*worms)->wormsSurfaceRight != NULL)
-	{
-		SDL_FreeSurface((*worms)->wormsSurfaceRight);
-		(*worms)->wormsSurfaceRight = NULL;
-	}
-	free(*worms);
+	
 	*worms = NULL;
 }
 

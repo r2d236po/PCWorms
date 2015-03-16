@@ -7,12 +7,13 @@
 #include "HUD.h"
 #include "carte.h"
 #include "armes.h"
+#include "partie.h"
 
 #define FRAME_RATE (1000 / 80)
 
 
 
-int mainFenetre();
+int mainFenetre(Jeu * jeu);
 int sandboxRenderer();
 
 

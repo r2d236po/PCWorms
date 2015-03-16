@@ -56,7 +56,7 @@ int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * fi
 * \param[in] map, adresse du pointeur de la structure du Terrain à détruire.
 */
 void destroyMap(Terrain** map)
-{
+{/*
 	if ((*map)->imageBackground != NULL)
 	{
 		SDL_DestroyTexture((*map)->imageBackground);
@@ -66,8 +66,8 @@ void destroyMap(Terrain** map)
 	{
 		SDL_FreeSurface((*map)->imageMapSurface);
 		(*map)->imageMapSurface = NULL;
-	}
-	free((*map));
+	}*/
+	free(*map);
 	*map = NULL;
 }
 
