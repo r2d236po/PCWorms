@@ -168,7 +168,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->wheelDown = 0; 
 	}
 	if (pInput->windowResized){
-		initCameras(pRenderer, map, camera,worms);
+		initCameras(pRenderer, map, camera,NULL);
 		pInput->windowResized = 0;
 	}
 	if (pInput->cursor.motion){
@@ -179,7 +179,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	if (pInput->bombe){
 		static int rW, rH;
 		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
-		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 100, surfaceTab, pTexture);
+		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
 	if (!pInput->jumpOnGoing)

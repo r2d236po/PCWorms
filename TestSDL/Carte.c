@@ -88,9 +88,7 @@ Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
 	//Convert the pixels to 32 bit
 	Uint32 *pixels = (Uint32 *)surface->pixels;
 	//Get the requested pixel
-	if ((y * surface->w) + x <= surface->w * surface->h)
-		return pixels[(y * surface->w) + x];
-	return EXIT_FAILURE;
+	return pixels[(y * surface->w) + x];
 }
 
 /**
@@ -109,8 +107,7 @@ void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	Uint32 *pixels = (Uint32 *)surface->pixels;
 
 	//Set the pixel
-	if ((y * surface->w) + x <= surface->w * surface->h)
-		pixels[(y * surface->w) + x] = pixel;
+	pixels[(y * surface->w) + x] = pixel;
 }
 
 /**
@@ -296,7 +293,8 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			worms->xAbs = worms->wormsSurface->clip_rect.x;
 			t = 0;
-			pInput->jump = pInput->jumpOnGoing = 0;
+			pInput->jump = 0;
+			pInput->jumpOnGoing = 0;
 			worms->vitx = 0;
 			worms->vity = 0;
 			pInput->direction = NONE;
