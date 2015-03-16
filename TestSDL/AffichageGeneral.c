@@ -28,7 +28,7 @@ int mainFenetre()
 			return -1;
 		}
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest3.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png") < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);

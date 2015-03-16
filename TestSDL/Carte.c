@@ -277,8 +277,6 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 		//On calcul les écarts relatifs sur x et y
 		xRel = (int)(worms->vitx *t);
 		yRel = (int)((worms->vity*t) - ((g*t*t) / 2000));
-		if (dir == UP && yRel <= 0)
-			dir = DOWN;
 		//On calcule maintenant les valeurs de x et y
 		worms->wormsSurface->clip_rect.x += xRel;
 		worms->wormsSurface->clip_rect.y -= yRel;
