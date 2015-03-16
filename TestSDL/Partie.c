@@ -18,7 +18,6 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	jeu->temps = 1000;
 	strcpy(jeu->nomMap, "../assets/pictures/maptest3.png");
 
-
 	jeu->equipes = (Equipe*)malloc(nbE * sizeof(Equipe*));
 	for ( int i = 0; i < nbE; i++)
 	{
