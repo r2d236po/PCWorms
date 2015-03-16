@@ -59,8 +59,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			break;
 
 		case SDL_MOUSEMOTION:
-			pInput->cursor.before = pInput->cursor.now;
-			SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+			pInput->cursor.motion = 1;
 			break;
 
 		case SDL_MOUSEWHEEL:
@@ -157,7 +156,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(pTexture, camera, pInput, NULL); //gestion du scrolling de caméra
+		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
@@ -169,11 +168,18 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		pInput->wheelDown = 0;
 	}
 	if (pInput->windowResized){
-		initCameras(pRenderer, map, camera,worms);
+		initCameras(pRenderer, map, camera,NULL);
 		pInput->windowResized = 0;
 	}
+	if (pInput->cursor.motion){
+		pInput->cursor.before = pInput->cursor.now;
+		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+		pInput->cursor.motion = 0;
+	}
 	if (pInput->bombe){
-		bombExplo(500, 400, 100, surfaceTab, pTexture);
+		static int rW, rH;
+		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
+		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
 	if (!pInput->jumpOnGoing)
@@ -226,6 +232,7 @@ Input* initInput()
 	pInput->lclick = 0;
 	pInput->rclick = 0;
 	pInput->menu = 0;
+	pInput->cursor.motion = 0;
 	pInput->cursor.before.x = 0;
 	pInput->cursor.before.y = 0;
 	pInput->cursor.now.x = 0;

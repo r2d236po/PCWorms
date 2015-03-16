@@ -28,13 +28,13 @@ int mainFenetre()
 			return -1;
 		}
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest2.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/maptest3.png") < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-
+		   
 		initialisationPolice(); /*Ouvre des polices pour le HUD*/
 
 
@@ -83,9 +83,6 @@ int mainFenetre()
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-				SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
-				SDL_RenderDrawPoint(pRenderer, worms1->xAbs, worms1->yAbs);
-				SDL_RenderPresent(pRenderer);
 			}
 
 			//Gestion du frame Rate
@@ -447,7 +444,7 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 	map = NULL;
 	text = NULL;
 	rect = NULL;
-	//SDL_RenderPresent(pRenderer);
+	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
 
@@ -492,14 +489,14 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (worms == NULL){
-		w = map->imageMapSurface->w;
-		h = map->imageMapSurface->h;
-		camera->x = 0;
-		camera->y = 0;
+	w = map->imageMapSurface->w;
+	h = map->imageMapSurface->h;
+	camera->x = 0;
+	camera->y = 0;
 		if (h > hW || w > wW){
-			camera->h = h;
-			camera->w = (int)(camera->h * ((float)wW / (float)hW));
-		}
+		camera->h = h;
+		camera->w = (int)(camera->h * ((float)wW / (float)hW));
+	}
 	}
 	else{
 		camera->h = worms->wormsSurface->h * 10;
@@ -523,7 +520,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 *
 * \returns void
 */
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms * worms)
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int w = 0, h = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
@@ -737,7 +734,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	}
 
 	nombrePixel = pSurfaceTab[surface]->w * pSurfaceTab[surface]->h;
-
+	secureRect(pRect, pSurfaceTab[0]);
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
 	for (surfaceIndex = 0; surfaceIndex <= surface; surfaceIndex += surfaceIcr)
 	{
@@ -768,4 +765,34 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	return 0;
 }
 
-
+/**
+* \fn void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+* \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
+*
+* \param[in] pRect, rectangle a evaluer, peut etre modifie par la fonction
+* \param[in] pSurface, surface de la map
+* \return 1 si il y a eu modification, 0 sinon
+*/
+int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+{
+	int modif = 0;
+	if (pRect->x < 0) {
+		pRect->w -= pRect->x;
+		pRect->x = 0;
+		modif = 1;
+	}
+	if (pRect->y < 0) {
+		pRect->h -= pRect->y;
+		pRect->y = 0;
+		modif = 1;
+	}
+	if (pRect->x + pRect->w >= pSurface->clip_rect.w){
+		pRect->w -= pRect->x + pRect->w - pSurface->clip_rect.w;
+		modif = 1;
+	}
+	if (pRect->y + pRect->h >= pSurface->clip_rect.h){
+		pRect->h -= pRect->y + pRect->h - pSurface->clip_rect.h;
+		modif = 1;
+	}
+	return modif;
+}

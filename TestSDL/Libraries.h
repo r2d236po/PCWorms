@@ -25,6 +25,7 @@ typedef struct{		//structure Point
 typedef struct{ //structure Curseur
 	Point before;
 	Point now;
+	int motion;
 }Cursor;
 
 enum DIRECTION {RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, NONE = 5 };

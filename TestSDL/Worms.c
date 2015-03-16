@@ -118,11 +118,11 @@ void destroyWorms(Worms** worms)
 void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir)
 {
 	int deplacement = 0;
-	if (pInput->direction != NONE)
+	if (pInput->direction != UP)
 	{
 		if (!pInput->jumpOnGoing)
 		{
-			switch (pInput->direction)
+			switch (pInput->direction) 
 			{
 			case RIGHT:
 				deplacement = pInput->acceleration;
@@ -138,7 +138,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 				break;
 			}
 			if (pInput->direction == RIGHT || pInput->direction == LEFT)
-			{				
+			{
 				worms->wormsSurface->clip_rect.x += deplacement;
 			}
 			else if (pInput->direction == UP || pInput->direction == DOWN)
@@ -154,7 +154,8 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 		{
 			worms->wormsSurface->clip_rect.y -= deplacement;
 		}
-		*dir = pInput->direction;
+		if (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir)&& pInput->direction != NONE)
+			*dir = pInput->direction;
 	}
 	pInput->direction = NONE;
 }

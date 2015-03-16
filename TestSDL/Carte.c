@@ -287,13 +287,14 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 		//Fonction de déplacement du worms
 		deplacementWorms(pInput, worms, map->imageMapSurface, &dir);
 		//Si on a eu une collision (donc on est en fin de saut) on réattribut les nouvelles coordonnées absolues
-		if (gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir, retournement))
+		if (gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir))
 		{
 			if (worms->xAbs != worms->wormsSurface->clip_rect.x || dir == DOWN || dir == UP)
 				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			worms->xAbs = worms->wormsSurface->clip_rect.x;
 			t = 0;
-			pInput->jump = pInput->jumpOnGoing = 0;
+			pInput->jump = 0;
+			pInput->jumpOnGoing = 0;
 			worms->vitx = 0;
 			worms->vity = 0;
 			pInput->direction = NONE;
@@ -428,7 +429,7 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* 
 * \param[in] retournement, indicateur de retournement du worms
 * \returns collision, indique s'il y a eu collision
 */
-int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION* dir, char retournement)
+int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceCollision, enum DIRECTION* dir)
 {
 	int t = 0;
 	int collision = 0;
@@ -488,7 +489,7 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 	{
 		return DOWN;
 	}
-	else if (y >(h / 8) && y < (7 * h / 8))
+	else if (y > (h / 8) && y < (7 * h / 8))
 	{
 		return impulse; //retourne soit RIGHT si impulse est droite soit LEFT si impulse est gauche
 	}

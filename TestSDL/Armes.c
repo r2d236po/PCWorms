@@ -5,11 +5,14 @@
 
 /* Fonctions concernant la gestion des armes */
 
-void bombExplo(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Texture * ptexture)
+
+//Fait disparaitre un rond d'un certain rayon, aux coordonnés précisées, dans la surface passée en paramètre
+void explosion(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Texture * ptexture)
 {
+
 	int i = 0, j = 0, xP = 0, yP = 0, offsetX = 0, offsetY = 0;
 	Uint32 pixelTest = SDL_MapRGBA(imageMapSurface[0]->format, 255, 255, 255, 0);
-	SDL_Rect  rect = { x - rayon, y-rayon, rayon * 2, rayon * 2 };
+	SDL_Rect  rect = { x - rayon, y - rayon, rayon * 2, rayon * 2 };
 	offsetX = x - rayon;
 	offsetY = y - rayon;
 	for (j = 0; j < 2 * rayon; j++)
@@ -19,11 +22,19 @@ void bombExplo(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Text
 			xP = (rayon - i)*(rayon - i);
 			yP = (rayon - j)*(rayon - j);
 
-			if (xP + yP < (rayon*rayon)){
+			if (xP + yP < (rayon*rayon)
+				&& i + offsetX >= 0
+				&& j + offsetY >= 0
+				&& i + offsetX < imageMapSurface[0]->clip_rect.w
+				&& j + offsetY < imageMapSurface[0]->clip_rect.h
+				)
+			{
 				DrawPixel(imageMapSurface[0], i + offsetX, j + offsetY, pixelTest);
 			}
 		}
 	}
+	secureRect(&rect, imageMapSurface[0]);
+
 	if (updateGlobaleTexture(imageMapSurface, ptexture, 0, &rect) < 0)
 	{
 		printf("Erreur lors de l'update de la texture.");
