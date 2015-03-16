@@ -523,7 +523,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 *
 * \returns void
 */
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput, Worms * worms)
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int w = 0, h = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
@@ -764,20 +764,34 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int 
 	return 0;
 }
 
-void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+/**
+* \fn void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+* \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
+*
+* \param[in] pRect, rectangle a evaluer, peut etre modifie par la fonction
+* \param[in] pSurface, surface de la map
+* \return 1 si il y a eu modification, 0 sinon
+*/
+int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
 {
+	int modif = 0;
 	if (pRect->x < 0) {
 		pRect->w -= pRect->x;
 		pRect->x = 0;
+		modif = 1;
 	}
 	if (pRect->y < 0) {
 		pRect->h -= pRect->y;
 		pRect->y = 0;
+		modif = 1;
 	}
 	if (pRect->x + pRect->w >= pSurface->clip_rect.w){
 		pRect->w -= pRect->x + pRect->w - pSurface->clip_rect.w;
+		modif = 1;
 	}
 	if (pRect->y + pRect->h >= pSurface->clip_rect.h){
 		pRect->h -= pRect->y + pRect->h - pSurface->clip_rect.h;
+		modif = 1;
 	}
+	return modif;
 }

@@ -156,7 +156,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	}*/
 	if (pInput->rclick)
 	{
-		moveCam(pTexture, camera, pInput, NULL); //gestion du scrolling de caméra
+		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->wheelUp){
@@ -165,7 +165,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	}
 	if (pInput->wheelDown){
 		zoomOut(pRenderer, pTexture, camera);
-		pInput->wheelDown = 0;
+		pInput->wheelDown = 0; 
 	}
 	if (pInput->windowResized){
 		initCameras(pRenderer, map, camera,worms);

@@ -28,12 +28,12 @@ int createGlobalTexture(SDL_Surface* pSurfaceTab[], int nbSurface, SDL_Texture**
 void afficherPoint(SDL_Renderer * r);	//affiche un point 
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);	//affiche une ligne
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace un rectangle en fonction de la souris
-void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface);	//réajuste un rectangle pour pas dépasser de la map
+int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface);	//réajuste un rectangle pour pas dépasser de la map
 void frameRate(unsigned int fM);	//gère le framerate
 
 //gestion des inputs
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput,Worms * worms);	//déplace la caméra dans l'espace
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
 void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera);	//Zoom In, grossis
 void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera);	//Zoom out, rétrécis
 int updateGlobaleTexture(SDL_Surface* pSurfaceTab[], SDL_Texture* pTexture, int surface, SDL_Rect* pRect);	//Met à jour la texture globale
