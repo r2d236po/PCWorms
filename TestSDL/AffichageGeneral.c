@@ -3,7 +3,7 @@
 
 
 
-int mainFenetre()
+int mainFenetre(Jeu * jeu)
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
@@ -27,16 +27,13 @@ int mainFenetre()
 			return -1;
 		}
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", "../assets/pictures/map.png") < 0)
+		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", jeu->nomMap) < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
 		   
-		initialisationPolice(); /*Ouvre des polices pour le HUD*/
-
-
 		//Initialisation worms
 		worms1 = createWorms("../assets/pictures/wormsg.png", "../assets/pictures/wormsd.png");
 		if (worms1 == NULL)
@@ -53,7 +50,7 @@ int mainFenetre()
 		if (createGlobalTexture(mainMap->imageMapSurface, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
-			destroyWorms(&worms1);
+			destroyWorms(&worms1, 1);
 			destroyMap(&mainMap);
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
@@ -83,7 +80,7 @@ int mainFenetre()
 			frame_max = SDL_GetTicks() + FRAME_RATE;
 		}
 		destroyMap(&mainMap);
-		destroyWorms(&worms1);
+		destroyWorms(&worms1, 1);
 		destroyPolice();
 		SDL_DestroyTexture(display);
 		display = NULL;
