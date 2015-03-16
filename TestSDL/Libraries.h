@@ -29,7 +29,7 @@ typedef struct{ //structure Curseur
 	int motion;
 }Cursor;
 
-enum DIRECTION {RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, NONE = 5 };
+enum DIRECTION { RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, UPLEFT = 4, UPRIGHT = 5, DLEFT = 6, DRIGHT = 7, NONE = 8 };
 
 typedef struct{		//structure gérant les différents inputs
 	char jump;	//touche de saut
