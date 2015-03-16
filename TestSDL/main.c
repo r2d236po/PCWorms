@@ -6,8 +6,8 @@
 
 int main(int argc, char** argv)
 {
-	int nbEquipe = 1;
-	int nbWormsEquipe = 1;
+	int nbEquipe = 5;
+	int nbWormsEquipe = 5;
 
 	
 

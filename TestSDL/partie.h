@@ -26,7 +26,7 @@ typedef struct {				//Structure d'une partie
 
 
 Jeu * nouveauJeu(int nbE, int nbW, char * map);
-void destroyGame(Jeu ** game);
+void destroyJeu(Jeu ** game);
 Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms);
 void destroyEquipe(Equipe ** team, int nbE);
 int vieEquipe(Equipe * team);

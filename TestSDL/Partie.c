@@ -7,7 +7,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
 	Jeu * jeu = NULL;
 
-	jeu = (Jeu*)malloc(sizeof(Worms));
+	jeu = malloc(sizeof(Jeu));
 
 	if (jeu == NULL)
 	{
@@ -28,7 +28,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 
 void destroyJeu(Jeu ** game)
 {
-	destroyEquipe(&(*game)->equipes, (*game)->nbEquipe);
+	destroyEquipe((*game)->equipes, (*game)->nbEquipe);
 
 	free(*game);
 	*game = NULL;
@@ -39,7 +39,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 {
 	Equipe * team = NULL;
 
-	team = (Equipe*)malloc(sizeof(Equipe));
+	team = malloc(sizeof(Equipe));
 
 	if (team == NULL)
 	{
@@ -66,7 +66,7 @@ void destroyEquipe(Equipe ** team, int nbE)
 {
 	int i;
 	for (i = 0; i < nbE; i++){
-		destroyWorms(&team[i]->worms, team[i]->nbWormsStart);
+		destroyWorms(team[i]->worms, team[i]->nbWormsStart);
 	}
 
 	free(*team);
