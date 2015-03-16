@@ -68,6 +68,7 @@ Worms* createWorms(const char *file1, const char *file2)
 	worms->vitx = 0;
 	worms->vity = 0;
 	worms->dir = RIGHT;
+	worms->dirSurface = RIGHT;
 
 	//remise à null des pointeurs temporaires
 	wormsSurface = NULL;
@@ -122,7 +123,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 	{
 		if (!pInput->jumpOnGoing)
 		{
-			switch (pInput->direction) 
+			switch (worms->dir)
 			{
 			case RIGHT:
 				deplacement = pInput->acceleration;
@@ -137,27 +138,28 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 				deplacement = pInput->acceleration;
 				break;
 			}
-			if (pInput->direction == RIGHT || pInput->direction == LEFT)
+			if (worms->dir == RIGHT || worms->dir == LEFT)
 			{
 				worms->wormsSurface->clip_rect.x += deplacement;
 			}
-			else if (pInput->direction == UP || pInput->direction == DOWN)
+			else if (worms->dir == UP || worms->dir == DOWN)
 			{
 				worms->wormsSurface->clip_rect.y += deplacement;
 			}
+			if ((worms->wormsSurface->clip_rect.x + worms->wormsSurface->w) > surfaceCollision->w || worms->wormsSurface->clip_rect.x < 0)
+			{
+				worms->wormsSurface->clip_rect.x -= deplacement;
+			}
+			if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h) > surfaceCollision->h || worms->wormsSurface->clip_rect.y < 0)
+			{
+				worms->wormsSurface->clip_rect.y -= deplacement;
+			}
 		}
-		if ((worms->wormsSurface->clip_rect.x + worms->wormsSurface->w) > surfaceCollision->w || worms->wormsSurface->clip_rect.x < 0)
-		{
-			worms->wormsSurface->clip_rect.x -= deplacement;
-		}
-		if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h) > surfaceCollision->h || worms->wormsSurface->clip_rect.y < 0)
-		{
-			worms->wormsSurface->clip_rect.y -= deplacement;
-		}
-		if (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir)&& pInput->direction != NONE)
-			*dir = pInput->direction;
+		if (detectionCollisionSurfaceV2(surfaceCollision, worms->wormsSurface, dir, pInput) && pInput->direction != NONE)
+			*dir = worms->dir;
+		pInput->direction = NONE;
 	}
-	pInput->direction = NONE;
+	
 }
 
 
@@ -166,11 +168,11 @@ char retournementWorms(Input* pInput, Worms* worms)
 	char retournement = 0;
 	if (pInput->direction != NONE)
 	{
-		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dir != pInput->direction))
+		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dirSurface != pInput->direction))
 		{
 			retournement = 1;
-			worms->dir = pInput->direction;
-			if (worms->dir == RIGHT)
+			worms->dirSurface = pInput->direction;
+			if (worms->dirSurface == RIGHT)
 			{
 				worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 			}

@@ -7,11 +7,11 @@
 
 
 //Fait disparaitre un rond d'un certain rayon, aux coordonnés précisées, dans la surface passée en paramètre
-void explosion(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Texture * ptexture)
+void explosion(int x, int y, int rayon, SDL_Surface * imageMapSurface, SDL_Texture * ptexture)
 {
 
 	int i = 0, j = 0, xP = 0, yP = 0, offsetX = 0, offsetY = 0;
-	Uint32 pixelTest = SDL_MapRGBA(imageMapSurface[0]->format, 255, 255, 255, 0);
+	Uint32 pixelTest = SDL_MapRGBA(imageMapSurface->format, 255, 255, 255, 0);
 	SDL_Rect  rect = { x - rayon, y - rayon, rayon * 2, rayon * 2 };
 	offsetX = x - rayon;
 	offsetY = y - rayon;
@@ -25,17 +25,17 @@ void explosion(int x, int y, int rayon, SDL_Surface ** imageMapSurface, SDL_Text
 			if (xP + yP < (rayon*rayon)
 				&& i + offsetX >= 0
 				&& j + offsetY >= 0
-				&& i + offsetX < imageMapSurface[0]->clip_rect.w
-				&& j + offsetY < imageMapSurface[0]->clip_rect.h
+				&& i + offsetX < imageMapSurface->clip_rect.w
+				&& j + offsetY < imageMapSurface->clip_rect.h
 				)
 			{
-				DrawPixel(imageMapSurface[0], i + offsetX, j + offsetY, pixelTest);
+				DrawPixel(imageMapSurface, i + offsetX, j + offsetY, pixelTest);
 			}
 		}
 	}
-	secureRect(&rect, imageMapSurface[0]);
+	secureRect(&rect, imageMapSurface);
 
-	if (updateGlobaleTexture(imageMapSurface, ptexture, 0, &rect) < 0)
+	if (updateGlobaleTexture(imageMapSurface,imageMapSurface, ptexture, &rect) < 0)
 	{
 		printf("Erreur lors de l'update de la texture.");
 	}
