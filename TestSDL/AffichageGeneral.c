@@ -57,7 +57,6 @@ int mainFenetre()
 			destroyMap(&mainMap);
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
-
 		}
 		updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
 		updateGlobaleTexture(mainMap->imageMapSurface, worms1->texteSurface, display, &worms1->texteSurface->clip_rect);
