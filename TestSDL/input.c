@@ -182,15 +182,22 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, surfaceTab, pTexture);
 		pInput->bombe = 0;
 	}
+	if (pInput->direction == RIGHT || pInput->direction == LEFT)
+		worms->dir = pInput->direction;
 	if (!pInput->jumpOnGoing)
 	{
 		if (pInput->jump)
 		{
-			if (worms->dir == RIGHT)
+			if (worms->dirSurface == RIGHT)
 			{
 				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
+				worms->dir = UPRIGHT;
 			}
-			else worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+			else
+			{
+				worms->dir = UPLEFT;
+				worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+			}
 			worms->wormsSurface->clip_rect.y -= 1;
 			pInput->jumpOnGoing = 1;
 			worms->vity = (float)(sin(pi / 3)*1.3);
@@ -201,6 +208,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 			pInput->jumpOnGoing = 1;
 			worms->wormsSurface->clip_rect.y -= 1;
 			worms->vity = (float)(sin(pi / 3)*1.3);
+			worms->dir = UP;
 		}
 	}
 	gestionPhysique(map, pInput, 0, worms);
