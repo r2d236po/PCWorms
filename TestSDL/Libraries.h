@@ -18,6 +18,12 @@
 #define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
 #define pi 3.1415
 
+/*Chemins de map*/
+#define cMAP		"../assets/pictures/map.png"
+#define cMAP_TEST	"../assets/pictures/maptest.png"
+#define cMAP_TEST2	"../assets/pictures/maptest2.png"
+#define cMAP_TEST3	"../assets/pictures/maptest3.png"
+
 typedef struct{		//structure Point
 	int x;
 	int y;
@@ -52,12 +58,17 @@ typedef struct{		//structure gérant les différents inputs
 
 typedef struct{		//structure gérant les polices
 	TTF_Font * FontName;
+
 	SDL_Color couleurNameBleu;
 	SDL_Color couleurNameRouge;
 	SDL_Color couleurNameVert;
 	SDL_Color couleurNameJaune;
-}Police;
 
-Police font;
+	int nbEquipe;
+	int nbWormsEquipe;
+
+}GlobalVariable;
+
+GlobalVariable globalVar;
 
 #endif

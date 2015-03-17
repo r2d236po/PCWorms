@@ -16,12 +16,12 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	}
 	jeu->nbEquipe = nbE;
 	jeu->temps = 1000;
-	strcpy(jeu->nomMap, "../assets/pictures/maptest3.png");
+	strcpy(jeu->nomMap, map);
 
 	jeu->equipes = malloc(nbE * sizeof(Equipe*));
 	for ( int i = 0; i < nbE; i++)
 	{
-		jeu->equipes[i] = nouvelleEquipe("Equipe", font.couleurNameBleu, nbW );
+		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
 	}
 	return jeu;
 }
@@ -73,5 +73,28 @@ void destroyEquipe(Equipe ** team, int nbE)
 
 int vieEquipe(Equipe * team)
 {
-	return 42;
+	int i, vie = 0;
+	for (i = 0; i < team->nbWormsStart; i++)
+	{
+		vie += team->worms[i]->vie ;
+	}
+	return vie;
+}
+
+void mainInit(int nbE, int nbWpE)
+{
+	setSDLColor(&globalVar.couleurNameBleu, 238, 131, 127);
+	setSDLColor(&globalVar.couleurNameRouge, 130, 125, 255);
+	setSDLColor(&globalVar.couleurNameVert, 119, 250, 123);
+	setSDLColor(&globalVar.couleurNameJaune, 120, 255, 255);
+
+	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 20);
+
+	globalVar.nbEquipe = nbE;
+	globalVar.nbWormsEquipe = nbWpE;
+}
+
+void destroyPolice()
+{
+	TTF_CloseFont(globalVar.FontName);
 }

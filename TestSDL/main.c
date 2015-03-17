@@ -6,16 +6,16 @@
 
 int main(int argc, char** argv)
 {
-	int nbEquipe = 5;
-	int nbWormsEquipe = 5;
-
-	Jeu * game = nouveauJeu(nbEquipe, nbWormsEquipe, "../assets/pictures/maptest3.png");
 	
-	//sandboxRenderer();
+	mainInit(2, 5);
+
+	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3 );
+	
 	if (mainFenetre(game) < 0)
 	{
 		printf("Une erreur s'est produite");
 	}
+
 	destroyJeu(&game);
 	return 0;
 }
