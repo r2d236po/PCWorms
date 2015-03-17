@@ -30,6 +30,7 @@ Worms* createWorms(const char* name)
 	wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
 
 	worms->nom = name;
+	worms->vie = 100;
 
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
