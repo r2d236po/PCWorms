@@ -19,6 +19,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	strcpy(jeu->nomMap, map);
 
 	jeu->equipes = malloc(nbE * sizeof(Equipe*));
+	//check alloc ?
 	for ( int i = 0; i < nbE; i++)
 	{
 		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
