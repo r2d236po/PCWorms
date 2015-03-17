@@ -95,7 +95,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 {
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
-	static enum DIRECTION dir = DOWN;
+	static int start = 0;
 	enum DIRECTION dir2 = NONE;
 	static char retournement = 0;
 	static int  t = 0;
@@ -114,14 +114,11 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 			//On remet à zero x et y par rapport à sa position absolu de départ
 			worms->wormsSurface->clip_rect.x = worms->xAbs;
 			worms->wormsSurface->clip_rect.y = worms->yAbs;
-			if (worms->dir == UP)
-				dir = UP;
-			else if (dir != UP && !retournement)
-				dir = worms->dir;
 		}
-		else if (!pInput->jumpOnGoing)
-			dir = DOWN;
-		/*Réalisation du saut*/
+
+		/////////////////////////////////////////////////////////////
+		////////////         Réalisation du saut         ////////////
+		/////////////////////////////////////////////////////////////
 
 		//On calcul les écarts relatifs sur x et y
 		xRel = (int)(worms->vitx *t);
@@ -131,14 +128,14 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 		worms->wormsSurface->clip_rect.y -= yRel;
 		t += 7;
 		//Determination de la direction du saut
-		dir = calculDirectionSaut(xRel, yRel, worms->dir, pInput);
+		worms->dir = calculDirectionSaut(xRel, yRel, worms->dir, pInput);
 		//detection du sens du worms
 		if (!retournement)
 			retournement = retournementWorms(pInput, worms);
 		//Fonction de déplacement du worms si non saut
 		if (!pInput->jumpOnGoing)
 			deplacementWorms(pInput, worms, map->imageMapSurface);
-		if (retournement && (dir != DOWN) && !pInput->jumpOnGoing)
+		if (retournement  && !pInput->jumpOnGoing)
 		{
 			switch (worms->dirSurface)
 			{
@@ -151,22 +148,29 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 			}
 			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir2);
 		}
-		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir);
+		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir);
 		//Si on a eu une collision (donc on est en fin de saut) on réattribut les nouvelles coordonnées absolues
 		if (collision)
 		{
-			if (worms->xAbs != worms->wormsSurface->clip_rect.x || dir == DOWN || dir == UP)
+			if (worms->xAbs != worms->wormsSurface->clip_rect.x || (worms->dir == DOWN || worms->dir == UP))
 				worms->yAbs = worms->wormsSurface->clip_rect.y;
 			worms->xAbs = worms->wormsSurface->clip_rect.x;
 			t = 0;
-			pInput->jump = 0;
-			if (endJumpTest(map->imageMapSurface, worms->wormsSurface))
+
+			if (pInput->jumpOnGoing && endJumpTest(map->imageMapSurface, worms->wormsSurface))
+			{
 				pInput->jumpOnGoing = 0;
+			}
+			if (pInput->jump)
+				pInput->jump = 0;
+			if (pInput->direction != NONE)
+				pInput->direction = NONE;
+
 			worms->vitx = 0;
 			worms->vity = 0;
-			pInput->direction = NONE;
 			worms->dir = DOWN;
 			retournement = 0;
+			start = 0;
 		}
 		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
 		break;
@@ -253,9 +257,11 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* 
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
 {
 
-	if (x >= 7 * w / 8 && impulse != DOWN)
+	if (x >= 8 * w / 10 && impulse != DOWN && impulse != UP)
 	{
-		if (y <= 2 * h / 8 && impulse != RIGHT)
+		if (impulse == UPLEFT)
+			return UPLEFT;
+		if (y <= 1 * h / 8 && impulse != RIGHT)
 		{
 			return UPRIGHT;
 		}
@@ -265,8 +271,10 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 		}
 		else return RIGHT;
 	}
-	else if (x <= 1 * w / 8 && impulse != DOWN)
+	else if (x <= 2 * w / 10 && impulse != DOWN && impulse != UP)
 	{
+		if (impulse == UPRIGHT)
+			return UPRIGHT;
 		if (y <= 2 * h / 8)
 		{
 			return UPLEFT;
@@ -277,10 +285,12 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 		}
 		else return LEFT;
 	}
-	else if (y <= 3 * h / 8)
+	else if (y <= 3 * h / 8 && impulse != DOWN && impulse != DRIGHT && impulse != DLEFT)
 		return UP;
-	else if (y >= 7 * h / 8)
+	else if (y >= 7 * h / 8  && impulse != UPLEFT && impulse != UPRIGHT)
+	{
 		return DOWN;
+	}
 	else return impulse;
 }
 
@@ -335,14 +345,42 @@ int endJumpTest(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
 	enum DIRECTION dir = DOWN;
 	pSurfaceMotion->clip_rect.y += 1;
-	if (pSurfaceMotion->clip_rect.y + pSurfaceMotion->h > pSurfaceMap->h)
+	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir))
 	{
 		pSurfaceMotion->clip_rect.y -= 1;
 		return 1;
 	}
-	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir))
+	return 0;
+}
+
+
+/**
+* \fn int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
+*
+* \brief Deteremine la faisabilite d'un saut.
+*
+* \param[in] pSurfaceMap, surface de la map
+* \param[in] pSurfaceMotion, surface en mouvement dans la map
+* \return int, 1 = saut non possible, 0 = saut possible
+*/
+int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir)
+{
+	switch (*dir)
 	{
+	case UP:
 		pSurfaceMotion->clip_rect.y -= 1;
+		break;
+	case UPLEFT:
+		pSurfaceMotion->clip_rect.y -= 1;
+		pSurfaceMotion->clip_rect.x -= 1;
+		break;
+	case UPRIGHT:
+		pSurfaceMotion->clip_rect.y -= 1;
+		pSurfaceMotion->clip_rect.x += 1;
+		break;
+	}
+	if (gestionCollision(1, pSurfaceMotion, pSurfaceMap, dir))
+	{
 		return 1;
 	}
 	return 0;

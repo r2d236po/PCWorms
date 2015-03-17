@@ -25,6 +25,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...);
 
 /*Fonctions diverses*/
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h);
+int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir);
 int endJumpTest(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);	//Test la fin d'un saut
 int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir); //Détermine si un objet est hors map et le replace si il faut
 enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensSaut, Input* pInput);

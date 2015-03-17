@@ -9,7 +9,7 @@
 *
 * \returns pointeur vers la structure worms créé, NULL si echec
 */
-Worms* createWorms(const char* name)
+Worms* createWorms(char* name)
 {
 	Worms * worms = NULL;
 	SDL_Surface* wormsSurface = NULL;

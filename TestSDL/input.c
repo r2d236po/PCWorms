@@ -190,8 +190,8 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		{
 			if (worms->dirSurface == RIGHT)
 			{
-				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
 				worms->dir = UPRIGHT;
+				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
 			}
 			else
 			{
@@ -204,11 +204,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		}
 		else if (pInput->direction == UP)
 		{
+			worms->dir = UP;
 			worms->vitx = 0;
 			pInput->jumpOnGoing = 1;
 			worms->wormsSurface->clip_rect.y -= 1;
 			worms->vity = (float)(sin(pi / 3)*1.3);
-			worms->dir = UP;
 		}
 	}
 	gestionPhysique(map, pTexture, pInput, 0, worms);
