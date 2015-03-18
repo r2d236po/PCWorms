@@ -20,6 +20,7 @@
 
 /*Chemins de map*/
 #define cMAP		"../assets/pictures/map.png"
+#define cMAP_HD		"../assets/pictures/mapHD2.png"
 #define cMAP_TEST	"../assets/pictures/maptest.png"
 #define cMAP_TEST2	"../assets/pictures/maptest2.png"
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"

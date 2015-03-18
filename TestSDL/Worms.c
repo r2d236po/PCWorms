@@ -52,7 +52,7 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	worms->wormsSurface = wormsSurface;
-	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+	worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 
 	//A changer avec un truc adapté à la map ?
 	worms->wormsSurface->clip_rect.x = 100;
@@ -68,7 +68,7 @@ Worms* createWorms(char* name)
 	worms->vitx = 0;
 	worms->vity = 0;
 	worms->dir = DOWN;
-	worms->dirSurface = RIGHT;
+	worms->dirSurface = LEFT;
 
 	//remise à null des pointeurs temporaires
 	wormsSurface = NULL;

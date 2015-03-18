@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 	
 	mainInit(2, 5);
 
-	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3 );
+	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP);
 	
 	if (mainFenetre(game) < 0)
 	{

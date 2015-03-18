@@ -95,8 +95,6 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 {
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
-	static int start = 0;
-	enum DIRECTION dir2 = NONE;
 	static char retournement = 0;
 	static int  t = 0;
 	int collision = 0;
@@ -137,18 +135,9 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 			deplacementWorms(pInput, worms, map->imageMapSurface);
 		if (retournement  && !pInput->jumpOnGoing)
 		{
-			switch (worms->dirSurface)
-			{
-			case RIGHT:
-				dir2 = LEFT;
-				break;
-			case LEFT:
-				dir2 = RIGHT;
-				break;
-			}
-			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &dir2);
+			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 1);
 		}
-		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir);
+		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 0);
 		//Si on a eu une collision (donc on est en fin de saut) on réattribut les nouvelles coordonnées absolues
 		if (collision)
 		{
@@ -157,10 +146,8 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 			worms->xAbs = worms->wormsSurface->clip_rect.x;
 			t = 0;
 
-			if (pInput->jumpOnGoing && endJumpTest(map->imageMapSurface, worms->wormsSurface))
-			{
+			if (pInput->jumpOnGoing && testGround(map->imageMapSurface, worms->wormsSurface))
 				pInput->jumpOnGoing = 0;
-			}
 			if (pInput->jump)
 				pInput->jump = 0;
 			if (pInput->direction != NONE)
@@ -168,9 +155,9 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 
 			worms->vitx = 0;
 			worms->vity = 0;
+			if (worms->dir == DOWN)
+				retournement = 0;
 			worms->dir = DOWN;
-			retournement = 0;
-			start = 0;
 		}
 		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
 		break;
@@ -254,42 +241,30 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* 
 * \return DIRECTION, direction de la collision
 */
 
-enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
+enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h, int retournement)
 {
-
-	if (x >= 8 * w / 10 && impulse != DOWN && impulse != UP)
+	if ((impulse == UPRIGHT || impulse == UPLEFT) && !retournement)
+		return impulse;
+	else if (impulse == RIGHT || impulse == LEFT)
 	{
-		if (impulse == UPLEFT)
-			return UPLEFT;
-		if (y <= 1 * h / 8 && impulse != RIGHT)
+		if (!retournement)
 		{
-			return UPRIGHT;
+			if (y <= (7 * h / 8))
+				return impulse;
+			else return DOWN;
 		}
-		else if (y >= 6 * h / 8)
+		else
 		{
-			return DRIGHT;
+			if (x > (w / 2))
+				return RIGHT;
+			else return  LEFT;
 		}
-		else return RIGHT;
 	}
-	else if (x <= 2 * w / 10 && impulse != DOWN && impulse != UP)
+	else if ((impulse == DRIGHT || impulse == DLEFT) && !retournement)
 	{
-		if (impulse == UPRIGHT)
-			return UPRIGHT;
-		if (y <= 2 * h / 8)
-		{
-			return UPLEFT;
-		}
-		else if (y >= 6 * h / 8)
-		{
-			return DLEFT;
-		}
-		else return LEFT;
-	}
-	else if (y <= 3 * h / 8 && impulse != DOWN && impulse != DRIGHT && impulse != DLEFT)
-		return UP;
-	else if (y >= 7 * h / 8  && impulse != UPLEFT && impulse != UPRIGHT)
-	{
-		return DOWN;
+		if (x >= (2 * w / 10) && x <= (8 * w / 10))
+			return DOWN;
+		else return impulse;
 	}
 	else return impulse;
 }
@@ -312,6 +287,10 @@ enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensObjet,
 	{
 		switch (sensObjet)
 		{
+		case UP:
+			if (yRel == 64)
+				return DOWN;
+			break;
 		case UPLEFT:
 			if (xRel > -59 && yRel < 62)
 				return UPLEFT;
@@ -333,7 +312,7 @@ enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensObjet,
 
 
 /**
-* \fn int endJumpTest(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
+* \fn int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 *
 * \brief Deteremine la fin d'un saut.
 *
@@ -341,11 +320,11 @@ enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensObjet,
 * \param[in] pSurfaceMotion, surface en mouvement dans la map
 * \return int, 1 = fin de saut, 0 = saut non fini
 */
-int endJumpTest(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
+int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
 	enum DIRECTION dir = DOWN;
 	pSurfaceMotion->clip_rect.y += 1;
-	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir))
+	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
 	{
 		pSurfaceMotion->clip_rect.y -= 1;
 		return 1;
@@ -379,14 +358,12 @@ int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECT
 		pSurfaceMotion->clip_rect.x += 1;
 		break;
 	}
-	if (gestionCollision(1, pSurfaceMotion, pSurfaceMap, dir))
+	if (gestionCollision(1, pSurfaceMotion, pSurfaceMap, dir, 0))
 	{
 		return 1;
 	}
 	return 0;
 }
-
-
 
 
 
@@ -592,7 +569,7 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 * \param[in] dir, direction du deplacement du worms
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
-int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION *dir)
+int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION *dir, int retournement)
 {
 	//Variables d'acquisitions
 	Uint32 pixelS1 = 0;
@@ -648,7 +625,7 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 			else
 			{
 				collision = 1;
-				*dir = calculDirection(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurfaceMotion->w, pSurfaceMotion->h);
+				*dir = calculDirection(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurfaceMotion->w, pSurfaceMotion->h, retournement);
 			}
 		}
 	}
@@ -668,11 +645,11 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 * \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
 * \returns int collision, indique s'il y a eu collision
 */
-int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceMap, enum DIRECTION* dir)
+int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceMap, enum DIRECTION* dir, int retournement)
 {
 	int t = 0;
 	int collision = 0;
-	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, dir) && t < surfaceMotion->w)
+	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, dir, retournement) && t < 60)
 	{
 		switch (*dir)
 		{
