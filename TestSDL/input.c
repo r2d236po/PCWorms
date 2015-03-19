@@ -188,7 +188,22 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		{
 			worms->dir = pInput->direction;
 		}
-		if (pInput->jump)
+		if (pInput->jump && (pInput->direction != worms->dirSurface) && pInput->direction != NONE)
+		{
+			if (worms->dirSurface == RIGHT)
+			{
+				worms->dir = UPLEFT;
+				worms->vitx = -(float)(cos(pi / 3)* 0.95); //saut vers la droite
+			}
+			else
+			{
+				worms->dir = UPRIGHT;
+				worms->vitx = (float)(cos(pi / 3)*0.95); //saut vers la gauche
+			}
+			pInput->jumpOnGoing = 1;
+			worms->vity = (float)(sin(pi / 3)*1.3);
+		}
+		else if (pInput->jump)
 		{
 			if (worms->dirSurface == RIGHT)
 			{

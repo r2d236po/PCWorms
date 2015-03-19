@@ -96,7 +96,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
 	int xRel = 0, yRel = 0;
 	static char retournement = 0;
-	static int  t = 0;
+	static int  t = 0, start = 0;
 	int collision = 0;
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
@@ -109,6 +109,14 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 		worms = va_arg(list, Worms*);
 		if (pInput->jumpOnGoing)
 		{
+			if (!start && checkJump(map->imageMapSurface, worms->wormsSurface, worms->dir))
+			{
+				worms->vitx = 0;
+				worms->vity = 0;
+				worms->dir = DOWN;
+				pInput->jumpOnGoing = 0;
+			}
+			start = 1;
 			//On remet à zero x et y par rapport à sa position absolu de départ
 			worms->wormsSurface->clip_rect.x = worms->xAbs;
 			worms->wormsSurface->clip_rect.y = worms->yAbs;
@@ -128,13 +136,16 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 		//Determination de la direction du saut
 		worms->dir = calculDirectionSaut(xRel, yRel, worms->dir, pInput);
 		//detection du sens du worms
-		if (!retournement)
+		if (!retournement && !pInput->jumpOnGoing)
 			retournement = retournementWorms(pInput, worms);
 		//Fonction de déplacement du worms si non saut
-		if (!pInput->jumpOnGoing)
+		if (!pInput->jumpOnGoing && !retournement)
 			deplacementWorms(pInput, worms, map->imageMapSurface);
-		if (retournement  && !pInput->jumpOnGoing)
+		if (retournement  && !pInput->jumpOnGoing && worms->dir != DOWN)
 		{
+			if (worms->dirSurface == RIGHT)
+				worms->dir = DLEFT;
+			else worms->dir = DRIGHT;
 			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 1);
 		}
 		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 0);
@@ -158,6 +169,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 			if (worms->dir == DOWN)
 				retournement = 0;
 			worms->dir = DOWN;
+			start = 0;
 		}
 		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
 		break;
@@ -244,7 +256,11 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* 
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h, int retournement)
 {
 	if ((impulse == UPRIGHT || impulse == UPLEFT) && !retournement)
-		return impulse;
+	{
+		if ((x < 2 * w / 10) || (x >= 8 * w / 10))
+			return impulse;
+		else return UP;
+	}
 	else if (impulse == RIGHT || impulse == LEFT)
 	{
 		if (!retournement)
@@ -260,9 +276,9 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 			else return  LEFT;
 		}
 	}
-	else if ((impulse == DRIGHT || impulse == DLEFT) && !retournement)
+	else if ((impulse == DRIGHT || impulse == DLEFT))
 	{
-		if (x >= (2 * w / 10) && x <= (8 * w / 10))
+		if (x >= (2 * w / 10) && x <= (8 * w / 10) && (y > h / 2))
 			return DOWN;
 		else return impulse;
 	}
@@ -342,25 +358,38 @@ int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 * \param[in] pSurfaceMotion, surface en mouvement dans la map
 * \return int, 1 = saut non possible, 0 = saut possible
 */
-int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir)
+int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION dir)
 {
-	switch (*dir)
+	switch (dir)
 	{
 	case UP:
 		pSurfaceMotion->clip_rect.y -= 1;
+		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
+		{
+			pSurfaceMotion->clip_rect.y += 1;
+			return 1;
+		}
 		break;
 	case UPLEFT:
 		pSurfaceMotion->clip_rect.y -= 1;
 		pSurfaceMotion->clip_rect.x -= 1;
+		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
+		{
+			pSurfaceMotion->clip_rect.y += 1;
+			pSurfaceMotion->clip_rect.x += 1;
+			return 1;
+		}
 		break;
 	case UPRIGHT:
 		pSurfaceMotion->clip_rect.y -= 1;
 		pSurfaceMotion->clip_rect.x += 1;
+		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
+		{
+			pSurfaceMotion->clip_rect.y += 1;
+			pSurfaceMotion->clip_rect.x -= 1;
+			return 1;
+		}
 		break;
-	}
-	if (gestionCollision(1, pSurfaceMotion, pSurfaceMap, dir, 0))
-	{
-		return 1;
 	}
 	return 0;
 }
@@ -583,31 +612,14 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 	//Variables de balayage
 	int x = 0, y = 0;
 	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;
-	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;
+	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h / 2, yInc = 1;
 	//Variable de collision
 	int collision = 0;
 	//Test des limites de la map et de la fenetre
 	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, dir))
 		return 1;
-	//Détermination de yStart, yEnd, yInc
-	if (*dir == DOWN)
-	{
-		yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		yEnd = -pSurfaceMotion->clip_rect.y + 1;
-	}
-	//Détermination de xStart, xEnd, xInc
-	if (*dir == RIGHT)
-	{
-		xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
-		xEnd = -pSurfaceMotion->clip_rect.x + 1;
-	}
-	if (*dir == DRIGHT)
-	{
-		yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		yEnd = -pSurfaceMotion->clip_rect.y + 1;
-		yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		yEnd = -pSurfaceMotion->clip_rect.y + 1;
-	}
+	//Détermination de yStart, yEnd, xStart et xEnd
+	calculXYBalayage(pSurfaceMotion, *dir, &xStart, &xEnd, &yStart, &yEnd);
 	//Calcul de la collision
 	for (y = yStart; (y < yEnd) && (collision == 0); y += yInc)
 	{
@@ -632,6 +644,50 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 	formatS1 = NULL;
 	formatS2 = NULL;
 	return collision;
+}
+
+
+void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xStart, int* xEnd, int* yStart, int* yEnd)
+{
+	//Détermination de yStart, yEnd
+	if (dir == DOWN)
+	{
+		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
+		*yEnd = -(pSurfaceMotion->clip_rect.h / 2 + pSurfaceMotion->clip_rect.y) + 1;
+	}
+	//Détermination de xStart, xEnd
+	else if (dir == UPRIGHT)
+	{
+		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
+		*xEnd = -(pSurfaceMotion->clip_rect.x) + 1;
+		*yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h;
+	}
+	else if (dir == UPLEFT)
+	{
+		*yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h;
+	}
+	else if (dir == RIGHT)
+	{
+		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
+		*xEnd = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w / 2) + 1;
+	}
+	else if (dir == LEFT)
+	{
+		*xEnd = (pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w / 2);
+	}
+	else if (dir == DRIGHT)
+	{
+		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
+		*yEnd = -(pSurfaceMotion->clip_rect.y) + 1;
+		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
+		*xEnd = -(pSurfaceMotion->clip_rect.x) + 1;
+	}
+	else if (dir == DLEFT)
+	{
+		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
+		*yEnd = -(pSurfaceMotion->clip_rect.y) + 1;
+		*xEnd = (pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w);
+	}
 }
 
 

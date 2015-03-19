@@ -25,7 +25,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...);
 
 /*Fonctions diverses*/
 enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h, int retournement);
-int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir);
+int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION dir);
 int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);	//Test la fin d'un saut
 int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir); //Détermine si un objet est hors map et le replace si il faut
 enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensSaut, Input* pInput);
@@ -38,6 +38,7 @@ void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
 int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
 int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir, int retournement);
+void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xStart, int* xEnd, int* yStart, int* yEnd);
 int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceMap, enum DIRECTION *dir, int retournement);
 
 #endif
