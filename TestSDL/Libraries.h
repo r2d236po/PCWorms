@@ -13,10 +13,16 @@
 #include <SDL/SDL_ttf.h>
 
 
-//structures globales
+/*Macros*/
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
 #define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
+
+/*Constantes*/
 #define pi 3.1415
+#define RMASK 0x000000FF
+#define GMASK 0x0000FF00
+#define BMASK 0x00FF0000
+#define AMASK 0xFF000000
 
 /*Chemins de map*/
 #define cMAP		"../assets/pictures/map.png"
@@ -25,6 +31,7 @@
 #define cMAP_TEST2	"../assets/pictures/maptest2.png"
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"
 
+/*Structures globales*/
 typedef struct{		//structure Point
 	int x;
 	int y;
@@ -43,8 +50,8 @@ typedef struct{		//structure gérant les différents inputs
 	char jumpOnGoing;	//indique qu'un saut est en cours et désactive les touches de direction
 	char bend;	//touche pour s'accroupir
 	char menu;	//touche de menu principal
-	char rclick;		//click droite de la souris
 	enum DIRECTION direction;	//stocke la direction du déplacement du worms
+	char rclick;		//click droite de la souris
 	char lclick;	//click gauche de la souris
 	char quit;	//quitte le programme
 	char weaponTab;

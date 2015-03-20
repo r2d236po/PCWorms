@@ -28,20 +28,11 @@ Worms* createWorms(char* name)
 	worms->texteSurface = NULL;
 	wormsSurfaceLeft = loadImage("../assets/pictures/wormsg.png");
 	wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
+	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
 
-	worms->nom = name;
-	worms->vie = 100;
-
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
+	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL)
 	{
-		printf("Erreur création surface worms, %s", SDL_GetError());
-		destroyWorms(&worms, 1);
-		return NULL;
-	}
-	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-	if (wormsSurface == NULL)
-	{
-		printf("Erreur allocation memoire");
+		printf("Erreur creation surfaces worms, %s", SDL_GetError());
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
@@ -52,9 +43,9 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	worms->wormsSurface = wormsSurface;
-	worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 
-	//A changer avec un truc adapté à la map ?
+	//Initialisations liees a l'image du worms
 	worms->wormsSurface->clip_rect.x = 100;
 	worms->wormsSurface->clip_rect.y = 100;
 	worms->wormsRect.x = worms->wormsSurface->clip_rect.x;
@@ -63,12 +54,16 @@ Worms* createWorms(char* name)
 	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
 
 	//initialisation des variables autres
+	worms->vie = 100;
+	worms->nom = name;
+	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
 	worms->vitx = 0;
 	worms->vity = 0;
+	worms->dirSurface = RIGHT;
 	worms->dir = DOWN;
-	worms->dirSurface = LEFT;
+	worms->arme = NULL;	
 
 	//remise à null des pointeurs temporaires
 	wormsSurface = NULL;
@@ -162,6 +157,15 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 }
 
 
+
+/**
+* \fn char retournementWorms(Input* pInput, Worms* worms)
+* \brief Detecte un retournement du worms.
+*
+* \param[in] pInput, pointeur de la structure contenant les Input.
+* \param[in] worms, pointeur du worms a tester
+* \returns retournement, booleen indiquant s'il y a eu retournements
+*/
 char retournementWorms(Input* pInput, Worms* worms)
 {
 	char retournement = 0;

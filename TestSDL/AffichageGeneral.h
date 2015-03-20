@@ -31,6 +31,7 @@ void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);	//affiche une lign
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace un rectangle en fonction de la souris
 int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface);	//réajuste un rectangle pour pas dépasser de la map
 void frameRate(unsigned int fM);	//gère le framerate
+SDL_Rect initRect(int x, int y, int w, int h);
 
 //gestion des inputs
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage

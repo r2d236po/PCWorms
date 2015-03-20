@@ -12,7 +12,7 @@ int mainFenetre(Jeu * jeu)
 	Terrain * mainMap = NULL;
 	SDL_Texture * display = NULL;	//Texture globale
 	Worms * worms1 = NULL; //worms
-	SDL_Rect camera = { 0, 0, 0, 0 }; // rect(x,y,w,h)
+	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 
 
 	//init SDL + fenetre + renderer
@@ -262,6 +262,7 @@ void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
 	SDL_DestroyWindow(*pWindow);
 	(*pWindow) = NULL;
 
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -395,7 +396,7 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
 	SDL_Rect* rect = NULL;
 	SDL_Rect* rect2 = NULL;
-	SDL_Rect temp = { 0, 0, 0, 0 };
+	SDL_Rect temp = initRect(0, 0, 0, 0);
 	Terrain * map = NULL;
 	SDL_Texture* text = NULL;
 	va_list list;
@@ -546,10 +547,10 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera,
 	camera->h = camera->h - 10;
 	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
 
-	x = (float)(pInput->cursor.now.x / (float)wW) - (float) (1 / 2);
-	y = (float)(pInput->cursor.now.y / (float)hW) - (float) (1 / 2);
-	camera->x += (int) x * 30;
-	camera->y += (int) y * 30;
+	x = (float)(pInput->cursor.now.x / (float)wW) - (float)(1 / 2);
+	y = (float)(pInput->cursor.now.y / (float)hW) - (float)(1 / 2);
+	camera->x += (int)x * 30;
+	camera->y += (int)y * 30;
 
 	if (camera->x < 0)camera->x = 0;
 	if (camera->y < 0)camera->y = 0;
@@ -644,12 +645,11 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 	Uint32* pixelWrite = NULL;
 	Uint32 pixelTransparent = SDL_MapRGBA(pSurfaceMap->format, 255, 255, 255, 0);
 	SDL_Texture* textureTemp = NULL;
-	SDL_Rect rect = { 0, 0, 0, 0 };
+	SDL_Rect rect;
 	int nombrePixel = 0;
 	int h = 0, w = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-	rect.w = w;
-	rect.h = h;
+	rect = initRect(0, 0, w, h);
 
 	nombrePixel = pSurfaceMap->w * pSurfaceMap->h;
 	pixelWrite = malloc(nombrePixel * sizeof(Uint32));
@@ -711,12 +711,13 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
 	int x = 0, y = 0, i = 0;
-	if (pSurfaceModif->clip_rect.x < 0 || pSurfaceModif->clip_rect.y < 0 || (pSurfaceModif->clip_rect.y + pSurfaceModif->h) > pSurfaceMap->h || (pSurfaceModif->clip_rect.x + pSurfaceModif->w) > pSurfaceMap->w)
+	/*if (pSurfaceModif->clip_rect.x < 0 || pSurfaceModif->clip_rect.y < 0 || (pSurfaceModif->clip_rect.y + pSurfaceModif->h) > pSurfaceMap->h || (pSurfaceModif->clip_rect.x + pSurfaceModif->w) > pSurfaceMap->w)
 	{
 		printf("La surface est sortie de l'écran");
 		return -1;
-	}
-
+	}*/
+	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceModif, NULL))
+		return -1;
 	nombrePixel = pSurfaceModif->w * pSurfaceModif->h;
 	secureRect(pRectSurfaceModif, pSurfaceMap);
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
@@ -779,4 +780,24 @@ int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
 		modif = 1;
 	}
 	return modif;
+}
+
+/**
+* \fn SDL_Rect initRect(int x, int y, int w, int h)
+* \brief Cree et nitialise un rectangle.
+*
+* \param[in] x, position en x du rectangle
+* \param[in] y, position en y du rectangle
+* \param[in] w, largeur du rectangle
+* \param[in] h, hauteur du rectangle
+* \return rect, une structure SDL_Rect initialisee
+*/
+SDL_Rect initRect(int x, int y, int w, int h)
+{
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = w;
+	rect.h = h;
+	return rect;
 }

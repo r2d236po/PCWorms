@@ -1,5 +1,6 @@
 #include "carte.h"
 #include "AffichageGeneral.h"
+#include "worms.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -85,108 +86,6 @@ void destroyMap(Terrain** map)
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////
-/////////////////                                                        /////////////////
-/////////////////                Gestion de la physique                  /////////////////
-/////////////////                                                        /////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
-
-int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
-{
-	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
-	int xRel = 0, yRel = 0;
-	static char retournement = 0;
-	static int  t = 0, start = 0;
-	int collision = 0;
-	Worms* worms = NULL;
-	//Arme* weapon = NULL;
-	va_list list;
-
-	va_start(list, pInput);
-	switch (va_arg(list, int))
-	{
-	case 0:
-		worms = va_arg(list, Worms*);
-		if (pInput->jumpOnGoing)
-		{
-			if (!start && checkJump(map->imageMapSurface, worms->wormsSurface, worms->dir))
-			{
-				worms->vitx = 0;
-				worms->vity = 0;
-				worms->dir = DOWN;
-				pInput->jumpOnGoing = 0;
-			}
-			start = 1;
-			//On remet à zero x et y par rapport à sa position absolu de départ
-			worms->wormsSurface->clip_rect.x = worms->xAbs;
-			worms->wormsSurface->clip_rect.y = worms->yAbs;
-		}
-
-		/////////////////////////////////////////////////////////////
-		////////////         Réalisation du saut         ////////////
-		/////////////////////////////////////////////////////////////
-
-		//On calcul les écarts relatifs sur x et y
-		xRel = (int)(worms->vitx *t);
-		yRel = (int)((worms->vity*t) - ((g*t*t) / 2000));
-		//On calcule maintenant les valeurs de x et y
-		worms->wormsSurface->clip_rect.x += xRel;
-		worms->wormsSurface->clip_rect.y -= yRel;
-		t += 7;
-		//Determination de la direction du saut
-		worms->dir = calculDirectionSaut(xRel, yRel, worms->dir, pInput);
-		//detection du sens du worms
-		if (!retournement && !pInput->jumpOnGoing)
-			retournement = retournementWorms(pInput, worms);
-		//Fonction de déplacement du worms si non saut
-		if (!pInput->jumpOnGoing && !retournement)
-			deplacementWorms(pInput, worms, map->imageMapSurface);
-		if (retournement  && !pInput->jumpOnGoing && worms->dir != DOWN)
-		{
-			if (worms->dirSurface == RIGHT)
-				worms->dir = DLEFT;
-			else worms->dir = DRIGHT;
-			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 1);
-		}
-		else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 0);
-		//Si on a eu une collision (donc on est en fin de saut) on réattribut les nouvelles coordonnées absolues
-		if (collision)
-		{
-			if (worms->xAbs != worms->wormsSurface->clip_rect.x || (worms->dir == DOWN || worms->dir == UP))
-				worms->yAbs = worms->wormsSurface->clip_rect.y;
-			worms->xAbs = worms->wormsSurface->clip_rect.x;
-			t = 0;
-
-			if (pInput->jumpOnGoing && testGround(map->imageMapSurface, worms->wormsSurface))
-				pInput->jumpOnGoing = 0;
-			if (pInput->jump)
-				pInput->jump = 0;
-			if (pInput->direction != NONE)
-				pInput->direction = NONE;
-
-			worms->vitx = 0;
-			worms->vity = 0;
-			if (worms->dir == DOWN)
-				retournement = 0;
-			worms->dir = DOWN;
-			start = 0;
-		}
-		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
-		break;
-	case 1:
-		//cas d'une arme
-		break;
-	}
-	va_end(list);
-	return 0;
-}
-
-
-
-
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
@@ -250,10 +149,11 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* 
 * \param[in] impulse, direction du déplacement
 * \param[in] w, largeur de l'objet
 * \param[in] h, hauteur de l'objet
+* \param[in] retournement, variable indiquant s'il y a eu retournement du worms
 * \return DIRECTION, direction de la collision
 */
 
-enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h, int retournement)
+enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, int w, int h, int retournement)
 {
 	if ((impulse == UPRIGHT || impulse == UPLEFT) && !retournement)
 	{
@@ -286,113 +186,6 @@ enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int 
 }
 
 
-/**
-* \fn enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensSaut,Input* pInput)
-*
-* \brief Determine la direction du deplacement de façon precise (selon les diagonales).
-*
-* \param[in] xRel, valeurs relatives de la position en x pendant le saut
-* \param[in] yRel, valeurs relatives de la position en y pendant le saut
-* \param[in] sensObjet, sens du worms et donc du saut (vers la droite ou vers la gauche)
-* \param[in] pInput, structure d'inputs
-* \return DIRECTION, direction du saut, NONE sinon
-*/
-enum DIRECTION calculDirectionSaut(int xRel, int yRel, enum DIRECTION sensObjet, Input* pInput)
-{
-	if (pInput->jumpOnGoing)
-	{
-		switch (sensObjet)
-		{
-		case UP:
-			if (yRel == 64)
-				return DOWN;
-			break;
-		case UPLEFT:
-			if (xRel > -59 && yRel < 62)
-				return UPLEFT;
-			else if (xRel < -59 && yRel < 62)
-				return DLEFT;
-			break;
-		case UPRIGHT:
-			if (xRel <= 59 && yRel < 62)
-				return UPRIGHT;
-			else if (xRel > 59 && yRel < 62)
-				return DRIGHT;
-			break;
-		}
-	}
-	else if (yRel < 0)
-		return DOWN;
-	return sensObjet;
-}
-
-
-/**
-* \fn int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-*
-* \brief Deteremine la fin d'un saut.
-*
-* \param[in] pSurfaceMap, surface de la map
-* \param[in] pSurfaceMotion, surface en mouvement dans la map
-* \return int, 1 = fin de saut, 0 = saut non fini
-*/
-int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-{
-	enum DIRECTION dir = DOWN;
-	pSurfaceMotion->clip_rect.y += 1;
-	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-	{
-		pSurfaceMotion->clip_rect.y -= 1;
-		return 1;
-	}
-	return 0;
-}
-
-
-/**
-* \fn int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-*
-* \brief Deteremine la faisabilite d'un saut.
-*
-* \param[in] pSurfaceMap, surface de la map
-* \param[in] pSurfaceMotion, surface en mouvement dans la map
-* \return int, 1 = saut non possible, 0 = saut possible
-*/
-int checkJump(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION dir)
-{
-	switch (dir)
-	{
-	case UP:
-		pSurfaceMotion->clip_rect.y -= 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-		{
-			pSurfaceMotion->clip_rect.y += 1;
-			return 1;
-		}
-		break;
-	case UPLEFT:
-		pSurfaceMotion->clip_rect.y -= 1;
-		pSurfaceMotion->clip_rect.x -= 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-		{
-			pSurfaceMotion->clip_rect.y += 1;
-			pSurfaceMotion->clip_rect.x += 1;
-			return 1;
-		}
-		break;
-	case UPRIGHT:
-		pSurfaceMotion->clip_rect.y -= 1;
-		pSurfaceMotion->clip_rect.x += 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-		{
-			pSurfaceMotion->clip_rect.y += 1;
-			pSurfaceMotion->clip_rect.x -= 1;
-			return 1;
-		}
-		break;
-	}
-	return 0;
-}
 
 
 
@@ -590,12 +383,13 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 
 
 /**
-* \fn int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION dir)
+* \fn int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir, int retournement)
 * \brief Detecte s'il y a collision entre deux surfaces selon le sens de déplacement du worms.
 *
 * \param[in] pSurfaceMap, pointeur vers la surface de la map
 * \param[in] pSurfaceMotion, pointeur vers la surface en mouvement dans la map
-* \param[in] dir, direction du deplacement du worms
+* \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
+* \param[in] retournement, variable indiquant s'il y a eu retournement du worms
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
 int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION *dir, int retournement)
@@ -637,7 +431,7 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 			else
 			{
 				collision = 1;
-				*dir = calculDirection(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurfaceMotion->w, pSurfaceMotion->h, retournement);
+				*dir = calculDirectionCollision(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurfaceMotion->w, pSurfaceMotion->h, retournement);
 			}
 		}
 	}
@@ -646,7 +440,18 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 	return collision;
 }
 
-
+/**
+* \fn void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xStart, int* xEnd, int* yStart, int* yEnd)
+* \brief Calcul les valeurs de debut et de fin pour X et Y afin d'optimiser la detection de collision.
+*
+* \param[in] psurfaceMotion, surface en deplacement
+* \param[in] dir, direction du deplacement du worms
+* \param[in] xStart, pointeur vers la variable xStart, debut du balayage en x
+* \param[in] xEnd, pointeur vers la variable xEnd, fin du balayage en x
+* \param[in] yStart, pointeur vers la variable yStart, debut du balayage en y
+* \param[in] yEnd, pointeur vers la variable yEnd, fin du balayage en y
+* \returns void
+*/
 void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xStart, int* xEnd, int* yStart, int* yEnd)
 {
 	//Détermination de yStart, yEnd
@@ -692,13 +497,14 @@ void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xSta
 
 
 /**
-* \fn void gestionCollision(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION dir, int retournement)
+* \fn void gestionCollision(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir, int retournement)
 * \brief replace le worms en cas de collision.
 *
 * \param[in] vitesse, vitesse de deplacement du worms, sert pour le replacement
 * \param[in] surfaceMotion, surface en deplacement
 * \param[in] surfaceMap, surface de la map
 * \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
+* \param[in] retournement, variable indiquant s'il y a eu retournement du worms
 * \returns int collision, indique s'il y a eu collision
 */
 int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceMap, enum DIRECTION* dir, int retournement)
