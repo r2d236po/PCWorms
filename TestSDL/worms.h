@@ -34,6 +34,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 
 /*Fonctions diverses*/
 char retournementWorms(Input* pInput, Worms* worms);
+void swapSurface(Worms* worms);
 #endif // !1
 
 

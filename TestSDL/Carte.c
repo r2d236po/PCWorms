@@ -157,7 +157,9 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 {
 	if ((impulse == UPRIGHT || impulse == UPLEFT) && !retournement)
 	{
-		if ((x < 2 * w / 10) || (x >= 8 * w / 10))
+		if (y > h / 2)
+			return DOWN;
+		else if ((x < 2 * w / 10) || (x >= 8 * w / 10))
 			return impulse;
 		else return UP;
 	}
@@ -178,8 +180,12 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 	}
 	else if ((impulse == DRIGHT || impulse == DLEFT))
 	{
-		if (x >= (2 * w / 10) && x <= (8 * w / 10) && (y > h / 2))
+		if (x >= (3 * w / 11) && x <= (8 * w / 11) && (y > h / 2))
 			return DOWN;
+		else if (x < w / 2)
+			return DLEFT;
+		else if (x > w / 2)
+			return DRIGHT;
 		else return impulse;
 	}
 	else return impulse;
@@ -403,10 +409,11 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 	int offset_yS2 = pSurfaceMotion->clip_rect.y;
 	SDL_PixelFormat* formatS1 = pSurfaceMap->format;
 	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;
+	int secu = *dir;
 	//Variables de balayage
 	int x = 0, y = 0;
 	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;
-	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h / 2, yInc = 1;
+	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;
 	//Variable de collision
 	int collision = 0;
 	//Test des limites de la map et de la fenetre

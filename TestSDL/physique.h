@@ -15,6 +15,5 @@ void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SD
 void finDeplacement(Input* pInput, Worms* worms, Terrain* map, char* retournement, int check);
 enum DIRECTION calculDirectionDeplacement(int xRel, int yRel, enum DIRECTION sensSaut, Input* pInput);
 int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION direction);
-int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);	//Test la fin d'un saut
 
 #endif // !PHYSIQUE_H

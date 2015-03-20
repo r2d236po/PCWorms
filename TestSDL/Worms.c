@@ -63,7 +63,7 @@ Worms* createWorms(char* name)
 	worms->vity = 0;
 	worms->dirSurface = RIGHT;
 	worms->dir = DOWN;
-	worms->arme = NULL;	
+	worms->arme = NULL;
 
 	//remise à null des pointeurs temporaires
 	wormsSurface = NULL;
@@ -82,7 +82,7 @@ Worms* createWorms(char* name)
 void destroyWorms(Worms** worms, int nbWorms)
 {
 	int i;
-	for ( i = 0; i < nbWorms; i++)
+	for (i = 0; i < nbWorms; i++)
 	{
 		if (worms[i]->wormsSurface != NULL)
 		{
@@ -100,7 +100,7 @@ void destroyWorms(Worms** worms, int nbWorms)
 			(worms[i])->wormsSurfaceRight = NULL;
 		}
 		free(worms[i]);
-	}	
+	}
 	*worms = NULL;
 }
 
@@ -174,15 +174,29 @@ char retournementWorms(Input* pInput, Worms* worms)
 		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dirSurface != pInput->direction))
 		{
 			retournement = 1;
-			worms->dirSurface = pInput->direction;
-			if (worms->dirSurface == RIGHT)
-			{
-				worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
-			}
-			else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 		}
 	}
 	return retournement;
+}
+
+/**
+* \fn void swapSurface(Worms* worms)
+* \brief Change la surface de sens.
+*
+* \param[in] worms, pointeur du worms a tester
+* \returns void
+* \remark Faire attention a la vitesse d'execution du programme et rajouter un booleen de securite dans la fonction l'appelant
+*/
+void swapSurface(Worms* worms)
+{
+	if (worms->dirSurface == RIGHT)
+		worms->dirSurface = LEFT;
+	else worms->dirSurface = RIGHT;
+	if (worms->dirSurface == RIGHT)
+	{
+		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+	}
+	else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 }
 
 

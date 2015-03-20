@@ -245,7 +245,7 @@ void inputsJumpWorms(Input* pInput, Worms* worms)
 			pInput->jumpOnGoing = 1;
 			worms->vity = (float)(sin(pi / 3)*1.3);
 		}
-		else if (pInput->jump)
+		else if (pInput->jump && worms->dir == DOWN)
 		{
 			if (worms->dirSurface == RIGHT)
 			{

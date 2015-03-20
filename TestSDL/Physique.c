@@ -49,8 +49,12 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 {
 	int xRel = 0, yRel = 0;
 	static char retournement = 0;
-	static int  t = 0, start = 0;
+	static int  t = 0, start = 0, swap = 0;
 	int collision = 0;
+	enum  DIRECTION dir;
+	{
+
+	};
 	if (pInput->jumpOnGoing)
 	{
 		if (!start && checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dir))
@@ -85,10 +89,25 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 	/*Gestion de la collision*/
 	if (retournement  && !pInput->jumpOnGoing && worms->dir != DOWN)
 	{
+		if (!swap)
+			swapSurface(worms);
 		if (worms->dirSurface == RIGHT)
-			worms->dir = DLEFT;
-		else worms->dir = DRIGHT;
-		collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 1);
+			dir = LEFT;
+		else dir = RIGHT;
+		if (!checkDeplacement(map->imageMapSurface, worms->wormsSurface, dir))
+		{
+			if (worms->dirSurface == RIGHT)
+				worms->dir = DLEFT;
+			else worms->dir = DRIGHT;
+			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 1);
+			swap = 1;
+		}
+		else
+		{
+			swapSurface(worms);
+			deplacementWorms(pInput, worms, map->imageMapSurface);
+			retournement = 0;
+		}
 	}
 	else collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 0);
 
@@ -98,6 +117,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 		finDeplacement(pInput, worms, map, &retournement, 0);
 		t = 0;
 		start = 0;
+		swap = 0;
 	}
 
 	/*Mise à jour de l'affichage*/
@@ -146,7 +166,7 @@ void finDeplacement(Input* pInput, Worms* worms, Terrain* map, char* retournemen
 		worms->yAbs = worms->wormsSurface->clip_rect.y;
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 
-	if (check || (pInput->jumpOnGoing && testGround(map->imageMapSurface, worms->wormsSurface)))
+	if (check || (pInput->jumpOnGoing && checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN)))
 		pInput->jumpOnGoing = 0;
 	if (pInput->jump)
 		pInput->jump = 0;
@@ -176,13 +196,19 @@ void finDeplacement(Input* pInput, Worms* worms, Terrain* map, char* retournemen
 */
 enum DIRECTION calculDirectionDeplacement(int xRel, int yRel, enum DIRECTION sensObjet, Input* pInput)
 {
+	static int yPrec = 0;
 	if (pInput->jumpOnGoing)
 	{
 		switch (sensObjet)
 		{
 		case UP:
-			if (yRel == 64)
+			if (yRel >= yPrec)
+				yPrec = yRel;
+			else if (yRel < 46 && yRel != 0)
+			{
+				yPrec = 0;
 				return DOWN;
+			}
 			break;
 		case UPLEFT:
 			if (xRel > -59 && yRel < 62)
@@ -199,31 +225,13 @@ enum DIRECTION calculDirectionDeplacement(int xRel, int yRel, enum DIRECTION sen
 		}
 	}
 	else if (yRel < 0)
+	{
 		return DOWN;
+	}
+	yPrec = 0;
 	return sensObjet;
 }
 
-
-/**
-* \fn int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-*
-* \brief Deteremine la fin d'un saut.
-*
-* \param[in] pSurfaceMap, surface de la map
-* \param[in] pSurfaceMotion, surface en mouvement dans la map
-* \return int, 1 = fin de saut, 0 = saut non fini
-*/
-int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-{
-	enum DIRECTION dir = DOWN;
-	pSurfaceMotion->clip_rect.y += 1;
-	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-	{
-		pSurfaceMotion->clip_rect.y -= 1;
-		return 1;
-	}
-	return 0;
-}
 
 
 /**
@@ -238,54 +246,63 @@ int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION direction)
 {
 	enum DIRECTION dir = direction;
+	int x, y;
+	x = pSurfaceMotion->clip_rect.x;
+	y = pSurfaceMotion->clip_rect.y;
 	switch (dir)
 	{
 	case UP:
 		pSurfaceMotion->clip_rect.y -= 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-		{
-			pSurfaceMotion->clip_rect.y += 1;
-			return 1;
-		}
 		break;
 	case UPLEFT:
 		pSurfaceMotion->clip_rect.y -= 1;
 		pSurfaceMotion->clip_rect.x -= 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-		{
-			pSurfaceMotion->clip_rect.y += 1;
-			pSurfaceMotion->clip_rect.x += 1;
-			return 1;
-		}
 		break;
 	case UPRIGHT:
 		pSurfaceMotion->clip_rect.y -= 1;
 		pSurfaceMotion->clip_rect.x += 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
-		{
-			pSurfaceMotion->clip_rect.y += 1;
-			pSurfaceMotion->clip_rect.x -= 1;
-			return 1;
-		}
+		break;
+	case DRIGHT:
+		pSurfaceMotion->clip_rect.y += 1;
+		pSurfaceMotion->clip_rect.x += 1;
+		break;
+	case DLEFT:
+		pSurfaceMotion->clip_rect.y += 1;
+		pSurfaceMotion->clip_rect.x -= 1;
 		break;
 	case RIGHT:
-		pSurfaceMotion->clip_rect.x += 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
+		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, DRIGHT))
 		{
-			pSurfaceMotion->clip_rect.x -= 1;
-			if (dir == RIGHT)
+			if (checkDeplacement(pSurfaceMap, pSurfaceMotion, UPLEFT))
 				return 1;
 		}
+		pSurfaceMotion->clip_rect.x += 1;
 		break;
 	case LEFT:
-		pSurfaceMotion->clip_rect.x -= 1;
-		if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
+		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, DLEFT))
 		{
-			pSurfaceMotion->clip_rect.x += 1;
-			if (dir == LEFT)
+			if (checkDeplacement(pSurfaceMap, pSurfaceMotion, UPRIGHT))
 				return 1;
 		}
+		pSurfaceMotion->clip_rect.x -= 1;
+		break;
+	case DOWN:
+		pSurfaceMotion->clip_rect.y += 1;
 		break;
 	}
+	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 0))
+	{
+		pSurfaceMotion->clip_rect.y = y;
+		pSurfaceMotion->clip_rect.x = x;
+		if (direction == LEFT || direction == RIGHT)
+		{
+			if (dir == DLEFT || dir == DRIGHT)
+				return 1;
+		}
+		if (dir == direction)
+			return 1;
+	}
+	pSurfaceMotion->clip_rect.y = y;
+	pSurfaceMotion->clip_rect.x = x;
 	return 0;
 }
