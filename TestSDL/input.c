@@ -180,7 +180,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		inputsJumpWorms(pInput, worms);
 		gestionPhysique(map, pTexture, pInput, 0, worms);
 	}
-	if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->h > (9 * map->imageMapSurface->h / 10) && checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN))
+	if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->h > (14 * map->imageMapSurface->h / 15) && checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN))
 	{
 		worms->wormsSurface->pixels = worms->wormsSurfaceTomb->pixels;
 		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, pTexture, &worms->wormsRect);
