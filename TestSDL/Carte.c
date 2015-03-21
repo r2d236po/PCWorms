@@ -157,10 +157,10 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 {
 	if ((impulse == UPRIGHT || impulse == UPLEFT) && !retournement)
 	{
-		if (y > h / 2)
-			return DOWN;
-		else if ((x < 2 * w / 10) || (x >= 8 * w / 10))
+		if ((x < 2 * w / 10) || (x >= 8 * w / 10))
 			return impulse;
+		if (y > 2 * h / 3)
+			return DOWN;
 		else return UP;
 	}
 	else if (impulse == RIGHT || impulse == LEFT)
@@ -465,7 +465,7 @@ void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xSta
 	if (dir == DOWN)
 	{
 		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		*yEnd = -(pSurfaceMotion->clip_rect.h / 2 + pSurfaceMotion->clip_rect.y) + 1;
+		*yEnd = -(2 * pSurfaceMotion->clip_rect.h / 3 + pSurfaceMotion->clip_rect.y) + 1;
 	}
 	//Détermination de xStart, xEnd
 	else if (dir == UPRIGHT)

@@ -46,7 +46,7 @@ Worms* createWorms(char* name)
 	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 
 	//Initialisations liees a l'image du worms
-	worms->wormsSurface->clip_rect.x = 100;
+	worms->wormsSurface->clip_rect.x = 300;
 	worms->wormsSurface->clip_rect.y = 100;
 	worms->wormsRect.x = worms->wormsSurface->clip_rect.x;
 	worms->wormsRect.y = worms->wormsSurface->clip_rect.y;
@@ -174,6 +174,7 @@ char retournementWorms(Input* pInput, Worms* worms)
 		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dirSurface != pInput->direction))
 		{
 			retournement = 1;
+			swapSurface(worms);
 		}
 	}
 	return retournement;
@@ -197,6 +198,9 @@ void swapSurface(Worms* worms)
 		worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
 	}
 	else worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
+	if (worms->dirSurface == RIGHT)
+		worms->wormsSurface->clip_rect.x += 10;
+	else worms->wormsSurface->clip_rect.x -= 10;
 }
 
 
