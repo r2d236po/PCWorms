@@ -16,6 +16,7 @@ Worms* createWorms(char* name)
 	SDL_Surface * wormsSurfaceLeft = NULL;
 	SDL_Surface * wormsSurfaceRight = NULL;
 	SDL_Surface * texteSurface = NULL;
+	SDL_Surface * tombeSurface = NULL;
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
@@ -26,11 +27,12 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
-	wormsSurfaceLeft = loadImage("../assets/pictures/wormsg.png");
-	wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
+	wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
+	wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
+	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
 	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
 
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL)
+	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL || tombeSurface == NULL)
 	{
 		printf("Erreur creation surfaces worms, %s", SDL_GetError());
 		destroyWorms(&worms, 1);
@@ -44,6 +46,7 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	worms->wormsSurface = wormsSurface;
 	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+	worms->wormsSurfaceTomb = tombeSurface;
 
 	//Initialisations liees a l'image du worms
 	worms->wormsSurface->clip_rect.x = 300;
@@ -70,6 +73,7 @@ Worms* createWorms(char* name)
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
 	texteSurface = NULL;
+	tombeSurface = NULL;
 	return worms;
 }
 
@@ -98,6 +102,16 @@ void destroyWorms(Worms** worms, int nbWorms)
 		{
 			SDL_FreeSurface((worms[i])->wormsSurfaceRight);
 			(worms[i])->wormsSurfaceRight = NULL;
+		}
+		if ((worms[i])->wormsSurfaceTomb != NULL)
+		{
+			SDL_FreeSurface((worms[i])->wormsSurfaceTomb);
+			(worms[i])->wormsSurfaceTomb = NULL;
+		}
+		if ((worms[i])->texteSurface != NULL)
+		{
+			SDL_FreeSurface((worms[i])->texteSurface);
+			(worms[i])->texteSurface = NULL;
 		}
 		free(worms[i]);
 	}
@@ -174,7 +188,7 @@ char retournementWorms(Input* pInput, Worms* worms)
 		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dirSurface != pInput->direction))
 		{
 			retournement = 1;
-			swapSurface(worms);
+			//swapSurface(worms);
 		}
 	}
 	return retournement;

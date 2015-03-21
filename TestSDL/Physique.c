@@ -51,12 +51,12 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 	static char retournement = 0;
 	static int  t = 0, start = 0, swap = 0;
 	int collision = 0;
-	enum  DIRECTION dir;
 	if (pInput->jumpOnGoing)
 	{
 		if (!start && checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dir))
 		{
 			finDeplacement(pInput, worms, map, &retournement, 1);
+			return;
 		}
 		start = 1;
 		//On remet à zero x et y par rapport à sa position absolu de départ
@@ -84,29 +84,19 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 		deplacementWorms(pInput, worms, map->imageMapSurface);
 
 	/*Gestion de la collision*/
-	/*if (retournement  && !pInput->jumpOnGoing && worms->dir != DOWN)
+	if (retournement)
 	{
 		if (!swap)
 			swapSurface(worms);
-		if (worms->dirSurface == RIGHT)
-			dir = LEFT;
-		else dir = RIGHT;
-		if (!checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dir))
-		{
-			if (worms->dirSurface == RIGHT)
-				worms->dir = DLEFT;
-			else worms->dir = DRIGHT;
-			collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 1);
-			swap = 1;
-		}
-		else
+		if (worms->dir != DOWN && checkDeplacement(map->imageMapSurface, worms->wormsSurface, UP))
 		{
 			swapSurface(worms);
 			deplacementWorms(pInput, worms, map->imageMapSurface);
 			retournement = 0;
 		}
+		swap = 1;
+		retournement = 0;
 	}
-	else */
 	collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 0);
 
 	/*Gestion de fin de mouvement*/
@@ -118,9 +108,15 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 		start = 0;
 		swap = 0;
 	}
-
+	while (checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dirSurface))
+	{
+		if (worms->dirSurface == RIGHT)
+			worms->wormsSurface->clip_rect.x -= 1;
+		else worms->wormsSurface->clip_rect.x += 1;
+	}
 	/*Mise à jour de l'affichage*/
-	updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
+	if (!checkDeplacement(map->imageMapSurface, worms->wormsSurface, UP) || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, LEFT) || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, RIGHT))
+		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
 }
 
 
@@ -175,8 +171,8 @@ void finDeplacement(Input* pInput, Worms* worms, Terrain* map, char* retournemen
 	worms->vity = 0;
 	/*if (worms->dir == DOWN)
 	{
-		if (retournement != NULL)
-			*retournement = 0;
+	if (retournement != NULL)
+	*retournement = 0;
 	}*/
 	worms->dir = DOWN;
 }
@@ -260,6 +256,12 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 	case UPRIGHT:
 		pSurfaceMotion->clip_rect.y -= 1;
 		pSurfaceMotion->clip_rect.x += 1;
+		if (checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
+		{
+			pSurfaceMotion->clip_rect.y += 1;
+			pSurfaceMotion->clip_rect.x -= 1;
+			return 1;
+		}
 		break;
 	case DRIGHT:
 		pSurfaceMotion->clip_rect.y += 1;

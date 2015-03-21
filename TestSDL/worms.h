@@ -21,6 +21,7 @@ typedef struct {		//Structure worms
 	SDL_Surface* wormsSurface;
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
+	SDL_Surface* wormsSurfaceTomb;
 	SDL_Surface* texteSurface;
 	//son?
 } Worms;

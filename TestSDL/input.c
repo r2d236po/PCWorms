@@ -175,8 +175,17 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, map->imageMapSurface, pTexture);
 		pInput->bombe = 0;
 	}
-	inputsJumpWorms(pInput, worms);
-	gestionPhysique(map, pTexture, pInput, 0, worms);
+	if (worms->vie > 0)
+	{
+		inputsJumpWorms(pInput, worms);
+		gestionPhysique(map, pTexture, pInput, 0, worms);
+	}
+	if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->h > (9 * map->imageMapSurface->h / 10) && checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN))
+	{
+		worms->wormsSurface->pixels = worms->wormsSurfaceTomb->pixels;
+		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, pTexture, &worms->wormsRect);
+		worms->vie = 0;
+	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -243,7 +252,7 @@ void inputsJumpWorms(Input* pInput, Worms* worms)
 				worms->vitx = (float)(cos(pi / 3)*0.95); //saut vers la gauche
 			}
 			pInput->jumpOnGoing = 1;
-			worms->vity = (float)(sin(pi / 3)*1.3);
+			worms->vity = (float)(sin(pi / 3)*1.5);
 		}
 		else if (pInput->jump && worms->dir == DOWN)
 		{

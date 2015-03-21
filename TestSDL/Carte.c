@@ -188,6 +188,12 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 			return DRIGHT;
 		else return impulse;
 	}
+	else if (impulse == UP)
+	{
+		if ((x < w / 2) && (y > 5 * h / 8))
+			return DLEFT;
+		else return impulse;
+	}
 	else return impulse;
 }
 
