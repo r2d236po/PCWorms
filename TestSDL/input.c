@@ -34,8 +34,8 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_WINDOWEVENT:
 			if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
 				pInput->windowResized = 1;
+				pInput->raffraichissement = 1;
 			}
-			pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
@@ -113,10 +113,10 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				pInput->bombe = 1;
 				break;
 			case SDLK_c:
-				if (globalVar.nbWormsEquipe > 1)
+				if (globalVar.nbWormsEquipe > 1 && !pInput->jumpOnGoing)
 				{
-					if (pInput->wormsPlaying == 0)
-						pInput->wormsPlaying = 1;
+					if (pInput->wormsPlaying != globalVar.nbWormsEquipe - 1)
+						pInput->wormsPlaying += 1;
 					else pInput->wormsPlaying = 0;
 				}
 				break;
@@ -172,6 +172,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
+	static int i = 0;
 	inputsCamera(pInput, pTexture, camera, pRenderer);
 	if (pInput->windowResized){
 		initCameras(pRenderer, map, camera, NULL);
@@ -194,6 +195,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		updateGlobaleTexture(map->imageMapSurface, worms[pInput->wormsPlaying]->wormsSurface, pTexture, &worms[pInput->wormsPlaying]->wormsRect);
 		worms[pInput->wormsPlaying]->vie = 0;
 	}
+	updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
+	i++;
+	if (i >= globalVar.nbWormsEquipe)
+		i = 0;
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 

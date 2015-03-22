@@ -7,7 +7,7 @@
 int main(int argc, char** argv)
 {
 	
-	mainInit(1, 1);
+	mainInit(1, 2);
 
 	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_HD);
 
@@ -15,7 +15,6 @@ int main(int argc, char** argv)
 	{
 		printf("Une erreur s'est produite");
 	}
-
 	destroyJeu(&game);
 	return 0;
 }

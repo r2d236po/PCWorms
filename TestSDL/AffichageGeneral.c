@@ -89,8 +89,8 @@ int sandboxRenderer()
 	int click = 0;
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
 	SDL_Event event;
-	SDL_Renderer* renderer = NULL; //déclaration du renderer
-	SDL_Window* pWindow = NULL;
+	SDL_Renderer* renderer2 = NULL; //déclaration du renderer
+	SDL_Window* pWindow2 = NULL;
 
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -100,23 +100,23 @@ int sandboxRenderer()
 	}
 
 	/* Création de la fenêtre */
-	pWindow = creerFenetre(1080, 600, "KaamWorms");
-	if (pWindow == NULL)
+	pWindow2 = creerFenetre(1080, 600, "KaamWorms");
+	if (pWindow2 == NULL)
 	{
 		SDL_Quit();
 		return -1;
 	}
 
 	/* Création du renderer */
-	renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (renderer == NULL)//gestion des erreurs
+	renderer2 = SDL_CreateRenderer(pWindow2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (renderer2 == NULL)//gestion des erreurs
 	{
 		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 		return -1;
 	}
 
-	SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
-	SDL_RenderPresent(renderer);
+	SDL_SetRenderDrawColor(renderer2, 210, 50, 60, 255);
+	SDL_RenderPresent(renderer2);
 
 	while (!closeWindow)
 	{
@@ -132,13 +132,13 @@ int sandboxRenderer()
 			case SDL_MOUSEBUTTONDOWN:
 				click = 1;/*Booleen de mémorisation du click*/
 				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
-					SDL_SetRenderDrawColor(renderer, 210, 50, 60, 255);
+					SDL_SetRenderDrawColor(renderer2, 210, 50, 60, 255);
 				else if (event.button.button == SDL_BUTTON_RIGHT)
-					SDL_SetRenderDrawColor(renderer, 50, 210, 60, 255);
+					SDL_SetRenderDrawColor(renderer2, 50, 210, 60, 255);
 				else if (event.button.button == SDL_BUTTON_MIDDLE)
-					SDL_SetRenderDrawColor(renderer, 50, 60, 210, 255);
+					SDL_SetRenderDrawColor(renderer2, 50, 60, 210, 255);
 				SDL_GetMouseState(&p2.x, &p2.y); //Initialisationn pour affichage ligne
-				afficherPoint(renderer);
+				afficherPoint(renderer2);
 				break;
 
 			case SDL_MOUSEBUTTONUP:
@@ -148,14 +148,14 @@ int sandboxRenderer()
 			case SDL_MOUSEMOTION:
 				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
 				{
-					afficherLigne(renderer, &p1, &p2);
+					afficherLigne(renderer2, &p1, &p2);
 				}
 				break;
 
 			case SDL_KEYUP:
 				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
 				{
-					clearRenderer(renderer);
+					clearRenderer(renderer2);
 				}
 				break;
 
@@ -167,9 +167,9 @@ int sandboxRenderer()
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 	} //comment
 
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(pWindow);
-	SDL_Quit();
+	SDL_DestroyRenderer(renderer2);
+	SDL_DestroyWindow(pWindow2);
+	//SDL_Quit();
 	return 0;
 }
 
