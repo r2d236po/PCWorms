@@ -188,7 +188,6 @@ char retournementWorms(Input* pInput, Worms* worms)
 		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (worms->dirSurface != pInput->direction))
 		{
 			retournement = 1;
-			//swapSurface(worms);
 		}
 	}
 	return retournement;

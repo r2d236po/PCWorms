@@ -33,7 +33,7 @@ int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface);	//réajuste un rectangle 
 void frameRate(unsigned int fM);	//gère le framerate
 SDL_Rect initRect(int x, int y, int w, int h);
 
-//gestion des inputs
+//gestion de l'affichage
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//Zoom In, grossis

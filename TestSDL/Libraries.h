@@ -11,7 +11,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
-
+#include <SDL/SDL_mixer.h>
 
 /*Macros*/
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
@@ -61,6 +61,7 @@ typedef struct{		//structure gérant les différents inputs
 	char windowResized;
 	char acceleration;
 	char bombe;
+	int wormsPlaying;
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 

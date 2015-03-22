@@ -7,7 +7,7 @@
 void getInput(Input* pInput, SDL_Window* pWindow);	//récupère les inputs
 
 /*Gestion des Inputs*/
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms);
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms** worms);
 void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer);
 void inputsJumpWorms(Input* pInput, Worms* worms);
 

@@ -112,6 +112,14 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			case SDLK_b:
 				pInput->bombe = 1;
 				break;
+			case SDLK_c:
+				if (globalVar.nbWormsEquipe > 1)
+				{
+					if (pInput->wormsPlaying == 0)
+						pInput->wormsPlaying = 1;
+					else pInput->wormsPlaying = 0;
+				}
+				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
@@ -154,7 +162,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 * \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms** worms)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -175,16 +183,16 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, map->imageMapSurface, pTexture);
 		pInput->bombe = 0;
 	}
-	if (worms->vie > 0)
+	if (worms[pInput->wormsPlaying]->vie > 0)
 	{
-		inputsJumpWorms(pInput, worms);
-		gestionPhysique(map, pTexture, pInput, 0, worms);
+		inputsJumpWorms(pInput, worms[pInput->wormsPlaying]);
+		gestionPhysique(map, pTexture, pInput, 0, worms[pInput->wormsPlaying]);
 	}
-	if (worms->wormsSurface->clip_rect.y + worms->wormsSurface->h > (14 * map->imageMapSurface->h / 15) && checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN))
+	if (worms[pInput->wormsPlaying]->wormsSurface->clip_rect.y + worms[pInput->wormsPlaying]->wormsSurface->h > (14 * map->imageMapSurface->h / 15) && checkDeplacement(map->imageMapSurface, worms[pInput->wormsPlaying]->wormsSurface, DOWN))
 	{
-		worms->wormsSurface->pixels = worms->wormsSurfaceTomb->pixels;
-		updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, pTexture, &worms->wormsRect);
-		worms->vie = 0;
+		worms[pInput->wormsPlaying]->wormsSurface->pixels = worms[pInput->wormsPlaying]->wormsSurfaceTomb->pixels;
+		updateGlobaleTexture(map->imageMapSurface, worms[pInput->wormsPlaying]->wormsSurface, pTexture, &worms[pInput->wormsPlaying]->wormsRect);
+		worms[pInput->wormsPlaying]->vie = 0;
 	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
@@ -326,6 +334,7 @@ Input* initInput()
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
 	pInput->cursor = initCursor();
+	pInput->wormsPlaying = 0;
 	return pInput;
 }
 

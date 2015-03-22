@@ -55,7 +55,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 	{
 		if (!start && checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dir))
 		{
-			finDeplacement(pInput, worms, map, &retournement, 1);
+			finDeplacement(pInput, worms, map, 1);
 			return;
 		}
 		start = 1;
@@ -102,7 +102,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 	/*Gestion de fin de mouvement*/
 	if (collision)
 	{
-		finDeplacement(pInput, worms, map, &retournement, 0);
+		finDeplacement(pInput, worms, map, 0);
 		retournement = 0;
 		t = 0;
 		start = 0;
@@ -145,17 +145,16 @@ void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SD
 
 
 /**
-* \fn void finDeplacement(Input* pInput, Worms* worms, Terrain* map,int* retournement, int check)
+* \fn void finDeplacement(Input* pInput, Worms* worms, Terrain* map, int check)
 * \brief Gere la fin de saut en cas de collision.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
 * \param[in] worms, pointeur du worms a deplacer
 * \param[in] map, pointeur vers la structure de la map
-* \param[in] retournement, pointeur vers le retournement
 * \param[in] check, fonctionnement particulier si juste apres checkDeplacement
 * \returns void
 */
-void finDeplacement(Input* pInput, Worms* worms, Terrain* map, char* retournement, int check)
+void finDeplacement(Input* pInput, Worms* worms, Terrain* map, int check)
 {
 	if (worms->xAbs != worms->wormsSurface->clip_rect.x || (worms->dir == DOWN || worms->dir == UP))
 		worms->yAbs = worms->wormsSurface->clip_rect.y;
@@ -169,11 +168,6 @@ void finDeplacement(Input* pInput, Worms* worms, Terrain* map, char* retournemen
 		pInput->direction = NONE;
 	worms->vitx = 0;
 	worms->vity = 0;
-	/*if (worms->dir == DOWN)
-	{
-	if (retournement != NULL)
-	*retournement = 0;
-	}*/
 	worms->dir = DOWN;
 }
 

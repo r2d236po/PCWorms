@@ -7,7 +7,7 @@
 int main(int argc, char** argv)
 {
 	
-	mainInit(2, 5);
+	mainInit(1, 1);
 
 	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_HD);
 

@@ -11,7 +11,6 @@ int mainFenetre(Jeu * jeu)
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	Terrain * mainMap = NULL;
 	SDL_Texture * display = NULL;	//Texture globale
-	Worms * worms1 = NULL; //worms
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 
 
@@ -34,37 +33,27 @@ int mainFenetre(Jeu * jeu)
 			return -1;
 		}
 
-		//Initialisation worms
-		worms1 = createWorms("Jacouille");
-		if (worms1 == NULL)
-		{
-			printf("Erreur creation worms");
-			destroyMap(&mainMap);
-			cleanUp(&pWindow, &pRenderer, &pInput);
-			return -1;
-		}
 		//Initialisation des caméras
-		initCameras(pRenderer, mainMap, &camera, worms1);
+		initCameras(pRenderer, mainMap, &camera, jeu->equipes[0]->worms[0]);
 
 		//Initialisation de l'affichage
 		if (createGlobalTexture(mainMap->imageMapSurface, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
-			destroyWorms(&worms1, 1);
 			destroyMap(&mainMap);
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
-		updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
+		//updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
 
-		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+		//updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, worms1))
+			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, jeu->equipes[0]->worms))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
@@ -80,7 +69,6 @@ int mainFenetre(Jeu * jeu)
 			frame_max = SDL_GetTicks() + FRAME_RATE;
 		}
 		destroyMap(&mainMap);
-		destroyWorms(&worms1, 1);
 		destroyPolice();
 		SDL_DestroyTexture(display);
 		display = NULL;
@@ -711,11 +699,6 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
 	int x = 0, y = 0, i = 0;
-	/*if (pSurfaceModif->clip_rect.x < 0 || pSurfaceModif->clip_rect.y < 0 || (pSurfaceModif->clip_rect.y + pSurfaceModif->h) > pSurfaceMap->h || (pSurfaceModif->clip_rect.x + pSurfaceModif->w) > pSurfaceMap->w)
-	{
-		printf("La surface est sortie de l'écran");
-		return -1;
-	}*/
 	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceModif, NULL))
 		return -1;
 	nombrePixel = pSurfaceModif->w * pSurfaceModif->h;
@@ -749,6 +732,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	pixelWrite = NULL;
 	return 0;
 }
+
 
 /**
 * \fn void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)

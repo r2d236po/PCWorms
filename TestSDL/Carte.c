@@ -415,7 +415,6 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 	int offset_yS2 = pSurfaceMotion->clip_rect.y;
 	SDL_PixelFormat* formatS1 = pSurfaceMap->format;
 	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;
-	int secu = *dir;
 	//Variables de balayage
 	int x = 0, y = 0;
 	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;
