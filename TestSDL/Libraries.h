@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 
 /*Bibliothèques supplémentaires*/
 #include <SDL/SDL.h>

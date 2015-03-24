@@ -1,6 +1,7 @@
 #include "input.h"
 #include "AffichageGeneral.h"
 #include "physique.h"
+#include "worms.h"
 
 
 
@@ -70,6 +71,8 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 
 		case SDL_MOUSEMOTION:
 			pInput->cursor.motion = 1;
+			if (pInput->rclick == 1 || pInput->lclick == 1)
+				pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEWHEEL:
@@ -119,6 +122,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 						pInput->wormsPlaying += 1;
 					else pInput->wormsPlaying = 0;
 				}
+				pInput->raffraichissement = 1;
 				break;
 			}
 			pInput->raffraichissement = 1;
@@ -172,7 +176,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	static int i = 0;
+	int i = 0;
 	inputsCamera(pInput, pTexture, camera, pRenderer);
 	if (pInput->windowResized){
 		initCameras(pRenderer, map, camera, NULL);
@@ -184,21 +188,18 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, map->imageMapSurface, pTexture);
 		pInput->bombe = 0;
 	}
+	inputsJumpWorms(pInput, worms[pInput->wormsPlaying]);
 	if (worms[pInput->wormsPlaying]->vie > 0)
 	{
-		inputsJumpWorms(pInput, worms[pInput->wormsPlaying]);
 		gestionPhysique(map, pTexture, pInput, 0, worms[pInput->wormsPlaying]);
+		deathByLimitMap(worms[pInput->wormsPlaying], map->imageMapSurface);
 	}
-	if (worms[pInput->wormsPlaying]->wormsSurface->clip_rect.y + worms[pInput->wormsPlaying]->wormsSurface->h > (14 * map->imageMapSurface->h / 15) && checkDeplacement(map->imageMapSurface, worms[pInput->wormsPlaying]->wormsSurface, DOWN))
+	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		worms[pInput->wormsPlaying]->wormsSurface->pixels = worms[pInput->wormsPlaying]->wormsSurfaceTomb->pixels;
-		updateGlobaleTexture(map->imageMapSurface, worms[pInput->wormsPlaying]->wormsSurface, pTexture, &worms[pInput->wormsPlaying]->wormsRect);
-		worms[pInput->wormsPlaying]->vie = 0;
+		updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
+		if (wormsOverlay(worms))
+			updateWormsOverlay(worms, pTexture, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
 	}
-	updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
-	i++;
-	if (i >= globalVar.nbWormsEquipe)
-		i = 0;
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -251,21 +252,22 @@ void inputsJumpWorms(Input* pInput, Worms* worms)
 		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
 			worms->dir = pInput->direction;
+			pInput->raffraichissement = 1;
 		}
 		if (pInput->jump && (pInput->direction != worms->dirSurface) && pInput->direction != NONE)
 		{
 			if (worms->dirSurface == RIGHT)
 			{
 				worms->dir = UPLEFT;
-				worms->vitx = -(float)(cos(pi / 3)* 0.95); //saut vers la droite
+				worms->vitx = -(float)(cos(pi / 3)* 0.75); //saut vers la droite
 			}
 			else
 			{
 				worms->dir = UPRIGHT;
-				worms->vitx = (float)(cos(pi / 3)*0.95); //saut vers la gauche
+				worms->vitx = (float)(cos(pi / 3)*0.75); //saut vers la gauche
 			}
 			pInput->jumpOnGoing = 1;
-			worms->vity = (float)(sin(pi / 3)*1.5);
+			worms->vity = (float)(sin(pi / 3)*1.6);
 		}
 		else if (pInput->jump && worms->dir == DOWN)
 		{

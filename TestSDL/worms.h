@@ -36,6 +36,7 @@ void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision
 /*Fonctions diverses*/
 char retournementWorms(Input* pInput, Worms* worms);
 void swapSurface(Worms* worms);
+int deathByLimitMap(Worms* worms, SDL_Surface* map);
 #endif // !1
 
 

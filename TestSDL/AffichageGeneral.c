@@ -1,5 +1,6 @@
 #include "AffichageGeneral.h"
 #include "input.h"
+#include "physique.h"
 
 
 
@@ -46,7 +47,9 @@ int mainFenetre(Jeu * jeu)
 		}
 		//updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
 
-		//updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+		initCameras(pRenderer, mainMap, &camera, NULL);
+		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+		initGameWorms(jeu->equipes[0]->worms, pInput, mainMap, display, pRenderer, &camera);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -62,6 +65,7 @@ int mainFenetre(Jeu * jeu)
 			if (pInput->raffraichissement)
 			{
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+				pInput->raffraichissement = 0;
 			}
 
 			//Gestion du frame Rate
@@ -733,6 +737,86 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	return 0;
 }
 
+/**
+* \fn void updateWormsOverlay(Worms** worms, int worms1, int worms2)
+* \brief Update l'affichage de deux worms supperpose .
+*
+* \param[in] worms, tableau de worms.
+* \param[in] worms1, indice du worms numero 1.
+* \param[in] worms2, indice du worms numero 2.
+* \param[in] pTexture, pointeur vers la texture globale cree avec createGlobalTexture.
+*/
+void updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2)
+{
+	Uint32* pixelWrite = NULL;
+	Uint32 pixelRead;
+	int nombrePixel = 0;
+	Uint8 r = 0, g = 0, b = 0, a = 0;
+	SDL_Surface* pSurfaceWorms1 = worms[worms1]->wormsSurface;
+	SDL_Surface* pSurfaceWorms2 = worms[worms2]->wormsSurface;
+	SDL_Rect rect;
+	int x = 0, y = 0, h = worms[worms1]->wormsSurface->h, w = worms[worms1]->wormsSurface->w;
+	int y0 = worms[worms1]->wormsSurface->clip_rect.y, x0 = worms[worms1]->wormsSurface->clip_rect.x;
+	int y1 = worms[worms2]->wormsSurface->clip_rect.y, x1 = worms[worms2]->wormsSurface->clip_rect.x;
+	int yStart = y1, xEnd = x0 + w, yEnd = y0 + h, xStart = x1;
+	if (y1 < y0)
+	{
+		yStart = y0;
+		yEnd = y1 + h;
+	}
+	if (x1 < x0)
+	{
+		xStart = x0;
+		xEnd = x1 + w;
+	}
+	rect.x = xStart;
+	rect.y = yStart;
+	rect.h = (yEnd - yStart);
+	rect.w = (xEnd - xStart);
+	nombrePixel = rect.w * rect.h;
+	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
+	for (y = yStart; y < yEnd; y++)
+	{
+		for (x = xStart; x < xEnd; x++)
+		{
+			pixelRead = ReadPixel(pSurfaceWorms2, MY_ABS((x - x1)), y - y1);
+			SDL_GetRGBA(pixelRead, pSurfaceWorms2->format, &r, &g, &b, &a);
+			if (a < 200)
+			{
+				pixelRead = ReadPixel(pSurfaceWorms1, (x - x0), y - y0);
+			}
+			pixelWrite[(x- xStart) + (y - yStart)* rect.w] = pixelRead;
+		}
+	}
+	SDL_UpdateTexture(pTexture, &rect, pixelWrite, 4 * rect.w);
+
+	free(pixelWrite);
+	pixelWrite = NULL;
+}
+
+
+int wormsOverlay(Worms** worms)
+{
+	int i = 0, xPrec = 0, xNow = 0, j = 0, k = 0, yPrec = 0;
+	int w = worms[0]->wormsSurface->w, h = worms[0]->wormsSurface->h;
+	for (i = 1; i < globalVar.nbWormsEquipe; i++)
+	{
+		xPrec = worms[i - 1]->wormsSurface->clip_rect.x;
+		yPrec = worms[i - 1]->wormsSurface->clip_rect.y;
+		for (j = 0; j <= w; j++)
+		{
+			for (k = worms[i]->wormsSurface->clip_rect.y; k <= (worms[i]->wormsSurface->clip_rect.y + h); k++)
+			{
+				xNow = worms[i]->wormsSurface->clip_rect.x + j;
+				if ((xNow >= xPrec) && (xNow <= (xPrec + w)) && (k >= yPrec) && (k <= (yPrec + h)))
+				{
+					return 1;
+				}
+			}
+		}
+	}
+	return 0;
+}
 
 /**
 * \fn void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)

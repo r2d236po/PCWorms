@@ -1,5 +1,6 @@
 #include "worms.h"
 #include "AffichageGeneral.h"
+#include "physique.h"
 
 /**
 * \fn Worms* createWorms(const char *file)
@@ -215,5 +216,20 @@ void swapSurface(Worms* worms)
 		worms->wormsSurface->clip_rect.x += 10;
 	else worms->wormsSurface->clip_rect.x -= 10;
 }
+
+int deathByLimitMap(Worms* worms, SDL_Surface* map)
+{
+	int dead = 0;
+	if ((worms->wormsSurface->clip_rect.y + worms->wormsSurface->h == map->h) && checkDeplacement(map, worms->wormsSurface, DOWN))
+	{
+		worms->wormsSurface->pixels = worms->wormsSurfaceTomb->pixels;
+		worms->vie = 0;
+		dead = 1;
+	}
+	return dead;
+}
+
+
+
 
 

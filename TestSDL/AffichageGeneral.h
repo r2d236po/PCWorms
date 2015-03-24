@@ -32,6 +32,8 @@ void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace u
 int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface);	//réajuste un rectangle pour pas dépasser de la map
 void frameRate(unsigned int fM);	//gère le framerate
 SDL_Rect initRect(int x, int y, int w, int h);
+int wormsOverlay(Worms** worms);
+void updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2);
 
 //gestion de l'affichage
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
