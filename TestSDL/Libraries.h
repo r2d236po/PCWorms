@@ -63,6 +63,7 @@ typedef struct{		//structure gérant les différents inputs
 	char acceleration;
 	char bombe;
 	int wormsPlaying;
+	char deplacement;
 	Cursor cursor; //cursor avec position actuelle et précédente
 }Input;
 

@@ -5,8 +5,7 @@
 
 
 int main(int argc, char** argv)
-{
-	
+{	
 	mainInit(1, 2);
 
 	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_HD);

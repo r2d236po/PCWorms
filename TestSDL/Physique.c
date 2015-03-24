@@ -119,8 +119,13 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 		/*Mise à jour de l'affichage*/
 		if (!checkDeplacement(map->imageMapSurface, worms->wormsSurface, UP) || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, LEFT) || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, RIGHT))
 			updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
+		pInput->deplacement = 1;
 	}
-	else finDeplacement(pInput, worms, map, 0);
+	else
+	{
+		pInput->deplacement = 0;
+		finDeplacement(pInput, worms, map, 0);
+	}
 }
 
 
@@ -309,10 +314,16 @@ void initGameWorms(Worms** worms, Input* pInput, Terrain* map, SDL_Texture* disp
 	srand((int)time(NULL));
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		//worms[i]->wormsSurface->clip_rect.x = worms[i]->wormsRect.x = rand_a_b(0, (map->imageMapSurface->w - worms[i]->wormsSurface->w));
+		worms[i]->wormsSurface->clip_rect.x = worms[i]->wormsRect.x = rand_a_b(0, (map->imageMapSurface->w - worms[i]->wormsSurface->w));
 		while (!checkDeplacement(map->imageMapSurface, worms[i]->wormsSurface, DOWN))
 		{
 			gestionPhysique(map, display, pInput, 0, worms[i]);
+			updateScreen(pRenderer, 2, 0, map, 1, display, camera, NULL);
+		}
+		while (detectionCollisionSurface(map->imageMapSurface, worms[i]->wormsSurface))
+		{
+			worms[i]->wormsSurface->clip_rect.y -= 1;
+			updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, display, &worms[i]->wormsRect);
 			updateScreen(pRenderer, 2, 0, map, 1, display, camera, NULL);
 		}
 	}

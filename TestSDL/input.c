@@ -192,13 +192,20 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 	if (worms[pInput->wormsPlaying]->vie > 0)
 	{
 		gestionPhysique(map, pTexture, pInput, 0, worms[pInput->wormsPlaying]);
-		deathByLimitMap(worms[pInput->wormsPlaying], map->imageMapSurface);
+		if (deathByLimitMap(worms[pInput->wormsPlaying], map->imageMapSurface))
+		{
+			pInput->jumpOnGoing = 0;
+			pInput->jump = 0;
+		}
 	}
-	for (i = 0; i < globalVar.nbWormsEquipe; i++)
+	if (pInput->deplacement)
 	{
-		updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
-		if (wormsOverlay(worms))
-			updateWormsOverlay(worms, pTexture, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+		for (i = 0; i < globalVar.nbWormsEquipe; i++)
+		{
+			updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
+			if (wormsOverlay(worms))
+				updateWormsOverlay(worms, pTexture, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+		}
 	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
@@ -342,6 +349,7 @@ Input* initInput()
 	pInput->bombe = 0;
 	pInput->cursor = initCursor();
 	pInput->wormsPlaying = 0;
+	pInput->deplacement = 0;
 	return pInput;
 }
 
