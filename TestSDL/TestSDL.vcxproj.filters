@@ -39,6 +39,9 @@
     <ClCompile Include="HUD.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Physique.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HUD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physique.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

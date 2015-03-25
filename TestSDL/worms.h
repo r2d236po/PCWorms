@@ -1,6 +1,7 @@
 #ifndef WORMS_H
 #define WORMS_H
 
+#include "Libraries.h"
 #include "armes.h"
 
 #define TAILLEINV 5
@@ -14,21 +15,28 @@ typedef struct {		//Structure worms
 	int yAbs;				//position "absolu" en Y
 	float vitx;
 	float vity;
+	enum DIRECTION dirSurface;
 	enum DIRECTION dir;				//Direction : gauche ou droite
 	SDL_Rect wormsRect;
 	SDL_Surface* wormsSurface;
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
+	SDL_Surface* wormsSurfaceTomb;
 	SDL_Surface* texteSurface;
-
 	//son?
 } Worms;
 
+/*Creation et destruction d'un worms*/
+Worms* createWorms(char* name);	//Créé un worms à partir d'une image
+void destroyWorms(Worms** worms, int nbWorms);	//détruit un worms
 
-Worms* createWorms(const char *file1, const char* file2);	//Créé un worms à partir d'une image
-void destroyWorms(Worms** worms);	//détruit un worms
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir);	//déplace un worms au clavier
+/*Deplacement d'un worms*/
+void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
+
+/*Fonctions diverses*/
 char retournementWorms(Input* pInput, Worms* worms);
+void swapSurface(Worms* worms);
+int deathByLimitMap(Worms* worms, SDL_Surface* map);
 #endif // !1
 
 

@@ -1,6 +1,15 @@
 #include "input.h"
 #include "AffichageGeneral.h"
+#include "physique.h"
+#include "worms.h"
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                 Acquisition des Inputs                 /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 /**
 * \fn void getInput(Input * pInput, SDL_Window* pWindow)
@@ -26,8 +35,8 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		case SDL_WINDOWEVENT:
 			if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
 				pInput->windowResized = 1;
+				pInput->raffraichissement = 1;
 			}
-			pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
@@ -49,28 +58,27 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			switch (event.button.button)
 			{
 			case SDL_BUTTON_LEFT:
-				pInput->lclick = 0;
+				if (pInput->lclick)
+					pInput->lclick = 0;
 				break;
 			case SDL_BUTTON_RIGHT:
-				pInput->rclick = 0;
+				if (pInput->rclick)
+					pInput->rclick = 0;
 				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEMOTION:
-			pInput->cursor.before = pInput->cursor.now;
-			SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+			pInput->cursor.motion = 1;
+			if (pInput->rclick == 1 || pInput->lclick == 1)
+				pInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEWHEEL:
-			if (event.wheel.y < 0){
+			if (event.wheel.y < 0)
 				pInput->wheelDown = 1;
-			}
-			else
-			{
-				pInput->wheelUp = 1;
-			}
+			else pInput->wheelUp = 1;
 			pInput->raffraichissement = 1;
 			break;
 
@@ -101,20 +109,21 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			case SDLK_q:
 				pInput->quit = 1;
 				break;
-			case SDLK_s:
-				if (pInput->acceleration == 1)
-				{
-					pInput->acceleration = 10;
-				}
-				else pInput->acceleration = 1;
-				break;
 			case SDLK_TAB:
 				pInput->weaponTab = 1;
 				break;
 			case SDLK_b:
 				pInput->bombe = 1;
 				break;
-
+			case SDLK_c:
+				if (globalVar.nbWormsEquipe > 1 && !pInput->jumpOnGoing)
+				{
+					if (pInput->wormsPlaying != globalVar.nbWormsEquipe - 1)
+						pInput->wormsPlaying += 1;
+					else pInput->wormsPlaying = 0;
+				}
+				pInput->raffraichissement = 1;
+				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
@@ -133,19 +142,31 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 }
 
 
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                   Gestion des Inputs                   /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
 /**
 * \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
-* \brief Gère les inputs.
-* Génère les actions correspondant aux inputs.
+* \brief Gere les inputs.
+* Genere les actions correspondant aux inputs.
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \param[in] map pointeur Terrain vers la structure du terrain en cours.
-* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la caméra.
-* \param[in] caméra pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
+* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] camera pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms, SDL_Surface * surfaceTab[])
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms** worms)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -155,52 +176,144 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
+	int i = 0;
+	inputsCamera(pInput, pTexture, camera, pRenderer);
+	if (pInput->windowResized){
+		initCameras(pRenderer, map, camera, NULL);
+		pInput->windowResized = 0;
+	}
+	if (pInput->bombe){
+		static int rW, rH;
+		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
+		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, map->imageMapSurface, pTexture);
+		pInput->bombe = 0;
+	}
+	inputsJumpWorms(pInput, worms[pInput->wormsPlaying]);
+	if (worms[pInput->wormsPlaying]->vie > 0)
+	{
+		gestionPhysique(map, pTexture, pInput, 0, worms[pInput->wormsPlaying]);
+		if (deathByLimitMap(worms[pInput->wormsPlaying], map->imageMapSurface))
+		{
+			pInput->jumpOnGoing = 0;
+			pInput->jump = 0;
+		}
+	}
+	if (pInput->deplacement)
+	{
+		for (i = 0; i < globalVar.nbWormsEquipe; i++)
+		{
+			updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
+			if (wormsOverlay(worms))
+				updateWormsOverlay(worms, pTexture, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+		}
+	}
+	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
+}
+
+
+/**
+* \fn void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer)
+* \brief Gere les inputs relatives a la camera.
+*
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la caméra.
+* \param[in] camera pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
+* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \returns void
+*/
+void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer)
+{
 	if (pInput->rclick)
 	{
 		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
+	if (pInput->cursor.motion){
+		pInput->cursor.before = pInput->cursor.now;
+		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+		pInput->cursor.motion = 0;
+	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer, camera);
+		zoomIn(pRenderer, pTexture, camera, pInput);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
 		zoomOut(pRenderer, pTexture, camera);
 		pInput->wheelDown = 0;
 	}
-	if (pInput->windowResized){
-		initCameras(pRenderer, map, camera);
-		pInput->windowResized = 0;
-	}
-	if (pInput->bombe){
-		bombExplo(500, 400, 100, surfaceTab, pTexture);
-		pInput->bombe = 0;
-	}
+}
+
+
+/**
+* \fn void inputsJumpWorms(Input* pInput, Worms* worms)
+* \brief Gere les inputs relatives au saut du worms.
+*
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] worms, pointeur vers la structure du worms en cours
+* \returns void
+*/
+void inputsJumpWorms(Input* pInput, Worms* worms)
+{
 	if (!pInput->jumpOnGoing)
 	{
-		if (pInput->jump)
+		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
-			if (worms->dir == RIGHT)
+			worms->dir = pInput->direction;
+			pInput->raffraichissement = 1;
+		}
+		if (pInput->jump && (pInput->direction != worms->dirSurface) && pInput->direction != NONE)
+		{
+			if (worms->dirSurface == RIGHT)
 			{
+				worms->dir = UPLEFT;
+				worms->vitx = -(float)(cos(pi / 3)* 0.75); //saut vers la droite
+			}
+			else
+			{
+				worms->dir = UPRIGHT;
+				worms->vitx = (float)(cos(pi / 3)*0.75); //saut vers la gauche
+			}
+			pInput->jumpOnGoing = 1;
+			worms->vity = (float)(sin(pi / 3)*1.6);
+		}
+		else if (pInput->jump && worms->dir == DOWN)
+		{
+			if (worms->dirSurface == RIGHT)
+			{
+				worms->dir = UPRIGHT;
 				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
 			}
-			else worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
-			worms->wormsSurface->clip_rect.y -= 1;
+			else
+			{
+				worms->dir = UPLEFT;
+				worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+			}
 			pInput->jumpOnGoing = 1;
 			worms->vity = (float)(sin(pi / 3)*1.3);
 		}
 		else if (pInput->direction == UP)
 		{
-			pInput->direction = NONE;
+			worms->dir = UP;
 			worms->vitx = 0;
 			pInput->jumpOnGoing = 1;
-			worms->wormsSurface->clip_rect.y -= 1;
 			worms->vity = (float)(sin(pi / 3)*1.3);
 		}
 	}
-	gestionPhysique(map, pInput, 0, worms);
-	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                    Initialisations                     /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 /**
 * \fn Input* initInput()
@@ -219,23 +332,40 @@ Input* initInput()
 		pInput = NULL;
 		return NULL;
 	}
-	pInput->bend = 0;
 	pInput->jump = 0;
 	pInput->jumpOnGoing = 0;
+	pInput->bend = 0;
+	pInput->menu = 0;
 	pInput->direction = NONE;
-	pInput->quit = 0;
 	pInput->lclick = 0;
 	pInput->rclick = 0;
-	pInput->menu = 0;
-	pInput->cursor.before.x = 0;
-	pInput->cursor.before.y = 0;
-	pInput->cursor.now.x = 0;
-	pInput->cursor.now.y = 0;
+	pInput->quit = 0;
 	pInput->weaponTab = 0;
 	pInput->wheelUp = 0;
 	pInput->wheelDown = 0;
 	pInput->raffraichissement = 1;
+	pInput->windowResized = 1;
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
+	pInput->cursor = initCursor();
+	pInput->wormsPlaying = 0;
+	pInput->deplacement = 0;
 	return pInput;
+}
+
+/**
+* \fn Cursor initCursor(void)
+* \brief Cree et initialise une structure cursor.
+*
+* \returns Cursor, structure cursor initialisee
+*/
+Cursor initCursor(void)
+{
+	Cursor curseur;
+	curseur.motion = 0;
+	curseur.before.x = 0;
+	curseur.before.y = 0;
+	curseur.now.x = 0;
+	curseur.now.y = 0;
+	return curseur;
 }
