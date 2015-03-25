@@ -12,8 +12,17 @@
 /////////////////                Gestion de la physique                  /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
-int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
+/**
+* \fn int gestionPhysique(Terrain* map, SDL_Texture* pTextureDisplay, Input* pInput, ...)
+* \brief Gere la physique autour d'un worms.
+*
+* \param[in] pInput, pointeur de la structure contenant les Input.
+* \param[in] worms, pointeur du worms a deplacer
+* \param[in] pMapTerrain, pointeur vers la structure de la map
+* \param[in] pTextureDisplay, texture globale pour actualiser la position du worms dans celle-ci
+* \returns void
+*/
+int gestionPhysique(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Input* pInput, ...)
 {
 	Worms* worms = NULL;
 	//Arme* weapon = NULL;
@@ -24,7 +33,7 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 	{
 	case 0:
 		worms = va_arg(list, Worms*);
-		gestionPhysiqueWorms(pInput, worms, map, display);
+		gestionPhysiqueWorms(pInput, worms, pMapTerrain, pTextureDisplay);
 		break;
 	case 1:
 		//cas d'une arme
@@ -36,34 +45,34 @@ int gestionPhysique(Terrain* map, SDL_Texture* display, Input* pInput, ...)
 
 
 /**
-* \fn void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture* display)
+* \fn void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture* pTextureDisplay)
 * \brief Gere la physique autour d'un worms.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
-* \param[in] worms, pointeur du worms a deplacer
-* \param[in] map, pointeur vers la structure de la map
-* \param[in] display, texture globale pour actualiser la position du worms dans celle-ci
+* \param[in] pWorms, pointeur du worms a deplacer
+* \param[in] pMapTerrain, pointeur vers la structure de la map
+* \param[in] pTextureDisplay, texture globale pour actualiser la position du worms dans celle-ci
 * \returns void
 */
-void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture* display)
+void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 {
 	int xRel = 0, yRel = 0;
 	static char retournement = 0;
 	static int  t = 0, start = 0;
 	int collision = 0;
-	if (pInput->jumpOnGoing || pInput->direction != NONE || pInput->jump || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN))
+	if (pInput->jumpOnGoing || pInput->direction != NONE || pInput->jump || !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, DOWN))
 	{
 		if (pInput->jumpOnGoing)
 		{
-			if (!start && checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dir))
+			if (!start && checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pWorms->dir))
 			{
-				finDeplacement(pInput, worms, map, 1);
+				finDeplacement(pInput, pWorms, pMapTerrain, 1);
 				return;
 			}
 			start = 1;
 			//On remet à zero x et y par rapport à sa position absolu de départ
-			worms->wormsSurface->clip_rect.x = worms->xAbs;
-			worms->wormsSurface->clip_rect.y = worms->yAbs;
+			pWorms->wormsSurface->clip_rect.x = pWorms->xAbs;
+			pWorms->wormsSurface->clip_rect.y = pWorms->yAbs;
 			pInput->raffraichissement = 1;
 		}
 
@@ -72,59 +81,59 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 		/////////////////////////////////////////////////////////////
 
 		/*Calcul des positions relatives*/
-		if (worms->xAbs != worms->wormsSurface->clip_rect.x || worms->yAbs != worms->wormsSurface->clip_rect.y)
+		if (pWorms->xAbs != pWorms->wormsSurface->clip_rect.x || pWorms->yAbs != pWorms->wormsSurface->clip_rect.y)
 			pInput->raffraichissement = 1;
-		calculPositionRel(&xRel, &yRel, t, worms->vitx, worms->vity, worms->wormsSurface);
+		calculPositionRel(&xRel, &yRel, t, pWorms->vitx, pWorms->vity, pWorms->wormsSurface);
 		t += 7;
 
 		/*Determination de la direction du saut*/
-		worms->dir = calculDirectionDeplacement(xRel, yRel, worms->dir, pInput);
+		pWorms->dir = calculDirectionDeplacement(xRel, yRel, pWorms->dir, pInput);
 
 		/*Calcul d'un eventuel retournement*/
 		if (!retournement && !pInput->jumpOnGoing)
-			retournement = retournementWorms(pInput, worms);
+			retournement = retournementWorms(pInput, pWorms);
 
 		/*Fonction de déplacement du worms si non saut*/
 		if (!pInput->jumpOnGoing && !retournement)
-			deplacementWorms(pInput, worms, map->imageMapSurface);
+			deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface);
 
 		/*Gestion de la collision*/
 		if (retournement)
 		{
-			swapSurface(worms);
-			if (worms->dir != DOWN && checkDeplacement(map->imageMapSurface, worms->wormsSurface, UP))
+			swapSurface(pWorms);
+			if (pWorms->dir != DOWN && checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, UP))
 			{
-				swapSurface(worms);
-				deplacementWorms(pInput, worms, map->imageMapSurface);
+				swapSurface(pWorms);
+				deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface);
 				retournement = 0;
 			}
 			retournement = 0;
 		}
-		collision = gestionCollision(pInput->acceleration, worms->wormsSurface, map->imageMapSurface, &worms->dir, 0);
+		collision = gestionCollision(pInput->acceleration, pMapTerrain->imageMapSurface, pWorms->wormsSurface, &pWorms->dir, 0);
 
 		/*Gestion de fin de mouvement*/
 		if (collision)
 		{
-			finDeplacement(pInput, worms, map, 0);
+			finDeplacement(pInput, pWorms, pMapTerrain, 0);
 			retournement = 0;
 			t = 0;
 			start = 0;
 		}
-		while (checkDeplacement(map->imageMapSurface, worms->wormsSurface, worms->dirSurface))
+		while (checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pWorms->dirSurface))
 		{
-			if (worms->dirSurface == RIGHT)
-				worms->wormsSurface->clip_rect.x -= 1;
-			else worms->wormsSurface->clip_rect.x += 1;
+			if (pWorms->dirSurface == RIGHT)
+				pWorms->wormsSurface->clip_rect.x -= 1;
+			else pWorms->wormsSurface->clip_rect.x += 1;
 		}
 		/*Mise à jour de l'affichage*/
-		if (!checkDeplacement(map->imageMapSurface, worms->wormsSurface, UP) || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, LEFT) || !checkDeplacement(map->imageMapSurface, worms->wormsSurface, RIGHT))
-			updateGlobaleTexture(map->imageMapSurface, worms->wormsSurface, display, &worms->wormsRect);
+		if (!checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, UP) || !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, LEFT) || !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, RIGHT))
+			updateGlobaleTexture(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pTextureDisplay, &pWorms->wormsRect);
 		pInput->deplacement = 1;
 	}
 	else
 	{
 		pInput->deplacement = 0;
-		finDeplacement(pInput, worms, map, 0);
+		finDeplacement(pInput, pWorms, pMapTerrain, 0);
 	}
 }
 
@@ -143,13 +152,13 @@ void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture
 */
 void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SDL_Surface* pSurface)
 {
-	const double g = 9.81; //9.81 m/s ==> 37081.8 pix/s = 37 pix/ms
+	const double g = 9.81; //Acceleration de 9.81 m/s 
 	//On calcul les écarts relatifs sur x et y
-	*xRel = (int)(vit_X * t);
-	*yRel = (int)((vit_Y * t) - ((g*t*t) / 2000));
-	//On calcule maintenant les valeurs de x et y
-	pSurface->clip_rect.x += (*xRel);
-	pSurface->clip_rect.y -= (*yRel);
+	*xRel = (int)(vit_X * t);	//calcul de la position relative en x
+	*yRel = (int)((vit_Y * t) - ((g*t*t) / 2000));	//calcul de la position relative en y
+	//On calcule maintenant les valeurs de x et y de la surface
+	pSurface->clip_rect.x += (*xRel);	//Mise à jours de la valeur de x de la surface par rapport à la position relative
+	pSurface->clip_rect.y -= (*yRel);	//Mise à jours de la valeur de y de la surface par rapport à la position relative
 }
 
 
@@ -158,26 +167,32 @@ void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SD
 * \brief Gere la fin de saut en cas de collision.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
-* \param[in] worms, pointeur du worms a deplacer
-* \param[in] map, pointeur vers la structure de la map
-* \param[in] check, fonctionnement particulier si juste apres checkDeplacement
+* \param[in] pWorms, pointeur du worms a deplacer
+* \param[in] pMapTerrain, pointeur vers la structure de la map
+* \param[in] checkJump, fonctionnement particulier si juste apres checkDeplacement, indique si un saut est possible
 * \returns void
 */
-void finDeplacement(Input* pInput, Worms* worms, Terrain* map, int check)
+void finDeplacement(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, int checkJump)
 {
-	if (worms->xAbs != worms->wormsSurface->clip_rect.x || (worms->dir == DOWN || worms->dir == UP))
-		worms->yAbs = worms->wormsSurface->clip_rect.y;
-	worms->xAbs = worms->wormsSurface->clip_rect.x;
+	//Remise à 0 des valeurs absolues x et y du worms
+	if (pWorms->xAbs != pWorms->wormsSurface->clip_rect.x || (pWorms->dir == DOWN || pWorms->dir == UP))	//Si la valeur absolu de x du worms est differente de celle de la surface (on fait pas du surplace) ou que le worms se dirige vers le haut ou le bas (saut sur place)
+		pWorms->yAbs = pWorms->wormsSurface->clip_rect.y;	//Valeur absolu de y  = valeur de y de la surface du worms
+	pWorms->xAbs = pWorms->wormsSurface->clip_rect.x;	//Valeur absolu de x  = valeur de x de la surface du worms
 
-	if (check || (pInput->jumpOnGoing && checkDeplacement(map->imageMapSurface, worms->wormsSurface, DOWN)))
-		pInput->jumpOnGoing = 0;
-	if (pInput->jump)
-		pInput->jump = 0;
-	if (pInput->direction != NONE)
-		pInput->direction = NONE;
-	worms->vitx = 0;
-	worms->vity = 0;
-	worms->dir = DOWN;
+	//Remise à 0 des booleens
+	if (checkJump || (pInput->jumpOnGoing && checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, DOWN)))	//Si checkJump est à 1 (un saut n'est pas possible) ou que l'on touche le sol (donc fin de déplacement)
+		pInput->jumpOnGoing = 0;	//Remise à 0 du booleen indiquant un saut en cours
+	if (pInput->jump)	//Si le booleen de la touche espace est à 1
+		pInput->jump = 0;	//Remise à 0 du booleen de la touche espace
+	
+	//Remise à 0 des directions
+	if (pInput->direction != NONE)	//Si la direction clavier n'est pas NONE
+		pInput->direction = NONE;	//Remise à NONE de la direction clavier
+	pWorms->dir = DOWN;	//Set de la direction du worms vers le bas pour detecter le sol et une eventuelle chute
+
+	//Remise à 0 des valeurs des vecteurs vitesse
+	pWorms->vitx = 0;	//Remise à 0 de la valeur du vecteur de vitesse horizontale
+	pWorms->vity = 0;	//Remise à 0 de la valeur du vecteur de vitesse verticale
 }
 
 
@@ -297,34 +312,34 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 }
 
 /**
-* \fn void initGameWorms(Worms** worms, Input* pInput, Terrain* map, SDL_Texture* display, SDL_Renderer* pRenderer, SDL_Rect* camera)
+* \fn void initGameWorms(Worms** worms, Input* pInput, Terrain* map, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
 * \brief Initialise les worms de la partie jusqu'au sol.
 *
+* \param[in] wormsTab, pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
-* \param[in] map pointeur Terrain vers la structure du terrain en cours.
-* \param[in] display, pointeur vers la texture sur laquelle est appliqué la camera.
-* \param[in] camera pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
-* \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \returns void
 */
-void initGameWorms(Worms** worms, Input* pInput, Terrain* map, SDL_Texture* display, SDL_Renderer* pRenderer, SDL_Rect* camera)
+void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
 {
 	int i = 0;
 	srand((int)time(NULL));
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		worms[i]->wormsSurface->clip_rect.x = worms[i]->wormsRect.x = rand_a_b(0, (map->imageMapSurface->w - worms[i]->wormsSurface->w));
-		while (!checkDeplacement(map->imageMapSurface, worms[i]->wormsSurface, DOWN))
+		wormsTab[i]->wormsSurface->clip_rect.x = wormsTab[i]->wormsRect.x = rand_a_b(0, (pMapTerrain->imageMapSurface->w - wormsTab[i]->wormsSurface->w));
+		while (!checkDeplacement(pMapTerrain->imageMapSurface, wormsTab[i]->wormsSurface, DOWN))
 		{
-			gestionPhysique(map, display, pInput, 0, worms[i]);
-			updateScreen(pRenderer, 2, 0, map, 1, display, camera, NULL);
+			gestionPhysique(pMapTerrain, pTextureDisplay, pInput, 0, wormsTab[i]);
+			updateScreen(pRenderer, 2, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL);
 		}
-		while (detectionCollisionSurface(map->imageMapSurface, worms[i]->wormsSurface))
+		while (detectionCollisionSurface(pMapTerrain->imageMapSurface, wormsTab[i]->wormsSurface))
 		{
-			worms[i]->wormsSurface->clip_rect.y -= 1;
-			updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, display, &worms[i]->wormsRect);
-			updateScreen(pRenderer, 2, 0, map, 1, display, camera, NULL);
+			wormsTab[i]->wormsSurface->clip_rect.y -= 1;
+			updateGlobaleTexture(pMapTerrain->imageMapSurface, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
+			updateScreen(pRenderer, 2, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL);
 		}
 	}
 

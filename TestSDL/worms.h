@@ -36,8 +36,8 @@ void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollisio
 /*Fonctions diverses*/
 char retournementWorms(Input* pInput, Worms* pWorms);
 void swapSurface(Worms* pWorms);
-int deathByLimitMap(Worms* pWorms, SDL_Surface* pMap);
-void updateWorms(Worms** wormsTab, SDL_Surface* pMap, Input* pInput, SDL_Texture* pTextureDisplay);
+int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);
+void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay);
 #endif // !1
 
 

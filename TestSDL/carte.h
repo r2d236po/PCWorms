@@ -17,24 +17,24 @@ typedef struct{
 } Caisse;
 
 /*Fonction de gestion du terrain*/
-int initialisionTerrain(Terrain ** map, SDL_Renderer * pRenderer, const char * file, const char * file2);
-void destroyMap(Terrain** map);	//détruit un terrain
+int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const char * nomImageFond, const char * nomImageMap);
+void destroyMap(Terrain** p_pMapTerrain);	//détruit un terrain
 
 
 /*Fonctions diverses*/
-int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir); //Détermine si un objet est hors map et le replace si il faut
+int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirecion); //Détermine si un objet est hors map et le replace si il faut
 
 
 /*Manipulation des pixels*/
-Uint32 ReadPixel(SDL_Surface *surface, int x, int y);
-void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
+void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 
 /*Détection et gestion des collisions*/
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
 int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
-int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir, int retournement);
+int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int retournement);
 enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, int w, int h, int retournement);
 void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xStart, int* xEnd, int* yStart, int* yEnd);
-int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceMap, enum DIRECTION *dir, int retournement);
+int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceMotion, enum DIRECTION* pDirection, int retournement);
 
 #endif

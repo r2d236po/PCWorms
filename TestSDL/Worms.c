@@ -218,17 +218,17 @@ void swapSurface(Worms* pWorms)
 }
 
 /**
-* \fn int deathByLimitMap(Worms* pWorms, SDL_Surface* pMap)
+* \fn int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
 * \brief Detecte si on est au fond de la map et remplace la surface du worms par une tombe.
 *
 * \param[in] pWorms, pointeur du worms a tester
-* \param[in] pMap, surface de la map
+* \param[in] pSurfaceMap, surface de la map
 * \returns int, 1 = Dead, 0 = vivant
 */
-int deathByLimitMap(Worms* pWorms, SDL_Surface* pMap)
+int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
 	int dead = 0;
-	if ((pWorms->wormsSurface->clip_rect.y + pWorms->wormsSurface->h == pMap->h) && checkDeplacement(pMap, pWorms->wormsSurface, DOWN))
+	if ((pWorms->wormsSurface->clip_rect.y + pWorms->wormsSurface->h == pSurfaceMap->h) && checkDeplacement(pSurfaceMap, pWorms->wormsSurface, DOWN))
 	{
 		pWorms->wormsSurface->pixels = pWorms->wormsSurfaceTomb->pixels;
 		pWorms->vie = 0;
@@ -238,21 +238,21 @@ int deathByLimitMap(Worms* pWorms, SDL_Surface* pMap)
 }
 
 /**
-* \fn void updateWorms(Worms** wormsTab, SDL_Surface* pMap,Input* pInput, SDL_Texture* textureDisplay)
+* \fn void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap,Input* pInput, SDL_Texture* textureDisplay)
 * \brief Update les surfaces des worms et gere l'overlay si besoin.
 *
 * \param[in] wormsTab, tableau des worms
-* \param[in] pMap, surface de la map
+* \param[in] pSurfaceMap, surface de la map
 * \param[in] pInput, pointeur de la structure d'inputs
 * \param[in] textureDisplay, texture globale d'affichage
 * \returns void
 */
-void updateWorms(Worms** wormsTab, SDL_Surface* pMap, Input* pInput, SDL_Texture* pTextureDisplay)
+void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay)
 {
 	int i = 0;
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		updateGlobaleTexture(pMap, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
+		updateGlobaleTexture(pSurfaceMap, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
 		if (wormsOverlay(wormsTab))
 			updateWormsOverlay(wormsTab, pTextureDisplay, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
 	}

@@ -10,73 +10,71 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * file, const char * file2)
+* \fn int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const char * nomImageFond, const char * nomImageMap)
 * \brief Initialise un terrain avec son image de fond et l'image de la map.
 *
-* \param[in] surface, surface dans laquelle on lit le pixel
-* \param[in] file, nom du fichier de l'image de fond
-* \param[in] file2, nom du fichier de l'image de la map
+* \param[in] p_pMapTerrain, adresse du pointeur de structure Terrain a initialiser
+* \param[in] pRenderer, pointeur du renderer dans lequel le Terrain est a initialiser
+* \param[in] nomImageFond, nom du fichier de l'image de fond
+* \param[in] nomImageMap, nom du fichier de l'image de la map
 * \returns int, Indicateur de reussite de la fonction : 1 = succes, -1 = echec
 */
-int initialisionTerrain(Terrain** map, SDL_Renderer * pRenderer, const char * file, const char * file2)
+int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const char * nomImageFond, const char * nomImageMap)
 {
-	Terrain * mapTemp = NULL;
-	SDL_Rect back = { 0, 0, 0, 0 };
+	Terrain * pMapTerrainTemp = NULL;	//Pointeur du Terrain temporaire
 
 	//Creation du pointeur de Terrain
-	mapTemp = (Terrain*)malloc(sizeof(Terrain));
-	if (mapTemp == NULL)
+	pMapTerrainTemp = (Terrain*)malloc(sizeof(Terrain));	//Allocation mémoire pour le pointeur de Terrain
+	if (pMapTerrainTemp == NULL)	//Si l'allocation s'est mal passee
 	{
 		printf("Probleme de lors de l'allocation memoire du terrain");
-		return -1;
+		return -1;	//Retour d'erreur
 	}
-	mapTemp->imageBackground = NULL;
-	mapTemp->imageMapSurface = NULL;
+	pMapTerrainTemp->imageBackground = NULL;	//Initialisation à NULL du pointeur de la texture de l'image de fond
+	pMapTerrainTemp->imageMapSurface = NULL;	//Initialisation à NULL du pointeur de la surface de l'image de la map
 
 	//Creation de la texture de l'image de fond
-	mapTemp->imageBackground = loadTexture(pRenderer, file);
-	if (mapTemp->imageBackground == NULL)
+	pMapTerrainTemp->imageBackground = loadTexture(pRenderer, nomImageFond);	//Chargement de l'image de fond dans la texture
+	if (pMapTerrainTemp->imageBackground == NULL)	//Si le chargement a échoué
 	{
 		printf("Probleme de lors de la creation de la texture Background");
-		destroyMap(&mapTemp);
-		return -1;
+		destroyMap(&pMapTerrainTemp);	//Destruction du Terrain
+		return -1;	//Retour d'erreur
 	}
 
 	//Creation de la surface de la map qui servira pour la collision
-	mapTemp->imageMapSurface = loadImage(file2);
-	if (mapTemp->imageMapSurface == NULL) //Verification qu'il n'y a pas eu d'erreur lors de l'allocation en mémoire
+	pMapTerrainTemp->imageMapSurface = loadImage(nomImageMap);	//Chargement de l'image de la map dans la surface
+	if (pMapTerrainTemp->imageMapSurface == NULL) //Verification qu'il n'y a pas eu d'erreur lors de l'allocation en mémoire
 	{
 		printf("Probleme de lors de la creation de la surface de la map");
-		destroyMap(&mapTemp);
-		return -1;
+		destroyMap(&pMapTerrainTemp);	//Destruction du Terrain
+		return -1;	//Retour d'erreur
 	}
-	SDL_RenderCopy(pRenderer, mapTemp->imageBackground, NULL, &back);
-	SDL_RenderPresent(pRenderer);
-	(*map) = mapTemp; //récupération du pointeur du terrain
-	mapTemp = NULL;
-	return 1;
+	(*p_pMapTerrain) = pMapTerrainTemp; //Récupération du pointeur du Terrain
+	pMapTerrainTemp = NULL;	//Remise à NULL du pointeur temporaire
+	return 1;	//Retour sans erreur
 }
 
 /**
-* \fn void destroyMap(Terrain** map)
+* \fn void destroyMap(Terrain** p_pMapTerrain)
 * \brief Détruit une structure Terrain et remet son pointeur à NULL.
 *
-* \param[in] map, adresse du pointeur de la structure du Terrain à détruire.
+* \param[in] p_pMapTerrain, adresse du pointeur de la structure du Terrain à détruire.
 */
-void destroyMap(Terrain** map)
+void destroyMap(Terrain** p_pMapTerrain)
 {
-	if ((*map)->imageBackground != NULL)
+	if ((*p_pMapTerrain)->imageBackground != NULL)	//Si le pointeur de la texture de l'image de fond n'est pas NULL
 	{
-		SDL_DestroyTexture((*map)->imageBackground);
-		(*map)->imageBackground = NULL;
+		SDL_DestroyTexture((*p_pMapTerrain)->imageBackground);	//Destruction de la texture de l'image de fond
+		(*p_pMapTerrain)->imageBackground = NULL;	//Remise à NULL du pointeur
 	}
-	if ((*map)->imageMapSurface != NULL)
+	if ((*p_pMapTerrain)->imageMapSurface != NULL)	//Si le pointeur de la surface de l'image de la map n'est pas NULL
 	{
-		SDL_FreeSurface((*map)->imageMapSurface);
-		(*map)->imageMapSurface = NULL;
+		SDL_FreeSurface((*p_pMapTerrain)->imageMapSurface);	//Destruction de la surface de l'image de la map
+		(*p_pMapTerrain)->imageMapSurface = NULL;	//Remise à NULL du pointeur
 	}
-	free(*map);
-	*map = NULL;
+	free(*p_pMapTerrain);	//Liberation de la mémoire du pointeur du Terrain
+	*p_pMapTerrain = NULL;	//Remise à NULL du pointeur
 }
 
 
@@ -99,40 +97,40 @@ void destroyMap(Terrain** map)
 *
 * \param[in] mapHight, hauteur de la map
 * \param[in] mapWidth, largeur de la map
-* \param[in] pSurface, surface de l'objet en mouvement
-* \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
+* \param[in] pSurfaceMotion, surface de l'objet en mouvement
+* \param[in] pDirecion, pointeur de la direction du deplacement du worms
 * \return 1 = depassement de la map, 0 = pas de depassement de la map
 */
-int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir)
+int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirecion)
 {
-	int xSurface = pSurface->clip_rect.x;
-	int ySurface = pSurface->clip_rect.y;
+	int xSurface = pSurfaceMotion->clip_rect.x;
+	int ySurface = pSurfaceMotion->clip_rect.y;
 	if (xSurface < 0)
 	{
-		pSurface->clip_rect.x = 0;
-		if (dir != NULL)
-			*dir = LEFT;
+		pSurfaceMotion->clip_rect.x = 0;
+		if (pDirecion != NULL)
+			*pDirecion = LEFT;
 		return 1;
 	}
-	else if (xSurface + pSurface->w > mapWidth)
+	else if (xSurface + pSurfaceMotion->w > mapWidth)
 	{
-		pSurface->clip_rect.x = mapWidth - pSurface->clip_rect.w;
-		if (dir != NULL)
-			*dir = RIGHT;
+		pSurfaceMotion->clip_rect.x = mapWidth - pSurfaceMotion->clip_rect.w;
+		if (pDirecion != NULL)
+			*pDirecion = RIGHT;
 		return 1;
 	}
 	if (ySurface < 0)
 	{
-		pSurface->clip_rect.y = 0;
-		if (dir != NULL)
-			*dir = UP;
+		pSurfaceMotion->clip_rect.y = 0;
+		if (pDirecion != NULL)
+			*pDirecion = UP;
 		return 1;
 	}
-	else if (ySurface + pSurface->h > mapHight)
+	else if (ySurface + pSurfaceMotion->h > mapHight)
 	{
-		pSurface->clip_rect.y = mapHight - pSurface->clip_rect.h + 1;
-		if (dir != NULL)
-			*dir = DOWN;
+		pSurfaceMotion->clip_rect.y = mapHight - pSurfaceMotion->clip_rect.h + 1;
+		if (pDirecion != NULL)
+			*pDirecion = DOWN;
 		return 1;
 	}
 	return 0;
@@ -211,42 +209,42 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
+* \fn Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 * \brief Lit un pixel aux coordonnees x et y d'une surface.
 *
-* \param[in] surface, surface dans laquelle on lit le pixel
+* \param[in] pSurface, surface dans laquelle on lit le pixel
 * \param[in] x, abscisse dans la surface
 * \param[in] y, ordonne dans la surface
 * \returns Uint32, pixel lu aux coordonnees contenant les 4 canaux (RGBA)
 * \remarks Faire attention que x et y soient bien compris dans la surface.
 */
 
-Uint32 ReadPixel(SDL_Surface *surface, int x, int y)
+Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 {
 	//Convert the pixels to 32 bit
-	Uint32 *pixels = (Uint32 *)surface->pixels;
+	Uint32 *pixels = (Uint32 *)pSurface->pixels;
 	//Get the requested pixel
-	return pixels[(y * surface->w) + x];
+	return pixels[(y * pSurface->w) + x];
 }
 
 
 /**
-* \fn void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+* \fn void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 * \brief Ecrit un pixel aux coordonnees x et y d'une surface.
 *
-* \param[in] surface, surface dans laquelle on ecrit le pixel
+* \param[in] pSurface, surface dans laquelle on ecrit le pixel
 * \param[in] x, abscisse dans la surface
 * \param[in] y, ordonne dans la surface
-* \param[in] pixel, pixel a ecrire
-* \remarks Faire attention que x et y soient bien compris dans la surface.
+* \param[in] pixelToWrite, pixel a ecrire
 */
-void DrawPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 {
 	//Convert the pixels to 32 bit
-	Uint32 *pixels = (Uint32 *)surface->pixels;
+	Uint32 *pixels = (Uint32 *)pSurface->pixels;
 
 	//Set the pixel
-	pixels[(y * surface->w) + x] = pixel;
+	if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))
+		pixels[(y * pSurface->w) + x] = pixelToWrite;
 }
 
 
@@ -350,9 +348,9 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 {
 	//Variables d'acquisitions
 	Uint32 pixelS1 = 0;
-	Uint8 r = 0, g = 0, b = 0, a = 0;
+	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;
 	Uint32 pixelS2 = 0;
-	Uint8 r2 = 0, g2 = 0, b2 = 0, a2 = 0;
+	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;
 	int offset_xS1 = pSurfaceMap->clip_rect.x;
 	int offset_yS1 = pSurfaceMap->clip_rect.y;
 	int offset_xS2 = pSurfaceMotion->clip_rect.x;
@@ -373,82 +371,80 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 		{
 			//Acquisition pixel surface 1
 			pixelS1 = ReadPixel(pSurfaceMap, x - offset_xS1, y - offset_yS1);
-			SDL_GetRGBA(pixelS1, formatS1, &r, &g, &b, &a);
+			SDL_GetRGBA(pixelS1, formatS1, &rS1, &gS1, &bS1, &aS1);
 			//Acquisition pixel surface 2
 			pixelS2 = ReadPixel(pSurfaceMotion, x - offset_xS2, y - offset_yS2);
-			SDL_GetRGBA(pixelS2, formatS2, &r2, &g2, &b2, &a2);
+			SDL_GetRGBA(pixelS2, formatS2, &rS2, &gS2, &bS2, &aS2);
 			//Détermination de la collision
-			if (a != 255 || a2 != 255)
+			if (aS1 != 255 || aS2 != 255)	//Si le pixel de la surface de la map ou le pixel de la surface en mouvement est transparent
+				collision = 0;	//Collision = 0 -> pas de collision
+			else	//Au moins l'un des pixels n'est pas transparent
 			{
-				collision = 0;
-			}
-			else
-			{
-				collision = 1;
+				collision = 1;	//Collision = 0 -> pas de collision
 			}
 		}
 	}
-	formatS1 = NULL;
-	formatS2 = NULL;
+	formatS1 = NULL;	//Remise à 0 des pointeurs de format
+	formatS2 = NULL;	//Remise à 0 des pointeurs de format
 	return collision;
 }
 
 
 /**
-* \fn int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* dir, int retournement)
+* \fn int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int retournement)
 * \brief Detecte s'il y a collision entre deux surfaces selon le sens de déplacement du worms.
 *
 * \param[in] pSurfaceMap, pointeur vers la surface de la map
 * \param[in] pSurfaceMotion, pointeur vers la surface en mouvement dans la map
-* \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
+* \param[in] pDirection, pointeur de la direction du deplacement du worms
 * \param[in] retournement, variable indiquant s'il y a eu retournement du worms
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
-int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION *dir, int retournement)
+int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int retournement)
 {
 	//Variables d'acquisitions
 	Uint32 pixelS1 = 0;
-	Uint8 r = 0, g = 0, b = 0, a = 0;
+	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;
 	Uint32 pixelS2 = 0;
-	Uint8 r2 = 0, g2 = 0, b2 = 0, a2 = 0;
+	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;
 	int offset_xS2 = pSurfaceMotion->clip_rect.x;
 	int offset_yS2 = pSurfaceMotion->clip_rect.y;
 	SDL_PixelFormat* formatS1 = pSurfaceMap->format;
 	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;
 	//Variables de balayage
 	int x = 0, y = 0;
-	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;
-	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;
+	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;	//Variables de balayage des x
+	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;	//Variables de balayage des y
 	//Variable de collision
-	int collision = 0;
+	int collision = 0;	//Booleen de collision, 0 = pas de collision, 1 = collision
 	//Test des limites de la map et de la fenetre
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, dir))
+	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, pDirection))	//Detection d'un dépassement de la map
 		return 1;
 	//Détermination de yStart, yEnd, xStart et xEnd
-	calculXYBalayage(pSurfaceMotion, *dir, &xStart, &xEnd, &yStart, &yEnd);
+	calculXYBalayage(pSurfaceMotion, *pDirection, &xStart, &xEnd, &yStart, &yEnd);	//Calcul des valeurs de balayage des boucles for pour optimiser la vitesse de traitement
 	//Calcul de la collision
 	for (y = yStart; (y < yEnd) && (collision == 0); y += yInc)
 	{
 		for (x = xStart; (x < xEnd) && (collision == 0); x += xInc)
 		{
 			//Acquisition des pixels des surfaces 1 et 2
-			pixelS1 = ReadPixel(pSurfaceMap, MY_ABS(x), MY_ABS(y));
-			pixelS2 = ReadPixel(pSurfaceMotion, MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2);
+			pixelS1 = ReadPixel(pSurfaceMap, MY_ABS(x), MY_ABS(y));	//Lecture du pixel de la map
+			pixelS2 = ReadPixel(pSurfaceMotion, MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2);	//Lecture du pixel de la surface en mouvement
 			//Récupération des composantes colorimétriques
-			SDL_GetRGBA(pixelS1, formatS1, &r, &g, &b, &a);
-			SDL_GetRGBA(pixelS2, formatS2, &r2, &g2, &b2, &a2);
+			SDL_GetRGBA(pixelS1, formatS1, &rS1, &gS1, &bS1, &aS1);	//Informations sur les couleurs du pixel de la surface de la map
+			SDL_GetRGBA(pixelS2, formatS2, &rS2, &gS2, &bS2, &aS2);	//Informations sur les couleurs du pixel de la surface en mouvement
 			//Détermination de la collision
-			if (a != 255 || a2 != 255)
-				collision = 0;
-			else
+			if (aS1 != 255 || aS2 != 255)	//Si le pixel de la surface de la map ou le pixel de la surface en mouvement est transparent
+				collision = 0;	//Collision = 0 -> pas de collision
+			else	//Au moins l'un des pixels n'est pas transparent
 			{
-				collision = 1;
-				*dir = calculDirectionCollision(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *dir, pSurfaceMotion->w, pSurfaceMotion->h, retournement);
+				collision = 1;	//Collision = 0 -> pas de collision
+				*pDirection = calculDirectionCollision(MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2, *pDirection, pSurfaceMotion->w, pSurfaceMotion->h, retournement);	//Calcul de la direction de la collision pour affiner le traitement
 			}
 		}
 	}
-	formatS1 = NULL;
-	formatS2 = NULL;
+	formatS1 = NULL;	//Remise à 0 des pointeurs de format
+	formatS2 = NULL;	//Remise à 0 des pointeurs de format
 	return collision;
 }
 
@@ -509,23 +505,23 @@ void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xSta
 
 
 /**
-* \fn void gestionCollision(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision, enum DIRECTION* dir, int retournement)
+* \fn int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceMotion, enum DIRECTION* pDirection, int retournement)
 * \brief replace le worms en cas de collision.
 *
 * \param[in] vitesse, vitesse de deplacement du worms, sert pour le replacement
 * \param[in] surfaceMotion, surface en deplacement
 * \param[in] surfaceMap, surface de la map
-* \param[in] dir, direction du deplacement du worms, peut etre modifie par la fonction
+* \param[in] pDirection, direction du deplacement du worms, peut etre modifie par la fonction
 * \param[in] retournement, variable indiquant s'il y a eu retournement du worms
 * \returns int collision, indique s'il y a eu collision
 */
-int gestionCollision(int vitesse, SDL_Surface* surfaceMotion, SDL_Surface* surfaceMap, enum DIRECTION* dir, int retournement)
+int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceMotion, enum DIRECTION* pDirection, int retournement)
 {
 	int t = 0;
 	int collision = 0;
-	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, dir, retournement) && t < 60)
+	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, pDirection, retournement) && t < 60)
 	{
-		switch (*dir)
+		switch (*pDirection)
 		{
 		case RIGHT:
 			surfaceMotion->clip_rect.x -= vitesse;
