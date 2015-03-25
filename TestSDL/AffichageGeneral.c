@@ -10,7 +10,6 @@ int mainFenetre(Jeu * jeu)
 	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
 	SDL_Window * pWindow = NULL;	//déclaration de la window
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
-	Terrain * mainMap = NULL;
 	SDL_Texture * display = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 
@@ -27,7 +26,7 @@ int mainFenetre(Jeu * jeu)
 			return -1;
 		}
 		//Initialisation du terrain
-		if (initialisionTerrain(&mainMap, pRenderer, "../assets/pictures/fond2.png", jeu->nomMap) < 0)
+		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/fond2.png", jeu->nomMap) < 0)
 		{
 			printf("Probleme lors de la creation du terrain");
 			cleanUp(&pWindow, &pRenderer, &pInput);
@@ -35,28 +34,28 @@ int mainFenetre(Jeu * jeu)
 		}
 
 		//Initialisation des caméras
-		initCameras(pRenderer, mainMap, &camera, jeu->equipes[0]->worms[0]);
+		initCameras(pRenderer, jeu->pMapTerrain, &camera, jeu->equipes[0]->worms[0]);
 
 		//Initialisation de l'affichage
-		if (createGlobalTexture(mainMap->imageMapSurface, &display, pRenderer, &camera) < 0)
+		if (createGlobalTexture(jeu->pMapTerrain->imageMapSurface, &display, pRenderer, &camera) < 0)
 		{
 			printf("Erreur creation de la texture globale");
-			destroyMap(&mainMap);
+			destroyMap(&jeu->pMapTerrain);
 			cleanUp(&pWindow, &pRenderer, &pInput);
 			return -1;
 		}
 		//updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
 
-		initCameras(pRenderer, mainMap, &camera, NULL);
-		updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
-		initGameWorms(jeu->equipes[0]->worms, pInput, mainMap, display, pRenderer, &camera);
+		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
+		updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, display, &camera, NULL);
+		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, mainMap, display, &camera, jeu->equipes[0]->worms))
+			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[0]->worms))
 			{
 				printf("Erreur lors du traitement de l'entree");
 			}
@@ -64,7 +63,7 @@ int mainFenetre(Jeu * jeu)
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
+				updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, display, &camera, NULL);
 				pInput->raffraichissement = 0;
 			}
 
@@ -72,7 +71,7 @@ int mainFenetre(Jeu * jeu)
 			frameRate(frame_max);
 			frame_max = SDL_GetTicks() + FRAME_RATE;
 		}
-		destroyMap(&mainMap);
+		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
 		SDL_DestroyTexture(display);
 		display = NULL;
@@ -785,7 +784,7 @@ void updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wo
 			{
 				pixelRead = ReadPixel(pSurfaceWorms1, (x - x0), y - y0);
 			}
-			pixelWrite[(x- xStart) + (y - yStart)* rect.w] = pixelRead;
+			pixelWrite[(x - xStart) + (y - yStart)* rect.w] = pixelRead;
 		}
 	}
 	SDL_UpdateTexture(pTexture, &rect, pixelWrite, 4 * rect.w);

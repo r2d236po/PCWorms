@@ -28,15 +28,16 @@ typedef struct {		//Structure worms
 
 /*Creation et destruction d'un worms*/
 Worms* createWorms(char* name);	//Créé un worms à partir d'une image
-void destroyWorms(Worms** worms, int nbWorms);	//détruit un worms
+void destroyWorms(Worms** wormsTab, int nbWorms);	//détruit un worms
 
 /*Deplacement d'un worms*/
-void deplacementWorms(Input* pInput, Worms* worms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
+void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
 
 /*Fonctions diverses*/
-char retournementWorms(Input* pInput, Worms* worms);
-void swapSurface(Worms* worms);
-int deathByLimitMap(Worms* worms, SDL_Surface* map);
+char retournementWorms(Input* pInput, Worms* pWorms);
+void swapSurface(Worms* pWorms);
+int deathByLimitMap(Worms* pWorms, SDL_Surface* pMap);
+void updateWorms(Worms** wormsTab, SDL_Surface* pMap, Input* pInput, SDL_Texture* pTextureDisplay);
 #endif // !1
 
 

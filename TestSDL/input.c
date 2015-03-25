@@ -159,14 +159,14 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 * \brief Gere les inputs.
 * Genere les actions correspondant aux inputs.
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
-* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
-* \param[in] map pointeur Terrain vers la structure du terrain en cours.
-* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la camera.
-* \param[in] camera pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
-* \param[in] worms pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
+* \param[in] pRenderer, pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
+* \param[in] wormsTab, pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms** worms)
+int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -176,35 +176,24 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	int i = 0;
-	inputsCamera(pInput, pTexture, camera, pRenderer);
+	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
-		initCameras(pRenderer, map, camera, NULL);
+		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
 	}
-	if (pInput->bombe){
-		static int rW, rH;
-		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
-		explosion((int)(pInput->cursor.now.x * ((float)camera->w / (float)rW) + camera->x), (int)(pInput->cursor.now.y * ((float)camera->h / (float)rH) + camera->y), 50, map->imageMapSurface, pTexture);
-		pInput->bombe = 0;
-	}
-	inputsJumpWorms(pInput, worms[pInput->wormsPlaying]);
-	if (worms[pInput->wormsPlaying]->vie > 0)
+	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, pRenderer);	//appel de la fonction de gestion des Inputs des armes
+	if (wormsTab[pInput->wormsPlaying]->vie > 0)	//Si le worms en cours de jeu est vivant
 	{
-		gestionPhysique(map, pTexture, pInput, 0, worms[pInput->wormsPlaying]);
-		if (deathByLimitMap(worms[pInput->wormsPlaying], map->imageMapSurface))
+		inputsJumpWorms(pInput, wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion des Inputs de saut de worms
+		gestionPhysique(pMapTerrain, pTextureDisplay, pInput, 0, wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion de physique globale
+		if (deathByLimitMap(wormsTab[pInput->wormsPlaying], pMapTerrain->imageMapSurface))	//Si le worms tombe en bas de la map
 		{
-			pInput->jumpOnGoing = 0;
-			pInput->jump = 0;
+			pInput->jumpOnGoing = 0;	//Remise à 0 du booleen indiquant un saut en cours
+			pInput->jump = 0;	//Remise à 0 du booleen de la touche espace
 		}
-	}
-	if (pInput->deplacement)
-	{
-		for (i = 0; i < globalVar.nbWormsEquipe; i++)
+		if (pInput->deplacement)	//Si le worms s'est déplacé
 		{
-			updateGlobaleTexture(map->imageMapSurface, worms[i]->wormsSurface, pTexture, &worms[i]->wormsRect);
-			if (wormsOverlay(worms))
-				updateWormsOverlay(worms, pTexture, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+			updateWorms(wormsTab, pMapTerrain->imageMapSurface, pInput, pTextureDisplay);	//appel de la fonction gerant l'update de l'affichage et d'overlay si nécessaire
 		}
 	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
@@ -216,16 +205,16 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture
 * \brief Gere les inputs relatives a la camera.
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
-* \param[in] pTexture pointeur vers la texture sur laquelle est appliqué la caméra.
-* \param[in] camera pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la caméra.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
 * \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \returns void
 */
-void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer)
+void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, SDL_Renderer * pRenderer)
 {
 	if (pInput->rclick)
 	{
-		moveCam(pTexture, camera, pInput); //gestion du scrolling de caméra
+		moveCam(pTextureDisplay, pCamera, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
 	}
 	if (pInput->cursor.motion){
@@ -234,11 +223,11 @@ void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Re
 		pInput->cursor.motion = 0;
 	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer, pTexture, camera, pInput);
+		zoomIn(pRenderer, pTextureDisplay, pCamera, pInput);
 		pInput->wheelUp = 0;
 	}
 	if (pInput->wheelDown){
-		zoomOut(pRenderer, pTexture, camera);
+		zoomOut(pRenderer, pTextureDisplay, pCamera);
 		pInput->wheelDown = 0;
 	}
 }
@@ -249,59 +238,84 @@ void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Re
 * \brief Gere les inputs relatives au saut du worms.
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
-* \param[in] worms, pointeur vers la structure du worms en cours
+* \param[in] pWorms, pointeur vers la structure du worms en cours
 * \returns void
 */
-void inputsJumpWorms(Input* pInput, Worms* worms)
+void inputsJumpWorms(Input* pInput, Worms* pWorms)
 {
+	//On verifie qu'on est pas deja dans un saut
 	if (!pInput->jumpOnGoing)
 	{
+		//Recuperation des informations relatives à la direction du worms pour un deplacement au sol
 		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
-			worms->dir = pInput->direction;
-			pInput->raffraichissement = 1;
+			pWorms->dir = pInput->direction;	//direction du worms = direction de la fleche du clavier appuyee
+			pInput->raffraichissement = 1;	//Variable de raffraichissement
 		}
-		if (pInput->jump && (pInput->direction != worms->dirSurface) && pInput->direction != NONE)
+		//Gestion du saut en arriere
+		if (pInput->jump && (pInput->direction != pWorms->dirSurface) && pInput->direction != NONE)
 		{
-			if (worms->dirSurface == RIGHT)
+			if (pWorms->dirSurface == RIGHT)	//Si le worms est oriente vers la droite
 			{
-				worms->dir = UPLEFT;
-				worms->vitx = -(float)(cos(pi / 3)* 0.75); //saut vers la droite
+				pWorms->dir = UPLEFT;	//Direction du saut en diagonale haut gauche
+				pWorms->vitx = -(float)(cos(pi / 3)* 0.75);	//valeur du vecteur de vitesse horizontale negative pour aller a gauche, legerement inferieur au saut en avant
 			}
-			else
+			else	//Si le worms est oriente vers la gauche
 			{
-				worms->dir = UPRIGHT;
-				worms->vitx = (float)(cos(pi / 3)*0.75); //saut vers la gauche
+				pWorms->dir = UPRIGHT;	//Direction du saut en diagonale haut droite
+				pWorms->vitx = (float)(cos(pi / 3)*0.75);	//valeur du vecteur de vitesse horizontale positive pour aller a droite, legerement inferieur au saut en avant
 			}
-			pInput->jumpOnGoing = 1;
-			worms->vity = (float)(sin(pi / 3)*1.6);
+			pInput->jumpOnGoing = 1;	//mise à 1 du booleen indiquant qu'un saut est en cours
+			pWorms->vity = (float)(sin(pi / 3)*1.6);	//valeur du vecteur de vitesse vertical, legerement superieure au saut en avant
 		}
-		else if (pInput->jump && worms->dir == DOWN)
+		//Gestion du saut classique
+		else if (pInput->jump && pWorms->dir == DOWN)
 		{
-			if (worms->dirSurface == RIGHT)
+			if (pWorms->dirSurface == RIGHT)	//Si le worms est oriente vers la droite
 			{
-				worms->dir = UPRIGHT;
-				worms->vitx = (float)(cos(pi / 3)* 0.95); //saut vers la droite
+				pWorms->dir = UPRIGHT;	//Direction du saut en diagonale haut droite
+				pWorms->vitx = (float)(cos(pi / 3)* 0.95);	//valeur du vecteur de vitesse horizontale positive pour aller a droite
 			}
-			else
+			else	//Si le worms est oriente vers la gauche
 			{
-				worms->dir = UPLEFT;
-				worms->vitx = -(float)(cos(pi / 3)*0.95); //saut vers la gauche
+				pWorms->dir = UPLEFT;	//Direction du saut en diagonale haut gauche
+				pWorms->vitx = -(float)(cos(pi / 3)*0.95);	//valeur du vecteur de vitesse horizontale negative pour aller a gauche
 			}
-			pInput->jumpOnGoing = 1;
-			worms->vity = (float)(sin(pi / 3)*1.3);
+			pInput->jumpOnGoing = 1;	//mise à 1 du booleen indiquant qu'un saut est en cours
+			pWorms->vity = (float)(sin(pi / 3)*1.3);	//valeur du vecteur de vitesse vertical
 		}
+		//Gestion du saut sur place
 		else if (pInput->direction == UP)
 		{
-			worms->dir = UP;
-			worms->vitx = 0;
-			pInput->jumpOnGoing = 1;
-			worms->vity = (float)(sin(pi / 3)*1.3);
+			pWorms->dir = UP;	//direction du worms vers le haut
+			pWorms->vitx = 0;	//mise a 0 de la valeur du vecteur de vitesse horizontale
+			pInput->jumpOnGoing = 1;	//mise à 1 du booleen indiquant qu'un saut est en cours
+			pWorms->vity = (float)(sin(pi / 3)*1.3);	//valeur du vecteur de vitesse vertical
 		}
 	}
 }
 
-
+/**
+* \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain, SDL_Renderer * pRenderer)
+* \brief Gere les inputs relatives aux armes.
+*
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pMapTerrain pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
+* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
+* \returns void
+*/
+void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, SDL_Renderer * pRenderer)
+{
+	if (pInput->bombe)
+	{
+		static int rW, rH;
+		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
+		explosion((int)(pInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x), (int)(pInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y), 50, pMapTerrain->imageMapSurface, pTextureDisplay);
+		pInput->bombe = 0;
+	}
+}
 
 
 

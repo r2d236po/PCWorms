@@ -2,7 +2,15 @@
 #include "AffichageGeneral.h"
 
 /* Fonctions relatives à la gestion d'une partie */
-
+/**
+* \fn Jeu * nouveauJeu(int nbE, int nbW, char * map)
+* \brief
+*
+* \param[in] nbe,
+* \param[in] nbW,
+* \param[in] map,
+* \returns jeu, pointeur vers le jeu cree
+*/
 Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
 	Jeu * jeu = NULL;
@@ -19,23 +27,41 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	strcpy(jeu->nomMap, map);
 
 	jeu->equipes = malloc(nbE * sizeof(Equipe*));
-	//check alloc ?
-	for ( int i = 0; i < nbE; i++)
+	if (jeu->equipes == NULL)
+	{
+		destroyJeu(&jeu);
+		return NULL;
+	}
+	for (int i = 0; i < nbE; i++)
 	{
 		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
 	}
 	return jeu;
 }
-
+/**
+* \fn void destroyJeu(Jeu ** game)
+* \brief Detruit un jeu et libere la memoire.
+*
+* \param[in] game, adresse du pointeur du jeu a detruire
+* \returns void
+*/
 void destroyJeu(Jeu ** game)
 {
-	destroyEquipe((*game)->equipes, (*game)->nbEquipe);
-
+	if ((*game)->equipes != NULL)
+		destroyEquipe((*game)->equipes, (*game)->nbEquipe);
 	free(*game);
 	*game = NULL;
 }
 
-
+/**
+* \fn Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
+* \brief
+*
+* \param[in] nomE, nom de l'equipe
+* \param[in] couleur, couleur de l'equipe
+* \param[in] nbWorms, nombre de worms dans l'equipe
+* \returns equipe, pointeur vers l'equipe cree
+*/
 Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 {
 	Equipe * team = NULL;
@@ -61,6 +87,14 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 	return team;
 }
 
+/**
+* \fn void destroyEquipe(Equipe ** team, int nbE)
+* \brief Detruit les equipes en jeu.
+*
+* \param[in] game, tableau contenant toutes les equipes
+* \param[in] nbE, nombre d'equipes
+* \returns void
+*/
 void destroyEquipe(Equipe ** team, int nbE)
 {
 	int i;
@@ -72,16 +106,31 @@ void destroyEquipe(Equipe ** team, int nbE)
 	*team = NULL;
 }
 
+/**
+* \fn int vieEquipe(Equipe * team)
+* \brief
+*
+* \param[in] team,
+* \returns
+*/
 int vieEquipe(Equipe * team)
 {
 	int i, vie = 0;
 	for (i = 0; i < team->nbWormsStart; i++)
 	{
-		vie += team->worms[i]->vie ;
+		vie += team->worms[i]->vie;
 	}
 	return vie;
 }
 
+/**
+* \fn void mainInit(int nbE, int nbWpE)
+* \brief
+*
+* \param[in] nbe, nombnre d'equipes
+* \param[in] nbWpe, nombre de worms par equipe
+* \returns void
+*/
 void mainInit(int nbE, int nbWpE)
 {
 	setSDLColor(&globalVar.couleurNameBleu, 238, 131, 127);
@@ -95,6 +144,12 @@ void mainInit(int nbE, int nbWpE)
 	globalVar.nbWormsEquipe = nbWpE;
 }
 
+/**
+* \fn void destroyPolice()
+* \brief detruit la police globale.
+*
+* \returns void
+*/
 void destroyPolice()
 {
 	TTF_CloseFont(globalVar.FontName);
