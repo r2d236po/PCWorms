@@ -138,35 +138,35 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIREC
 
 
 /**
-* \fn enum DIRECTION calculDirection(int x, int y, enum DIRECTION impulse, int w, int h)
+* \fn enum DIRECTION calculDirection(int x, int y, enum DIRECTION direction, int w, int h)
 *
 * \brief Determine la direction de la collision.
 *
 * \param[in] y, ordonnée de la collision
 * \param[in] x, abscisse de la collision
-* \param[in] impulse, direction du déplacement
+* \param[in] direction, direction du déplacement
 * \param[in] w, largeur de l'objet
 * \param[in] h, hauteur de l'objet
 * \param[in] retournement, variable indiquant s'il y a eu retournement du worms
 * \return DIRECTION, direction de la collision
 */
 
-enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, int w, int h, int retournement)
+enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION direction, int w, int h, int retournement)
 {
-	if ((impulse == UPRIGHT || impulse == UPLEFT) && !retournement)
+	if ((direction == UPRIGHT || direction == UPLEFT) && !retournement)
 	{
 		if ((x < 2 * w / 10) || (x >= 8 * w / 10))
-			return impulse;
+			return direction;
 		if (y > 2 * h / 3)
 			return DOWN;
 		else return UP;
 	}
-	else if (impulse == RIGHT || impulse == LEFT)
+	else if (direction == RIGHT || direction == LEFT)
 	{
 		if (!retournement)
 		{
 			if (y <= (7 * h / 8))
-				return impulse;
+				return direction;
 			else return DOWN;
 		}
 		else
@@ -176,7 +176,7 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 			else return  LEFT;
 		}
 	}
-	else if ((impulse == DRIGHT || impulse == DLEFT))
+	else if ((direction == DRIGHT || direction == DLEFT))
 	{
 		if (x >= (3 * w / 11) && x <= (8 * w / 11) && (y > h / 2))
 			return DOWN;
@@ -184,15 +184,15 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION impulse, in
 			return DLEFT;
 		else if (x > w / 2)
 			return DRIGHT;
-		else return impulse;
+		else return direction;
 	}
-	else if (impulse == UP)
+	else if (direction == UP)
 	{
 		if ((x < w / 2) && (y > 5 * h / 8))
 			return DLEFT;
-		else return impulse;
+		else return direction;
 	}
-	else return impulse;
+	else return direction;
 }
 
 
@@ -347,34 +347,34 @@ int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, in
 int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
 	//Variables d'acquisitions
-	Uint32 pixelS1 = 0;
-	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;
-	Uint32 pixelS2 = 0;
-	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;
-	int offset_xS1 = pSurfaceMap->clip_rect.x;
-	int offset_yS1 = pSurfaceMap->clip_rect.y;
-	int offset_xS2 = pSurfaceMotion->clip_rect.x;
-	int offset_yS2 = pSurfaceMotion->clip_rect.y;
-	SDL_PixelFormat* formatS1 = pSurfaceMap->format;
-	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;
+	Uint32 pixelS1 = 0;	//Variable stockant le pixel en cours de lecture de la surface de la map
+	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface de la map
+	Uint32 pixelS2 = 0;	//Variable stockant le pixel en cours de lecture de la surface en mouvement
+	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface en mouvement
+	int offset_xS2 = pSurfaceMotion->clip_rect.x;	//Offset en x de la surface en mouvement dans la map
+	int offset_yS2 = pSurfaceMotion->clip_rect.y;	//Offset en y de la surface en mouvement dans la map
+	SDL_PixelFormat* formatS1 = pSurfaceMap->format;	//Pointeur du format de pixels de la surface de la map
+	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;	//Pointeur du format de pixels de la surface en mouvement
 	//Variables de balayage
 	int x = 0, y = 0;
+	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w;	//Variables de début, de fin et d'incrément du balayage des x
+	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h;	//Variables de début, de fin et d'incrément du balayage des y
 	//Varable de collision
-	int collision = 0;
+	int collision = 0;	//Booleen de collision, 0 = pas de collision, 1 = collision
 	//Test des limites de la map et de la fenetre
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, NULL))
+	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, NULL))	//Detection d'un dépassement de la map
 		return 1;
 
-	for (y = pSurfaceMotion->clip_rect.y; (y < pSurfaceMotion->clip_rect.h + pSurfaceMotion->clip_rect.y) && (collision == 0); y++)
+	for (y = yStart; (y < yEnd) && (collision == 0); y++)
 	{
-		for (x = pSurfaceMotion->clip_rect.x; (x < pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) && (collision == 0); x++)
+		for (x = xStart; (x < xEnd) && (collision == 0); x++)
 		{
 			//Acquisition pixel surface 1
-			pixelS1 = ReadPixel(pSurfaceMap, x - offset_xS1, y - offset_yS1);
-			SDL_GetRGBA(pixelS1, formatS1, &rS1, &gS1, &bS1, &aS1);
+			pixelS1 = ReadPixel(pSurfaceMap, x, y);	//Lecture du pixel de la map
+			SDL_GetRGBA(pixelS1, formatS1, &rS1, &gS1, &bS1, &aS1);	//Informations sur les couleurs du pixel de la surface de la map
 			//Acquisition pixel surface 2
-			pixelS2 = ReadPixel(pSurfaceMotion, x - offset_xS2, y - offset_yS2);
-			SDL_GetRGBA(pixelS2, formatS2, &rS2, &gS2, &bS2, &aS2);
+			pixelS2 = ReadPixel(pSurfaceMotion, x - offset_xS2, y - offset_yS2);	//Lecture du pixel de la surface en mouvement
+			SDL_GetRGBA(pixelS2, formatS2, &rS2, &gS2, &bS2, &aS2);	//Informations sur les couleurs du pixel de la surface en mouvement
 			//Détermination de la collision
 			if (aS1 != 255 || aS2 != 255)	//Si le pixel de la surface de la map ou le pixel de la surface en mouvement est transparent
 				collision = 0;	//Collision = 0 -> pas de collision
@@ -403,18 +403,18 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int retournement)
 {
 	//Variables d'acquisitions
-	Uint32 pixelS1 = 0;
-	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;
-	Uint32 pixelS2 = 0;
-	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;
-	int offset_xS2 = pSurfaceMotion->clip_rect.x;
-	int offset_yS2 = pSurfaceMotion->clip_rect.y;
-	SDL_PixelFormat* formatS1 = pSurfaceMap->format;
-	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;
+	Uint32 pixelS1 = 0;	//Variable stockant le pixel en cours de lecture de la surface de la map
+	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface de la map
+	Uint32 pixelS2 = 0;	//Variable stockant le pixel en cours de lecture de la surface en mouvement
+	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface en mouvement
+	int offset_xS2 = pSurfaceMotion->clip_rect.x;	//Offset en x de la surface en mouvement dans la map
+	int offset_yS2 = pSurfaceMotion->clip_rect.y;	//Offset en y de la surface en mouvement dans la map
+	SDL_PixelFormat* formatS1 = pSurfaceMap->format;	//Pointeur du format de pixels de la surface de la map
+	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;	//Pointeur du format de pixels de la surface en mouvement
 	//Variables de balayage
-	int x = 0, y = 0;
-	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;	//Variables de balayage des x
-	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;	//Variables de balayage des y
+	int x = 0, y = 0;	//Variables de balayage des x, y
+	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;	//Variables de début, de fin et d'incrément du balayage des x
+	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;	//Variables de début, de fin et d'incrément du balayage des y
 	//Variable de collision
 	int collision = 0;	//Booleen de collision, 0 = pas de collision, 1 = collision
 	//Test des limites de la map et de la fenetre
@@ -453,52 +453,52 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 * \brief Calcul les valeurs de debut et de fin pour X et Y afin d'optimiser la detection de collision.
 *
 * \param[in] psurfaceMotion, surface en deplacement
-* \param[in] dir, direction du deplacement du worms
+* \param[in] direction, direction du deplacement du worms
 * \param[in] xStart, pointeur vers la variable xStart, debut du balayage en x
 * \param[in] xEnd, pointeur vers la variable xEnd, fin du balayage en x
 * \param[in] yStart, pointeur vers la variable yStart, debut du balayage en y
 * \param[in] yEnd, pointeur vers la variable yEnd, fin du balayage en y
 * \returns void
 */
-void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION dir, int* xStart, int* xEnd, int* yStart, int* yEnd)
+void calculXYBalayage(SDL_Surface* pSurfaceMotion, enum DIRECTION direction, int* xStart, int* xEnd, int* yStart, int* yEnd)
 {
 	//Détermination de yStart, yEnd
-	if (dir == DOWN)
+	if (direction == DOWN)	//Si la surface se dirige vers le bas
 	{
-		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		*yEnd = -(2 * pSurfaceMotion->clip_rect.h / 3 + pSurfaceMotion->clip_rect.y) + 1;
+		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;	//On balaye en partant du bas, on prends la valeur négative pour conserver une incrémentation positive et une boucle identique
+		*yEnd = -(2 * pSurfaceMotion->clip_rect.h / 3 + pSurfaceMotion->clip_rect.y) + 1;	//On arrête le balayage au tiers haut, pour une detection vers le bas, c'est suffisant
 	}
 	//Détermination de xStart, xEnd
-	else if (dir == UPRIGHT)
+	else if (direction == UPRIGHT)	//Si la surface se dirige en diagonale haute droite
 	{
 		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
 		*xEnd = -(pSurfaceMotion->clip_rect.x) + 1;
 		*yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h;
 	}
-	else if (dir == UPLEFT)
+	else if (direction == UPLEFT)	//Si la surface se dirige en diagonale haute gauche
 	{
 		*yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h;
 	}
-	else if (dir == RIGHT)
+	else if (direction == RIGHT)	//Si la surface se dirige vers la droite
 	{
-		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
-		*xEnd = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w / 2) + 1;
+		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;	//On démarre le balayage à droite
+		*xEnd = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w / 2) + 1;	//On arrête le balayage à la moitié de la surface, pour une détection de côté, c'est suffisant
 	}
-	else if (dir == LEFT)
+	else if (direction == LEFT)	//Si la surface se dirige vers la gauche
 	{
-		*xEnd = (pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w / 2);
+		*xEnd = (pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w / 2);	//On arrête le balayage à la moitié de la surface, pour une détection de côté, c'est suffisant
 	}
-	else if (dir == DRIGHT)
+	else if (direction == DRIGHT)	//Si la surface se dirige en diagonale basse droite
 	{
-		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		*yEnd = -(pSurfaceMotion->clip_rect.y) + 1;
-		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;
+		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;	//On démarre le balayage en bas
+		*yEnd = -(2 * pSurfaceMotion->clip_rect.h / 3 + pSurfaceMotion->clip_rect.y) + 1;	//On s'arrête au tiers haut
+		*xStart = -(pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w) + 1;	//On démarre le balayage à droite
 		*xEnd = -(pSurfaceMotion->clip_rect.x) + 1;
 	}
-	else if (dir == DLEFT)
+	else if (direction == DLEFT)	//Si la surface se dirige en diagonale basse gauche
 	{
-		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;
-		*yEnd = -(pSurfaceMotion->clip_rect.y) + 1;
+		*yStart = -(pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h) + 1;	//On démarre le balayage en bas
+		*yEnd = -(2 * pSurfaceMotion->clip_rect.h / 3 + pSurfaceMotion->clip_rect.y) + 1;	//On s'arrête au tiers haut
 		*xEnd = (pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w);
 	}
 }
@@ -519,43 +519,43 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceM
 {
 	int t = 0;
 	int collision = 0;
-	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, pDirection, retournement) && t < 60)
+	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, pDirection, retournement) && t < 60)	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
 	{
-		switch (*pDirection)
+		switch (*pDirection)	//Switch de la valeur de derriere le pointeur pDirection, indiquant le sens de détection de la collision
 		{
-		case RIGHT:
+		case RIGHT:	//Cas d'une détection à droite
 			surfaceMotion->clip_rect.x -= vitesse;
 			break;
-		case LEFT:
+		case LEFT:	//Cas d'une détection à gauche
 			surfaceMotion->clip_rect.x += vitesse;
 			break;
-		case DOWN:
+		case DOWN:	//Cas d'une détection en bas
 			surfaceMotion->clip_rect.y -= vitesse;
 			break;
-		case UP:
+		case UP:	//Cas d'une détection en hauteur
 			surfaceMotion->clip_rect.y += vitesse;
 			break;
-		case UPRIGHT:
+		case UPRIGHT:	//Cas d'une détection en diagonale haute droite
 			surfaceMotion->clip_rect.x -= vitesse;
 			surfaceMotion->clip_rect.y += vitesse;
 			break;
-		case UPLEFT:
+		case UPLEFT:	//Cas d'une détection en diagonale haute gauche
 			surfaceMotion->clip_rect.x += vitesse;
 			surfaceMotion->clip_rect.y += vitesse;
 			break;
-		case DRIGHT:
+		case DRIGHT:	//Cas d'une détection en diagonale basse droite
 			surfaceMotion->clip_rect.x -= vitesse;
 			surfaceMotion->clip_rect.y -= vitesse;
 			break;
-		case DLEFT:
+		case DLEFT:	//Cas d'une détection en diagonale basse gauche
 			surfaceMotion->clip_rect.x += vitesse;
 			surfaceMotion->clip_rect.y -= vitesse;
 			break;
 		default:
 			break;
 		}
-		t++;
-		collision = 1;
+		t++;	//Incrémentation du limiteur de boucle
+		collision = 1;	//Mise à 1 de l'indicateur de collision
 	}
-	return collision;
+	return collision;	//Return l'indice de collision, 0 = pas de collision, 1 = collision
 }
