@@ -82,6 +82,7 @@ int mainFenetre()
 			if (pInput->raffraichissement)
 			{
 				updateGlobaleTexture(surfaceTab, display, 1, &worms1->wormsRect);
+				updateGlobaleTexture(surfaceTab, display, 2, &worms1->texteSurface->clip_rect);
 				updateScreen(pRenderer, 2, 0, mainMap, 1, display, &camera, NULL);
 			}
 

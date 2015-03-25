@@ -293,6 +293,8 @@ int gestionPhysique(Terrain* map, Input* pInput, ...)
 		{
 			worms->xAbs = worms->wormsSurface->clip_rect.x;
 			worms->yAbs = worms->wormsSurface->clip_rect.y;
+			worms->texteSurface->clip_rect.x = worms->wormsSurface->clip_rect.x - 50;
+			worms->texteSurface->clip_rect.y = worms->wormsSurface->clip_rect.y - 50;
 			t = 0;
 			stop = 1;
  			pInput->jump = pInput->jumpOnGoing = 0;
