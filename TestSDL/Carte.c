@@ -98,42 +98,42 @@ void destroyMap(Terrain** p_pMapTerrain)
 * \param[in] mapHight, hauteur de la map
 * \param[in] mapWidth, largeur de la map
 * \param[in] pSurfaceMotion, surface de l'objet en mouvement
-* \param[in] pDirecion, pointeur de la direction du deplacement du worms
+* \param[in] pDirecion, pointeur de la direction du deplacement du worms, NULL si non utile
 * \return 1 = depassement de la map, 0 = pas de depassement de la map
 */
 int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirecion)
 {
-	int xSurface = pSurfaceMotion->clip_rect.x;
-	int ySurface = pSurfaceMotion->clip_rect.y;
-	if (xSurface < 0)
+	int xSurface = pSurfaceMotion->clip_rect.x;	//stockage de la valeur x de la surface en déplacement pour simplifier la lecture
+	int ySurface = pSurfaceMotion->clip_rect.y;	//stockage de la valeur y de la surface en déplacement pour simplifier la lecture
+	if (xSurface < 0)	//Si la surface sors de la map par la gauche
 	{
-		pSurfaceMotion->clip_rect.x = 0;
-		if (pDirecion != NULL)
-			*pDirecion = LEFT;
-		return 1;
+		pSurfaceMotion->clip_rect.x = 0;	//Set de la valeur de x à 0 pour coller à la map
+		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
+			*pDirecion = LEFT;	//Set de la direction à gauche
+		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
 	}
-	else if (xSurface + pSurfaceMotion->w > mapWidth)
+	else if (xSurface + pSurfaceMotion->w > mapWidth)	//Si la surface sors de la map par la droite
 	{
-		pSurfaceMotion->clip_rect.x = mapWidth - pSurfaceMotion->clip_rect.w;
-		if (pDirecion != NULL)
-			*pDirecion = RIGHT;
-		return 1;
+		pSurfaceMotion->clip_rect.x = mapWidth - pSurfaceMotion->clip_rect.w;	//Set de la valeur de x à la largeur de la map - la largeur de l'objet pour coller à la map
+		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
+			*pDirecion = RIGHT;	//Set de la direction à droite
+		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
 	}
-	if (ySurface < 0)
+	if (ySurface < 0)	//Si la surface sors de la map par le dessus
 	{
-		pSurfaceMotion->clip_rect.y = 0;
-		if (pDirecion != NULL)
-			*pDirecion = UP;
-		return 1;
+		pSurfaceMotion->clip_rect.y = 0;	//Set de la valeur de y pour coller au haut de la map
+		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
+			*pDirecion = UP;	//Set de la direction à haut
+		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
 	}
-	else if (ySurface + pSurfaceMotion->h > mapHight)
+	else if (ySurface + pSurfaceMotion->h > mapHight)	//Si la surface sors de la map par le dessous
 	{
-		pSurfaceMotion->clip_rect.y = mapHight - pSurfaceMotion->clip_rect.h + 1;
-		if (pDirecion != NULL)
-			*pDirecion = DOWN;
-		return 1;
+		pSurfaceMotion->clip_rect.y = mapHight - pSurfaceMotion->clip_rect.h + 1;	//Set de la valeur de y à hauteur de la map - hauteur de l'objet pour coller à la map
+		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
+			*pDirecion = DOWN;	//Set de la direction à bas
+		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
 	}
-	return 0;
+	return 0;	//return 1 = dépassement de la map, 0 = pas de dépassement
 }
 
 
@@ -153,46 +153,48 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIREC
 
 enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION direction, int w, int h, int retournement)
 {
-	if ((direction == UPRIGHT || direction == UPLEFT) && !retournement)
+	if ((direction == UPRIGHT || direction == UPLEFT) && !retournement)	//Si on se on dirige en diagonale (pendant un saut ou un lancer)
 	{
-		if ((x < 2 * w / 10) || (x >= 8 * w / 10))
-			return direction;
-		if (y > 2 * h / 3)
-			return DOWN;
-		else return UP;
+		if ((x < 2 * w / 10) || (x >= 8 * w / 10))	//Si le point d'impact en x se trouve sur les bords
+			return direction;	//On retourne la direction du déplacement 
+		if (y > 2 * h / 3)	//Si la valeur de y dépasse un certain seuil (ici 1 /3 de la taille de l'objet)
+			return DOWN;	//On retourne DOWN
+		else return UP;	//Sinon si le point d'impact est en haut et au centre on retourne UP
 	}
-	else if (direction == RIGHT || direction == LEFT)
+	else if (direction == RIGHT || direction == LEFT)	//Si l'objet se déplace latéralement
 	{
-		if (!retournement)
+		if (!retournement)	//Si on est pas en train de se retourner
 		{
-			if (y <= (7 * h / 8))
-				return direction;
-			else return DOWN;
+			if (y <= (7 * h / 8))	//Si y est au dessus d'un certain seuil (si on est pas au sol)
+				return direction;	//On retourne la direction de déplacement
+			else return DOWN;	//Sinon si on a un contact au sol on retourne DOWN (ça évite une téléportation en arrière)
 		}
-		else
+		else //Sinon si on s'est retourné
 		{
-			if (x > (w / 2))
-				return RIGHT;
-			else return  LEFT;
+			if (x > (w / 2))	//Si x au dessus de la moitié horizontale de l'objet
+				return RIGHT;	//On retourne RIGHT
+			else return  LEFT;	//Sinon on retourne LEFT
 		}
 	}
-	else if ((direction == DRIGHT || direction == DLEFT))
+	else if ((direction == DRIGHT || direction == DLEFT))	//Si on se déplace en diagonale descendante (pendant la fin d'un saut ou en fin de lancer d'une grenade)
 	{
-		if (x >= (3 * w / 11) && x <= (8 * w / 11) && (y > h / 2))
-			return DOWN;
-		else if (x < w / 2)
+		if (x >= (3 * w / 11) && x <= (8 * w / 11) && (y > h / 2))	//Si x est au "centre" de l'objet et que y est dans la moitié basse de celui-ci
+			return DOWN;	//On retourne DOWN
+		/*else if (x < w / 2)
 			return DLEFT;
 		else if (x > w / 2)
-			return DRIGHT;
-		else return direction;
+			return DRIGHT;*/
+		else return direction;	//Sinon on retourne la direction originale
 	}
 	else if (direction == UP)
 	{
 		if ((x < w / 2) && (y > 5 * h / 8))
 			return DLEFT;
+		else if ((x > w / 2) && (y > 5 * h / 8))
+			return DRIGHT;
 		else return direction;
 	}
-	else return direction;
+	else return direction;	//Sinon on retourne la direction de départ
 }
 
 
@@ -222,9 +224,9 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION direction, 
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 {
 	//Convert the pixels to 32 bit
-	Uint32 *pixels = (Uint32 *)pSurface->pixels;
+	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixels de la surface
 	//Get the requested pixel
-	return pixels[(y * pSurface->w) + x];
+	return pixels[(y * pSurface->w) + x];	//Return le pixel aux coordonnées x et y passées en paramètre
 }
 
 
@@ -240,11 +242,11 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 {
 	//Convert the pixels to 32 bit
-	Uint32 *pixels = (Uint32 *)pSurface->pixels;
+	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixel de la surface
 
 	//Set the pixel
-	if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))
-		pixels[(y * pSurface->w) + x] = pixelToWrite;
+	if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))	//Test que le pixel est bien dans la surface
+		pixels[(y * pSurface->w) + x] = pixelToWrite;	//Ecrit le pixel aux coordonnées passées en paramètre
 }
 
 
@@ -524,32 +526,32 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceM
 		switch (*pDirection)	//Switch de la valeur de derriere le pointeur pDirection, indiquant le sens de détection de la collision
 		{
 		case RIGHT:	//Cas d'une détection à droite
-			surfaceMotion->clip_rect.x -= vitesse;
+			surfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x (0à gauche de l'écran et x à droite de l'écran)
 			break;
 		case LEFT:	//Cas d'une détection à gauche
-			surfaceMotion->clip_rect.x += vitesse;
+			surfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
 			break;
 		case DOWN:	//Cas d'une détection en bas
-			surfaceMotion->clip_rect.y -= vitesse;
+			surfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y (0 en haut de l'écran et y en bas de l'écran)
 			break;
 		case UP:	//Cas d'une détection en hauteur
-			surfaceMotion->clip_rect.y += vitesse;
+			surfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
 			break;
 		case UPRIGHT:	//Cas d'une détection en diagonale haute droite
-			surfaceMotion->clip_rect.x -= vitesse;
-			surfaceMotion->clip_rect.y += vitesse;
+			surfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
+			surfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
 			break;
 		case UPLEFT:	//Cas d'une détection en diagonale haute gauche
-			surfaceMotion->clip_rect.x += vitesse;
-			surfaceMotion->clip_rect.y += vitesse;
+			surfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
+			surfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
 			break;
 		case DRIGHT:	//Cas d'une détection en diagonale basse droite
-			surfaceMotion->clip_rect.x -= vitesse;
-			surfaceMotion->clip_rect.y -= vitesse;
+			surfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
+			surfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
 			break;
 		case DLEFT:	//Cas d'une détection en diagonale basse gauche
-			surfaceMotion->clip_rect.x += vitesse;
-			surfaceMotion->clip_rect.y -= vitesse;
+			surfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
+			surfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
 			break;
 		default:
 			break;
