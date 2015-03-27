@@ -19,7 +19,7 @@
 #define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
 
 /*Constantes*/
-#define pi 3.1415
+#define pi 3.14159265358
 #define RMASK 0x000000FF
 #define GMASK 0x0000FF00
 #define BMASK 0x00FF0000
@@ -81,5 +81,6 @@ typedef struct{		//structure gérant les polices
 }GlobalVariable;
 
 GlobalVariable globalVar;
+FILE* logFile;
 
 #endif

@@ -18,10 +18,13 @@ Worms* createWorms(char* name)
 	SDL_Surface * wormsSurfaceRight = NULL;
 	SDL_Surface * texteSurface = NULL;
 	SDL_Surface * tombeSurface = NULL;
+	if (logFile != NULL)
+		fprintf(logFile, "createWorms : START :\n\n");
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
-		printf("Probleme lors de l'allocation de memoire du worms");
+		if (logFile != NULL)
+			fprintf(logFile, "createWorms : FAILURE, allocation memoire worms.\n\n");
 		return NULL;
 	}
 	worms->wormsSurfaceLeft = NULL;
@@ -31,13 +34,21 @@ Worms* createWorms(char* name)
 	wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
 	wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
 	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
-	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
-
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL || tombeSurface == NULL)
+	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || tombeSurface == NULL)
 	{
-		printf("Erreur creation surfaces worms, %s", SDL_GetError());
+		if (logFile != NULL)
+			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
+	}
+	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
+	if (wormsSurface == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
+		destroyWorms(&worms, 1);
+		return NULL;
+
 	}
 
 	//texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
@@ -75,6 +86,10 @@ Worms* createWorms(char* name)
 	wormsSurfaceRight = NULL;
 	texteSurface = NULL;
 	tombeSurface = NULL;
+
+	//Enregistrement log
+	if (logFile != NULL)
+		fprintf(logFile, "\ncreateWorms : SUCCESS.\n\n");
 	return worms;
 }
 
@@ -87,7 +102,7 @@ Worms* createWorms(char* name)
 void destroyWorms(Worms** wormsTab, int nbWorms)
 {
 	int i;
-	for (i = 0; i < nbWorms; i++)
+	for (i = 0; i < nbWorms; i++) 
 	{
 		if (wormsTab[i]->wormsSurface != NULL)
 		{
@@ -117,6 +132,8 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 		free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
+	if (logFile != NULL)
+		fprintf(logFile, "destroyWorms : DONE.\n");
 }
 
 

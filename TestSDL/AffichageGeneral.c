@@ -21,15 +21,17 @@ int mainFenetre(Jeu * jeu)
 		pInput = initInput();
 		if (pInput == NULL)
 		{
-			printf("Erreur lors de l'allocation de pInput");
-			cleanUp(&pWindow, &pRenderer, &pInput);
+			if (logFile != NULL)
+				fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
 		//Initialisation du terrain
 		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/fond2.png", jeu->nomMap) < 0)
 		{
-			printf("Probleme lors de la creation du terrain");
-			cleanUp(&pWindow, &pRenderer, &pInput);
+			if (logFile != NULL)
+				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
 
@@ -39,9 +41,10 @@ int mainFenetre(Jeu * jeu)
 		//Initialisation de l'affichage
 		if (createGlobalTexture(jeu->pMapTerrain->imageMapSurface, &display, pRenderer, &camera) < 0)
 		{
-			printf("Erreur creation de la texture globale");
+			if (logFile != NULL)
+				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 			destroyMap(&jeu->pMapTerrain);
-			cleanUp(&pWindow, &pRenderer, &pInput);
+			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
 		//updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
@@ -57,7 +60,8 @@ int mainFenetre(Jeu * jeu)
 			//Gestion des inputs
 			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[0]->worms))
 			{
-				printf("Erreur lors du traitement de l'entree");
+				if (logFile != NULL)
+					fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
 
 			//Update de l'écran
@@ -73,13 +77,10 @@ int mainFenetre(Jeu * jeu)
 		}
 		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
-		SDL_DestroyTexture(display);
-		display = NULL;
-		cleanUp(&pWindow, &pRenderer, &pInput);
 	}
-	TTF_Quit();
-	IMG_Quit();
-	SDL_Quit();
+	cleanUp(&pWindow, &pRenderer, &pInput, &display);
+	if (logFile != NULL)
+		fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	return 0;
 }
 
@@ -194,40 +195,44 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
 	{
-		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		if (logFile != NULL)
+			fprintf(logFile, "initSWR : FAILURE, initialisation de la SDL (%s)\n\n", SDL_GetError());
 		return -1;
 	}
 	/* Création de la fenêtre */
 	*pWindow = creerFenetre(1080, 600, "KaamWorms");
 	if (*pWindow == NULL)
 	{
-		SDL_Quit();
+		if (logFile != NULL)
+			fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
 		return -1;
 	}
 	/* Création du renderer */
 	*pRenderer = SDL_CreateRenderer(*pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (*pRenderer == NULL)//gestion des erreurs
 	{
-		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
-		SDL_DestroyWindow(*pWindow);
-		(*pWindow) = NULL;
-		SDL_Quit();
+		if (logFile != NULL)
+			fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
+		cleanUp(pWindow, NULL, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_Image*/
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
-		printf("Erreur Img_init : %s", SDL_GetError());
-		cleanUp(pWindow, pRenderer, NULL);
-		SDL_Quit();
+		if (logFile != NULL)
+			fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
+		cleanUp(pWindow, pRenderer, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_TTF*/
 	if (TTF_Init() == -1)
 	{
-		fprintf(stderr, "Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+		if (logFile != NULL)
+			fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
 		return -1;
 	}
+	if (logFile != NULL)
+		fprintf(logFile, "initSWR : SUCCESS.\n\n");
 	return 1;
 }
 
@@ -240,22 +245,34 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 * \param[in] pRenderer, adresse du pointeur du renderer.
 * \param[in] pInput, adresse du pointeur de la structure Input.
 */
-void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
+void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay)
 {
 	if ((*pInput) != NULL)
 	{
 		free(*pInput);
 		(*pInput) = NULL;
 	}
+	if ((*pRenderer) != NULL)
+	{
+		SDL_DestroyRenderer(*pRenderer);
+		(*pRenderer) = NULL;
+	}
+	if ((*pWindow) != NULL)
+	{
+		SDL_DestroyWindow(*pWindow);
+		(*pWindow) = NULL;
+	}
+	if ((*pDisplay) != NULL)
+	{
 
-	SDL_DestroyRenderer(*pRenderer);
-	(*pRenderer) = NULL;
-	SDL_DestroyWindow(*pWindow);
-	(*pWindow) = NULL;
-
+		SDL_DestroyTexture(*pDisplay);
+		(*pDisplay) = NULL;
+	}
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
+	if (logFile != NULL)
+		fprintf(logFile, "cleanUp : DONE.\n");
 }
 
 /**
@@ -277,10 +294,13 @@ SDL_Window * creerFenetre(const int w, const int h, const char * nom){
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);	//propriétés supplémentaires de la fenêtre
 	if (pWindow == NULL)
 	{
-		fprintf(stderr, "Erreur de création de la fenêtre: %s\n", SDL_GetError());
+		if (logFile != NULL)
+			fprintf(logFile, "creerFenetre : FAILURE, erreur de création de la fenêtre: %s.\n", SDL_GetError());
 		return NULL;
 	}
-	else return pWindow;
+	if (logFile != NULL)
+		fprintf(logFile, "creerFenetre : SUCCESS.\n");
+	return pWindow;
 }
 
 /**
@@ -294,9 +314,12 @@ SDL_Surface * loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
 	if (image == NULL)
 	{
-		printf("Unable to load image: %s\n", SDL_GetError());
+		if (logFile != NULL)
+			fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
 		return NULL;
 	}
+	if (logFile != NULL)
+		fprintf(logFile, "loadImage : SUCCESS.\n\tnom du fichier : %s.\n", file);
 	return image;
 }
 
@@ -314,9 +337,12 @@ SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 	SDL_Texture * texture = IMG_LoadTexture(pRenderer, file);
 	if (texture == NULL)
 	{
-		printf("Unable to load texture: %s\n", SDL_GetError());
+		if (logFile != NULL)
+			fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
 		return NULL;
 	}
+	if (logFile != NULL)
+		fprintf(logFile, "loadTexture : SUCCESS.\n\tnom du fichier : %s.\n", file);
 	return texture;
 }
 
@@ -646,7 +672,8 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 	pixelWrite = malloc(nombrePixel * sizeof(Uint32));
 	if (pixelWrite == NULL)
 	{
-		printf("Unable to allocate memory for screenshot pointeur data buffer!\n ");
+		if (logFile != NULL)
+			fprintf(logFile, "createGlobalTexture : FAILURE, allocation memoire pixelWrite.\n\n");
 		return -1;
 	}
 	for (y = pSurfaceMap->clip_rect.y; y < pSurfaceMap->clip_rect.y + pSurfaceMap->h; y++)
@@ -668,7 +695,8 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurfaceMap->w, pSurfaceMap->h);
 	if (textureTemp == NULL)
 	{
-		printf("Erreur lors de la creation de la texture");
+		if (logFile != NULL)
+			fprintf(logFile, "createGlobalTexture : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
 		free(pixelWrite);
 		pixelWrite = NULL;
 		return -1;
@@ -681,6 +709,8 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 	SDL_RenderPresent(pRenderer);
 	free(pixelWrite);
 	pixelWrite = NULL;
+	if (logFile != NULL)
+		fprintf(logFile, "createGlobalTexture : SUCCESS.\n\n");
 	return 0;
 }
 
@@ -707,6 +737,12 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	nombrePixel = pSurfaceModif->w * pSurfaceModif->h;
 	secureRect(pRectSurfaceModif, pSurfaceMap);
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
+	if (pixelWrite == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "updateGlobalTexture : FAILURE, allocation memoire pixelWrite.\n\n");
+		return -1;
+	}
 	for (i = 0; i < 2; i++)
 	{
 		for (y = pRectSurfaceModif->y; y < pRectSurfaceModif->y + pRectSurfaceModif->h; y++)
@@ -744,8 +780,9 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 * \param[in] worms1, indice du worms numero 1.
 * \param[in] worms2, indice du worms numero 2.
 * \param[in] pTexture, pointeur vers la texture globale cree avec createGlobalTexture.
+* \return error, -1 = FAIL, 0 = SUCCESS
 */
-void updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2)
+int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2)
 {
 	Uint32* pixelWrite = NULL;
 	Uint32 pixelRead;
@@ -774,6 +811,12 @@ void updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wo
 	rect.w = (xEnd - xStart);
 	nombrePixel = rect.w * rect.h;
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
+	if (pixelWrite == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "updateWormsOverlay : FAILURE, allocation memoire pixelWrite.\n\n");
+		return -1;
+	}
 	for (y = yStart; y < yEnd; y++)
 	{
 		for (x = xStart; x < xEnd; x++)
@@ -791,6 +834,7 @@ void updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wo
 
 	free(pixelWrite);
 	pixelWrite = NULL;
+	return 0;
 }
 
 

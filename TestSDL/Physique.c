@@ -313,15 +313,16 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 
 /**
 * \fn void initGameWorms(Worms** worms, Input* pInput, Terrain* map, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
-* \brief Initialise les worms de la partie jusqu'au sol.
+* \brief Initialise les worms d'une équipe de la partie jusqu'au sol.
 *
-* \param[in] wormsTab, pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
+* \param[in] wormsTab, tableau de worms.
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
-* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pRenderer pointeur pRenderer pour récupérer les informations relative à la fenêtre.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \returns void
+* \remarks A refaire pour chaque equipe
 */
 void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
 {
@@ -329,7 +330,7 @@ void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Te
 	srand((int)time(NULL));
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		wormsTab[i]->wormsSurface->clip_rect.x = wormsTab[i]->wormsRect.x = rand_a_b(0, (pMapTerrain->imageMapSurface->w - wormsTab[i]->wormsSurface->w));
+		//wormsTab[i]->wormsSurface->clip_rect.x = wormsTab[i]->wormsRect.x = rand_a_b(0, (pMapTerrain->imageMapSurface->w - wormsTab[i]->wormsSurface->w));
 		while (!checkDeplacement(pMapTerrain->imageMapSurface, wormsTab[i]->wormsSurface, DOWN))
 		{
 			gestionPhysique(pMapTerrain, pTextureDisplay, pInput, 0, wormsTab[i]);

@@ -14,14 +14,16 @@
 Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
 	Jeu * jeu = NULL;
-
+	if (logFile != NULL)
+		fprintf(logFile, "nouveauJeu : START :\n\n");
 	jeu = malloc(sizeof(Jeu));
-
 	if (jeu == NULL)
 	{
-		printf("Probleme lors de l'allocation de memoire du Jeu");
+		if (logFile != NULL)
+			fprintf(logFile, "nouveauJeu : FAILURE, allocation memoire jeu.\n\n");
 		return NULL;
 	}
+
 	jeu->nbEquipe = nbE;
 	jeu->temps = 1000;
 	strcpy(jeu->nomMap, map);
@@ -29,13 +31,22 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	jeu->equipes = malloc(nbE * sizeof(Equipe*));
 	if (jeu->equipes == NULL)
 	{
+		if (logFile != NULL)
+			fprintf(logFile, "nouveauJeu : FAILURE, allocation memoire jeu->equipes.\n\n");
 		destroyJeu(&jeu);
 		return NULL;
 	}
 	for (int i = 0; i < nbE; i++)
 	{
 		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
+		if (jeu->equipes[i] == NULL)
+		{
+			if (logFile != NULL)
+				fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
+		}
 	}
+	if (logFile != NULL)
+		fprintf(logFile, "nouveauJeu : SUCCESS.\n\n");
 	return jeu;
 }
 /**
@@ -51,6 +62,8 @@ void destroyJeu(Jeu ** game)
 		destroyEquipe((*game)->equipes, (*game)->nbEquipe);
 	free(*game);
 	*game = NULL;
+	if (logFile != NULL)
+		fprintf(logFile, "destroyJeu : DONE.\n");
 }
 
 /**
@@ -65,25 +78,43 @@ void destroyJeu(Jeu ** game)
 Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 {
 	Equipe * team = NULL;
-
+	if (logFile != NULL)
+		fprintf(logFile, "nouvelleEquipe : START :\n\n");
 	team = malloc(sizeof(Equipe));
-
 	if (team == NULL)
 	{
-		printf("Probleme lors de l'allocation de memoire de l'Equipe");
+		if (logFile != NULL)
+			fprintf(logFile, "nouvelleEquipe : FAILURE, allocation memoire team.\n\n");
 		return NULL;
 	}
+
 	team->nbWormsStart = nbWorms;
 	team->nom = nomE;
 	team->color = couleur;
 
 	/*déclaration des Worms*/
 	team->worms = malloc(nbWorms * sizeof(Worms));
+	if (team->worms == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "nouvelleEquipe : FAILURE, allocation memoire team->worms.\n\n");
+		destroyEquipe(&team, globalVar.nbEquipe);
+		return NULL;
+	}
 	for (int i = 0; i < nbWorms; i++)
 	{
 		team->worms[i] = createWorms("NomWorms");
+		if (team->worms[i] == NULL)
+		{
+			if (logFile != NULL)
+				fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");
+			destroyEquipe(&team, globalVar.nbEquipe);
+			break;
+		}
 	}
 	team->vie = vieEquipe(team);
+	if (logFile != NULL)
+		fprintf(logFile, "nouvelleEquipe : SUCCESS.\n\n");
 	return team;
 }
 
@@ -100,10 +131,13 @@ void destroyEquipe(Equipe ** team, int nbE)
 	int i;
 	for (i = 0; i < nbE; i++)
 	{
-		destroyWorms(team[i]->worms, team[i]->nbWormsStart);
+		if (team[i]->worms != NULL)
+			destroyWorms(team[i]->worms, team[i]->nbWormsStart);
 	}
 	free(*team);
 	*team = NULL;
+	if (logFile != NULL)
+		fprintf(logFile, "destroyEquipe : DONE.\n");
 }
 
 /**
@@ -142,6 +176,8 @@ void mainInit(int nbE, int nbWpE)
 
 	globalVar.nbEquipe = nbE;
 	globalVar.nbWormsEquipe = nbWpE;
+	if (logFile != NULL)
+		fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
 }
 
 /**

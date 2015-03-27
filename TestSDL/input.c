@@ -342,8 +342,7 @@ Input* initInput()
 	pInput = (Input*)malloc(sizeof(Input));
 	if (pInput == NULL)
 	{
-		printf("Erreur lors de l'allocation de memoire de pInput");
-		pInput = NULL;
+		fprintf(logFile, "initInput : FAILURE, allocation memoire de pInput.\n\n");
 		return NULL;
 	}
 	pInput->jump = 0;
@@ -364,6 +363,8 @@ Input* initInput()
 	pInput->cursor = initCursor();
 	pInput->wormsPlaying = 0;
 	pInput->deplacement = 0;
+	if (logFile != NULL)
+		fprintf(logFile, "iniInput : SUCCESS.\n\n");
 	return pInput;
 }
 
