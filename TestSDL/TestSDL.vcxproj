@@ -95,6 +95,7 @@
     <ClCompile Include="Carte.c" />
     <ClCompile Include="Partie.c" />
     <ClCompile Include="Physique.c" />
+    <ClCompile Include="Sounds.c" />
     <ClCompile Include="Worms.c" />
   </ItemGroup>
   <ItemGroup>

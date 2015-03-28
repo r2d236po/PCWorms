@@ -32,9 +32,6 @@
 #define cMAP_TEST2	"../assets/pictures/maptest2.png"
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"
 
-/*Chemins de sons*/
-#include "Sounds.h"
-
 /*Structures globales*/
 typedef struct{		//structure Point
 	int x;

@@ -1,6 +1,7 @@
 #include "AffichageGeneral.h"
 #include "input.h"
 #include "physique.h"
+#include "Sounds.h"
 
 
 
@@ -52,6 +53,13 @@ int mainFenetre(Jeu * jeu)
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
 		updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, display, &camera, NULL);
 		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
+		if (loadSounds(ExploMed, 0) < 0)
+		{
+			if (logFile != NULL)
+				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &display);
+			return -1;
+		}
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -239,7 +247,6 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 				fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
 			
 		}
-		sndFx = Mix_LoadWAV(ExploSourde);
 	}
 	if (logFile != NULL)
 		fprintf(logFile, "initSWR : SUCCESS.\n\n");
@@ -289,18 +296,7 @@ void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL
 }
 
 
-/**
-* \fn void cleanSounds()
-* \brief Détruit et libere les differents sons du jeu.
-*
-*/
-void cleanSounds()
-{
-	Mix_FreeMusic(music);
-	music = NULL;
-	Mix_FreeChunk(sndFx);
-	sndFx = NULL;
-}
+
 
 
 /**

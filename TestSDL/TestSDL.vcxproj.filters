@@ -42,6 +42,9 @@
     <ClCompile Include="Physique.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sounds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">

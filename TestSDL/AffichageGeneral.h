@@ -47,7 +47,6 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 
 void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay);	//nettoie et quit la SDL
 void clearRenderer(SDL_Renderer * pRenderer);	//Clear de l'écran
-void cleanSounds();
 
 void animationWorms(SDL_Surface * display);
 

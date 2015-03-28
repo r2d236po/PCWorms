@@ -9,4 +9,8 @@
  
 Mix_Music* music;
 Mix_Chunk* sndFx;
+
+
+int loadSounds(const char* file, int type);
+void cleanSounds();
 #endif // !SOUND_H
