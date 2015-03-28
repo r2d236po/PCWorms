@@ -239,8 +239,6 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 				fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
 			
 		}
-		music = Mix_LoadMUS(sndTEST);
-		Mix_PlayMusic(music, 1);
 		sndFx = Mix_LoadWAV(ExploSourde);
 	}
 	if (logFile != NULL)
