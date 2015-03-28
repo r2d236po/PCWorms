@@ -1,0 +1,73 @@
+Start of session : 
+
+mainInit : DONE.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 2.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/wormsg.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/wormsd.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/wormsg.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/wormsd.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+creerFenetre : SUCCESS.
+initSWR : SUCCESS.
+
+iniInput : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/fond2.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest3.png.
+
+initialisationTerrain : SUCCESS.
+
+initCameras : DONE.
+
+createGlobalTexture : SUCCESS.
+
+initCameras : DONE.
+
+initGameWorms : DONE.
+
+initCameras : DONE.
+
+initCameras : DONE.
+
+initCameras : DONE.
+
+destroyMap : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+
+
+End of Session.

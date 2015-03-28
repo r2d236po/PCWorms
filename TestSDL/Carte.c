@@ -189,10 +189,10 @@ enum DIRECTION calculDirectionCollision(int x, int y, enum DIRECTION direction, 
 	{
 		if (x >= (3 * w / 11) && x <= (8 * w / 11) && (y > h / 2))	//Si x est au "centre" de l'objet et que y est dans la moitié basse de celui-ci
 			return DOWN;	//On retourne DOWN
-		/*else if (x < w / 2)
+		else if (x < w / 2)
 			return DLEFT;
 		else if (x > w / 2)
-			return DRIGHT;*/
+			return DRIGHT;
 		else return direction;	//Sinon on retourne la direction originale
 	}
 	else if (direction == UP)

@@ -31,8 +31,8 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
-	wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
-	wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
+	wormsSurfaceLeft = loadImage("../assets/pictures/wormsg.png");
+	wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
 	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || tombeSurface == NULL)
 	{
@@ -271,7 +271,7 @@ void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_
 	{
 		updateGlobaleTexture(pSurfaceMap, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
 		if (wormsOverlay(wormsTab))
-			updateWormsOverlay(wormsTab, pTextureDisplay, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+			updateWormsOverlay(wormsTab, pTextureDisplay, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying, pSurfaceMap);
 	}
 }
 

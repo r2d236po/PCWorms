@@ -70,10 +70,9 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 				return;
 			}
 			start = 1;
-			//On remet à zero x et y par rapport à sa position absolu de départ
+			/*On remet à zero x et y par rapport à sa position absolu de départ*/
 			pWorms->wormsSurface->clip_rect.x = pWorms->xAbs;
 			pWorms->wormsSurface->clip_rect.y = pWorms->yAbs;
-			pInput->raffraichissement = 1;
 		}
 
 		/////////////////////////////////////////////////////////////
@@ -81,8 +80,6 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		/////////////////////////////////////////////////////////////
 
 		/*Calcul des positions relatives*/
-		if (pWorms->xAbs != pWorms->wormsSurface->clip_rect.x || pWorms->yAbs != pWorms->wormsSurface->clip_rect.y)
-			pInput->raffraichissement = 1;
 		calculPositionRel(&xRel, &yRel, t, pWorms->vitx, pWorms->vity, pWorms->wormsSurface);
 		t += 7;
 
@@ -101,7 +98,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		if (retournement)
 		{
 			swapSurface(pWorms);
-			if (pWorms->dir != DOWN && checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, UP))
+			if ((pWorms->dir != DOWN) && checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, UP))
 			{
 				swapSurface(pWorms);
 				deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface);
@@ -128,7 +125,10 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		/*Mise à jour de l'affichage*/
 		if (!checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, UP) || !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, LEFT) || !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, RIGHT))
 			updateGlobaleTexture(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pTextureDisplay, &pWorms->wormsRect);
+
+		/*Indicateurs de déplacement et de raffraichissement de l'image*/
 		pInput->deplacement = 1;
+		pInput->raffraichissement = 1;
 	}
 	else
 	{
@@ -153,10 +153,12 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SDL_Surface* pSurface)
 {
 	const double g = 9.81; //Acceleration de 9.81 m/s 
-	//On calcul les écarts relatifs sur x et y
+
+	/*On calcul les écarts relatifs sur x et y*/
 	*xRel = (int)(vit_X * t);	//calcul de la position relative en x
 	*yRel = (int)((vit_Y * t) - ((g*t*t) / 2000));	//calcul de la position relative en y
-	//On calcule maintenant les valeurs de x et y de la surface
+
+	/*On met à jour maintenant les valeurs de x et y de la surface*/
 	pSurface->clip_rect.x += (*xRel);	//Mise à jours de la valeur de x de la surface par rapport à la position relative
 	pSurface->clip_rect.y -= (*yRel);	//Mise à jours de la valeur de y de la surface par rapport à la position relative
 }
@@ -174,23 +176,23 @@ void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SD
 */
 void finDeplacement(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, int checkJump)
 {
-	//Remise à 0 des valeurs absolues x et y du worms
-	if (pWorms->xAbs != pWorms->wormsSurface->clip_rect.x || (pWorms->dir == DOWN || pWorms->dir == UP))	//Si la valeur absolu de x du worms est differente de celle de la surface (on fait pas du surplace) ou que le worms se dirige vers le haut ou le bas (saut sur place)
+	/*Remise à 0 des valeurs absolues x et y du worms*/
+	if ((pWorms->xAbs != pWorms->wormsSurface->clip_rect.x) || pWorms->dir == DOWN || pWorms->dir == UP)	//Si la valeur absolu de x du worms est differente de celle de la surface (on fait pas du surplace) ou que le worms se dirige vers le haut ou le bas (saut sur place)
 		pWorms->yAbs = pWorms->wormsSurface->clip_rect.y;	//Valeur absolu de y  = valeur de y de la surface du worms
 	pWorms->xAbs = pWorms->wormsSurface->clip_rect.x;	//Valeur absolu de x  = valeur de x de la surface du worms
 
-	//Remise à 0 des booleens
+	/*Remise à 0 des booleens*/
 	if (checkJump || (pInput->jumpOnGoing && checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, DOWN)))	//Si checkJump est à 1 (un saut n'est pas possible) ou que l'on touche le sol (donc fin de déplacement)
 		pInput->jumpOnGoing = 0;	//Remise à 0 du booleen indiquant un saut en cours
 	if (pInput->jump)	//Si le booleen de la touche espace est à 1
 		pInput->jump = 0;	//Remise à 0 du booleen de la touche espace
 	
-	//Remise à 0 des directions
+	/*Remise à 0 des directions*/
 	if (pInput->direction != NONE)	//Si la direction clavier n'est pas NONE
 		pInput->direction = NONE;	//Remise à NONE de la direction clavier
 	pWorms->dir = DOWN;	//Set de la direction du worms vers le bas pour detecter le sol et une eventuelle chute
 
-	//Remise à 0 des valeurs des vecteurs vitesse
+	/*Remise à 0 des valeurs des vecteurs vitesse*/
 	pWorms->vitx = 0;	//Remise à 0 de la valeur du vecteur de vitesse horizontale
 	pWorms->vity = 0;	//Remise à 0 de la valeur du vecteur de vitesse verticale
 }
@@ -224,15 +226,15 @@ enum DIRECTION calculDirectionDeplacement(int xRel, int yRel, enum DIRECTION sen
 			}
 			break;
 		case UPLEFT:
-			if (xRel > -59 && yRel < 62)
+			if (xRel > -56 && yRel < 60)
 				return UPLEFT;
-			else if (xRel < -59 && yRel < 62)
+			else if (xRel < -56 && yRel < 60)
 				return DLEFT;
 			break;
 		case UPRIGHT:
-			if (xRel <= 59 && yRel < 62)
+			if (xRel < 56 && yRel < 60)
 				return UPRIGHT;
-			else if (xRel > 59 && yRel < 62)
+			else if (xRel > 56 && yRel < 60)
 				return DRIGHT;
 			break;
 		}

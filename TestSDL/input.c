@@ -243,7 +243,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 */
 void inputsJumpWorms(Input* pInput, Worms* pWorms)
 {
-	//On verifie qu'on est pas deja dans un saut
+	/*On verifie qu'on est pas deja dans un saut*/
 	if (!pInput->jumpOnGoing)
 	{
 		//Recuperation des informations relatives à la direction du worms pour un deplacement au sol
@@ -311,6 +311,8 @@ void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamer
 	if (pInput->bombe)
 	{
 		static int rW, rH;
+		Mix_PlayChannel(2, sndFx, 0);
+
 		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
 		explosion((int)(pInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x), (int)(pInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y), 50, pMapTerrain->imageMapSurface, pTextureDisplay);
 		pInput->bombe = 0;

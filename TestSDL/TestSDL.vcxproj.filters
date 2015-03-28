@@ -71,5 +71,8 @@
     <ClInclude Include="physique.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

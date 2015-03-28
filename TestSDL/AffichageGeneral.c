@@ -231,6 +231,18 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 			fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
 		return -1;
 	}
+	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
+	{
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+		{
+			if (logFile != NULL)
+				fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
+			
+		}
+		music = Mix_LoadMUS(sndTEST);
+		Mix_PlayMusic(music, 1);
+		sndFx = Mix_LoadWAV(ExploMed);
+	}
 	if (logFile != NULL)
 		fprintf(logFile, "initSWR : SUCCESS.\n\n");
 	return 1;
@@ -238,12 +250,13 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 
 
 /**
-* \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput)
-* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL et la SDL_Image.
+* \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay)
+* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL.
 *
 * \param[in] pWindow, adresse du pointeur de la fenêtre.
 * \param[in] pRenderer, adresse du pointeur du renderer.
 * \param[in] pInput, adresse du pointeur de la structure Input.
+* \param[in] pDisplay, adresse de la texture display.
 */
 void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay)
 {
@@ -270,10 +283,27 @@ void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL
 	}
 	TTF_Quit();
 	IMG_Quit();
+	cleanSounds();
+	Mix_Quit();
 	SDL_Quit();
 	if (logFile != NULL)
 		fprintf(logFile, "cleanUp : DONE.\n");
 }
+
+
+/**
+* \fn void cleanSounds()
+* \brief Détruit et libere les differents sons du jeu.
+*
+*/
+void cleanSounds()
+{
+	Mix_FreeMusic(music);
+	music = NULL;
+	Mix_FreeChunk(sndFx);
+	sndFx = NULL;
+}
+
 
 /**
 * \fn SDL_Window * creerFenetre(const int w, const int h, const char * nom)
@@ -779,12 +809,12 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 * \brief Update l'affichage de deux worms supperpose .
 *
 * \param[in] worms, tableau de worms.
+* \param[in] pTexture, pointeur vers la texture globale cree avec createGlobalTexture.
 * \param[in] worms1, indice du worms numero 1.
 * \param[in] worms2, indice du worms numero 2.
-* \param[in] pTexture, pointeur vers la texture globale cree avec createGlobalTexture.
 * \return error, -1 = FAIL, 0 = SUCCESS
 */
-int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2)
+int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2, SDL_Surface* pSurfaceMap)
 {
 	Uint32* pixelWrite = NULL;
 	Uint32 pixelRead;
@@ -827,7 +857,12 @@ int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wor
 			SDL_GetRGBA(pixelRead, pSurfaceWorms2->format, &r, &g, &b, &a);
 			if (a < 200)
 			{
-				pixelRead = ReadPixel(pSurfaceWorms1, (x - x0), y - y0);
+				pixelRead = ReadPixel(pSurfaceWorms1, MY_ABS(x - x0), MY_ABS(y - y0));
+				SDL_GetRGBA(pixelRead, pSurfaceWorms1->format, &r, &g, &b, &a);
+				if (a < 200)
+				{
+					pixelRead = ReadPixel(pSurfaceMap, x, y);
+				}
 			}
 			pixelWrite[(x - xStart) + (y - yStart)* rect.w] = pixelRead;
 		}
