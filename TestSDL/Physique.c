@@ -343,7 +343,8 @@ void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Te
 			updateScreen(pRenderer, 2, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL);
 		}
 	}
-
+	if (logFile != NULL)
+		fprintf(logFile, "initGameWorms : DONE.\n\n");
 }
 
 /**

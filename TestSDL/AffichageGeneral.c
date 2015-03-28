@@ -511,6 +511,8 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 		if (camera->x < 0)camera->x = 0;
 		if (camera->y < 0)camera->y = 0;
 	}
+	if (logFile != NULL)
+		fprintf(logFile, "initCameras : DONE.\n\n");
 }
 
 /**
