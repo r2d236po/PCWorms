@@ -195,7 +195,7 @@ int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision
 		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
 			pWorms->wormsSurface->clip_rect.x += deplacement;
-			animationWorms(pWorms, indexAnim, pInput->direction);
+			//animationWorms(pWorms, indexAnim, pInput->direction);
 			if (indexAnim == 14)
 			{
 				indexAnim = 0;

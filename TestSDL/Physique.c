@@ -62,10 +62,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 	static int xPrec = 0, yPrec = 0, finAnim = 0;
 	static enum DIRECTION directionPrec = NONE;
 	int onGround = !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, DOWN);
-	if (!finAnim)
-		pInput->direction = pWorms->dirSurface;
-
-	if (pInput->jumpOnGoing || pInput->direction != NONE || pInput->jump  || !onGround)
+	if (pInput->jumpOnGoing || pInput->direction != NONE || pInput->jump /*|| !finAnim */ || !onGround)
 	{
 		if (!start && !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pWorms->dir))
 		{
@@ -97,7 +94,9 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 
 		/*Fonction de déplacement du worms si non saut*/
 		if (!pInput->jumpOnGoing && !retournement)
+		{
 			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface);
+		}
 
 		/*Determination de la direction du saut*/
 		pWorms->dir = calculDirectionDeplacement((pWorms->wormsSurface->clip_rect.x - xPrec), (pWorms->wormsSurface->clip_rect.y - yPrec));
@@ -114,7 +113,6 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 				retournement = 0;
 			}
 			retournement = 0;
-			pInput->direction = NONE;
 		}
 		collision = gestionCollision(pInput->acceleration, pMapTerrain->imageMapSurface, pWorms->wormsSurface, &pWorms->dir);
 
@@ -125,20 +123,6 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 			retournement = 0;
 			t = 0;
 			start = 0;
-			if (!finAnim)
-			{
-				finAnim = 1;
-				switch (pWorms->dirSurface)
-				{
-				case RIGHT:
-					pWorms->wormsSurface->pixels = pWorms->wormsSurfaceRight->pixels;
-					break;
-				case LEFT:
-					pWorms->wormsSurface->pixels = pWorms->wormsSurfaceLeft->pixels;
-					break;
-				}
-			}
-			
 		}
 
 		/*Mise à jour de l'affichage*/
@@ -147,9 +131,9 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		/*Indicateurs de déplacement et de raffraichissement de l'image*/
 		pInput->deplacement = 1;
 		pInput->raffraichissement = 1;
+		pInput->direction = NONE;
 		xPrec = pWorms->wormsRect.x;
 		yPrec = pWorms->wormsRect.y;
-		pInput->direction = NONE;
 	}
 	else
 	{
