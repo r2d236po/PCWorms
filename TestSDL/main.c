@@ -17,6 +17,7 @@ int main(int argc, char** argv)
 		if (logFile != NULL)
 			fprintf(logFile, "mainFenetre : FAILURE.\n");
 	}
+	saveGame(game);
 	destroyJeu(&game);
 	if (logFile != NULL)
 	{

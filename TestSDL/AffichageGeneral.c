@@ -28,16 +28,13 @@ int mainFenetre(Jeu * jeu)
 			return -1;
 		}
 		//Initialisation du terrain
-		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/fond2.png", jeu->nomMap) < 0)
+		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
 		{
 			if (logFile != NULL)
 				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
-
-		//Initialisation des caméras
-		initCameras(pRenderer, jeu->pMapTerrain, &camera, jeu->equipes[0]->worms[0]);
 
 		//Initialisation de l'affichage
 		if (createGlobalTexture(jeu->pMapTerrain->imageMapSurface, &display, pRenderer, &camera) < 0)
@@ -48,10 +45,11 @@ int mainFenetre(Jeu * jeu)
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
-		//updateGlobaleTexture(mainMap->imageMapSurface, worms1->wormsSurface, display, &worms1->wormsRect);
 
+		//Initialisation de la caméra
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
-		updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, display, &camera, NULL);
+
+		//Initialisation des worms
 		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
 		if (loadSounds(ExploMed, 0) < 0)
 		{
@@ -453,7 +451,7 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 			SDL_GetRendererOutputSize(pRenderer, &w, &h);
 			temp.w = w;
 			temp.h = h;
-			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, &temp);
+			SDL_RenderCopy(pRenderer, map->imageBackground, NULL,NULL);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);

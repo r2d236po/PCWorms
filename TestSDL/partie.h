@@ -32,5 +32,6 @@ void destroyEquipe(Equipe ** team, int nbE);
 int vieEquipe(Equipe * team);
 void mainInit(int nbE, int nbWpE);	// Initialise les polices
 void destroyPolice();
+int saveGame(Jeu* jeu);
 
 #endif

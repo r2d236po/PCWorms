@@ -49,6 +49,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 		fprintf(logFile, "nouveauJeu : SUCCESS.\n\n");
 	return jeu;
 }
+
 /**
 * \fn void destroyJeu(Jeu ** game)
 * \brief Detruit un jeu et libere la memoire.
@@ -189,4 +190,44 @@ void mainInit(int nbE, int nbWpE)
 void destroyPolice()
 {
 	TTF_CloseFont(globalVar.FontName);
+}
+
+/**
+* \fn int saveGame(Jeu* jeu)
+* \brief Sauvegarde les résultat de la partie
+*
+* \param[in] jeu, pointeur vers la structure du jeu
+* \returns  1 = succes, 0 = fail
+*/
+int saveGame(Jeu* jeu)
+{
+	FILE* file = fopen("Resultat de la Partie.txt", "w+");
+	int indexEquipe = 0, indexWorms = 0;
+	if (file == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "saveGame : FAILURE, ouverture du fichier d'enregistrement.");
+		return 0;
+	}
+	fprintf(file, "Resultat de la partie : \n\n");
+	fprintf(file, "\tTemps de jeu : %d secondes.\n", 1000 - jeu->temps);
+	fprintf(file, "\tMap jouée : %s.\n", jeu->nomMap);
+	fprintf(file, "\tNombre d'equipes : %d.\n", jeu->nbEquipe);
+	fprintf(file, "\tNombre de worms par equipe : %d.\n\n", globalVar.nbWormsEquipe);
+	for (indexEquipe = 0; indexEquipe < jeu->nbEquipe; indexEquipe++)
+	{
+		fprintf(file, "Bravo à l'équipe %d composée des braves : \n", indexEquipe + 1);
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
+		{
+			fprintf(file, "\t%s,", jeu->equipes[indexEquipe]->worms[indexWorms]->nom);
+			if (jeu->equipes[indexEquipe]->worms[indexWorms]->vie == 0)
+				fprintf(file, "\tTu es mort comme un héros !\n");
+			else fprintf(file, "\tFélicitation pour avoir fait un massacre chez l'ennemie !\n");
+		}
+		fprintf(file, "\n\n");
+	}
+	if (logFile != NULL)
+		fprintf(logFile, "saveGame : SUCCESS.");
+	fclose(file);
+	return 1;
 }

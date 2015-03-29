@@ -42,13 +42,11 @@ iniInput : SUCCESS.
 initialisationTerrain : START :
 
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/fond2.png.
+	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
 	nom du fichier : ../assets/pictures/mapHD2.png.
 
 initialisationTerrain : SUCCESS.
-
-initCameras : DONE.
 
 createGlobalTexture : SUCCESS.
 
@@ -64,7 +62,7 @@ destroyMap : DONE.
 cleanSounds : DONE.
 cleanUp : DONE.
 mainFenetre : SUCCESS.
-destroyWorms : DONE.
+saveGame : SUCCESS.destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 
