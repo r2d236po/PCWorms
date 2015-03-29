@@ -51,7 +51,8 @@ destroyMap : DONE.
 cleanSounds : DONE.
 cleanUp : DONE.
 mainFenetre : SUCCESS.
-saveGame : SUCCESS.destroyWorms : DONE.
+saveGame : SUCCESS.
+destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 

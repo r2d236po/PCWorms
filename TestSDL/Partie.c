@@ -227,7 +227,7 @@ int saveGame(Jeu* jeu)
 		fprintf(file, "\n\n");
 	}
 	if (logFile != NULL)
-		fprintf(logFile, "saveGame : SUCCESS.");
+		fprintf(logFile, "saveGame : SUCCESS.\n");
 	fclose(file);
 	return 1;
 }

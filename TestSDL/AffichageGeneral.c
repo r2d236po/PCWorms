@@ -51,7 +51,7 @@ int mainFenetre(Jeu * jeu)
 
 		//Initialisation des worms
 		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
-		if (loadSounds(ExploMed, 0) < 0)
+		if (loadSounds(BipExplo, 0) < 0)
 		{
 			if (logFile != NULL)
 				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
