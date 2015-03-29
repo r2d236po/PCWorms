@@ -7,7 +7,7 @@
 
 int mainFenetre(Jeu * jeu)
 {
-	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
+	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE, temps = 0;
 	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
 	SDL_Window * pWindow = NULL;	//déclaration de la window
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
@@ -80,6 +80,11 @@ int mainFenetre(Jeu * jeu)
 			//Gestion du frame Rate
 			frameRate(frame_max);
 			frame_max = SDL_GetTicks() + FRAME_RATE;
+			if ((SDL_GetTicks() - temps) >= 1000)
+			{
+				temps = SDL_GetTicks();
+				jeu->temps -= 1;
+			}
 		}
 		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
@@ -866,7 +871,13 @@ int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wor
 	return 0;
 }
 
-
+/**
+* \fn int wormsOverlay(Worms** worms)
+* \brief Regarde si deux worms se supperpose.
+*
+* \param[in] worms, tableau de worms.
+* \return error, -1 = FAIL, 0 = SUCCESS
+*/
 int wormsOverlay(Worms** worms)
 {
 	int i = 0, xPrec = 0, xNow = 0, j = 0, k = 0, yPrec = 0;

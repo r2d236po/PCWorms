@@ -13,7 +13,7 @@ void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SD
 
 /*Fonction diverses*/
 void finDeplacement(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, int check);
-enum DIRECTION calculDirectionDeplacement(int xRel, int yRel, enum DIRECTION sensSaut, Input* pInput);
+enum DIRECTION calculDirectionDeplacement(int dx, int dy);
 int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION direction);
 void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera);
 int rand_a_b(int a, int b);

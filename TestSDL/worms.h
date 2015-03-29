@@ -34,7 +34,7 @@ void destroyWorms(Worms** wormsTab, int nbWorms);	//détruit un worms
 void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
 
 /*Fonctions diverses*/
-char retournementWorms(Input* pInput, Worms* pWorms);
+int retournementWorms(Input* pInput, Worms* pWorms);
 void swapSurface(Worms* pWorms);
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);
 void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay);

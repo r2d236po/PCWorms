@@ -2,22 +2,11 @@ Start of session :
 
 mainInit : DONE.
 	nombre d'equipes : 1.
-	nombre de worms par equipe : 2.
+	nombre de worms par equipe : 1.
 
 nouveauJeu : START :
 
 nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/worms_G.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/worms_D.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -44,7 +33,7 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/mapHD2.png.
+	nom du fichier : ../assets/pictures/maptest3.png.
 
 initialisationTerrain : SUCCESS.
 

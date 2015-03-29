@@ -8,7 +8,7 @@
 *
 * \param[in] file, chaine de caractères correspondant au nom du fichier image du worms.
 *
-* \returns pointeur vers la structure worms créé, NULL si echec
+* \returns pointeur vers la structure worms créée, NULL si echec
 */
 Worms* createWorms(char* name)
 {
@@ -102,7 +102,7 @@ Worms* createWorms(char* name)
 void destroyWorms(Worms** wormsTab, int nbWorms)
 {
 	int i;
-	for (i = 0; i < nbWorms; i++) 
+	for (i = 0; i < nbWorms; i++)
 	{
 		if (wormsTab[i]->wormsSurface != NULL)
 		{
@@ -146,13 +146,14 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 * \param[in] surfaceCollision, pointeur vers la surface de la map
 * \param[in/out] retournement, parametre indiquant un retournement du worms, peut etre modifie par la fonction
 * \param[in/out] dir, direction de deplacement du worms, peut etre modifie par la fonction
+* \return void
 */
 void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision)
 {
 	int deplacement = 0;
-	if (pInput->direction != UP)
+	if (pInput->direction != NONE)
 	{
-		switch (pWorms->dir)
+		switch (pInput->direction)
 		{
 		case RIGHT:
 			deplacement = pInput->acceleration;
@@ -167,11 +168,11 @@ void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollisio
 			deplacement = pInput->acceleration;
 			break;
 		}
-		if (pWorms->dir == RIGHT || pWorms->dir == LEFT)
+		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
 			pWorms->wormsSurface->clip_rect.x += deplacement;
 		}
-		else if (pWorms->dir == UP || pWorms->dir == DOWN)
+		else if (pInput->direction == UP || pInput->direction == DOWN)
 		{
 			pWorms->wormsSurface->clip_rect.y += deplacement;
 		}
@@ -183,7 +184,7 @@ void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollisio
 		{
 			pWorms->wormsSurface->clip_rect.y -= deplacement;
 		}
-		pInput->direction = NONE;
+		//pInput->direction = NONE;
 	}
 
 }
@@ -191,22 +192,19 @@ void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollisio
 
 
 /**
-* \fn char retournementWorms(Input* pInput, Worms* pWorms)
+* \fn int retournementWorms(Input* pInput, Worms* pWorms)
 * \brief Detecte un retournement du worms.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
 * \param[in] pWorms, pointeur du worms a tester
 * \returns retournement, booleen indiquant s'il y a eu retournements
 */
-char retournementWorms(Input* pInput, Worms* pWorms)
+int retournementWorms(Input* pInput, Worms* pWorms)
 {
-	char retournement = 0;
-	if (pInput->direction != NONE)
+	int retournement = 0;
+	if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (pWorms->dirSurface != pInput->direction))
 	{
-		if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (pWorms->dirSurface != pInput->direction))
-		{
-			retournement = 1;
-		}
+		retournement = 1;
 	}
 	return retournement;
 }
@@ -245,8 +243,9 @@ void swapSurface(Worms* pWorms)
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
 	int dead = 0;
-	if ((pWorms->wormsSurface->clip_rect.y + pWorms->wormsSurface->h == pSurfaceMap->h) && checkDeplacement(pSurfaceMap, pWorms->wormsSurface, DOWN))
+	if ((pWorms->wormsSurface->clip_rect.y + pWorms->wormsSurface->h == pSurfaceMap->h) && !checkDeplacement(pSurfaceMap, pWorms->wormsSurface, DOWN))
 	{
+		pWorms->wormsSurface->clip_rect.y = pSurfaceMap->h - pWorms->wormsSurface->h;
 		pWorms->wormsSurface->pixels = pWorms->wormsSurfaceTomb->pixels;
 		pWorms->vie = 0;
 		dead = 1;
