@@ -221,7 +221,7 @@ void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixel de la surface
 
 	//Set the pixel
-	if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))	//Test que le pixel est bien dans la surface
+	//if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))	//Test que le pixel est bien dans la surface
 		pixels[(y * pSurface->w) + x] = pixelToWrite;	//Ecrit le pixel aux coordonnées passées en paramètre
 }
 

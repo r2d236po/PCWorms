@@ -18,6 +18,18 @@ Worms* createWorms(char* name)
 	SDL_Surface * wormsSurfaceRight = NULL;
 	SDL_Surface * texteSurface = NULL;
 	SDL_Surface * tombeSurface = NULL;
+	SDL_Rect clip;
+	clip.x = 445;
+	clip.y = 28;
+	clip.w = 31;
+	clip.h = 30;
+	sprite = loadImage("../assets/pictures/sprite.png");
+	if (sprite == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
+		return NULL;
+	}
 	if (logFile != NULL)
 		fprintf(logFile, "createWorms : START :\n\n");
 	worms = (Worms*)malloc(sizeof(Worms));
@@ -31,10 +43,12 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
-	wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
-	wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
+	//wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
+	wormsSurfaceLeft = SDL_CreateRGBSurface(0, 31, 32, 32, RMASK, GMASK, BMASK, AMASK);
+	//wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
+	wormsSurfaceRight = SDL_CreateRGBSurface(0, 31, 32, 32, RMASK, GMASK, BMASK, AMASK);
 	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || tombeSurface == NULL)
+	if (tombeSurface == NULL)
 	{
 		if (logFile != NULL)
 			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
@@ -42,7 +56,7 @@ Worms* createWorms(char* name)
 		return NULL;
 	}
 	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
-	if (wormsSurface == NULL)
+	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL)
 	{
 		if (logFile != NULL)
 			fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
@@ -50,6 +64,10 @@ Worms* createWorms(char* name)
 		return NULL;
 
 	}
+	SDL_BlitSurface(sprite, &clip, wormsSurfaceLeft, NULL);
+	clip.x = 24;
+	clip.y = 84;
+	SDL_BlitSurface(sprite, &clip, wormsSurfaceRight, NULL);
 
 	//texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
 
@@ -57,7 +75,7 @@ Worms* createWorms(char* name)
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
 	worms->wormsSurface = wormsSurface;
-	worms->wormsSurface->pixels = worms->wormsSurfaceRight->pixels;
+	worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 	worms->wormsSurfaceTomb = tombeSurface;
 
 	//Initialisations liees a l'image du worms
@@ -76,7 +94,7 @@ Worms* createWorms(char* name)
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
 	worms->vitx = 0;
 	worms->vity = 0;
-	worms->dirSurface = RIGHT;
+	worms->dirSurface = LEFT;
 	worms->dir = DOWN;
 	worms->arme = NULL;
 
@@ -132,6 +150,11 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 		free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
+	if (sprite != NULL)
+	{
+		SDL_FreeSurface(sprite);
+		sprite = NULL;
+	}
 	if (logFile != NULL)
 		fprintf(logFile, "destroyWorms : DONE.\n");
 }
@@ -148,9 +171,10 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 * \param[in/out] dir, direction de deplacement du worms, peut etre modifie par la fonction
 * \return void
 */
-void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision)
+int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision)
 {
 	int deplacement = 0;
+	static int indexAnim = 0;
 	if (pInput->direction != NONE)
 	{
 		switch (pInput->direction)
@@ -171,6 +195,12 @@ void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollisio
 		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
 			pWorms->wormsSurface->clip_rect.x += deplacement;
+			animationWorms(pWorms, indexAnim, pInput->direction);
+			if (indexAnim == 14)
+			{
+				indexAnim = 0;
+			}
+			else indexAnim++;
 		}
 		else if (pInput->direction == UP || pInput->direction == DOWN)
 		{
@@ -184,9 +214,10 @@ void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollisio
 		{
 			pWorms->wormsSurface->clip_rect.y -= deplacement;
 		}
-		//pInput->direction = NONE;
 	}
-
+	if (indexAnim == 0)
+		return 1;
+	else return 0;
 }
 
 
@@ -275,6 +306,33 @@ void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_
 }
 
 
+void animationWorms(Worms* pWorms, int i, enum DIRECTION direction)
+{
+	SDL_Rect clip;
+	Uint32 pixelRead;
+	int x, y;
+	switch (direction)
+	{
+	case RIGHT:
+		clip.x = 24 + i * 31;
+		clip.y = 84;
+		break;
+	case LEFT:
+		clip.x = 445 - (i)* 31;
+		clip.y = 28;
+		break;
+	}
+	clip.w = 31;
+	clip.h = 30;
+	for (y = clip.y; y < (clip.y + clip.h); y++)
+	{
+		for (x = clip.x; x < (clip.x + clip.w); x++)
+		{
+			pixelRead = ReadPixel(sprite, x, y);
+			DrawPixel(pWorms->wormsSurface, x - clip.x, y - clip.y, pixelRead);
+		}
+	}
+}
 
 
 

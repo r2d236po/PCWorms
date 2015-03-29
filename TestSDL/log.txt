@@ -8,12 +8,10 @@ nouveauJeu : START :
 
 nouvelleEquipe : START :
 
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/sprite.png.
 createWorms : START :
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/worms_G.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/worms_D.png.
 loadImage : SUCCESS.
 	nom du fichier : ../assets/pictures/Tombe2_SD.png.
 
@@ -33,7 +31,7 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest3.png.
+	nom du fichier : ../assets/pictures/map.png.
 
 initialisationTerrain : SUCCESS.
 

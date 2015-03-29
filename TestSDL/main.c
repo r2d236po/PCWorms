@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 		fprintf(logFile, "Start of session : \n\n");
 
 	mainInit(1, 1);
-	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3);
+	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP);
 	if (mainFenetre(game) < 0)
 	{
 		if (logFile != NULL)

@@ -82,5 +82,5 @@ typedef struct{		//structure gérant les polices
 
 GlobalVariable globalVar;
 FILE* logFile;
-
+SDL_Surface* sprite;
 #endif
