@@ -95,7 +95,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		/*Fonction de déplacement du worms si non saut*/
 		if (!pInput->jumpOnGoing && !retournement)
 		{
-			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface);
+			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface,0);
 		}
 
 		/*Determination de la direction du saut*/
@@ -109,7 +109,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 			if (!checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pWorms->dirSurface))
 			{
 				swapSurface(pWorms);
-				deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface);
+				deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface, 0);
 				retournement = 0;
 			}
 			retournement = 0;
@@ -308,11 +308,11 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 		pSurfaceMotion->clip_rect.y += 1;
 		break;
 	}
-	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir))
+	if (detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, &dir, 1))
 	{
 		pSurfaceMotion->clip_rect.y = y;
 		pSurfaceMotion->clip_rect.x = x;
-		if ((direction == LEFT || direction == RIGHT) && dir == DOWN)
+		if ((direction == LEFT || direction == RIGHT || direction == UP) && dir == DOWN)
 			return 1;
 		return 0;
 	}

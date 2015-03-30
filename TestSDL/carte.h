@@ -32,8 +32,8 @@ void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 /*Détection et gestion des collisions*/
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
 int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
-int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection);
-enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone);
+int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int checkMode);
+enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);
 void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* yStart, int* yEnd, int zone);
 int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceMotion, enum DIRECTION* pDirection);
 void calculOrdreBalayage(enum DIRECTION direction, int ordre[4]);

@@ -31,7 +31,7 @@ Worms* createWorms(char* name);	//Créé un worms à partir d'une image
 void destroyWorms(Worms** wormsTab, int nbWorms);	//détruit un worms
 
 /*Deplacement d'un worms*/
-int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision);	//déplace un worms au clavier
+int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision, int swap);	//déplace un worms au clavier
 void animationWorms(Worms* pWorms, int i, enum DIRECTION direction);
 
 /*Fonctions diverses*/

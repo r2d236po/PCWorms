@@ -147,7 +147,7 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIREC
 
 
 /**
-* \fn enum DIRECTION calculDirection(enum DIRECTION direction, int zone)
+* \fn enum DIRECTION calculDirection(enum DIRECTION direction, int zone, int checkMode)
 *
 * \brief Determine la direction de la collision.
 *
@@ -156,7 +156,7 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIREC
 * \return DIRECTION, direction de la collision
 */
 
-enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone)
+enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode)
 {
 	if (direction == RIGHT || direction == LEFT)
 	{
@@ -170,6 +170,8 @@ enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone)
 			break;
 		}
 	}
+	if (checkMode && direction == UP && zone == 8)
+		return DOWN;
 	return direction;
 }
 
@@ -222,7 +224,7 @@ void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 
 	//Set the pixel
 	//if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))	//Test que le pixel est bien dans la surface
-		pixels[(y * pSurface->w) + x] = pixelToWrite;	//Ecrit le pixel aux coordonnées passées en paramètre
+	pixels[(y * pSurface->w) + x] = pixelToWrite;	//Ecrit le pixel aux coordonnées passées en paramètre
 }
 
 
@@ -377,7 +379,7 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 * \param[in] pDirection, pointeur de la direction du deplacement du worms
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
-int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
+int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int checkMode)
 {
 	//Variables d'acquisitions
 	Uint32 pixelS1 = 0;	//Variable stockant le pixel en cours de lecture de la surface de la map
@@ -427,7 +429,7 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 				else	//Au moins l'un des pixels n'est pas transparent
 				{
 					collision = 1;	//Collision = 0 -> pas de collision
-					*pDirection = calculDirectionCollision(*pDirection, zone[balayageGen]);	//Calcul de la direction de la collision pour affiner le traitement
+					*pDirection = calculDirectionCollision(*pDirection, zone[balayageGen], checkMode);	//Calcul de la direction de la collision pour affiner le traitement
 				}
 			}
 		}
@@ -586,7 +588,7 @@ int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceM
 {
 	int t = 0;
 	int collision = 0;
-	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, pDirection) && t < 60)	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
+	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, pDirection, 0) && t < 60)	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
 	{
 		switch (*pDirection)	//Switch de la valeur de derriere le pointeur pDirection, indiquant le sens de détection de la collision
 		{

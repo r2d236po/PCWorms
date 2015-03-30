@@ -161,7 +161,7 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 
 
 /**
-* \fn void deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision, int* retournement, enum DIRECTION* dir)
+* \fn int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision, int swap)
 * \brief Deplace un worms dans l'espace.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
@@ -171,7 +171,7 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 * \param[in/out] dir, direction de deplacement du worms, peut etre modifie par la fonction
 * \return void
 */
-int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision)
+int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision, int swap)
 {
 	int deplacement = 0;
 	static int indexAnim = 0;
@@ -195,12 +195,16 @@ int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision
 		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
 			pWorms->wormsSurface->clip_rect.x += deplacement;
-			//animationWorms(pWorms, indexAnim, pInput->direction);
-			if (indexAnim == 14)
+			if (!swap)
 			{
-				indexAnim = 0;
+				animationWorms(pWorms, indexAnim, pInput->direction);
+				if (indexAnim == 14)
+				{
+					indexAnim = 0;
+				}
+				else indexAnim++;
 			}
-			else indexAnim++;
+			else indexAnim = 0;
 		}
 		else if (pInput->direction == UP || pInput->direction == DOWN)
 		{
@@ -314,12 +318,28 @@ void animationWorms(Worms* pWorms, int i, enum DIRECTION direction)
 	switch (direction)
 	{
 	case RIGHT:
-		clip.x = 24 + i * 31;
-		clip.y = 84;
+		if (pWorms->dirSurface == RIGHT)
+		{
+			clip.x = 24 + i * 31;
+			clip.y = 84;
+		}
+		else
+		{
+			clip.x = 11 + i * 31;
+			clip.y = 28;
+		}
 		break;
 	case LEFT:
-		clip.x = 445 - (i)* 31;
-		clip.y = 28;
+		if (pWorms->dirSurface == LEFT)
+		{
+			clip.x = 445 - (i)* 31;
+			clip.y = 28;
+		}
+		else
+		{
+			clip.x = 458 - (i)* 31;
+			clip.y = 84;
+		}
 		break;
 	}
 	clip.w = 31;
