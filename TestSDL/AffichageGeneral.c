@@ -515,21 +515,39 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int wW = 0, hW = 0, w = 0, h = 0;
-	float x = 0, y = 0;
+	float x = 0, y = 0, offsetx = 0, offsety;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
-	camera->h = camera->h - 10;
-	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
 
-	x = (float)(pInput->cursor.now.x / (float)wW) - (float)(1 / 2);
-	y = (float)(pInput->cursor.now.y / (float)hW) - (float)(1 / 2);
-	camera->x += (int)x * 30;
-	camera->y += (int)y * 30;
+	offsety = camera->h;
+	camera->h = camera->h - 10;
+	offsety -= camera->h;
+	offsetx = camera->w;
+	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
+	offsetx -= camera->w;
+
+	x = 2 * ((float)(pInput->cursor.now.x / (float)wW) - 0.5);
+	y = 2 * ((float)(pInput->cursor.now.y / (float)hW) - 0.5);
+	
+	if (x>0.2 || x<-0.2){
+		float coefx = (0.03 * camera->w);
+		if (coefx < offsetx / 2)coefx = offsetx / 2;
+		camera->x += (int)(x * coefx) + offsetx / 2;
+	}
+	else camera->x += offsetx / 2;
+
+	if (y>0.2 || y<-0.2){
+		float coefy = (0.05 * camera->h);
+		if (coefy < offsety / 2)coefy = offsety / 2;
+		camera->y += (int)(y * coefy) + offsety / 2;
+	}
+	else camera->y += offsety / 2;
 
 	if (camera->x < 0)camera->x = 0;
 	if (camera->y < 0)camera->y = 0;
 	if (camera->x + camera->w > w) camera->x = w - camera->w;
 	if (camera->y + camera->h > h) camera->y = h - camera->h;
+
 }
 
 /**
@@ -798,8 +816,8 @@ int wormsOverlay(Worms** wormsTab)
 		if (checkRectOverlay(&wormsTab[i]->wormsSurface->clip_rect, &wormsTab[i - 1]->wormsSurface->clip_rect))
 			return 0;
 	}
-	return 1;
-}
+					return 1;
+				}
 
 /**
 * \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
