@@ -35,7 +35,7 @@ int mainFenetre(Jeu * jeu)
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
-
+		   
 		//Initialisation de l'affichage
 		if (createGlobalTexture(jeu->pMapTerrain->imageMapSurface, &display, pRenderer, &camera) < 0)
 		{
@@ -84,7 +84,7 @@ int mainFenetre(Jeu * jeu)
 			{
 				temps = SDL_GetTicks();
 				jeu->temps -= 1;
-			}
+		}
 		}
 		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
@@ -248,7 +248,7 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 		{
 			if (logFile != NULL)
 				fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
-
+			
 		}
 	}
 	if (logFile != NULL)
@@ -275,13 +275,13 @@ void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL
 	}
 	if ((*pRenderer) != NULL)
 	{
-		SDL_DestroyRenderer(*pRenderer);
-		(*pRenderer) = NULL;
+	SDL_DestroyRenderer(*pRenderer);
+	(*pRenderer) = NULL;
 	}
 	if ((*pWindow) != NULL)
 	{
-		SDL_DestroyWindow(*pWindow);
-		(*pWindow) = NULL;
+	SDL_DestroyWindow(*pWindow);
+	(*pWindow) = NULL;
 	}
 	if ((*pDisplay) != NULL)
 	{
@@ -456,7 +456,7 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 			SDL_GetRendererOutputSize(pRenderer, &w, &h);
 			temp.w = w;
 			temp.h = h;
-			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, NULL);
+			SDL_RenderCopy(pRenderer, map->imageBackground, NULL,NULL);
 			break;
 		case 1:
 			text = va_arg(list, SDL_Texture*);
@@ -521,14 +521,14 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Wor
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (worms == NULL){
-		w = map->imageMapSurface->w;
-		h = map->imageMapSurface->h;
-		camera->x = 0;
-		camera->y = 0;
+	w = map->imageMapSurface->w;
+	h = map->imageMapSurface->h;
+	camera->x = 0;
+	camera->y = 0;
 		if (h > hW || w > wW){
-			camera->h = h;
-			camera->w = (int)(camera->h * ((float)wW / (float)hW));
-		}
+		camera->h = h;
+		camera->w = (int)(camera->h * ((float)wW / (float)hW));
+	}
 	}
 	else{
 		camera->h = worms->wormsSurface->h * 10;
@@ -711,12 +711,12 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 		{
 			pixelRead = ReadPixel(pSurfaceMap, x - pSurfaceMap->clip_rect.x, y - pSurfaceMap->clip_rect.y);
 			SDL_GetRGBA(pixelRead, pSurfaceMap->format, &r, &g, &b, &a);
-			if (a < 150)
-			{
+				if (a < 150)
+				{
 				pixelWrite[x + y *  pSurfaceMap->w] = pixelTransparent;
-			}
-			else
-			{
+				}
+				else
+				{
 				pixelWrite[x + y *  pSurfaceMap->w] = pixelRead;
 			}
 		}

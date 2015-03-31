@@ -45,8 +45,6 @@ loadSounds : SUCCESS.
 
 initCameras : DONE.
 
-initCameras : DONE.
-
 destroyMap : DONE.
 cleanSounds : DONE.
 cleanUp : DONE.
