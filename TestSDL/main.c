@@ -6,16 +6,23 @@
 
 int main(int argc, char** argv)
 {
-	int nbEquipe = 5;
-	int nbWormsEquipe = 5;
+	logFile = fopen("log.txt", "w+");
+	if (logFile != NULL)
+		fprintf(logFile, "Start of session : \n\n");
 
-	Jeu * game = nouveauJeu(nbEquipe, nbWormsEquipe, "../assets/pictures/maptest3.png");
-	
-	//sandboxRenderer();
+	mainInit(1, 1);
+	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3);
 	if (mainFenetre(game) < 0)
 	{
-		printf("Une erreur s'est produite");
+		if (logFile != NULL)
+			fprintf(logFile, "mainFenetre : FAILURE.\n");
 	}
+	saveGame(game);
 	destroyJeu(&game);
+	if (logFile != NULL)
+	{
+		fprintf(logFile, "\n\nEnd of Session.");
+		fclose(logFile);
+	}
 	return 0;
 }

@@ -31,8 +31,11 @@ void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);	//affiche une lign
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace un rectangle en fonction de la souris
 int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface);	//réajuste un rectangle pour pas dépasser de la map
 void frameRate(unsigned int fM);	//gère le framerate
+SDL_Rect initRect(int x, int y, int w, int h);
+int wormsOverlay(Worms** worms);
+int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2, SDL_Surface* pSurfaceMap);
 
-//gestion des inputs
+//gestion de l'affichage
 void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//Zoom In, grossis
@@ -42,9 +45,8 @@ SDL_Surface* crop_surface(SDL_Surface* sprite_sheet, int x, int y, int width, in
 
 //Fonctions de nettoyage
 
-void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput);	//nettoie et quit la SDL
+void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay);	//nettoie et quit la SDL
 void clearRenderer(SDL_Renderer * pRenderer);	//Clear de l'écran
 
-void animationWorms(SDL_Surface * display);
 
 #endif

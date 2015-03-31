@@ -19,7 +19,7 @@ typedef struct {			//Structure équipe
 typedef struct {				//Structure d'une partie
 	Equipe** equipes;			//Tableau d'équipes
 	int nbEquipe;				//Nombre d'équipe
-	Terrain map;				//Carte en cours
+	Terrain* pMapTerrain;				//Carte en cours
 	int temps;					//Durée
 	char nomMap[100];
 } Jeu;
@@ -30,5 +30,8 @@ void destroyJeu(Jeu ** game);
 Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms);
 void destroyEquipe(Equipe ** team, int nbE);
 int vieEquipe(Equipe * team);
+void mainInit(int nbE, int nbWpE);	// Initialise les polices
+void destroyPolice();
+int saveGame(Jeu* jeu);
 
 #endif
