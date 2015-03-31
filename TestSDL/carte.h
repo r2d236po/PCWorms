@@ -25,10 +25,6 @@ void destroyMap(Terrain** p_pMapTerrain);	//détruit un terrain
 int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirecion); //Détermine si un objet est hors map et le replace si il faut
 
 
-/*Manipulation des pixels*/
-Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
-void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
-
 /*Détection et gestion des collisions*/
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
 int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);

@@ -8,7 +8,7 @@
 
 /*Gestion de la physique*/
 int gestionPhysique(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Input* pInput, ...);
-void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* map, SDL_Texture* pTextureDisplay);
+void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay);
 void calculPositionRel(int* xRel, int* yRel, int t, float vit_X, float vit_Y, SDL_Surface* pSurface);
 
 /*Fonction diverses*/

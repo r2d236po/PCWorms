@@ -27,6 +27,6 @@ typedef struct {	/* Structure arme */
 } Arme;
 
 
-void explosion(int x, int y, int rayon, SDL_Surface * imageMapSurface, SDL_Texture * ptexture);
+void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture * pTextureDisplay);
 
 #endif

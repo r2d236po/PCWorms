@@ -2,6 +2,7 @@
 #include "input.h"
 #include "physique.h"
 #include "Sounds.h"
+#include "my_stdrFct.h"
 
 
 
@@ -189,19 +190,19 @@ int sandboxRenderer()
 }
 
 /**
-* \fn int initSWR(SDL_Window** pWindow, SDL_Renderer **pRenderer)
+* \fn int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 * \brief Initialisation de la fenêtre.
 *
 *La fonction initSWR initialise la SDL, la SDL_Image, la SDL_TTF et les pointeurs
 *pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
 *Elle retourne 1 si tout c'est bien passé, -1 sinon.
 *
-* \param[in] pWindow, adresse du pointeur pWindow pour l'initialiser
-* \param[in] pRenderer, adresse du pointeur pRenderer pour l'initialiser
+* \param[in] p_pWindow, adresse du pointeur pWindow pour l'initialiser
+* \param[in] p_pRenderer, adresse du pointeur pRenderer pour l'initialiser
 * \returns int, indicateur si la fonction a bien fonctionnée.
 * \returns les pointeurs pWindow et pRenderer
 */
-int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
+int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 {
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -211,20 +212,20 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 		return -1;
 	}
 	/* Création de la fenêtre */
-	*pWindow = creerFenetre(1080, 600, "KaamWorms");
-	if (*pWindow == NULL)
+	*p_pWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (*p_pWindow == NULL)
 	{
 		if (logFile != NULL)
 			fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
 		return -1;
 	}
 	/* Création du renderer */
-	*pRenderer = SDL_CreateRenderer(*pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (*pRenderer == NULL)//gestion des erreurs
+	*p_pRenderer = SDL_CreateRenderer(*p_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (*p_pRenderer == NULL)//gestion des erreurs
 	{
 		if (logFile != NULL)
 			fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
-		cleanUp(pWindow, NULL, NULL, NULL);
+		cleanUp(p_pWindow, NULL, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_Image*/
@@ -232,7 +233,7 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 	{
 		if (logFile != NULL)
 			fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
-		cleanUp(pWindow, pRenderer, NULL, NULL);
+		cleanUp(p_pWindow, p_pRenderer, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_TTF*/
@@ -258,36 +259,36 @@ int initSWR(SDL_Window ** pWindow, SDL_Renderer ** pRenderer)
 
 
 /**
-* \fn void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay)
+* \fn void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 * \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL.
 *
-* \param[in] pWindow, adresse du pointeur de la fenêtre.
-* \param[in] pRenderer, adresse du pointeur du renderer.
-* \param[in] pInput, adresse du pointeur de la structure Input.
-* \param[in] pDisplay, adresse de la texture display.
+* \param[in] p_pWindow, adresse du pointeur de la fenêtre.
+* \param[in] p_pRenderer, adresse du pointeur du renderer.
+* \param[in] p_pInput, adresse du pointeur de la structure Input.
+* \param[in] p_pTextureDisplay, adresse de la texture display.
 */
-void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL_Texture** pDisplay)
+void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 {
-	if ((*pInput) != NULL)
+	if ((*p_pInput) != NULL)
 	{
-		free(*pInput);
-		(*pInput) = NULL;
+		free(*p_pInput);
+		(*p_pInput) = NULL;
 	}
-	if ((*pRenderer) != NULL)
+	if ((*p_pRenderer) != NULL)
 	{
-		SDL_DestroyRenderer(*pRenderer);
-		(*pRenderer) = NULL;
+		SDL_DestroyRenderer(*p_pRenderer);
+		(*p_pRenderer) = NULL;
 	}
-	if ((*pWindow) != NULL)
+	if ((*p_pWindow) != NULL)
 	{
-		SDL_DestroyWindow(*pWindow);
-		(*pWindow) = NULL;
+		SDL_DestroyWindow(*p_pWindow);
+		(*p_pWindow) = NULL;
 	}
-	if ((*pDisplay) != NULL)
+	if ((*p_pTextureDisplay) != NULL)
 	{
 
-		SDL_DestroyTexture(*pDisplay);
-		(*pDisplay) = NULL;
+		SDL_DestroyTexture(*p_pTextureDisplay);
+		(*p_pTextureDisplay) = NULL;
 	}
 	TTF_Quit();
 	IMG_Quit();
@@ -298,80 +299,6 @@ void cleanUp(SDL_Window** pWindow, SDL_Renderer** pRenderer, Input** pInput, SDL
 		fprintf(logFile, "cleanUp : DONE.\n");
 }
 
-
-
-
-
-/**
-* \fn SDL_Window * creerFenetre(const int w, const int h, const char * nom)
-* \brief Cree une fenetre SDL.
-*
-* \param[in] w, largeur de la fenetre
-* \param[in] h, hauteur de la fenetre
-* \param[in] nom, nom de la fenetre
-* \returns pointeur vers la fenetre creee, NULL si echec
-*/
-SDL_Window * creerFenetre(const int w, const int h, const char * nom){
-	SDL_Window * pWindow = NULL;
-	pWindow = SDL_CreateWindow(nom,	//nom de la fenêtre
-		SDL_WINDOWPOS_CENTERED, //position en x de la fenêtre
-		SDL_WINDOWPOS_CENTERED,	//position en y de la fenêtre
-		w,	//largeur de la fenêtre
-		h,	//hauteur de la fenêtre
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);	//propriétés supplémentaires de la fenêtre
-	if (pWindow == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "creerFenetre : FAILURE, erreur de création de la fenêtre: %s.\n", SDL_GetError());
-		return NULL;
-	}
-	if (logFile != NULL)
-		fprintf(logFile, "creerFenetre : SUCCESS.\n");
-	return pWindow;
-}
-
-/**
-* \fn SDL_Surface * loadImage(const char * file)
-* \brief Cree une surface a partir d'une image exterieur.
-*
-* \param[in] file, nom du fichier image a ouvrir
-* \returns pointeur vers la surface creee, NULL si echec
-*/
-SDL_Surface * loadImage(const char * file){
-	SDL_Surface* image = IMG_Load(file);
-	if (image == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
-		return NULL;
-	}
-	if (logFile != NULL)
-		fprintf(logFile, "loadImage : SUCCESS.\n\tnom du fichier : %s.\n", file);
-	return image;
-}
-
-/**
-* \fn SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
-* \brief Cree une texture a partir d'une image exterieur dans le renderer.
-*
-* \param[in] pRenderer, pointeur vers le renderer de la fenetre
-* \param[in] file, nom du fichier image a ouvrir
-* \returns pointeur vers la texture creee, NULL si echec
-*/
-SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
-{
-
-	SDL_Texture * texture = IMG_LoadTexture(pRenderer, file);
-	if (texture == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
-		return NULL;
-	}
-	if (logFile != NULL)
-		fprintf(logFile, "loadTexture : SUCCESS.\n\tnom du fichier : %s.\n", file);
-	return texture;
-}
 
 //Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir)
@@ -506,37 +433,38 @@ void frameRate(unsigned int fM)
 }
 
 /**
-* \fn void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera)
+* \fn void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms)
 * \brief Initialise une camera.
 *
 * \param[in] pRenderer, le renderer de la fenêtre.
 *
-* \param[in] map, la texture de la map.
+* \param[in] pMapTerrain, la texture de la map.
 *
-* \param[in] camera, le rect de la camera à initialiser.
+* \param[in] pCamera, le rect de la camera à initialiser.
 *
+* \param[in] pWorms, pointeur du worms sur lequel on se centre
 * \returns void
 */
-void initCameras(SDL_Renderer * pRenderer, Terrain * map, SDL_Rect * camera, Worms * worms){
+void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms){
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
-	if (worms == NULL){
-		w = map->imageMapSurface->w;
-		h = map->imageMapSurface->h;
-		camera->x = 0;
-		camera->y = 0;
+	if (pWorms == NULL){
+		w = pMapTerrain->imageMapSurface->w;
+		h = pMapTerrain->imageMapSurface->h;
+		pCamera->x = 0;
+		pCamera->y = 0;
 		if (h > hW || w > wW){
-			camera->h = h;
-			camera->w = (int)(camera->h * ((float)wW / (float)hW));
+			pCamera->h = h;
+			pCamera->w = (int)(pCamera->h * ((float)wW / (float)hW));
 		}
 	}
 	else{
-		camera->h = worms->wormsSurface->h * 10;
-		camera->w = camera->h * (int)((float)wW / (float)hW);
-		camera->x = worms->xAbs - (camera->w / 2);
-		camera->y = worms->yAbs - (camera->h / 2);
-		if (camera->x < 0)camera->x = 0;
-		if (camera->y < 0)camera->y = 0;
+		pCamera->h = pWorms->wormsSurface->h * 10;
+		pCamera->w = pCamera->h * (int)((float)wW / (float)hW);
+		pCamera->x = pWorms->xAbs - (pCamera->w / 2);
+		pCamera->y = pWorms->yAbs - (pCamera->h / 2);
+		if (pCamera->x < 0)pCamera->x = 0;
+		if (pCamera->y < 0)pCamera->y = 0;
 	}
 	if (logFile != NULL)
 		fprintf(logFile, "initCameras : DONE.\n\n");
@@ -654,18 +582,18 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 
 
 /**
-* \fn int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Renderer* pRenderer, SDL_Rect* camera)
+* \fn int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** p_pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
 * \brief Cree une texture globale a partir des pixels de toutes les surfaces composant le jeu.
 *
 * \param[in] pSurfaceTab, tableau de pointeur vers les surfaces.
 * \param[in] nbSurface, nombre de surfaces dans le tableau.
-* \param[in] pTexture, adresse du pointeur de la texture a initialiser.
+* \param[in] p_pTextureDisplay, adresse du pointeur de la texture a initialiser.
 * \param[in] pRenderer, pointeur du renderer.
-* \param[in] camera, pointeur de la struture camera.
+* \param[in] pCamera, pointeur de la struture camera.
 * \returns int, indicateur de reussite de la fonction : 0 = succes, -1 = echec
 * \remarks si -1, le pointeur de la structure Texture sera mis a NULL sinon il pointera vers la texture globale.
 */
-int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Renderer* pRenderer, SDL_Rect* camera)
+int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** p_pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
 {
 	int x = 0, y = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
@@ -714,9 +642,9 @@ int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** pTexture, SDL_Re
 	}
 	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
 	SDL_UpdateTexture(textureTemp, NULL, pixelWrite, pSurfaceMap->pitch);
-	*pTexture = textureTemp;
+	*p_pTextureDisplay = textureTemp;
 	textureTemp = NULL;
-	SDL_RenderCopy(pRenderer, *pTexture, camera, &rect);
+	SDL_RenderCopy(pRenderer, *p_pTextureDisplay, pCamera, &rect);
 	SDL_RenderPresent(pRenderer);
 	free(pixelWrite);
 	pixelWrite = NULL;
@@ -746,7 +674,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceModif, NULL))
 		return -1;
 	nombrePixel = pSurfaceModif->w * pSurfaceModif->h;
-	secureRect(pRectSurfaceModif, pSurfaceMap);
+	reajustRect(pRectSurfaceModif, pSurfaceMap);
 	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
 	if (pixelWrite == NULL)
 	{
@@ -784,27 +712,28 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 }
 
 /**
-* \fn void updateWormsOverlay(Worms** worms, int worms1, int worms2)
+* \fn int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int indexWorms1, int indexWorms2)
 * \brief Update l'affichage de deux worms supperpose .
 *
-* \param[in] worms, tableau de worms.
-* \param[in] pTexture, pointeur vers la texture globale cree avec createGlobalTexture.
-* \param[in] worms1, indice du worms numero 1.
-* \param[in] worms2, indice du worms numero 2.
+* \param[in] wormsTab, tableau de worms.
+* \param[in] pTextureDisplay, pointeur vers la texture globale cree avec createGlobalTexture.
+* \param[in] pSurfaceMap, pointeur vers la surface de la map.
+* \param[in] indexWorms1, indice du worms numero 1.
+* \param[in] indexWorms2, indice du worms numero 2.
 * \return error, -1 = FAIL, 0 = SUCCESS
 */
-int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int worms2, SDL_Surface* pSurfaceMap)
+int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int indexWorms1, int indexWorms2)
 {
 	Uint32* pixelWrite = NULL;
 	Uint32 pixelRead;
 	int nombrePixel = 0;
 	Uint8 r = 0, g = 0, b = 0, a = 0;
-	SDL_Surface* pSurfaceWorms1 = worms[worms1]->wormsSurface;
-	SDL_Surface* pSurfaceWorms2 = worms[worms2]->wormsSurface;
+	SDL_Surface* pSurfaceWorms1 = wormsTab[indexWorms1]->wormsSurface;
+	SDL_Surface* pSurfaceWorms2 = wormsTab[indexWorms2]->wormsSurface;
 	SDL_Rect rect;
-	int x = 0, y = 0, h = worms[worms1]->wormsSurface->h, w = worms[worms1]->wormsSurface->w;
-	int y0 = worms[worms1]->wormsSurface->clip_rect.y, x0 = worms[worms1]->wormsSurface->clip_rect.x;
-	int y1 = worms[worms2]->wormsSurface->clip_rect.y, x1 = worms[worms2]->wormsSurface->clip_rect.x;
+	int x = 0, y = 0, h = wormsTab[indexWorms1]->wormsSurface->h, w = wormsTab[indexWorms1]->wormsSurface->w;
+	int y0 = wormsTab[indexWorms1]->wormsSurface->clip_rect.y, x0 = wormsTab[indexWorms1]->wormsSurface->clip_rect.x;
+	int y1 = wormsTab[indexWorms2]->wormsSurface->clip_rect.y, x1 = wormsTab[indexWorms2]->wormsSurface->clip_rect.x;
 	int yStart = y1, xEnd = x0 + w, yEnd = y0 + h, xStart = x1;
 	if (y1 < y0)
 	{
@@ -846,7 +775,7 @@ int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wor
 			pixelWrite[(x - xStart) + (y - yStart)* rect.w] = pixelRead;
 		}
 	}
-	SDL_UpdateTexture(pTexture, &rect, pixelWrite, 4 * rect.w);
+	SDL_UpdateTexture(pTextureDisplay, &rect, pixelWrite, 4 * rect.w);
 
 	free(pixelWrite);
 	pixelWrite = NULL;
@@ -854,44 +783,33 @@ int updateWormsOverlay(Worms** worms, SDL_Texture* pTexture, int worms1, int wor
 }
 
 /**
-* \fn int wormsOverlay(Worms** worms)
+* \fn int wormsOverlay(Worms** wormsTab)
 * \brief Regarde si deux worms se supperpose.
-*
-* \param[in] worms, tableau de worms.
-* \return error, -1 = FAIL, 0 = SUCCESS
+* TO DO :
+*			Verifier la superposition de tous les worms.
+* \param[in] wormsTab, tableau de worms.
+* \return error, 1 = SUCCESS, 0 = FAIL
 */
-int wormsOverlay(Worms** worms)
+int wormsOverlay(Worms** wormsTab)
 {
-	int i = 0, xPrec = 0, xNow = 0, j = 0, k = 0, yPrec = 0;
-	int w = worms[0]->wormsSurface->w, h = worms[0]->wormsSurface->h;
+	int i = 0;
 	for (i = 1; i < globalVar.nbWormsEquipe; i++)
 	{
-		xPrec = worms[i - 1]->wormsSurface->clip_rect.x;
-		yPrec = worms[i - 1]->wormsSurface->clip_rect.y;
-		for (j = 0; j <= w; j++)
-		{
-			for (k = worms[i]->wormsSurface->clip_rect.y; k <= (worms[i]->wormsSurface->clip_rect.y + h); k++)
-			{
-				xNow = worms[i]->wormsSurface->clip_rect.x + j;
-				if ((xNow >= xPrec) && (xNow <= (xPrec + w)) && (k >= yPrec) && (k <= (yPrec + h)))
-				{
-					return 1;
-				}
-			}
-		}
+		if (checkRectOverlay(&wormsTab[i]->wormsSurface->clip_rect, &wormsTab[i - 1]->wormsSurface->clip_rect))
+			return 0;
 	}
-	return 0;
+	return 1;
 }
 
 /**
-* \fn void secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+* \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 * \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
 *
 * \param[in] pRect, rectangle a evaluer, peut etre modifie par la fonction
-* \param[in] pSurface, surface de la map
+* \param[in] pSurfaceMap, surface de la map
 * \return 1 si il y a eu modification, 0 sinon
 */
-int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
+int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 {
 	int modif = 0;
 	if (pRect->x < 0) {
@@ -904,33 +822,14 @@ int secureRect(SDL_Rect* pRect, SDL_Surface* pSurface)
 		pRect->y = 0;
 		modif = 1;
 	}
-	if (pRect->x + pRect->w >= pSurface->clip_rect.w){
-		pRect->w -= pRect->x + pRect->w - pSurface->clip_rect.w;
+	if (pRect->x + pRect->w >= pSurfaceMap->clip_rect.w){
+		pRect->w -= pRect->x + pRect->w - pSurfaceMap->clip_rect.w;
 		modif = 1;
 	}
-	if (pRect->y + pRect->h >= pSurface->clip_rect.h){
-		pRect->h -= pRect->y + pRect->h - pSurface->clip_rect.h;
+	if (pRect->y + pRect->h >= pSurfaceMap->clip_rect.h){
+		pRect->h -= pRect->y + pRect->h - pSurfaceMap->clip_rect.h;
 		modif = 1;
 	}
 	return modif;
 }
 
-/**
-* \fn SDL_Rect initRect(int x, int y, int w, int h)
-* \brief Cree et nitialise un rectangle.
-*
-* \param[in] x, position en x du rectangle
-* \param[in] y, position en y du rectangle
-* \param[in] w, largeur du rectangle
-* \param[in] h, hauteur du rectangle
-* \return rect, une structure SDL_Rect initialisee
-*/
-SDL_Rect initRect(int x, int y, int w, int h)
-{
-	SDL_Rect rect;
-	rect.x = x;
-	rect.y = y;
-	rect.w = w;
-	rect.h = h;
-	return rect;
-}

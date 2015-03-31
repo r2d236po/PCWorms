@@ -1,6 +1,7 @@
 #include "carte.h"
 #include "AffichageGeneral.h"
 #include "worms.h"
+#include "my_stdrFct.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -175,57 +176,6 @@ enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int 
 	return direction;
 }
 
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
-/////////////////                                                        /////////////////
-/////////////////               Manipulation des pixels                  /////////////////
-/////////////////                                                        /////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
-
-/**
-* \fn Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
-* \brief Lit un pixel aux coordonnees x et y d'une surface.
-*
-* \param[in] pSurface, surface dans laquelle on lit le pixel
-* \param[in] x, abscisse dans la surface
-* \param[in] y, ordonne dans la surface
-* \returns Uint32, pixel lu aux coordonnees contenant les 4 canaux (RGBA)
-* \remarks Faire attention que x et y soient bien compris dans la surface.
-*/
-
-Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
-{
-	//Convert the pixels to 32 bit
-	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixels de la surface
-	//Get the requested pixel
-	return pixels[(y * pSurface->w) + x];	//Return le pixel aux coordonnées x et y passées en paramètre
-}
-
-
-/**
-* \fn void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
-* \brief Ecrit un pixel aux coordonnees x et y d'une surface.
-*
-* \param[in] pSurface, surface dans laquelle on ecrit le pixel
-* \param[in] x, abscisse dans la surface
-* \param[in] y, ordonne dans la surface
-* \param[in] pixelToWrite, pixel a ecrire
-*/
-void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
-{
-	//Convert the pixels to 32 bit
-	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixel de la surface
-
-	//Set the pixel
-	//if ((x >= pSurface->clip_rect.x) && (x <= (pSurface->clip_rect.x + pSurface->w)) && (y >= pSurface->clip_rect.y) && (y <= (pSurface->clip_rect.y + pSurface->h)))	//Test que le pixel est bien dans la surface
-	pixels[(y * pSurface->w) + x] = pixelToWrite;	//Ecrit le pixel aux coordonnées passées en paramètre
-}
 
 
 

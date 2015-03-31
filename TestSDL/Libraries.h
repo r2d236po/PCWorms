@@ -46,7 +46,8 @@ typedef struct{ //structure Curseur
 
 enum DIRECTION { RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, UPLEFT = 4, UPRIGHT = 5, DLEFT = 6, DRIGHT = 7, NONE = 8 };
 
-typedef struct{		//structure gérant les différents inputs
+/*Structure gérant les différentes inputs*/
+typedef struct{		
 	char jump;	//touche de saut
 	char jumpOnGoing;	//indique qu'un saut est en cours et désactive les touches de direction
 	char bend;	//touche pour s'accroupir
@@ -64,7 +65,7 @@ typedef struct{		//structure gérant les différents inputs
 	char bombe;
 	int wormsPlaying;
 	char deplacement;
-	Cursor cursor; //cursor avec position actuelle et précédente
+	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
 
 typedef struct{		//structure gérant les polices
@@ -82,5 +83,5 @@ typedef struct{		//structure gérant les polices
 
 GlobalVariable globalVar;
 FILE* logFile;
-SDL_Surface* sprite;
+SDL_Surface* spriteDeplacement;
 #endif

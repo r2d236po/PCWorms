@@ -5,6 +5,8 @@
 #include "armes.h"
 
 #define TAILLEINV 5
+#define widthSpriteMov 31
+#define hightSpriteMov 30
 
 typedef struct {		//Structure worms
 	int vie;				//Point de vie
@@ -31,8 +33,8 @@ Worms* createWorms(char* name);	//Créé un worms à partir d'une image
 void destroyWorms(Worms** wormsTab, int nbWorms);	//détruit un worms
 
 /*Deplacement d'un worms*/
-int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* surfaceCollision, int swap);	//déplace un worms au clavier
-void animationWorms(Worms* pWorms, int i, enum DIRECTION direction);
+int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, int swap);	//déplace un worms au clavier
+int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction);
 
 /*Fonctions diverses*/
 int retournementWorms(Input* pInput, Worms* pWorms);

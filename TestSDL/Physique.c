@@ -1,5 +1,6 @@
 #include "physique.h"
 #include "AffichageGeneral.h"
+#include "my_stdrFct.h"
 
 
 
@@ -45,7 +46,7 @@ int gestionPhysique(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Input* p
 
 
 /**
-* \fn void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* map, SDL_Texture* pTextureDisplay)
+* \fn void gestionPhysiqueWorms(Input* pInput, Worms* worms, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \brief Gere la physique autour d'un worms.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.

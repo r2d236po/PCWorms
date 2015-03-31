@@ -93,6 +93,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Carte.c" />
+    <ClCompile Include="my_stdrFct.c" />
     <ClCompile Include="Partie.c" />
     <ClCompile Include="Physique.c" />
     <ClCompile Include="Sounds.c" />
@@ -105,6 +106,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="Libraries.h" />
+    <ClInclude Include="my_stdrFct.h" />
     <ClInclude Include="partie.h" />
     <ClInclude Include="physique.h" />
     <ClInclude Include="Sounds.h" />

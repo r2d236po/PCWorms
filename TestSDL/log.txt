@@ -2,11 +2,20 @@ Start of session :
 
 mainInit : DONE.
 	nombre d'equipes : 1.
-	nombre de worms par equipe : 1.
+	nombre de worms par equipe : 2.
 
 nouveauJeu : START :
 
 nouvelleEquipe : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/sprite.png.
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+createWorms : SUCCESS.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/pictures/sprite.png.
