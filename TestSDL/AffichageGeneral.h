@@ -20,7 +20,7 @@ int sandboxRenderer();
 //Fonctions d'initialisation
 int initSWR(SDL_Window** p_pWindow, SDL_Renderer **p_pRenderer);	//Initialise la SDL, la SDL_Image, le pWindow et le pRenderer
 void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms);	//Initialise la position de la caméra
-int createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Texture** p_pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera);
+SDL_Texture* createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Renderer* pRenderer);
 
 //Fonctions diverses
 void afficherPoint(SDL_Renderer * r);	//affiche un point 
@@ -36,12 +36,14 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichag
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//Zoom In, grossis
 void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera);	//Zoom out, rétrécis
-int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTexture, SDL_Rect* pRectSurfaceModif);	//Met à jour la texture globale
+int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTextureDisplay, SDL_Rect* pRectSurfaceModif);	//Met à jour la texture globale
 
 //Fonctions de nettoyage
 
 void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay);	//nettoie et quit la SDL
 void clearRenderer(SDL_Renderer * pRenderer);	//Clear de l'écran
+
+int updateGlobaleTexture2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTextureDisplay, SDL_Rect* pRectSurfaceModif);
 
 
 #endif

@@ -1,21 +1,13 @@
-Start of session : 
+Start of session : Wed Apr 01 10:19:02 2015
+
 
 mainInit : DONE.
 	nombre d'equipes : 1.
-	nombre de worms par equipe : 2.
+	nombre de worms par equipe : 1.
 
 nouveauJeu : START :
 
 nouvelleEquipe : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/sprite.png.
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-createWorms : SUCCESS.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/pictures/sprite.png.
@@ -64,4 +56,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session.
+End of Session : Wed Apr 01 10:19:06 2015

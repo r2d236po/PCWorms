@@ -159,34 +159,36 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 {
 	Uint32* pixelSrc = (Uint32*)pSurfaceSrc->pixels;
 	Uint32* pixelDest = (Uint32*)pSurfaceDest->pixels;
-	int ySrc = 0, xSrc = 0, xDest = 0, yDest = 0, w = pSurfaceSrc->w, h = pSurfaceSrc->h;
-	int indexDest = 0, indexSrc = 0, index = 0, nbPixels = 0;
+	int ySrc = 0, xSrc = 0, xDest = 0, yDest = 0, wRectSrc = pSurfaceSrc->w, hRectSrc = pSurfaceSrc->h, wDest = pSurfaceDest->w, wSrc = pSurfaceSrc->w;
+	int indexDest = 0, indexSrc = 0, index = 0, nbPixels = 0, offsetx, offsety;
 	if (pRectSrc != NULL)
 	{
 		if (!checkRectSurfaceDimension(pSurfaceSrc, pRectSrc))
 			return 0;
 		ySrc = pRectSrc->y;
 		xSrc = pRectSrc->x;
-		w = pRectSrc->w;
-		h = pRectSrc->h;
+		wRectSrc = pRectSrc->w;
+		hRectSrc = pRectSrc->h;
 	}
-	if (pRectDest != NULL && (w * h > (pRectDest->w * pRectDest->h)))
+	if (pRectDest == NULL && wRectSrc * hRectSrc > (pSurfaceDest->w *pSurfaceDest->h))
 		return 0;
-	else if (w * h > (pSurfaceDest->w *pSurfaceDest->h))
+	else if (pRectDest != NULL && (wRectSrc * hRectSrc > (pRectDest->w * pRectDest->h)))
 		return 0;
-	if (pRectDest != NULL)
+	else if (pRectDest != NULL)
 	{
 		if (!checkRectSurfaceDimension(pSurfaceDest, pRectDest))
 			return 0;
 		yDest = pRectDest->y;
 		xDest = pRectDest->x;
 	}
-	nbPixels = w * h;
+	nbPixels = wRectSrc * hRectSrc;
+	indexDest = xDest + yDest*wDest;
+	indexSrc = xSrc + ySrc*wSrc;
 	for (index = 0; index < nbPixels; index++)
 	{
-		indexDest = (xDest + index % w) + (index / w + yDest)*pSurfaceDest->w;
-		indexSrc = (xSrc + index % w) + (index / w + ySrc)*pSurfaceSrc->w;
-		pixelDest[indexDest] = pixelSrc[indexSrc];
+		offsetx = index % wRectSrc;
+		offsety = index / wRectSrc;
+		pixelDest[indexDest + offsetx + offsety*wDest] = pixelSrc[indexSrc + offsetx + offsety*wSrc]; //pixelDest[(xDest + index % wRectSrc) + (index / wRectSrc + yDest)*wDest] = ...xSrc...ySrc...wSrc
 	}
 	return 1;
 }

@@ -23,6 +23,10 @@ void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture *
 	int i = 0, j = 0, xP = 0, yP = 0, offsetX = 0, offsetY = 0;
 	Uint32 pixelTest = SDL_MapRGBA(pSurfaceMap->format, 255, 255, 255, 0);
 	SDL_Rect  rect = initRect(x - rayon, y - rayon, 2 * rayon, 2 * rayon);
+	int id;
+	double temps = 0.0;
+	long clk_tck = CLOCKS_PER_SEC;
+	clock_t t1, t2;
 	offsetX = x - rayon;
 	offsetY = y - rayon;
 	for (j = 0; j < 2 * rayon; j++)
@@ -44,8 +48,12 @@ void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture *
 		}
 	}
 	reajustRect(&rect, pSurfaceMap);
-
-	if (updateGlobaleTexture(pSurfaceMap, pSurfaceMap, pTextureDisplay, &rect) < 0)
+	t1 = clock();
+	for (id = 0; id < 1000; id++)
+		updateGlobaleTexture2(pSurfaceMap, pSurfaceMap, pTextureDisplay, &rect);
+	t2 = clock();
+	temps = (double)(t2 - t1) / (double)clk_tck;
+	if (updateGlobaleTexture2(pSurfaceMap, pSurfaceMap, pTextureDisplay, &rect) < 0)
 	{
 		printf("Erreur lors de l'update de la texture.");
 	}
