@@ -20,7 +20,6 @@ int sandboxRenderer();
 //Fonctions d'initialisation
 int initSWR(SDL_Window** p_pWindow, SDL_Renderer **p_pRenderer);	//Initialise la SDL, la SDL_Image, le pWindow et le pRenderer
 void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms);	//Initialise la position de la caméra
-SDL_Texture* createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Renderer* pRenderer);
 
 //Fonctions diverses
 void afficherPoint(SDL_Renderer * r);	//affiche un point 

@@ -93,6 +93,33 @@ SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 	return texture;
 }
 
+/**
+* \fn SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer)
+* \brief Cree une texture globale a partir d'une (version ressemblante à createTextureFromSurface mais nous donne acces aux pixels).
+*
+* \param[in] pSurface, pointeur vers la surface.
+* \param[in] pRenderer, pointeur du renderer.
+* \returns texture cree ou NULL si problem
+* \remarks si -1, le pointeur de la structure Texture sera mis a NULL sinon il pointera vers la texture globale.
+*/
+SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer)
+{
+
+	SDL_Texture* textureTemp = NULL;
+	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
+	if (textureTemp == NULL)
+	{
+		if (logFile != NULL)
+			fprintf(logFile, "createGlobalTexture : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
+		return NULL;
+	}
+	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
+	SDL_UpdateTexture(textureTemp, NULL, pSurface->pixels, pSurface->pitch);
+	if (logFile != NULL)
+		fprintf(logFile, "createGlobalTexture : SUCCESS.\n\n");
+	return textureTemp;
+}
+
 
 
 

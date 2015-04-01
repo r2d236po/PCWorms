@@ -38,7 +38,7 @@ int mainFenetre(Jeu * jeu)
 		}
 
 		//Initialisation de l'affichage
-		display = createGlobalTexture(jeu->pMapTerrain->imageMapSurface, pRenderer);
+		display = my_createTextureFromSurface(jeu->pMapTerrain->imageMapSurface, pRenderer);
 		if (display == NULL)
 		{
 			if (logFile != NULL)
@@ -600,32 +600,7 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 
 
 
-/**
-* \fn SDL_Texture* createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Renderer* pRenderer)
-* \brief Cree une texture globale a partir de la surface de la map (version ressemblante à createTextureFromSurface mais nous donne acces aux pixels).
-*
-* \param[in] pSurfaceMap, pointeur vers la surface de la map.
-* \param[in] pRenderer, pointeur du renderer.
-* \returns texture cree ou NULL si problem
-* \remarks si -1, le pointeur de la structure Texture sera mis a NULL sinon il pointera vers la texture globale.
-*/
-SDL_Texture* createGlobalTexture(SDL_Surface* pSurfaceMap, SDL_Renderer* pRenderer)
-{
 
-	SDL_Texture* textureTemp = NULL;
-	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurfaceMap->w, pSurfaceMap->h);
-	if (textureTemp == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "createGlobalTexture : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
-		return NULL;
-	}
-	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
-	SDL_UpdateTexture(textureTemp, NULL, pSurfaceMap->pixels, pSurfaceMap->pitch);
-	if (logFile != NULL)
-		fprintf(logFile, "createGlobalTexture : SUCCESS.\n\n");
-	return textureTemp;
-}
 
 /**
 * \fn int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTexture, SDL_Rect* pRectSurfaceModif)
