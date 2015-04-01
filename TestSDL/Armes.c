@@ -48,12 +48,12 @@ void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture *
 		}
 	}
 	reajustRect(&rect, pSurfaceMap);
-	t1 = clock();
+	/*t1 = clock();
 	for (id = 0; id < 1000; id++)
 		updateGlobaleTexture2(pSurfaceMap, pSurfaceMap, pTextureDisplay, &rect);
 	t2 = clock();
-	temps = (double)(t2 - t1) / (double)clk_tck;
-	if (updateGlobaleTexture2(pSurfaceMap, pSurfaceMap, pTextureDisplay, &rect) < 0)
+	temps = (double)(t2 - t1) / (double)clk_tck;*/
+	if (updateGlobaleTexture(pSurfaceMap, pSurfaceMap, pTextureDisplay, &rect) < 0)
 	{
 		printf("Erreur lors de l'update de la texture.");
 	}
