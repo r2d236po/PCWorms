@@ -5,15 +5,31 @@
 
 
 int main(int argc, char** argv)
-{	
-	mainInit(1, 2);
+{
+	{
+		time_t t1;
+		t1 = time(NULL);
+		logFile = fopen("log.txt", "w+");
+		if (logFile != NULL)
+			fprintf(logFile, "Start of session : %s\n\n", ctime(&t1));
+	};
 
-	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_HD);
-
+	mainInit(1, 1);
+	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3);
 	if (mainFenetre(game) < 0)
 	{
-		printf("Une erreur s'est produite");
+		if (logFile != NULL)
+			fprintf(logFile, "mainFenetre : FAILURE.\n");
 	}
+	saveGame(game);
 	destroyJeu(&game);
+	{
+		time_t t1 = time(NULL);
+		if (logFile != NULL)
+		{
+			fprintf(logFile, "\n\nEnd of Session : %s", ctime(&t1));
+			fclose(logFile);
+		}
+	};
 	return 0;
 }

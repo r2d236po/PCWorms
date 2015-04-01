@@ -1,0 +1,59 @@
+Start of session : Wed Apr 01 10:22:37 2015
+
+
+mainInit : DONE.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/sprite.png.
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+creerFenetre : SUCCESS.
+initSWR : SUCCESS.
+
+iniInput : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest3.png.
+
+initialisationTerrain : SUCCESS.
+
+createGlobalTexture : SUCCESS.
+
+initCameras : DONE.
+
+initGameWorms : DONE.
+
+loadSounds : SUCCESS.
+
+initCameras : DONE.
+
+destroyMap : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+
+
+End of Session : Wed Apr 01 10:22:44 2015

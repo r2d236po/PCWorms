@@ -42,6 +42,12 @@
     <ClCompile Include="Physique.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sounds.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_stdrFct.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">
@@ -69,6 +75,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="physique.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_stdrFct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
