@@ -42,7 +42,7 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay);	//nettoie et quit la SDL
 void clearRenderer(SDL_Renderer * pRenderer);	//Clear de l'écran
 
-int updateGlobaleTexture2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTextureDisplay, SDL_Rect* pRectSurfaceModif);
+
 
 
 #endif

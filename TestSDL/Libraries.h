@@ -17,6 +17,7 @@
 /*Macros*/
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
 #define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
+#define CARRE(a) ((a) * (a))
 
 /*Constantes*/
 #define pi 3.14159265358
@@ -31,6 +32,7 @@
 #define cMAP_TEST	"../assets/pictures/maptest.png"
 #define cMAP_TEST2	"../assets/pictures/maptest2.png"
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"
+#define ICONE "../assets/pictures/icone.png"
 
 /*Structures globales*/
 typedef struct{		//structure Point

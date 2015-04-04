@@ -96,7 +96,7 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		/*Fonction de déplacement du worms si non saut*/
 		if (!pInput->jumpOnGoing && !retournement)
 		{
-			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface,0);
+			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface, 0);
 		}
 
 		/*Determination de la direction du saut*/
@@ -127,8 +127,8 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 		}
 
 		/*Mise à jour de l'affichage*/
-		updateGlobaleTexture(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pTextureDisplay, &pWorms->wormsRect);
-
+		//updateGlobaleTexture(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pTextureDisplay, &pWorms->wormsRect);
+		updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, pWorms->wormsSurface, &pWorms->wormsRect);
 		/*Indicateurs de déplacement et de raffraichissement de l'image*/
 		pInput->deplacement = 1;
 		pInput->raffraichissement = 1;
@@ -347,15 +347,8 @@ void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Te
 			gestionPhysique(pMapTerrain, pTextureDisplay, pInput, 0, wormsTab[i]);
 			updateScreen(pRenderer, 2, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL);
 		}
-		while (detectionCollisionSurface(pMapTerrain->imageMapSurface, wormsTab[i]->wormsSurface))
-		{
-			wormsTab[i]->wormsSurface->clip_rect.y -= 1;
-			updateGlobaleTexture(pMapTerrain->imageMapSurface, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
-			updateScreen(pRenderer, 2, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL);
-		}
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "initGameWorms : DONE.\n\n");
+	fprintf(logFile, "initGameWorms : DONE.\n\n");
 }
 
 /**

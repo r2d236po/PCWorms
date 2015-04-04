@@ -1,11 +1,12 @@
 Resultat de la partie : 
 
-	Temps de jeu : 6 secondes.
+	Temps de jeu : 4 secondes.
 	Map jouée : ../assets/pictures/maptest3.png.
 	Nombre d'equipes : 1.
-	Nombre de worms par equipe : 1.
+	Nombre de worms par equipe : 2.
 
 Bravo à l'équipe 1 composée des braves : 
-	NomWorms,	Félicitation pour avoir fait un massacre chez l'ennemie !
+	Gerard,	Félicitation pour avoir fait un massacre chez l'ennemie !
+	Gerard,	Félicitation pour avoir fait un massacre chez l'ennemie !
 
 

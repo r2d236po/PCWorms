@@ -3,7 +3,7 @@
 #include "physique.h"
 #include "worms.h"
 #include "Sounds.h"
-
+#include "my_stdrFct.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -177,6 +177,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
+	double temps = 0.0;
+	long clk_tck = CLOCKS_PER_SEC;
+	clock_t t1, t2;
+	int id;
 	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
 		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
@@ -196,6 +200,15 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		{
 			updateWorms(wormsTab, pMapTerrain->imageMapSurface, pInput, pTextureDisplay);	//appel de la fonction gerant l'update de l'affichage et d'overlay si nécessaire
 		}
+	}
+	if (pInput->lclick)
+	{
+		t1 = clock();
+		for (id = 0; id < 10000; id++)
+			updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsSurface, &wormsTab[pInput->wormsPlaying]->wormsRect);
+		//updateGlobaleTexture(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsSurface, pTextureDisplay, &wormsTab[pInput->wormsPlaying]->wormsRect);
+		t2 = clock();
+		temps = (double)(t2 - t1) / (double)clk_tck;
 	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
@@ -366,8 +379,7 @@ Input* initInput()
 	pInput->cursor = initCursor();
 	pInput->wormsPlaying = 0;
 	pInput->deplacement = 0;
-	if (logFile != NULL)
-		fprintf(logFile, "iniInput : SUCCESS.\n\n");
+	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
 

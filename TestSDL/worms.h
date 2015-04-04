@@ -10,7 +10,7 @@
 
 typedef struct {		//Structure worms
 	int vie;				//Point de vie
-	char* nom;				//Nom du joueur
+	char nom[20];				//Nom du joueur
 	char* arme;				//Arme en cours d'utilisation
 	Arme* invent[TAILLEINV];//Inventaire des armes et objets disponibles
 	int xAbs;				//position "absolu" en X

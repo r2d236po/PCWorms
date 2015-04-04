@@ -12,8 +12,7 @@ void cleanSounds()
 	music = NULL;
 	Mix_FreeChunk(sndFx);
 	sndFx = NULL;
-	if (logFile != NULL)
-		fprintf(logFile, "cleanSounds : DONE.\n");
+	fprintf(logFile, "cleanSounds : DONE.\n");
 }
 
 /**
@@ -45,7 +44,6 @@ int loadSounds(const char* file, int type)
 		}
 		break;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "loadSounds : SUCCESS.\n\n");
+	fprintf(logFile, "loadSounds : SUCCESS.\n\tname of the sound : %s.\n\n", file);
 	return 1;
 }

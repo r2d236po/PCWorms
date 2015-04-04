@@ -23,16 +23,14 @@ int mainFenetre(Jeu * jeu)
 		pInput = initInput();
 		if (pInput == NULL)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
 		//Initialisation du terrain
 		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
@@ -41,8 +39,7 @@ int mainFenetre(Jeu * jeu)
 		display = my_createTextureFromSurface(jeu->pMapTerrain->imageMapSurface, pRenderer);
 		if (display == NULL)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 			destroyMap(&jeu->pMapTerrain);
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
@@ -55,8 +52,7 @@ int mainFenetre(Jeu * jeu)
 		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
 		if (loadSounds(BipExplo, 0) < 0)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
@@ -68,8 +64,7 @@ int mainFenetre(Jeu * jeu)
 			//Gestion des inputs
 			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[0]->worms))
 			{
-				if (logFile != NULL)
-					fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
+				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
 
 			//Update de l'écran
@@ -92,8 +87,7 @@ int mainFenetre(Jeu * jeu)
 		destroyPolice();
 	}
 	cleanUp(&pWindow, &pRenderer, &pInput, &display);
-	if (logFile != NULL)
-		fprintf(logFile, "mainFenetre : SUCCESS.\n");
+	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	return 0;
 }
 
@@ -112,7 +106,7 @@ int sandboxRenderer()
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
 	{
-		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		fprintf(logFile, "Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
 		return -1;
 	}
 
@@ -128,7 +122,7 @@ int sandboxRenderer()
 	renderer2 = SDL_CreateRenderer(pWindow2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer2 == NULL)//gestion des erreurs
 	{
-		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+		fprintf(logFile, "Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 		return -1;
 	}
 
@@ -208,53 +202,51 @@ int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, initialisation de la SDL (%s)\n\n", SDL_GetError());
+		fprintf(logFile, "initSWR : FAILURE, initialisation de la SDL (%s)\n\n", SDL_GetError());
 		return -1;
 	}
 	/* Création de la fenêtre */
 	*p_pWindow = creerFenetre(1080, 600, "KaamWorms");
 	if (*p_pWindow == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
+		fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
 		return -1;
 	}
+	{
+		SDL_Surface* surfaceIcone = loadImage(ICONE);
+		if (surfaceIcone != NULL)
+			SDL_SetWindowIcon(*p_pWindow, surfaceIcone);
+		SDL_FreeSurface(surfaceIcone);
+	};
 	/* Création du renderer */
 	*p_pRenderer = SDL_CreateRenderer(*p_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (*p_pRenderer == NULL)//gestion des erreurs
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
+		fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
 		cleanUp(p_pWindow, NULL, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_Image*/
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
+		fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
 		cleanUp(p_pWindow, p_pRenderer, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_TTF*/
 	if (TTF_Init() == -1)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
+		fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
 		return -1;
 	}
 	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
 	{
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
-
+			fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
 		}
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "initSWR : SUCCESS.\n\n");
+	fprintf(logFile, "initSWR : SUCCESS.\n\n");
 	return 1;
 }
 
@@ -296,8 +288,7 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 	cleanSounds();
 	Mix_Quit();
 	SDL_Quit();
-	if (logFile != NULL)
-		fprintf(logFile, "cleanUp : DONE.\n");
+	fprintf(logFile, "cleanUp : DONE.\n");
 }
 
 
@@ -467,8 +458,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 		if (pCamera->x < 0)pCamera->x = 0;
 		if (pCamera->y < 0)pCamera->y = 0;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "initCameras : DONE.\n\n");
+	fprintf(logFile, "initCameras : DONE.\n\n");
 }
 
 /**
@@ -596,10 +586,6 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 		camera->y = 0;
 	}
 }
-
-
-
-
 
 
 /**
@@ -782,49 +768,5 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 }
 
 
-int updateGlobaleTexture2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTextureDisplay, SDL_Rect* pRectSurfaceModif)
-{
-	Uint32* pixelWrite = NULL;
-	Uint32* pixelSurfaceMap = (Uint32*)pSurfaceMap->pixels;
-	Uint32* pixelSurfaceModif = (Uint32*)pSurfaceModif->pixels;
-	Uint32 pixelRead;
-	int nombrePixel = 0, index;
-	Uint8 r = 0, g = 0, b = 0, a = 0;
-	int x = 0, y = 0, i = 0;
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceModif, NULL))
-		return -1;
-	nombrePixel = pRectSurfaceModif->w * pRectSurfaceModif->h;
-	reajustRect(pRectSurfaceModif, pSurfaceMap);
-	//pixelWrite = malloc(nombrePixel*sizeof(Uint32));
-	/*if (pixelWrite == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "updateGlobalTexture : FAILURE, allocation memoire pixelWrite.\n\n");
-		return -1;
-	}
-	/*for (i = 0; i < 2; i++)
-	{*/
-		copySurfacePixels(pSurfaceMap, pRectSurfaceModif, pSurfaceMap, pRectSurfaceModif);
-		SDL_UpdateTexture(pTextureDisplay, pRectSurfaceModif, pSurfaceMap->pixels, 4 * pRectSurfaceModif->w);
-		pRectSurfaceModif->y = pSurfaceModif->clip_rect.y;
-		pRectSurfaceModif->x = pSurfaceModif->clip_rect.x;
-		/*for (index = 0; index < nombrePixel; index++)
-		{
-			if (i != 0)
-			{
-				pixelRead = pixelSurfaceModif[index];
-				SDL_GetRGBA(pixelRead, pSurfaceModif->format, &r, &g, &b, &a);
-			}
-			if (i == 0 || a != 255)
-				pixelWrite[index] = pixelSurfaceMap[index];
-			else pixelWrite[index] = pixelRead;
-		}
-		SDL_UpdateTexture(pTextureDisplay, pRectSurfaceModif, pixelWrite, 4 * pRectSurfaceModif->w);
-		pRectSurfaceModif->y = pSurfaceModif->clip_rect.y;
-		pRectSurfaceModif->x = pSurfaceModif->clip_rect.x;/**/
-	//}
-	//free(pixelWrite);
-	pixelWrite = NULL;
-	return 0;
-}
+
 

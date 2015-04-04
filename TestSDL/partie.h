@@ -11,7 +11,7 @@ typedef struct {			//Structure équipe
 	Worms** worms;				//Tableau de Worms
 	int nbWormsStart;			//Nombre de Worms au début de la partie
 	int vie;					//Somme des points de vie de l'équipe
-	char* nom;					//Nom d'équipe
+	char nom[20];					//Nom d'équipe
 	SDL_Color color;			//Couleur d'équipe
 	//logo?
 } Equipe;

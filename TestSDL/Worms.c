@@ -13,53 +13,41 @@
 */
 Worms* createWorms(char* name)
 {
-	Worms * worms = NULL;
+	Worms* worms = NULL;
 	SDL_Surface* wormsSurface = NULL;
-	SDL_Surface * wormsSurfaceLeft = NULL;
-	SDL_Surface * wormsSurfaceRight = NULL;
-	SDL_Surface * texteSurface = NULL;
-	SDL_Surface * tombeSurface = NULL;
-	SDL_Rect clip = initRect(445,28,widthSpriteMov,hightSpriteMov);
+	SDL_Surface* wormsSurfaceLeft = NULL;
+	SDL_Surface* wormsSurfaceRight = NULL;
+	SDL_Surface* texteSurface = NULL;
+	SDL_Surface* tombeSurface = NULL;
+	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
 	spriteDeplacement = loadImage("../assets/pictures/sprite.png");
 	if (spriteDeplacement == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
+		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
 		return NULL;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "createWorms : START :\n\n");
-	worms = (Worms*)malloc(sizeof(Worms));
-	if (worms == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, allocation memoire worms.\n\n");
+	fprintf(logFile, "createWorms : START :\n\n");
+	if (my_malloc(&worms, sizeof(Worms), "createWorms") < 0)
 		return NULL;
-	}
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
-	//wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
 	wormsSurfaceLeft = SDL_CreateRGBSurface(0, 31, 30, 32, RMASK, GMASK, BMASK, AMASK);
-	//wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
 	wormsSurfaceRight = SDL_CreateRGBSurface(0, 31, 30, 32, RMASK, GMASK, BMASK, AMASK);
 	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
 	if (tombeSurface == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
+		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
 	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
+		fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
 		destroyWorms(&worms, 1);
 		return NULL;
-
 	}
 	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceLeft, NULL);
 	clip.x = 24;
@@ -85,7 +73,7 @@ Worms* createWorms(char* name)
 
 	//initialisation des variables autres
 	worms->vie = 100;
-	worms->nom = name;
+	strcpy(worms->nom, name);
 	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
@@ -103,8 +91,7 @@ Worms* createWorms(char* name)
 	tombeSurface = NULL;
 
 	//Enregistrement log
-	if (logFile != NULL)
-		fprintf(logFile, "\ncreateWorms : SUCCESS.\n\n");
+	fprintf(logFile, "\ncreateWorms : SUCCESS.\n\n");
 	return worms;
 }
 
@@ -152,8 +139,7 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 		SDL_FreeSurface(spriteDeplacement);
 		spriteDeplacement = NULL;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "destroyWorms : DONE.\n");
+	fprintf(logFile, "destroyWorms : DONE.\n");
 }
 
 
@@ -299,7 +285,7 @@ void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_
 	int i = 0;
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		updateGlobaleTexture(pSurfaceMap, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
+		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[i]->wormsSurface, &wormsTab[i]->wormsRect);
 		if (!wormsOverlay(wormsTab))
 			updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
 	}
