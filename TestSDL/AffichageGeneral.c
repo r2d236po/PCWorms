@@ -574,10 +574,10 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera,
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 
-	offsety = (float) camera->h;
+	offsety = (float)camera->h;
 	camera->h = camera->h - 10;
 	offsety -= camera->h;
-	offsetx =  (float) camera->w;
+	offsetx = (float)camera->w;
 	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
 	offsetx -= camera->w;
 
@@ -822,20 +822,24 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 void screenshot(SDL_Renderer* pRenderer)
 {
 	int w, h;
-	static int count = 0;
+	int i = 0;
 	const char* mainPath = "../assets/screenshot/";
 	char path[50];
-	char screenshotName[20];
+	char screenshotName[29];
+	time_t t1;
+	t1 = time(NULL);
 	SDL_Surface* surfaceScreenshot = NULL;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
 	surfaceScreenshot = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
 	SDL_RenderReadPixels(pRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
-	strcpy(path, mainPath); 
-	sprintf(screenshotName, "screenshot%d.bmp\0", count);
+	strcpy(path, mainPath);
+	sprintf(screenshotName, "%s\0", ctime(&t1));
 	strcat(path, screenshotName);
+	memcpy(path + strlen(mainPath) + 3, "_", 1);
+	memcpy(path + strlen(mainPath) + 7, "_", 1);
+	for (i = 10; i < 22; i += 3)
+		memcpy(path + strlen(mainPath) + i, ".", 1);
+	memcpy(path + strlen(mainPath) + strlen(screenshotName) - 1, ".bmp\0", 5);
 	SDL_SaveBMP(surfaceScreenshot, path);
 	SDL_FreeSurface(surfaceScreenshot);
-	count++;
-	if (count == 99)
-		count = 0;
 }

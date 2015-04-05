@@ -248,7 +248,7 @@ enum DIRECTION calculDirectionDeplacement(int dx, int dy)
 *
 * \param[in] pSurfaceMap, surface de la map
 * \param[in] pSurfaceMotion, surface en mouvement dans la map
-* \return int, 1 = saut possible, 0 = saut non possible
+* \return int, 1 = deplacement possible, 0 = deplacement non possible
 */
 int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION direction)
 {
