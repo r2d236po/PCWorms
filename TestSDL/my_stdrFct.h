@@ -21,5 +21,4 @@ int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
 SDL_Rect initRect(int x, int y, int w, int h);	//Initialise un SDL_Rect
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
 int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2);
-int my_malloc(void** var, size_t size, const char* fctName);
 #endif

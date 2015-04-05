@@ -67,6 +67,7 @@ typedef struct{
 	char bombe;
 	int wormsPlaying;
 	char deplacement;
+	char screenshot;
 	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
 
@@ -85,5 +86,8 @@ typedef struct{		//structure gérant les polices
 
 GlobalVariable globalVar;
 FILE* logFile;
+
 SDL_Surface* spriteDeplacement;
+SDL_Surface* spriteGrenadeExplosion;
+SDL_Surface* spriteNukeExplosion;
 #endif

@@ -15,7 +15,12 @@ int main(int argc, char** argv)
 		fprintf(logFile, "Start of session : %s\n\n", ctime(&t1));
 	};
 
-	mainInit(1, 1);
+	mainInit(1, 2);
+	if (initSprites() < 0)
+	{
+		fclose(logFile);
+		exit(EXIT_FAILURE);
+	}
 	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3);
 	if (mainFenetre(game) < 0)
 	{

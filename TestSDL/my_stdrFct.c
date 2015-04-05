@@ -134,8 +134,12 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		Uint32* pixelSurfaceMain = (Uint32*)pSurfaceMain->pixels;
 		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
 		nombrePixelToUpdate = pRect->h * pRect->w;
-		if (my_malloc(&pixelWrite, nombrePixelToUpdate*sizeof(Uint32), "updateTextureFromMultipleSurface"))
+		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		if (pixelWrite == NULL)
+		{
+			fprintf(logFile, "updateTextureFromMultipleSurface : FAILURE, allocating memory to pixelWrite.\n\n");
 			return -1;
+		}
 		x = pSurfaceSecond->clip_rect.x;
 		y = pSurfaceSecond->clip_rect.y;
 		offsety = y * pSurfaceMain->w;
@@ -174,8 +178,12 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 	if (pRect != NULL)
 	{
 		nombrePixelToUpdate = pRect->h * pRect->w;
-		if (my_malloc(&pixelWrite, nombrePixelToUpdate*sizeof(Uint32), "updateTextureFromSurface"))
+		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		if (pixelWrite == NULL)
+		{
+			fprintf(logFile, "updateTextureFromSurface : FAILURE, allocating memory to pixelWrite.\n\n");
 			return -1;
+		}
 		x = pRect->x;
 		y = pRect->y;
 		offsety = y *pSurfaceMain->w;
@@ -397,23 +405,4 @@ SDL_Rect rect;
 return rect;
 }*/
 
-/**
-* \fn int my_malloc(void** var, size_t size, const char* fctName)
-* \brief do a malloc with error handle.
-*
-* \param[in] var, pointer to the variable to allocate
-* \param[in] size, memory size to allocate
-* \param[in] fctName, name of the function calling my_malloc
-* \return 0 = allocation gone OK, -1 = probleme during allocation
-* \remarks should not be used for pointers array
-*/
-int my_malloc(void** var, size_t size, const char* fctName)
-{
-	*var = malloc(size);
-	if (*var == NULL)
-	{
-		fprintf(logFile, "my_malloc : FAILURE, error allocating memory for %s.", fctName);
-		return -1;
-	}
-	return 0;
-}
+

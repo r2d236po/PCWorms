@@ -20,15 +20,13 @@ Worms* createWorms(char* name)
 	SDL_Surface* texteSurface = NULL;
 	SDL_Surface* tombeSurface = NULL;
 	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
-	spriteDeplacement = loadImage("../assets/pictures/sprite.png");
-	if (spriteDeplacement == NULL)
+	fprintf(logFile, "createWorms : START :\n\n");
+	worms = (Worms*)malloc(sizeof(Worms));
+	if (worms == NULL)
 	{
-		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
+		fprintf(logFile, "createWorms : FAILURE, allocating memory to worms.\n\n");
 		return NULL;
 	}
-	fprintf(logFile, "createWorms : START :\n\n");
-	if (my_malloc(&worms, sizeof(Worms), "createWorms") < 0)
-		return NULL;
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
@@ -134,11 +132,6 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 		free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
-	if (spriteDeplacement != NULL)
-	{
-		SDL_FreeSurface(spriteDeplacement);
-		spriteDeplacement = NULL;
-	}
 	fprintf(logFile, "destroyWorms : DONE.\n");
 }
 
@@ -282,14 +275,40 @@ int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
 */
 void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay)
 {
-	int i = 0;
+	int i = 0, indexWorms1 = 0, indexWorms2 = 0;
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
 		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[i]->wormsSurface, &wormsTab[i]->wormsRect);
-		if (!wormsOverlay(wormsTab))
-			updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+		if (!wormsOverlay(wormsTab, &indexWorms1, &indexWorms2))
+			updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms1, indexWorms2);
 	}
 }
+
+/**
+* \fn int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+* \brief Regarde si deux worms se supperpose.
+* TO DO :
+*			Verifier la superposition de tous les worms.
+* \param[in] wormsTab, tableau de worms.
+* \param[in] indexWorms1, pointeur vers l'indice du worms 1 en supperposition
+* \param[in] indexWorms2, pointeur vers l'indice du worms 2 en supperposition
+* \return error, 1 = SUCCESS, 0 = FAIL
+*/
+int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+{
+	int i = 0;
+	for (i = 1; i < globalVar.nbWormsEquipe; i++)
+	{
+		if (checkRectOverlay(&wormsTab[i]->wormsSurface->clip_rect, &wormsTab[i - 1]->wormsSurface->clip_rect))
+		{
+			*indexWorms1 = i - 1;
+			*indexWorms2 = i;
+			return 0;
+		}
+	}
+	return 1;
+}
+
 
 /**
 * \fn void animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)

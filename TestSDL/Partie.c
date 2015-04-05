@@ -17,10 +17,10 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	Jeu * jeu = NULL;
 	if (logFile != NULL)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
-	jeu = malloc(sizeof(Jeu));
+	jeu = (Jeu*)malloc(sizeof(Jeu));
 	if (jeu == NULL)
 	{
-		fprintf(logFile, "nouveauJeu : FAILURE, allocation memoire jeu.\n\n");
+		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu.\n\n");
 		return NULL;
 	}
 
@@ -31,7 +31,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	jeu->equipes = malloc(nbE * sizeof(Equipe*));
 	if (jeu->equipes == NULL)
 	{
-		fprintf(logFile, "nouveauJeu : FAILURE, allocation memoire jeu->equipes.\n\n");
+		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu->equipes.\n\n");
 		destroyJeu(&jeu);
 		return NULL;
 	}
@@ -77,18 +77,21 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 	Equipe * team = NULL;
 	fprintf(logFile, "nouvelleEquipe : START :\n\n");
 
-	if (my_malloc(&team, sizeof(Equipe), "nouvelleEquipe") < 0)
+	team = (Equipe*)malloc(sizeof(Equipe));
+	if (team == NULL)
+	{
+		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team.\n\n");
 		return NULL;
-
+	}
 	team->nbWormsStart = nbWorms;
 	strcpy(team->nom, nomE);
 	team->color = couleur;
 
 	/*déclaration des Worms*/
-	team->worms = malloc(nbWorms*sizeof(Worms));
+	team->worms = malloc(nbWorms*sizeof(Worms*));
 	if (team->worms == NULL)
 	{
-		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory");
+		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team->worms.");
 		destroyEquipe(&team, globalVar.nbEquipe);
 		return NULL;
 	}
