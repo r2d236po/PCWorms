@@ -3,7 +3,7 @@
 #include "physique.h"
 #include "worms.h"
 #include "Sounds.h"
-
+#include "my_stdrFct.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -125,6 +125,9 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				}
 				pInput->raffraichissement = 1;
 				break;
+			case SDLK_PRINTSCREEN :
+				pInput->screenshot = 1;
+				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
@@ -196,6 +199,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		{
 			updateWorms(wormsTab, pMapTerrain->imageMapSurface, pInput, pTextureDisplay);	//appel de la fonction gerant l'update de l'affichage et d'overlay si nécessaire
 		}
+	}
+	if (pInput->screenshot)
+	{
+		screenshot(pRenderer);
+		pInput->screenshot = 0;
 	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
@@ -366,8 +374,8 @@ Input* initInput()
 	pInput->cursor = initCursor();
 	pInput->wormsPlaying = 0;
 	pInput->deplacement = 0;
-	if (logFile != NULL)
-		fprintf(logFile, "iniInput : SUCCESS.\n\n");
+	pInput->screenshot = 0;
+	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
 

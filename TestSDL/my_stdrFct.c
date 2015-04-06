@@ -26,12 +26,10 @@ SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const ch
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);	//propriétés supplémentaires de la fenêtre
 	if (pWindow == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "creerFenetre : FAILURE, erreur de création de la fenêtre: %s.\n", SDL_GetError());
+		fprintf(logFile, "creerFenetre : FAILURE, erreur de création de la fenêtre: %s.\n", SDL_GetError());
 		return NULL;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "creerFenetre : SUCCESS.\n");
+	fprintf(logFile, "creerFenetre : SUCCESS.\n");
 	return pWindow;
 }
 
@@ -60,12 +58,10 @@ SDL_Surface * loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
 	if (image == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
+		fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
 		return NULL;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "loadImage : SUCCESS.\n\tnom du fichier : %s.\n", file);
+	fprintf(logFile, "loadImage : SUCCESS.\n\tnom du fichier : %s.\n", file);
 	return image;
 }
 
@@ -84,12 +80,10 @@ SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 	SDL_Texture * texture = IMG_LoadTexture(pRenderer, file);
 	if (texture == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
+		fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
 		return NULL;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "loadTexture : SUCCESS.\n\tnom du fichier : %s.\n", file);
+	fprintf(logFile, "loadTexture : SUCCESS.\n\tnom du fichier : %s.\n", file);
 	return texture;
 }
 
@@ -109,18 +103,103 @@ SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pR
 	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
 	if (textureTemp == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createGlobalTexture : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
+		fprintf(logFile, "my_createTextureFromSurface : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
 		return NULL;
 	}
 	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
 	SDL_UpdateTexture(textureTemp, NULL, pSurface->pixels, pSurface->pitch);
-	if (logFile != NULL)
-		fprintf(logFile, "createGlobalTexture : SUCCESS.\n\n");
+	fprintf(logFile, "my_createTextureFromSurface : SUCCESS.\n\n");
 	return textureTemp;
 }
 
 
+/**
+* \fn int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
+* \brief Update texture associated to a surface with a second surface.
+*
+* \param[in] pTexture, the pointer to the texture
+* \param[in] pSurfaceMain, the pointer to the first surface
+* \param[in] pSurfaceSecond, the pointer to the second surface
+* \param[in] pRect, area to erase before to display the second surface
+* \returns 0 = OK, -1 = problem allocating memory
+*/
+int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
+{
+	updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
+	if (pSurfaceMain != pSurfaceSecond)
+	{
+		Uint32* pixelWrite = NULL;
+		Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
+		int x, y, offsety;
+		Uint32* pixelSurfaceMain = (Uint32*)pSurfaceMain->pixels;
+		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
+		nombrePixelToUpdate = pRect->h * pRect->w;
+		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		if (pixelWrite == NULL)
+		{
+			fprintf(logFile, "updateTextureFromMultipleSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			return -1;
+		}
+		x = pSurfaceSecond->clip_rect.x;
+		y = pSurfaceSecond->clip_rect.y;
+		offsety = y * pSurfaceMain->w;
+		for (index = 0; index < nombrePixelToUpdate; index++)
+		{
+			if (pixelTransparent(pixelSurfaceSecond[index], pSurfaceSecond->format))
+			{
+				indexSurfaceMain = (index%pSurfaceSecond->w + x) + (index / pSurfaceSecond->w)*pSurfaceMain->w + offsety;
+				pixelWrite[index] = pixelSurfaceMain[indexSurfaceMain];
+			}
+			else pixelWrite[index] = pixelSurfaceSecond[index];
+		}
+		pRect->x = x;
+		pRect->y = y;
+		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
+		free(pixelWrite);
+		pixelWrite = NULL;
+	}
+	return 0;
+}
+
+/**
+* \fn int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
+* \brief Update texture associated to a surface on selected zone.
+*
+* \param[in] pTexture, the pointer to the texture
+* \param[in] pSurfaceMain, the pointer to the surface
+* \param[in] pRect, area to update, NULL for the entire surface/texture
+* \returns 0 = OK, -1 = problem allocating memory
+*/
+int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
+{
+	Uint32* pixelWrite = NULL;
+	Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
+	int x, y, offsety;
+	if (pRect != NULL)
+	{
+		nombrePixelToUpdate = pRect->h * pRect->w;
+		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		if (pixelWrite == NULL)
+		{
+			fprintf(logFile, "updateTextureFromSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			return -1;
+		}
+		x = pRect->x;
+		y = pRect->y;
+		offsety = y *pSurfaceMain->w;
+		for (index = 0; index < nombrePixelToUpdate; index += pRect->w)
+		{
+			indexSurfaceMain = x + y*pSurfaceMain->w;
+			memmove((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexSurfaceMain), pRect->w * sizeof(Uint32));
+			y++;
+		}
+		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
+		free(pixelWrite);
+		pixelWrite = NULL;
+	}
+	else SDL_UpdateTexture(pTexture, pRect, pSurfaceMain->pixels, pSurfaceMain->pitch);
+	return 0;
+}
 
 
 
@@ -172,6 +251,22 @@ void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 	pixels[(y * pSurface->w) + x] = pixelToWrite;	//Ecrit le pixel aux coordonnées passées en paramètre
 }
 
+
+/**
+* \fn int pixelTransparent(Uint32 pixelToRead,SDL_PixelFormat* format)
+* \brief Test la transparence d'un pixel.
+*
+* \param[in] pixelToRead, pixel en question
+* \param[in] format, format du pixel à lire
+* \returns 1 = pixel transparent, 0 = pixel non transparent
+*/
+int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format)
+{
+	Uint8 a, b, g, r;
+	SDL_GetRGBA(pixelToRead, format, &r, &g, &b, &a);
+	return a < 200;
+}
+
 /**
 * \fn int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest)
 * \brief Ecrit des pixels d'une surface dans une autre surface (comme BlitSurface).
@@ -187,7 +282,7 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 	Uint32* pixelSrc = (Uint32*)pSurfaceSrc->pixels;
 	Uint32* pixelDest = (Uint32*)pSurfaceDest->pixels;
 	int ySrc = 0, xSrc = 0, xDest = 0, yDest = 0, wRectSrc = pSurfaceSrc->w, hRectSrc = pSurfaceSrc->h, wDest = pSurfaceDest->w, wSrc = pSurfaceSrc->w;
-	int indexDest = 0, indexSrc = 0, index = 0, nbPixels = 0, offsetx, offsety;
+	int indexDest = 0, indexSrc = 0, index = 0, nbPixels = 0;
 	if (pRectSrc != NULL)
 	{
 		if (!checkRectSurfaceDimension(pSurfaceSrc, pRectSrc))
@@ -209,55 +304,15 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 		xDest = pRectDest->x;
 	}
 	nbPixels = wRectSrc * hRectSrc;
-	indexDest = xDest + yDest*wDest;
-	indexSrc = xSrc + ySrc*wSrc;
-	for (index = 0; index < nbPixels; index++)
+	for (index = 0; index < nbPixels; index += wRectSrc)
 	{
-		offsetx = index % wRectSrc;
-		offsety = index / wRectSrc;
-		pixelDest[indexDest + offsetx + offsety*wDest] = pixelSrc[indexSrc + offsetx + offsety*wSrc]; //pixelDest[(xDest + index % wRectSrc) + (index / wRectSrc + yDest)*wDest] = ...xSrc...ySrc...wSrc
+		indexDest = xDest + yDest*wDest;
+		indexSrc = xSrc + ySrc*wSrc;
+		memcpy((pixelDest + indexDest), (pixelSrc + indexSrc), wRectSrc*sizeof(Uint32));
+		ySrc++;
+		yDest++;
 	}
 	return 1;
-}
-
-/**
-* \fn int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
-* \brief Test si un rect est compris dans une surface.
-*
-* \param[in] pSurface, surface source
-* \param[in] pRect, rectangle de destination dans la surface source
-* \returns 1 = dimensions OK, 0 = probleme de taille entre le rect et la surface
-*/
-int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
-{
-	if (pRect->w > pSurface->w || (pRect->x + pRect->w) > pSurface->w)
-		return 0;
-	else if (pRect->x < 0 || pRect->x >(pSurface->clip_rect.x + pSurface->w))
-		return 0;
-	else if (pRect->h > pSurface->h || (pRect->y + pRect->h) > pSurface->h)
-		return 0;
-	else if (pRect->y < 0 || pRect->y >(pSurface->clip_rect.y + pSurface->h))
-		return 0;
-	return 1;
-}
-
-/**
-* \fn int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2)
-* \brief Test deux rect se superpose.
-*
-* \param[in] pRect, rectangle 1
-* \param[in] pRect2, rectangle 2
-* \returns 1 = overlay, 0 = pas d'overlay
-*/
-int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2)
-{
-	int widthRel1 = pRect->w + pRect->x, widthRel2 = pRect2->w + pRect2->x;
-	int hightRel1 = pRect->h + pRect->y, hightRel2 = pRect2->h + pRect2->y;
-	if (widthRel1 >= pRect2->x && widthRel1 <= widthRel2 && hightRel1 >= pRect2->y && hightRel1 <= hightRel2)
-		return 1;
-	else if (widthRel2 >= pRect->x && widthRel2 <= widthRel1 && hightRel2 >= pRect->y && hightRel2 <= hightRel1)
-		return 1;
-	return 0;
 }
 
 
@@ -293,3 +348,61 @@ SDL_Rect initRect(int x, int y, int w, int h)
 	rect.h = h;
 	return rect;
 }
+
+
+/**
+* \fn int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
+* \brief Test si un rect peut etre compris dans une surface.
+*
+* \param[in] pSurface, surface source
+* \param[in] pRect, rectangle de destination dans la surface source
+* \returns 1 = dimensions OK, 0 = probleme de taille entre le rect et la surface
+*/
+int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
+{
+	if (pRect->w > pSurface->w || (pRect->x + pRect->w) > pSurface->w)
+		return 0;
+	else if (pRect->x < 0 || pRect->x >(pSurface->clip_rect.x + pSurface->w))
+		return 0;
+	else if (pRect->h > pSurface->h || (pRect->y + pRect->h) > pSurface->h)
+		return 0;
+	else if (pRect->y < 0 || pRect->y >(pSurface->clip_rect.y + pSurface->h))
+		return 0;
+	return 1;
+}
+
+/**
+* \fn int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2)
+* \brief Test si deux rect se superpose.
+*
+* \param[in] pRect, rectangle 1
+* \param[in] pRect2, rectangle 2
+* \returns 1 = overlay, 0 = pas d'overlay
+*/
+int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2)
+{
+	int widthRel1 = pRect->w + pRect->x, widthRel2 = pRect2->w + pRect2->x;
+	int hightRel1 = pRect->h + pRect->y, hightRel2 = pRect2->h + pRect2->y;
+	if (widthRel1 >= pRect2->x && widthRel1 <= widthRel2 && hightRel1 >= pRect2->y && hightRel1 <= hightRel2)
+		return 1;
+	else if (widthRel2 >= pRect->x && widthRel2 <= widthRel1 && hightRel2 >= pRect->y && hightRel2 <= hightRel1)
+		return 1;
+	return 0;
+}
+
+/**
+* \fn SDL_Rect calculRectOverlay(SDL_Rect* pRect1, SDL_Rect* pRect2)
+* \brief Calcul et cree un rectangle de la taille de deux rectangles se supperposant.
+*
+* \param[in] pRect1, rectangle 1
+* \param[in] pRect2, rectangle 2
+* \return rect, une structure SDL_Rect initialisee aux dimensions et coordonnées combinees des deux rect.
+*/
+/*SDL_Rect calculRectOverlay(SDL_Rect* pRect1, SDL_Rect* pRect2)
+{
+SDL_Rect rect;
+
+return rect;
+}*/
+
+

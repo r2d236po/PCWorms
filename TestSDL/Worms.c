@@ -13,53 +13,39 @@
 */
 Worms* createWorms(char* name)
 {
-	Worms * worms = NULL;
+	Worms* worms = NULL;
 	SDL_Surface* wormsSurface = NULL;
-	SDL_Surface * wormsSurfaceLeft = NULL;
-	SDL_Surface * wormsSurfaceRight = NULL;
-	SDL_Surface * texteSurface = NULL;
-	SDL_Surface * tombeSurface = NULL;
-	SDL_Rect clip = initRect(445,28,widthSpriteMov,hightSpriteMov);
-	spriteDeplacement = loadImage("../assets/pictures/sprite.png");
-	if (spriteDeplacement == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
-		return NULL;
-	}
-	if (logFile != NULL)
-		fprintf(logFile, "createWorms : START :\n\n");
+	SDL_Surface* wormsSurfaceLeft = NULL;
+	SDL_Surface* wormsSurfaceRight = NULL;
+	SDL_Surface* texteSurface = NULL;
+	SDL_Surface* tombeSurface = NULL;
+	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
+	fprintf(logFile, "createWorms : START :\n\n");
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, allocation memoire worms.\n\n");
+		fprintf(logFile, "createWorms : FAILURE, allocating memory to worms.\n\n");
 		return NULL;
 	}
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
 	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
-	//wormsSurfaceLeft = loadImage("../assets/pictures/worms_G.png");
 	wormsSurfaceLeft = SDL_CreateRGBSurface(0, 31, 30, 32, RMASK, GMASK, BMASK, AMASK);
-	//wormsSurfaceRight = loadImage("../assets/pictures/worms_D.png");
 	wormsSurfaceRight = SDL_CreateRGBSurface(0, 31, 30, 32, RMASK, GMASK, BMASK, AMASK);
 	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
 	if (tombeSurface == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
+		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
 	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
 	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
+		fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
 		destroyWorms(&worms, 1);
 		return NULL;
-
 	}
 	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceLeft, NULL);
 	clip.x = 24;
@@ -85,7 +71,7 @@ Worms* createWorms(char* name)
 
 	//initialisation des variables autres
 	worms->vie = 100;
-	worms->nom = name;
+	strcpy(worms->nom, name);
 	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->xAbs = worms->wormsSurface->clip_rect.x;
 	worms->yAbs = worms->wormsSurface->clip_rect.y;
@@ -103,8 +89,7 @@ Worms* createWorms(char* name)
 	tombeSurface = NULL;
 
 	//Enregistrement log
-	if (logFile != NULL)
-		fprintf(logFile, "\ncreateWorms : SUCCESS.\n\n");
+	fprintf(logFile, "\ncreateWorms : SUCCESS.\n\n");
 	return worms;
 }
 
@@ -147,13 +132,7 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 		free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
-	if (spriteDeplacement != NULL)
-	{
-		SDL_FreeSurface(spriteDeplacement);
-		spriteDeplacement = NULL;
-	}
-	if (logFile != NULL)
-		fprintf(logFile, "destroyWorms : DONE.\n");
+	fprintf(logFile, "destroyWorms : DONE.\n");
 }
 
 
@@ -296,14 +275,40 @@ int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
 */
 void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay)
 {
-	int i = 0;
+	int i = 0, indexWorms1 = 0, indexWorms2 = 0;
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		updateGlobaleTexture(pSurfaceMap, wormsTab[i]->wormsSurface, pTextureDisplay, &wormsTab[i]->wormsRect);
-		if (!wormsOverlay(wormsTab))
-			updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, globalVar.nbWormsEquipe - pInput->wormsPlaying - 1, pInput->wormsPlaying);
+		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[i]->wormsSurface, &wormsTab[i]->wormsRect);
+		if (!wormsOverlay(wormsTab, &indexWorms1, &indexWorms2))
+			updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms1, indexWorms2);
 	}
 }
+
+/**
+* \fn int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+* \brief Regarde si deux worms se supperpose.
+* TO DO :
+*			Verifier la superposition de tous les worms.
+* \param[in] wormsTab, tableau de worms.
+* \param[in] indexWorms1, pointeur vers l'indice du worms 1 en supperposition
+* \param[in] indexWorms2, pointeur vers l'indice du worms 2 en supperposition
+* \return error, 1 = SUCCESS, 0 = FAIL
+*/
+int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+{
+	int i = 0;
+	for (i = 1; i < globalVar.nbWormsEquipe; i++)
+	{
+		if (checkRectOverlay(&wormsTab[i]->wormsSurface->clip_rect, &wormsTab[i - 1]->wormsSurface->clip_rect))
+		{
+			*indexWorms1 = i - 1;
+			*indexWorms2 = i;
+			return 0;
+		}
+	}
+	return 1;
+}
+
 
 /**
 * \fn void animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)

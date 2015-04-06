@@ -1,5 +1,6 @@
 #include "partie.h"
 #include "AffichageGeneral.h"
+#include "my_stdrFct.h"
 
 /* Fonctions relatives à la gestion d'une partie */
 /**
@@ -16,11 +17,10 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	Jeu * jeu = NULL;
 	if (logFile != NULL)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
-	jeu = malloc(sizeof(Jeu));
+	jeu = (Jeu*)malloc(sizeof(Jeu));
 	if (jeu == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "nouveauJeu : FAILURE, allocation memoire jeu.\n\n");
+		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu.\n\n");
 		return NULL;
 	}
 
@@ -31,8 +31,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	jeu->equipes = malloc(nbE * sizeof(Equipe*));
 	if (jeu->equipes == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "nouveauJeu : FAILURE, allocation memoire jeu->equipes.\n\n");
+		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu->equipes.\n\n");
 		destroyJeu(&jeu);
 		return NULL;
 	}
@@ -41,12 +40,10 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
 		if (jeu->equipes[i] == NULL)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
+			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
 		}
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "nouveauJeu : SUCCESS.\n\n");
+	fprintf(logFile, "nouveauJeu : SUCCESS.\n\n");
 	return jeu;
 }
 
@@ -63,8 +60,7 @@ void destroyJeu(Jeu ** game)
 		destroyEquipe((*game)->equipes, (*game)->nbEquipe);
 	free(*game);
 	*game = NULL;
-	if (logFile != NULL)
-		fprintf(logFile, "destroyJeu : DONE.\n");
+	fprintf(logFile, "destroyJeu : DONE.\n");
 }
 
 /**
@@ -79,43 +75,39 @@ void destroyJeu(Jeu ** game)
 Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 {
 	Equipe * team = NULL;
-	if (logFile != NULL)
-		fprintf(logFile, "nouvelleEquipe : START :\n\n");
-	team = malloc(sizeof(Equipe));
+	fprintf(logFile, "nouvelleEquipe : START :\n\n");
+
+	team = (Equipe*)malloc(sizeof(Equipe));
 	if (team == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "nouvelleEquipe : FAILURE, allocation memoire team.\n\n");
+		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team.\n\n");
 		return NULL;
 	}
-
 	team->nbWormsStart = nbWorms;
-	team->nom = nomE;
+	strcpy(team->nom, nomE);
 	team->color = couleur;
 
 	/*déclaration des Worms*/
-	team->worms = malloc(nbWorms * sizeof(Worms));
+	team->worms = malloc(nbWorms*sizeof(Worms*));
 	if (team->worms == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "nouvelleEquipe : FAILURE, allocation memoire team->worms.\n\n");
+		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team->worms.");
 		destroyEquipe(&team, globalVar.nbEquipe);
 		return NULL;
 	}
+
 	for (int i = 0; i < nbWorms; i++)
 	{
-		team->worms[i] = createWorms("NomWorms");
+		team->worms[i] = createWorms("Gerard");
 		if (team->worms[i] == NULL)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");
+			fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");
 			destroyEquipe(&team, globalVar.nbEquipe);
 			break;
 		}
 	}
 	team->vie = vieEquipe(team);
-	if (logFile != NULL)
-		fprintf(logFile, "nouvelleEquipe : SUCCESS.\n\n");
+	fprintf(logFile, "nouvelleEquipe : SUCCESS.\n\n");
 	return team;
 }
 
@@ -137,8 +129,7 @@ void destroyEquipe(Equipe ** team, int nbE)
 	}
 	free(*team);
 	*team = NULL;
-	if (logFile != NULL)
-		fprintf(logFile, "destroyEquipe : DONE.\n");
+	fprintf(logFile, "destroyEquipe : DONE.\n");
 }
 
 /**
@@ -177,8 +168,7 @@ void mainInit(int nbE, int nbWpE)
 
 	globalVar.nbEquipe = nbE;
 	globalVar.nbWormsEquipe = nbWpE;
-	if (logFile != NULL)
-		fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
+	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
 }
 
 /**
@@ -205,8 +195,7 @@ int saveGame(Jeu* jeu)
 	int indexEquipe = 0, indexWorms = 0;
 	if (file == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "saveGame : FAILURE, ouverture du fichier d'enregistrement.");
+		fprintf(logFile, "saveGame : FAILURE, ouverture du fichier d'enregistrement.");
 		return 0;
 	}
 	fprintf(file, "Resultat de la partie : \n\n");
@@ -226,8 +215,7 @@ int saveGame(Jeu* jeu)
 		}
 		fprintf(file, "\n\n");
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "saveGame : SUCCESS.\n");
+	fprintf(logFile, "saveGame : SUCCESS.\n");
 	fclose(file);
 	return 1;
 }

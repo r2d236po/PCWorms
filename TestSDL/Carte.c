@@ -24,14 +24,12 @@ int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const
 {
 	Terrain * pMapTerrainTemp = NULL;	//Pointeur du Terrain temporaire
 
-	if (logFile != NULL)
-		fprintf(logFile, "initialisationTerrain : START :\n\n");
+	fprintf(logFile, "initialisationTerrain : START :\n\n");
 	//Creation du pointeur de Terrain
 	pMapTerrainTemp = (Terrain*)malloc(sizeof(Terrain));	//Allocation mémoire pour le pointeur de Terrain
 	if (pMapTerrainTemp == NULL)	//Si l'allocation s'est mal passee
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initialisationTerrain : FAILURE, allocation memoire de pMapTerrainTemp.\n\n");
+		fprintf(logFile, "initialisationTerrain : FAILURE, allocation memoire de pMapTerrainTemp.\n\n");
 		return -1;	//Retour d'erreur
 	}
 	pMapTerrainTemp->imageBackground = NULL;	//Initialisation à NULL du pointeur de la texture de l'image de fond
@@ -41,8 +39,7 @@ int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const
 	pMapTerrainTemp->imageBackground = loadTexture(pRenderer, nomImageFond);	//Chargement de l'image de fond dans la texture
 	if (pMapTerrainTemp->imageBackground == NULL)	//Si le chargement a échoué
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initialisationTerrain : FAILURE, loadTexture : imageBackground.\n\n");
+		fprintf(logFile, "initialisationTerrain : FAILURE, loadTexture : imageBackground.\n\n");
 		destroyMap(&pMapTerrainTemp);	//Destruction du Terrain
 		return -1;	//Retour d'erreur
 	}
@@ -51,15 +48,13 @@ int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const
 	pMapTerrainTemp->imageMapSurface = loadImage(nomImageMap);	//Chargement de l'image de la map dans la surface
 	if (pMapTerrainTemp->imageMapSurface == NULL) //Verification qu'il n'y a pas eu d'erreur lors de l'allocation en mémoire
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initialisationTerrain : FAILURE, loadImage : imageMapSurface.\n\n");
+		fprintf(logFile, "initialisationTerrain : FAILURE, loadImage : imageMapSurface.\n\n");
 		destroyMap(&pMapTerrainTemp);	//Destruction du Terrain
 		return -1;	//Retour d'erreur
 	}
 	(*p_pMapTerrain) = pMapTerrainTemp; //Récupération du pointeur du Terrain
 	pMapTerrainTemp = NULL;	//Remise à NULL du pointeur temporaire
-	if (logFile != NULL)
-		fprintf(logFile, "\ninitialisationTerrain : SUCCESS.\n\n");
+	fprintf(logFile, "\ninitialisationTerrain : SUCCESS.\n\n");
 	return 1;	//Retour sans erreur
 }
 
@@ -83,8 +78,7 @@ void destroyMap(Terrain** p_pMapTerrain)
 	}
 	free(*p_pMapTerrain);	//Liberation de la mémoire du pointeur du Terrain
 	*p_pMapTerrain = NULL;	//Remise à NULL du pointeur
-	if (logFile != NULL)
-		fprintf(logFile, "destroyMap : DONE.\n");
+	fprintf(logFile, "destroyMap : DONE.\n");
 }
 
 

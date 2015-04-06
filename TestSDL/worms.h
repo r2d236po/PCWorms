@@ -10,7 +10,7 @@
 
 typedef struct {		//Structure worms
 	int vie;				//Point de vie
-	char* nom;				//Nom du joueur
+	char nom[20];				//Nom du joueur
 	char* arme;				//Arme en cours d'utilisation
 	Arme* invent[TAILLEINV];//Inventaire des armes et objets disponibles
 	int xAbs;				//position "absolu" en X
@@ -41,6 +41,7 @@ int retournementWorms(Input* pInput, Worms* pWorms);
 void swapSurface(Worms* pWorms);
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);
 void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay);
+int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2);
 #endif // !1
 
 

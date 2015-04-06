@@ -23,16 +23,14 @@ int mainFenetre(Jeu * jeu)
 		pInput = initInput();
 		if (pInput == NULL)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
 		//Initialisation du terrain
 		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
@@ -41,8 +39,7 @@ int mainFenetre(Jeu * jeu)
 		display = my_createTextureFromSurface(jeu->pMapTerrain->imageMapSurface, pRenderer);
 		if (display == NULL)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 			destroyMap(&jeu->pMapTerrain);
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
@@ -55,8 +52,7 @@ int mainFenetre(Jeu * jeu)
 		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
 		if (loadSounds(BipExplo, 0) < 0)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &display);
 			return -1;
 		}
@@ -68,8 +64,7 @@ int mainFenetre(Jeu * jeu)
 			//Gestion des inputs
 			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[0]->worms))
 			{
-				if (logFile != NULL)
-					fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
+				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
 
 			//Update de l'écran
@@ -92,8 +87,7 @@ int mainFenetre(Jeu * jeu)
 		destroyPolice();
 	}
 	cleanUp(&pWindow, &pRenderer, &pInput, &display);
-	if (logFile != NULL)
-		fprintf(logFile, "mainFenetre : SUCCESS.\n");
+	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	return 0;
 }
 
@@ -112,7 +106,7 @@ int sandboxRenderer()
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
 	{
-		printf("Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
+		fprintf(logFile, "Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
 		return -1;
 	}
 
@@ -128,7 +122,7 @@ int sandboxRenderer()
 	renderer2 = SDL_CreateRenderer(pWindow2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (renderer2 == NULL)//gestion des erreurs
 	{
-		printf("Erreur lors de la creation d'un renderer : %s", SDL_GetError());
+		fprintf(logFile, "Erreur lors de la creation d'un renderer : %s", SDL_GetError());
 		return -1;
 	}
 
@@ -208,54 +202,115 @@ int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, initialisation de la SDL (%s)\n\n", SDL_GetError());
+		fprintf(logFile, "initSWR : FAILURE, initialisation de la SDL (%s)\n\n", SDL_GetError());
 		return -1;
 	}
 	/* Création de la fenêtre */
 	*p_pWindow = creerFenetre(1080, 600, "KaamWorms");
 	if (*p_pWindow == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
+		fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
 		return -1;
 	}
+	{
+		SDL_Surface* surfaceIcone = loadImage(ICONE);
+		if (surfaceIcone != NULL)
+			SDL_SetWindowIcon(*p_pWindow, surfaceIcone);
+		SDL_FreeSurface(surfaceIcone);
+	};
 	/* Création du renderer */
 	*p_pRenderer = SDL_CreateRenderer(*p_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (*p_pRenderer == NULL)//gestion des erreurs
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
+		fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
 		cleanUp(p_pWindow, NULL, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_Image*/
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
+		fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
 		cleanUp(p_pWindow, p_pRenderer, NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_TTF*/
 	if (TTF_Init() == -1)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
+		fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
 		return -1;
 	}
 	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
 	{
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
 		{
-			if (logFile != NULL)
-				fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
-
+			fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
 		}
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "initSWR : SUCCESS.\n\n");
+	fprintf(logFile, "initSWR : SUCCESS.\n\n");
 	return 1;
+}
+
+
+/**
+* \fn int initSprites(void)
+* \brief Init sprites surfaces of the game.
+*
+* \returns 0 = SUCCESS, -1 = FAILURE to load a sprite
+*/
+int initSprites(void)
+{
+	spriteGrenadeExplosion = NULL;
+	spriteDeplacement = NULL;
+	spriteNukeExplosion = NULL;
+	spriteDeplacement = loadImage("../assets/sprites/spriteMov.png");
+	if (spriteDeplacement == NULL)
+	{
+		fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+		return -1;
+	}
+	spriteGrenadeExplosion = loadImage("../assets/sprites/Grenade_Sprite.png");
+	if (spriteGrenadeExplosion == NULL)
+	{
+		fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+		cleanSprites();
+		return -1;
+	}
+	spriteNukeExplosion = loadImage("../assets/sprites/Nuke_Sprite.png");
+	if (spriteNukeExplosion == NULL)
+	{
+		fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+		cleanSprites();
+		return -1;
+	}
+	fprintf(logFile, "initSprites : SUCCESS.\n\n");
+	return 0;
+}
+
+
+/**
+* \fn void cleanSprites(void)
+* \brief clean sprites surfaces of the game.
+*
+* \returns void
+*/
+void cleanSprites(void)
+{
+	if (spriteDeplacement != NULL)
+	{
+		SDL_FreeSurface(spriteDeplacement);
+		spriteDeplacement = NULL;
+	}
+	if (spriteGrenadeExplosion != NULL)
+	{
+		SDL_FreeSurface(spriteGrenadeExplosion);
+		spriteGrenadeExplosion = NULL;
+	}
+	if (spriteNukeExplosion != NULL)
+	{
+		SDL_FreeSurface(spriteNukeExplosion);
+		spriteNukeExplosion = NULL;
+	}
+	fprintf(logFile, "cleanSprites : DONE.\n");
 }
 
 
@@ -291,13 +346,13 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 		SDL_DestroyTexture(*p_pTextureDisplay);
 		(*p_pTextureDisplay) = NULL;
 	}
+	cleanSprites();
 	TTF_Quit();
 	IMG_Quit();
 	cleanSounds();
 	Mix_Quit();
 	SDL_Quit();
-	if (logFile != NULL)
-		fprintf(logFile, "cleanUp : DONE.\n");
+	fprintf(logFile, "cleanUp : DONE.\n");
 }
 
 
@@ -467,8 +522,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 		if (pCamera->x < 0)pCamera->x = 0;
 		if (pCamera->y < 0)pCamera->y = 0;
 	}
-	if (logFile != NULL)
-		fprintf(logFile, "initCameras : DONE.\n\n");
+	fprintf(logFile, "initCameras : DONE.\n\n");
 }
 
 /**
@@ -520,29 +574,29 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera,
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 
-	offsety = camera->h;
+	offsety = (float)camera->h;
 	camera->h = camera->h - 10;
 	offsety -= camera->h;
-	offsetx = camera->w;
+	offsetx = (float)camera->w;
 	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
 	offsetx -= camera->w;
 
-	x = 2 * ((float)(pInput->cursor.now.x / (float)wW) - 0.5);
-	y = 2 * ((float)(pInput->cursor.now.y / (float)hW) - 0.5);
+	x = 2 * (float)((float)(pInput->cursor.now.x / (float)wW) - 0.5);
+	y = 2 * (float)((float)(pInput->cursor.now.y / (float)hW) - 0.5);
 
 	if (x > 0.2 || x < -0.2){
-		float coefx = (0.03 * camera->w);
+		float coefx = (float)(0.03 * camera->w);
 		if (coefx < offsetx / 2)coefx = offsetx / 2;
-		camera->x += (int)(x * coefx) + offsetx / 2;
+		camera->x += (int)(x * coefx) + (int)(offsetx / 2);
 	}
-	else camera->x += offsetx / 2;
+	else camera->x += (int)(offsetx / 2);
 
 	if (y > 0.2 || y < -0.2){
-		float coefy = (0.05 * camera->h);
+		float coefy = (float)(0.05 * camera->h);
 		if (coefy < offsety / 2)coefy = offsety / 2;
-		camera->y += (int)(y * coefy) + offsety / 2;
+		camera->y += (int)(y * coefy) + (int)(offsety / 2);
 	}
-	else camera->y += offsety / 2;
+	else camera->y += (int)(offsety / 2);
 
 	if (camera->x < 0)camera->x = 0;
 	if (camera->y < 0)camera->y = 0;
@@ -596,10 +650,6 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 		camera->y = 0;
 	}
 }
-
-
-
-
 
 
 /**
@@ -675,7 +725,6 @@ int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surfa
 	Uint32* pixelWrite = NULL;
 	Uint32 pixelRead;
 	int nombrePixel = 0;
-	Uint8 r = 0, g = 0, b = 0, a = 0;
 	SDL_Surface* pSurfaceWorms1 = wormsTab[indexWorms1]->wormsSurface;
 	SDL_Surface* pSurfaceWorms2 = wormsTab[indexWorms2]->wormsSurface;
 	SDL_Rect rect;
@@ -698,11 +747,10 @@ int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surfa
 	rect.h = (yEnd - yStart);
 	rect.w = (xEnd - xStart);
 	nombrePixel = rect.w * rect.h;
-	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
+	pixelWrite = (Uint32*)malloc(nombrePixel * sizeof(Uint32));
 	if (pixelWrite == NULL)
 	{
-		if (logFile != NULL)
-			fprintf(logFile, "updateWormsOverlay : FAILURE, allocation memoire pixelWrite.\n\n");
+		fprintf(logFile, "createWorms : FAILURE, allocating memory to pixelWrite.\n\n");
 		return -1;
 	}
 	for (y = yStart; y < yEnd; y++)
@@ -710,12 +758,10 @@ int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surfa
 		for (x = xStart; x < xEnd; x++)
 		{
 			pixelRead = ReadPixel(pSurfaceWorms2, MY_ABS((x - x1)), y - y1);
-			SDL_GetRGBA(pixelRead, pSurfaceWorms2->format, &r, &g, &b, &a);
-			if (a < 200)
+			if (pixelTransparent(pixelRead, pSurfaceWorms2->format))
 			{
 				pixelRead = ReadPixel(pSurfaceWorms1, MY_ABS(x - x0), MY_ABS(y - y0));
-				SDL_GetRGBA(pixelRead, pSurfaceWorms1->format, &r, &g, &b, &a);
-				if (a < 200)
+				if (pixelTransparent(pixelRead, pSurfaceWorms1->format))
 				{
 					pixelRead = ReadPixel(pSurfaceMap, x, y);
 				}
@@ -730,24 +776,7 @@ int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surfa
 	return 0;
 }
 
-/**
-* \fn int wormsOverlay(Worms** wormsTab)
-* \brief Regarde si deux worms se supperpose.
-* TO DO :
-*			Verifier la superposition de tous les worms.
-* \param[in] wormsTab, tableau de worms.
-* \return error, 1 = SUCCESS, 0 = FAIL
-*/
-int wormsOverlay(Worms** wormsTab)
-{
-	int i = 0;
-	for (i = 1; i < globalVar.nbWormsEquipe; i++)
-	{
-		if (checkRectOverlay(&wormsTab[i]->wormsSurface->clip_rect, &wormsTab[i - 1]->wormsSurface->clip_rect))
-			return 0;
-	}
-	return 1;
-}
+
 
 /**
 * \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
@@ -782,49 +811,35 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 }
 
 
-int updateGlobaleTexture2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTextureDisplay, SDL_Rect* pRectSurfaceModif)
-{
-	Uint32* pixelWrite = NULL;
-	Uint32* pixelSurfaceMap = (Uint32*)pSurfaceMap->pixels;
-	Uint32* pixelSurfaceModif = (Uint32*)pSurfaceModif->pixels;
-	Uint32 pixelRead;
-	int nombrePixel = 0, index;
-	Uint8 r = 0, g = 0, b = 0, a = 0;
-	int x = 0, y = 0, i = 0;
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceModif, NULL))
-		return -1;
-	nombrePixel = pRectSurfaceModif->w * pRectSurfaceModif->h;
-	reajustRect(pRectSurfaceModif, pSurfaceMap);
-	//pixelWrite = malloc(nombrePixel*sizeof(Uint32));
-	/*if (pixelWrite == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "updateGlobalTexture : FAILURE, allocation memoire pixelWrite.\n\n");
-		return -1;
-	}
-	/*for (i = 0; i < 2; i++)
-	{*/
-		copySurfacePixels(pSurfaceMap, pRectSurfaceModif, pSurfaceMap, pRectSurfaceModif);
-		SDL_UpdateTexture(pTextureDisplay, pRectSurfaceModif, pSurfaceMap->pixels, 4 * pRectSurfaceModif->w);
-		pRectSurfaceModif->y = pSurfaceModif->clip_rect.y;
-		pRectSurfaceModif->x = pSurfaceModif->clip_rect.x;
-		/*for (index = 0; index < nombrePixel; index++)
-		{
-			if (i != 0)
-			{
-				pixelRead = pixelSurfaceModif[index];
-				SDL_GetRGBA(pixelRead, pSurfaceModif->format, &r, &g, &b, &a);
-			}
-			if (i == 0 || a != 255)
-				pixelWrite[index] = pixelSurfaceMap[index];
-			else pixelWrite[index] = pixelRead;
-		}
-		SDL_UpdateTexture(pTextureDisplay, pRectSurfaceModif, pixelWrite, 4 * pRectSurfaceModif->w);
-		pRectSurfaceModif->y = pSurfaceModif->clip_rect.y;
-		pRectSurfaceModif->x = pSurfaceModif->clip_rect.x;/**/
-	//}
-	//free(pixelWrite);
-	pixelWrite = NULL;
-	return 0;
-}
 
+/**
+* \fn void screenshot(SDL_Renderer* pRenderer)
+* \brief Make a screenshot of the screen
+*
+* \param[in] pRenderer, pointer to the renderer of the current window
+* \return void
+*/
+void screenshot(SDL_Renderer* pRenderer)
+{
+	int w, h;
+	int i = 0;
+	const char* mainPath = "../assets/screenshot/";
+	char path[50];
+	char screenshotName[29];
+	time_t t1;
+	t1 = time(NULL);
+	SDL_Surface* surfaceScreenshot = NULL;
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+	surfaceScreenshot = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
+	SDL_RenderReadPixels(pRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
+	strcpy(path, mainPath);
+	sprintf(screenshotName, "%s\0", ctime(&t1));
+	strcat(path, screenshotName);
+	memcpy(path + strlen(mainPath) + 3, "_", 1);
+	memcpy(path + strlen(mainPath) + 7, "_", 1);
+	for (i = 10; i < 22; i += 3)
+		memcpy(path + strlen(mainPath) + i, ".", 1);
+	memcpy(path + strlen(mainPath) + strlen(screenshotName) - 1, ".bmp\0", 5);
+	SDL_SaveBMP(surfaceScreenshot, path);
+	SDL_FreeSurface(surfaceScreenshot);
+}
