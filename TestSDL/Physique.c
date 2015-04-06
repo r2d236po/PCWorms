@@ -259,7 +259,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 	switch (dir)
 	{
 	case UP:
-		pSurfaceMotion->clip_rect.y -= 1;
+		pSurfaceMotion->clip_rect.y -= 2;
 		break;
 	case UPLEFT:
 		pSurfaceMotion->clip_rect.y -= 1;
@@ -273,7 +273,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 		break;
 	case UPRIGHT:
 		pSurfaceMotion->clip_rect.y -= 1;
-		pSurfaceMotion->clip_rect.x += 1;
+		pSurfaceMotion->clip_rect.x +=1;
 		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
 		{
 			pSurfaceMotion->clip_rect.y += 1;
@@ -291,7 +291,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 		break;
 	case RIGHT:
 		pSurfaceMotion->clip_rect.x += 1;
-		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
+		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UPRIGHT))
 		{
 			pSurfaceMotion->clip_rect.x -= 1;
 			return 0;
@@ -299,7 +299,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 		break;
 	case LEFT:
 		pSurfaceMotion->clip_rect.x -= 1;
-		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
+		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UPLEFT))
 		{
 			pSurfaceMotion->clip_rect.x += 1;
 			return 0;
@@ -313,7 +313,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 	{
 		pSurfaceMotion->clip_rect.y = y;
 		pSurfaceMotion->clip_rect.x = x;
-		if ((direction == LEFT || direction == RIGHT || direction == UP) && dir == DOWN)
+		if ((/*direction == LEFT || direction == RIGHT || */direction == UP) && dir == DOWN)
 			return 1;
 		return 0;
 	}
