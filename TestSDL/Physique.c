@@ -65,45 +65,11 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 	int onGround = !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, DOWN);
 	if (pInput->jumpOnGoing || pInput->direction != NONE || pInput->jump /*|| !finAnim */ || !onGround)
 	{
-		if (!start && !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pWorms->dir))
-		{
-			finDeplacement(pInput, pWorms, pMapTerrain, 1, 1);
-			return;
-		}
-		if (pInput->jumpOnGoing)
-		{
-			/*On remet à zero x et y par rapport à sa position absolu de départ*/
-			start = 1;
-			pWorms->wormsSurface->clip_rect.x = pWorms->xAbs;
-			pWorms->wormsSurface->clip_rect.y = pWorms->yAbs;
-		}
-
-		/////////////////////////////////////////////////////////////
-		////////////         Réalisation du saut         ////////////
-		/////////////////////////////////////////////////////////////
-
-		/*Calcul des positions relatives*/
-		if (pInput->jumpOnGoing || !onGround)
-		{
-			calculPositionRel(&xRel, &yRel, t, pWorms->vitx, pWorms->vity, pWorms->wormsSurface);
-		}
-		t += 7;
-
 		/*Calcul d'un eventuel retournement*/
 		if (!retournement && !pInput->jumpOnGoing)
 			retournement = retournementWorms(pInput, pWorms);
 
-		/*Fonction de déplacement du worms si non saut*/
-		if (!pInput->jumpOnGoing && !retournement)
-		{
-			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface, 0);
-		}
-
-		/*Determination de la direction du saut*/
-		pWorms->dir = calculDirectionDeplacement((pWorms->wormsSurface->clip_rect.x - xPrec), (pWorms->wormsSurface->clip_rect.y - yPrec));
-		if ((pInput->direction == LEFT || pInput->direction == RIGHT) && (pWorms->dir == DRIGHT || pWorms->dir == DLEFT))
-			pWorms->dir = DOWN;
-		/*Gestion de la collision*/
+		/*Gestion de la collision du retournement*/
 		if (retournement)
 		{
 			swapSurface(pWorms);
@@ -113,8 +79,55 @@ void gestionPhysiqueWorms(Input* pInput, Worms* pWorms, Terrain* pMapTerrain, SD
 				deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface, 0);
 				retournement = 0;
 			}
-			retournement = 0;
 		}
+
+		if (!start && !checkDeplacement(pMapTerrain->imageMapSurface, pWorms->wormsSurface, pWorms->dir))
+		{
+			finDeplacement(pInput, pWorms, pMapTerrain, 1, 1);
+			return;
+		}
+
+		/////////////////////////////////////////////////////////////
+		////////////         Réalisation du saut         ////////////
+		/////////////////////////////////////////////////////////////
+
+		if (pInput->jumpOnGoing)
+		{
+			/*On remet à zero x et y par rapport à sa position absolu de départ*/
+			start = 1;
+			pWorms->wormsSurface->clip_rect.x = pWorms->xAbs;
+			pWorms->wormsSurface->clip_rect.y = pWorms->yAbs;
+		}
+
+		/*Calcul des positions relatives par rapport aux positions absolues*/
+		if (pInput->jumpOnGoing || !onGround)
+		{
+			calculPositionRel(&xRel, &yRel, t, pWorms->vitx, pWorms->vity, pWorms->wormsSurface);
+		}
+		t += 7;
+
+		/*Determination de la direction du saut*/
+		if (!onGround)
+		{
+			pWorms->dir = calculDirectionDeplacement((pWorms->wormsSurface->clip_rect.x - xPrec), (pWorms->wormsSurface->clip_rect.y - yPrec));
+			if ((pInput->direction == LEFT || pInput->direction == RIGHT) && onGround/*(pWorms->dir == DRIGHT || pWorms->dir == DLEFT)*/)//if (onGround)
+				pWorms->dir = DOWN;
+		}
+
+		/////////////////////////////////////////////////////////////
+		////////////         Déplacement standard        ////////////
+		/////////////////////////////////////////////////////////////
+		
+		/*Fonction de déplacement du worms si non saut*/
+		if (!pInput->jumpOnGoing && !retournement)
+		{
+			finAnim = deplacementWorms(pInput, pWorms, pMapTerrain->imageMapSurface, 0);
+		}
+
+		/////////////////////////////////////////////////////////////
+		////////////       Gestion de la collision       ////////////
+		/////////////////////////////////////////////////////////////
+		
 		collision = gestionCollision(pInput->acceleration, pMapTerrain->imageMapSurface, pWorms->wormsSurface, &pWorms->dir);
 
 		/*Gestion de fin de mouvement*/
@@ -228,15 +241,20 @@ enum DIRECTION calculDirectionDeplacement(int dx, int dy)
 			return RIGHT;
 		else return LEFT;
 	}
-	else if (dx > 0)
+	else if (dx > 2)
 	{
-		if (dy > 0)
+		if (dy > 2)
 			return DRIGHT;
-		else return UPRIGHT;
+		else if (dy < -2)
+			return UPRIGHT;
 	}
-	else if (dy < 0)
-		return UPLEFT;
-	else return DLEFT;
+	else if (dx < -2)
+	{
+		if (dy < -2)
+			return UPLEFT;
+		else if (dy > 2)
+			return DLEFT;
+	}
 }
 
 
@@ -259,7 +277,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 	switch (dir)
 	{
 	case UP:
-		pSurfaceMotion->clip_rect.y -= 2;
+		pSurfaceMotion->clip_rect.y -= 1;
 		break;
 	case UPLEFT:
 		pSurfaceMotion->clip_rect.y -= 1;
@@ -273,7 +291,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 		break;
 	case UPRIGHT:
 		pSurfaceMotion->clip_rect.y -= 1;
-		pSurfaceMotion->clip_rect.x +=1;
+		pSurfaceMotion->clip_rect.x += 1;
 		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
 		{
 			pSurfaceMotion->clip_rect.y += 1;
@@ -291,19 +309,19 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 		break;
 	case RIGHT:
 		pSurfaceMotion->clip_rect.x += 1;
-		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UPRIGHT))
+		/*if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
 		{
-			pSurfaceMotion->clip_rect.x -= 1;
-			return 0;
-		}
+		pSurfaceMotion->clip_rect.x -= 1;
+		return 0;
+		}*/
 		break;
 	case LEFT:
 		pSurfaceMotion->clip_rect.x -= 1;
-		if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UPLEFT))
+		/*if (!checkDeplacement(pSurfaceMap, pSurfaceMotion, UP))
 		{
-			pSurfaceMotion->clip_rect.x += 1;
-			return 0;
-		}
+		pSurfaceMotion->clip_rect.x += 1;
+		return 0;
+		}*/
 		break;
 	case DOWN:
 		pSurfaceMotion->clip_rect.y += 1;
@@ -313,7 +331,7 @@ int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum
 	{
 		pSurfaceMotion->clip_rect.y = y;
 		pSurfaceMotion->clip_rect.x = x;
-		if ((/*direction == LEFT || direction == RIGHT || */direction == UP) && dir == DOWN)
+		if ((direction == LEFT || direction == RIGHT || direction == UP) && dir == DOWN)
 			return 1;
 		return 0;
 	}

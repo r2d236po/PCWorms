@@ -150,6 +150,7 @@ int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, int
 {
 	int deplacement = 0;
 	static int indexAnim = 0;
+	enum DIRECTION direction = pInput->direction;
 	if (pInput->direction != NONE)
 	{
 		switch (pInput->direction)
@@ -170,16 +171,17 @@ int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, int
 		if (pInput->direction == RIGHT || pInput->direction == LEFT)
 		{
 			pWorms->wormsSurface->clip_rect.x += deplacement;
-			if (!swap)
+			/*if (!swap)
 			{
 				animationWorms(pWorms, indexAnim, pInput->direction);
+				gestionCollision(1, pSurfaceMap, pWorms->wormsSurface, &direction);
 				if (indexAnim == 14)
 				{
 					indexAnim = 0;
 				}
 				else indexAnim++;
 			}
-			else indexAnim = 0;
+			else indexAnim = 0;*/
 		}
 		else if (pInput->direction == UP || pInput->direction == DOWN)
 		{
@@ -237,9 +239,10 @@ void swapSurface(Worms* pWorms)
 		pWorms->wormsSurface->pixels = pWorms->wormsSurfaceRight->pixels;
 	}
 	else pWorms->wormsSurface->pixels = pWorms->wormsSurfaceLeft->pixels;
-	if (pWorms->dirSurface == RIGHT)
+	/*Offset entre la droite et la gauche*/
+	/*if (pWorms->dirSurface == RIGHT)
 		pWorms->wormsSurface->clip_rect.x += 10;
-	else pWorms->wormsSurface->clip_rect.x -= 10;
+	else pWorms->wormsSurface->clip_rect.x -= 10;*/
 }
 
 /**

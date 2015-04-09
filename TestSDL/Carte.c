@@ -387,7 +387,7 @@ int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceM
 * \fn void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* yStart, int* yEnd, int zone)
 * \brief Calcul les valeurs de debut et de fin pour X et Y afin d'optimiser la detection de collision.
 *
-* \param[in] psurfaceMotion, surface en deplacement
+* \param[in] pSurfaceMotion, surface en deplacement
 * \param[in] xStart, pointeur vers la variable xStart, debut du balayage en x
 * \param[in] xEnd, pointeur vers la variable xEnd, fin du balayage en x
 * \param[in] yStart, pointeur vers la variable yStart, debut du balayage en y
@@ -519,50 +519,53 @@ void calculOrdreBalayage(enum DIRECTION direction, int ordre[4])
 
 
 /**
-* \fn int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceMotion, enum DIRECTION* pDirection)
+* \fn int gestionCollision(int vitesse, SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
 * \brief replace le worms en cas de collision.
 *
 * \param[in] vitesse, vitesse de deplacement du worms, sert pour le replacement
-* \param[in] surfaceMotion, surface en deplacement
-* \param[in] surfaceMap, surface de la map
+* \param[in] pSurfaceMotion, surface en deplacement
+* \param[in] pSurfaceMap, surface de la map
 * \param[in] pDirection, direction du deplacement du worms, peut etre modifie par la fonction
 * \returns int collision, indique s'il y a eu collision
 */
-int gestionCollision(int vitesse, SDL_Surface* surfaceMap, SDL_Surface* surfaceMotion, enum DIRECTION* pDirection)
+int gestionCollision(int vitesse, SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
 {
 	int t = 0;
 	int collision = 0;
-	while (detectionCollisionSurfaceV2(surfaceMap, surfaceMotion, pDirection, 0) && t < 60)	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
+	enum DIRECTION directionOriginale = *pDirection;
+	while (t < 60 && detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, pDirection, 0))	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
 	{
 		switch (*pDirection)	//Switch de la valeur de derriere le pointeur pDirection, indiquant le sens de détection de la collision
 		{
 		case RIGHT:	//Cas d'une détection à droite
-			surfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x (0à gauche de l'écran et x à droite de l'écran)
+			pSurfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x (0à gauche de l'écran et x à droite de l'écran)
 			break;
 		case LEFT:	//Cas d'une détection à gauche
-			surfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
+			pSurfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
 			break;
 		case DOWN:	//Cas d'une détection en bas
-			surfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y (0 en haut de l'écran et y en bas de l'écran)
+			pSurfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y (0 en haut de l'écran et y en bas de l'écran)
+			if (directionOriginale == RIGHT || directionOriginale == LEFT)
+				t = 70;
 			break;
 		case UP:	//Cas d'une détection en hauteur
-			surfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
+			pSurfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
 			break;
 		case UPRIGHT:	//Cas d'une détection en diagonale haute droite
-			surfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
-			surfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
+			pSurfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
+			pSurfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
 			break;
 		case UPLEFT:	//Cas d'une détection en diagonale haute gauche
-			surfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
-			surfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
+			pSurfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
+			pSurfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
 			break;
 		case DRIGHT:	//Cas d'une détection en diagonale basse droite
-			surfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
-			surfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
+			pSurfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
+			pSurfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
 			break;
 		case DLEFT:	//Cas d'une détection en diagonale basse gauche
-			surfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
-			surfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
+			pSurfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
+			pSurfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
 			break;
 		default:
 			break;
