@@ -90,9 +90,6 @@ int mainFenetre(Jeu * jeu)
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	return 0;
 }
-
-
-
 int sandboxRenderer()
 {
 	int closeWindow = 0;
@@ -183,7 +180,6 @@ int sandboxRenderer()
 	//SDL_Quit();
 	return 0;
 }
-
 /**
 * \fn int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 * \brief Initialisation de la fenêtre.
@@ -249,8 +245,6 @@ int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 	fprintf(logFile, "initSWR : SUCCESS.\n\n");
 	return 1;
 }
-
-
 /**
 * \fn int initSprites(void)
 * \brief Init sprites surfaces of the game.
@@ -285,8 +279,6 @@ int initSprites(void)
 	fprintf(logFile, "initSprites : SUCCESS.\n\n");
 	return 0;
 }
-
-
 /**
 * \fn void cleanSprites(void)
 * \brief clean sprites surfaces of the game.
@@ -312,8 +304,6 @@ void cleanSprites(void)
 	}
 	fprintf(logFile, "cleanSprites : DONE.\n");
 }
-
-
 /**
 * \fn void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 * \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL.
@@ -354,9 +344,9 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 	SDL_Quit();
 	fprintf(logFile, "cleanUp : DONE.\n");
 }
-
-
-//Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
+/*
+Déplace un rectangle entre les coordonnées précédentes (x2 et y2) de la souris et celles actuelles
+*/
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir)
 {
 	int x1 = 0, y1 = 0;
@@ -372,7 +362,6 @@ void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir)
 		rect->y = rect->y - (y1 - y2);
 	}
 }
-
 //Affiche un point aux coordonnées de la souris
 void afficherPoint(SDL_Renderer * r)
 {
@@ -381,7 +370,6 @@ void afficherPoint(SDL_Renderer * r)
 	SDL_RenderDrawPoint(r, x, y);
 	SDL_RenderPresent(r);
 }
-
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2)
 {
 	p1->x = p2->x;
@@ -390,7 +378,6 @@ void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2)
 	SDL_RenderDrawLine(r, p1->x, p1->y, p2->x, p2->y);
 	SDL_RenderPresent(r);
 }
-
 //Clear noir du renderer
 void clearRenderer(SDL_Renderer * pRenderer)
 {
@@ -398,8 +385,6 @@ void clearRenderer(SDL_Renderer * pRenderer)
 	SDL_RenderClear(pRenderer);
 	SDL_RenderPresent(pRenderer);
 }
-
-
 /**
 * \fn void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 * \brief Actualise l'affichage.
@@ -462,7 +447,6 @@ void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
 	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }
-
 /**
 * \fn void frameRate(unsigned int fM)
 * \brief Actualise l'affichage.
@@ -487,7 +471,6 @@ void frameRate(unsigned int fM)
 		SDL_Delay(fM - tick);
 	}
 }
-
 /**
 * \fn void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms)
 * \brief Initialise une camera.
@@ -524,7 +507,6 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 	}
 	fprintf(logFile, "initCameras : DONE.\n\n");
 }
-
 /**
 * \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput,...)
 * \brief Déplace la camera suivant la souris.
@@ -556,7 +538,6 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 		camera->y = 0;
 	}
 }
-
 /**
 * \fn void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
 * \brief Réajuste la taille de la caméra pour un grossissement de l'image.
@@ -604,7 +585,6 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera,
 	if (camera->y + camera->h > h) camera->y = h - camera->h;
 
 }
-
 /**
 * \fn void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 * \brief Réajuste la taille de la caméra pour un rétrécissement de l'image.
@@ -650,8 +630,6 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 		camera->y = 0;
 	}
 }
-
-
 /**
 * \fn int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTexture, SDL_Rect* pRectSurfaceModif)
 * \brief Met a jour la texture globale sur une zone bien determinee.
@@ -708,7 +686,6 @@ int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, S
 	pixelWrite = NULL;
 	return 0;
 }
-
 /**
 * \fn int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int indexWorms1, int indexWorms2)
 * \brief Update l'affichage de deux worms supperpose .
@@ -775,9 +752,6 @@ int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surfa
 	pixelWrite = NULL;
 	return 0;
 }
-
-
-
 /**
 * \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 * \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
@@ -809,9 +783,6 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 	}
 	return modif;
 }
-
-
-
 /**
 * \fn void screenshot(SDL_Renderer* pRenderer)
 * \brief Make a screenshot of the screen
@@ -842,4 +813,35 @@ void screenshot(SDL_Renderer* pRenderer)
 	memcpy(path + strlen(mainPath) + strlen(screenshotName) - 1, ".bmp\0", 5);
 	SDL_SaveBMP(surfaceScreenshot, path);
 	SDL_FreeSurface(surfaceScreenshot);
+}
+/**
+* \fn void centerCam(SDL_Rect * camera,SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture)
+* \brief Center the camera on the surface with actual Zoom
+* \param[in] camera, pointer to the camera to be centered
+* \param[in] surfaceWhereCenter, pointer to the surface where the camera will be centered
+* \param[in] pTexture, pointer texture of the main window
+* \return void
+*/
+void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture){
+	int x = 0, y = 0, wM = 0, hM = 0;
+	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
+
+	x = surfaceWhereCenter->clip_rect.x + surfaceWhereCenter->w / 2 - 1;
+	y = surfaceWhereCenter->clip_rect.y + surfaceWhereCenter->h / 2 - 1;
+
+	camera->x = x - camera->w / 2;
+	camera->y = y - camera->h / 2;
+
+	if (camera->x + camera->w > wM){
+		camera->x = wM - camera->w;
+	}
+	if (camera->y + camera->h > hM){
+		camera->y = hM - camera->h;
+	}
+	if (camera->x < 0){
+		camera->x = 0;
+	}
+	if (camera->y < 0){
+		camera->y = 0;
+	}
 }

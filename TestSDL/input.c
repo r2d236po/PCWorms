@@ -5,13 +5,11 @@
 #include "Sounds.h"
 #include "my_stdrFct.h"
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                 Acquisition des Inputs                 /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
 /**
 * \fn void getInput(Input * pInput, SDL_Window* pWindow)
 * \brief Récupère les inputs.
@@ -116,6 +114,12 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			case SDLK_b:
 				pInput->bombe = 1;
 				break;
+			case SDLK_r:
+				if (pInput->TestCentrer){
+					pInput->TestCentrer = 0;
+				}
+				else pInput->TestCentrer = 1;
+				break;
 			case SDLK_c:
 				if (globalVar.nbWormsEquipe > 1 && !pInput->jumpOnGoing)
 				{
@@ -123,14 +127,17 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 						pInput->wormsPlaying += 1;
 					else pInput->wormsPlaying = 0;
 				}
-				pInput->raffraichissement = 1;
 				break;
-			case SDLK_PRINTSCREEN :
+			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
+				break;
+
+			default:
 				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
+
 		default:
 			break;
 		}
@@ -144,20 +151,11 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		pInput->raffraichissement = 1;
 	}
 }
-
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                   Gestion des Inputs                   /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
 /**
 * \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
 * \brief Gere les inputs.
@@ -180,7 +178,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer);	//appel de la fonction de gestion des Inputs de la camera
+	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer,wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
 		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
@@ -207,8 +205,6 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	}
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
-
-
 /**
 * \fn void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer)
 * \brief Gere les inputs relatives a la camera.
@@ -219,7 +215,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 * \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \returns void
 */
-void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, SDL_Renderer * pRenderer)
+void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, SDL_Renderer * pRenderer, Worms * pWorms)
 {
 	if (pInput->rclick)
 	{
@@ -239,9 +235,11 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 		zoomOut(pRenderer, pTextureDisplay, pCamera);
 		pInput->wheelDown = 0;
 	}
+	if (pInput->TestCentrer)
+	{
+		centerCam(pCamera, pWorms->wormsSurface, pTextureDisplay);
+	}
 }
-
-
 /**
 * \fn void inputsJumpWorms(Input* pInput, Worms* worms)
 * \brief Gere les inputs relatives au saut du worms.
@@ -303,7 +301,6 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms)
 		}
 	}
 }
-
 /**
 * \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain, SDL_Renderer * pRenderer)
 * \brief Gere les inputs relatives aux armes.
@@ -327,19 +324,11 @@ void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamer
 		pInput->bombe = 0;
 	}
 }
-
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                    Initialisations                     /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
 /**
 * \fn Input* initInput()
 * \brief Créé et initialise une structure Input.
@@ -375,10 +364,10 @@ Input* initInput()
 	pInput->wormsPlaying = 0;
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
+	pInput->TestCentrer = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
-
 /**
 * \fn Cursor initCursor(void)
 * \brief Cree et initialise une structure cursor.

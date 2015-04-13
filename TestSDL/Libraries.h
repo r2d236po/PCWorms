@@ -64,11 +64,12 @@ typedef struct{
 	char raffraichissement;
 	char windowResized;
 	char acceleration;
-	char bombe;
+	char bombe; //press to activate the bombe
 	int wormsPlaying;
 	char deplacement;
 	char screenshot;
 	Cursor cursor; //cursor avec position actuelle et précédente de la souris
+	char TestCentrer;
 }Input;
 
 typedef struct{		//structure gérant les polices
