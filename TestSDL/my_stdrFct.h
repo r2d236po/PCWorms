@@ -23,8 +23,10 @@ int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
 int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2);
 int collisionPointWithCercle(Point P, int centerX, int centerY, int radius);
 int collisionPointWithRect(Point P, SDL_Rect* box);
-
+int rand_a_b(int a, int b);
 void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
+
+
 int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);
 void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint);
 void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint);

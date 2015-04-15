@@ -442,7 +442,6 @@ int collisionPointWithRect(Point P, SDL_Rect* box)
 * \param[in] pSurfaceMotion, pointer to the motion object's surface.
 * \return rect, une structure SDL_Rect initialisee aux dimensions et coordonnées combinees des deux rect.
 */
-
 void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
 	if (pSurfaceMotion->clip_rect.x < 0)
@@ -453,6 +452,19 @@ void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurface
 		pSurfaceMotion->clip_rect.x = pSurfaceMap->w - pSurfaceMotion->w;
 	if (pSurfaceMotion->clip_rect.y + pSurfaceMotion->h > pSurfaceMap->h)
 		pSurfaceMotion->clip_rect.y = pSurfaceMap->h - pSurfaceMotion->h;
+}
+
+/**
+* \fn int rand_a_b(int a, int b)
+* \brief Retourne un nombre aleatoire appartenant a [a;b[.
+*
+* \param[in] a, borne inferieur, inclus.
+* \param[in] b, borne superieure, exclus.
+* \returns rand, valeur aleatoire
+*/
+int rand_a_b(int a, int b)
+{
+	return rand() % (b - a) + a;
 }
 
 /**

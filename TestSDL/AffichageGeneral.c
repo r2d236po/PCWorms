@@ -3,6 +3,7 @@
 #include "physique.h"
 #include "Sounds.h"
 #include "my_stdrFct.h"
+#include "KaamEngine.h"
 
 
 
@@ -50,7 +51,9 @@ int mainFenetre(Jeu * jeu)
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
 
 		//Initialisation des worms
-		//initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
+		for (indexTeam = 0; indexTeam < globalVar.nbEquipe; indexTeam++)
+			KaamInitGame(jeu->equipes[indexTeam]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
+		indexTeam = 0;
 		if (loadSounds(BipExplo, 0) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");

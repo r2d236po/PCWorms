@@ -568,13 +568,13 @@ void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius)
 	{
 		pWorms->wormsObject->Xspeed = (float)(vitesseX * BombFactor * signeX*1.0 / 0.35);
 		pWorms->wormsObject->Yspeed = (float)(vitesseY * BombFactor * signeY*1.0 / 0.35);
-		pWorms->vie -= MAXDAMMAGE * 1.0 / 0.35;
+		pWorms->vie -= (int)(MAXDAMMAGE * 1.0 / 0.35);
 	}
 	else
 	{
 		pWorms->wormsObject->Xspeed = (float)(vitesseX * BombFactor * signeX * 1.0 / decrease);
 		pWorms->wormsObject->Yspeed = (float)(vitesseY * BombFactor * signeY * 1.0 / decrease);
-		pWorms->vie -= MAXDAMMAGE * 1.0 / decrease;
+		pWorms->vie -= (int)(MAXDAMMAGE * 1.0 / decrease);
 	}
 	wormsDead(pWorms, 0);
 }

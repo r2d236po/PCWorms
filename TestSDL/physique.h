@@ -10,6 +10,6 @@ int gestionPhysique(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Input* p
 /*Fonction diverses*/
 int checkDeplacement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION direction);
 void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera);
-int rand_a_b(int a, int b);
+
 
 #endif // !PHYSIQUE_H

@@ -1,9 +1,9 @@
-Start of session : Wed Apr 15 19:29:01 2015
+Start of session : Wed Apr 15 20:02:38 2015
 
 
 mainInit : DONE.
 	nombre d'equipes : 1.
-	nombre de worms par equipe : 1.
+	nombre de worms par equipe : 2.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/spriteMov.png.
@@ -16,6 +16,15 @@ initSprites : SUCCESS.
 nouveauJeu : START :
 
 nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -50,6 +59,8 @@ my_createTextureFromSurface : SUCCESS.
 
 initCameras : DONE.
 
+KaamInitGame : DONE.
+
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/Bip_explosion.wav.
 
@@ -66,4 +77,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Wed Apr 15 19:29:38 2015
+End of Session : Wed Apr 15 20:03:03 2015

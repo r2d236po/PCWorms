@@ -25,9 +25,37 @@ void KaamEngine()
 /////////////////                          Init                          /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-void KaamInit()
+/**
+* \fn void KaamInitGame(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
+* \brief Init worms positions and put them to the ground.
+*
+* \param[in] wormsTab, tableau de worms.
+* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pRenderer pointeur pRenderer pour récupérer les informations relative à la fenêtre.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
+* \returns void
+* \remarks A refaire pour chaque equipe
+*/
+void KaamInitGame(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera)
 {
-
+	int i = 0;
+	srand((int)time(NULL));
+	for (i = 0; i < globalVar.nbWormsEquipe; i++)
+	{
+		wormsTab[i]->wormsObject->objectSurface->clip_rect.x = rand_a_b(0, (pMapTerrain->imageMapSurface->w - wormsTab[i]->wormsObject->objectSurface->w));
+		wormsTab[i]->wormsObject->objectBox.x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x;
+		wormsTab[i]->wormsObject->objectBox.y = wormsTab[i]->wormsObject->objectSurface->clip_rect.y = 0;
+		resetAbsoluteCoordinates(wormsTab[i]->wormsObject->objectSurface, &wormsTab[i]->wormsObject->absoluteCoordinate.x, &wormsTab[i]->wormsObject->absoluteCoordinate.y);
+		while (!testGround(pMapTerrain->imageMapSurface, wormsTab[i]->wormsObject->objectSurface, 1))
+		{
+			KaamWormsMotionManagement(pInput, wormsTab[i], pMapTerrain->imageMapSurface);
+			updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, wormsTab[i]->wormsObject->objectSurface, &wormsTab[i]->wormsObject->objectBox);
+			updateScreen(pRenderer, 2, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL);
+		}
+	}
+	fprintf(logFile, "KaamInitGame : DONE.\n\n");
 }
 
 /**
@@ -155,15 +183,15 @@ void KaamPhysicManagement(Input* pInput, KaamObject* pObject, SDL_Surface* pSurf
 {
 	if (pInput->jumpOnGoing)
 	{
-		nonLinearMotion(pInput, pSurfaceMap, pObject, 0);
+		KaamNonLinearMotion(pInput, pSurfaceMap, pObject, 0);
 	}
 	else if (pObject->reactToBomb == 1 || pObject->weapon == 1)
 	{
-		nonLinearMotion(pInput, pSurfaceMap, pObject, 1);
+		KaamNonLinearMotion(pInput, pSurfaceMap, pObject, 1);
 	}
 	else// /!\ deplacement OK, gravité OK, saut NON OK
 	{
-		groundMotion(pInput, pObject, pSurfaceMap);
+		KaamGroundMotion(pInput, pObject, pSurfaceMap);
 		KaamGravityManagement(pSurfaceMap, pObject);
 	}
 }
@@ -239,20 +267,20 @@ void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfa
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
-* \fn void resetDeplacement(Input* pInput, KaamObject* pObject)
+* \fn void KaamGroundMotionReset(Input* pInput, KaamObject* pObject)
 * \brief Reset all variables relatives to a ground movement.
 *
 * \param[in] pInput, pointer to the input structure
 * \param[in] pObject, pointer to the worms to swap
 */
-void groundMotionReset(Input* pInput, KaamObject* pObject)
+void KaamGroundMotionReset(Input* pInput, KaamObject* pObject)
 {
 	resetInputs(pInput);
 	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 }
 
 /**
-* \fn void groundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap, int deplacement)
+* \fn void KaamGroundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap, int deplacement)
 * \brief Manage collision on the ground.
 *
 * \param[in] pInput, pointer to the input structure
@@ -261,7 +289,7 @@ void groundMotionReset(Input* pInput, KaamObject* pObject)
 * \param[in] deplacement, value of the movement
 * \returns void
 */
-void groundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap, int deplacement)
+void KaamGroundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap, int deplacement)
 {
 	enum DIRECTION direction = pInput->direction;
 	int indexBoucle = 0;
@@ -284,7 +312,7 @@ void groundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSu
 }
 
 /**
-* \fn void groundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+* \fn void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
 * \brief Move the worms on the ground along the X axis.
 *
 * \param[in] pInput, pointer to the input structure
@@ -292,7 +320,7 @@ void groundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSu
 * \param[in] pSurfaceMap, pointer to the map surface
 * \returns void
 */
-void groundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
 {
 	int onGround = testGround(pSurfaceMap, pObject->objectSurface, 5);
 	int authorizeMovement = (pInput->direction != NONE && pInput->direction != UP);
@@ -312,22 +340,23 @@ void groundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
 				pObject->objectSurface->clip_rect.x -= groundSpeed;
 			break;
 		}
-		//groundCollisionProcess(pInput, pObject, pSurfaceMap, deplacement);
-		groundMotionReset(pInput, pObject);
+		//KaamGroundCollisionProcess(pInput, pObject, pSurfaceMap, deplacement);
+		KaamGroundMotionReset(pInput, pObject);
 		setSideMotionPossibility(pObject, pSurfaceMap);
 	}
 }
 
 /**
-* \fn void nonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound)
+* \fn void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound)
 * \brief Manages the jump of a worms.
 *
 * \param[in] pInput, pointer to the structure of inputs.
 * \param[in] pSurfaceMap, pointer to the surface of the map.
 * \param[in] pObject, pointer to the object to move.
+* \param[in] allowRebound, selects if rebound are allowed in the motion.
 * \returns void
 */
-void nonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound)
+void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound)
 {
 	static int  xPrec = 0, yPrec = 0, startMotion = 0, rebound = 0;
 	enum DIRECTION directionBeforeCollision;
@@ -346,38 +375,38 @@ void nonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObjec
 		pObject->relativeTime += 7;
 		if (pObject->relativeTime > 7 && KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &pObject->motionDirection))
 		{
-			if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DLEFT
+			/*if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DLEFT
 				|| directionBeforeCollision == UPRIGHT && pObject->motionDirection == DRIGHT)
 				pObject->Yspeed = -pObject->Yspeed;
-			else if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DRIGHT
+				else if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DRIGHT
 				|| directionBeforeCollision == UPRIGHT && pObject->motionDirection == DLEFT)
-			{
+				{
 				resetReboundVariables(pObject, -1.0, -1.0, 1.0, 1.0);
-			}
-			else if (directionBeforeCollision == UPRIGHT && pObject->motionDirection == RIGHT
+				}
+				else if (directionBeforeCollision == UPRIGHT && pObject->motionDirection == RIGHT
 				|| directionBeforeCollision == UPLEFT && pObject->motionDirection == LEFT
 				|| pObject->motionDirection == UPRIGHT || pObject->motionDirection == UPLEFT)
-			{
+				{
 				resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
-			}
-			else if (allowRebound && rebound < 1 &&
+				}
+				else if (allowRebound && rebound < 1 &&
 				(pObject->motionDirection == DRIGHT
 				|| pObject->motionDirection == DLEFT))
-			{
+				{
 				resetReboundVariables(pObject, 1.0, 1.0, 2.0, 2.0);
 				rebound++;
-			}
-			else if ((directionBeforeCollision == UPLEFT || directionBeforeCollision == UPRIGHT) && pObject->motionDirection == UP)
-			{
+				}
+				else if ((directionBeforeCollision == UPLEFT || directionBeforeCollision == UPRIGHT) && pObject->motionDirection == UP)
+				{
 				resetReboundVariables(pObject, 0.0, -1.0, 1.0, 1.0);
-			}
-			else if (directionBeforeCollision == UP)
-			{
+				}
+				else if (directionBeforeCollision == UP)
+				{
 				pObject->Yspeed = -pObject->Yspeed;
 				resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 				pObject->relativeTime = 0;
-			}
-			else
+				}*/
+			if (!KaamCollisionReaction(pObject, directionBeforeCollision, allowRebound, &rebound))
 			{
 				rebound = 0;
 				resetMotionVariables(pInput, pObject, &startMotion);
@@ -456,4 +485,59 @@ int KaamCollisionManagement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotio
 		collision = 1;	//Mise à 1 de l'indicateur de collision
 	}
 	return collision;	//Return l'indice de collision, 0 = pas de collision, 1 = collision
+}
+
+/**
+* \fn int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound, int* rebound)
+* \brief Manages the rebound and reaction to a collision.
+*
+* \param[in] pObject, pointer to the object to move.
+* \param[in] directionBeforeCollision, direction of the movement before collision.
+* \param[in] allowRebound, selects if rebound are allowed in the motion.
+* \param[in] rebound, pointer to the rebound counter.
+* \returns void
+*/
+int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound, int* rebound)
+{
+	int reaction = 0;
+	if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DLEFT
+		|| directionBeforeCollision == UPRIGHT && pObject->motionDirection == DRIGHT)
+	{
+		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
+		reaction = 1;
+	}
+	else if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DRIGHT
+		|| directionBeforeCollision == UPRIGHT && pObject->motionDirection == DLEFT)
+	{
+		resetReboundVariables(pObject, -1.0, -1.0, 1.0, 2.0);
+		reaction = 1;
+	}
+	else if (directionBeforeCollision == UPRIGHT && pObject->motionDirection == RIGHT
+		|| directionBeforeCollision == UPLEFT && pObject->motionDirection == LEFT
+		|| pObject->motionDirection == UPRIGHT || pObject->motionDirection == UPLEFT)
+	{
+		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
+		reaction = 1;
+	}
+	else if (allowRebound && *rebound < 1 &&
+		(pObject->motionDirection == DRIGHT
+		|| pObject->motionDirection == DLEFT))
+	{
+		resetReboundVariables(pObject, 1.0, 1.0, 2.0, 2.0);
+		reaction = 1;
+		*rebound++;
+	}
+	else if ((directionBeforeCollision == UPLEFT || directionBeforeCollision == UPRIGHT) && pObject->motionDirection == UP)
+	{
+		resetReboundVariables(pObject, 0.0, -1.0, 1.0, 1.0);
+		reaction = 1;
+	}
+	else if (directionBeforeCollision == UP)
+	{
+		pObject->Yspeed = -pObject->Yspeed;
+		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
+		pObject->relativeTime = 0;
+		reaction = 1;
+	}
+	return reaction;
 }

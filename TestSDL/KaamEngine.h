@@ -8,7 +8,7 @@
 void KaamEngine();
 
 /*Inits*/
-void KaamInit();
+void KaamInitGame(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer, SDL_Rect* pCamera);
 KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon);
 void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels);
 
@@ -22,12 +22,13 @@ void KaamMotionManagement(Input* pInput, KaamObject* object);
 void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap);
 
 /*Motion Management*/
-void groundMotionReset(Input* pInput, KaamObject* pObject);
-void groundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap, int deplacement);
-void groundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap);
-void nonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound);
+void KaamGroundMotionReset(Input* pInput, KaamObject* pObject);
+void KaamGroundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap, int deplacement);
+void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap);
+void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound);
 
 /*Collision Management*/
 int KaamCollisionManagement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection);
+int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound, int* rebound);
 
 #endif // !KAAMENGINE_H

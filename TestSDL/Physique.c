@@ -148,16 +148,5 @@ void initGameWorms(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Te
 	fprintf(logFile, "initGameWorms : DONE.\n\n");
 }
 
-/**
-* \fn int rand_a_b(int a, int b)
-* \brief Retourne un nombre aleatoire appartenant a [a;b[.
-*
-* \param[in] a, borne inferieur, inclus.
-* \param[in] b, borne superieure, exclus.
-* \returns rand, valeur aleatoire
-*/
-int rand_a_b(int a, int b)
-{
-	return rand() % (b - a) + a;
-}
+
 
