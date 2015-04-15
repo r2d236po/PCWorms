@@ -1,15 +1,17 @@
 #include "input.h"
 #include "AffichageGeneral.h"
-#include "physique.h"
+#include "KaamEngine.h"
 #include "worms.h"
 #include "Sounds.h"
 #include "my_stdrFct.h"
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                 Acquisition des Inputs                 /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
+
 /**
 * \fn void getInput(Input * pInput, SDL_Window* pWindow)
 * \brief Récupère les inputs.
@@ -86,18 +88,22 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			{
 			case SDLK_LEFT:
 				pInput->direction = LEFT;
+				SDL_Delay(10);
 				break;
 			case SDLK_RIGHT:
 				pInput->direction = RIGHT;
+				SDL_Delay(10);
 				break;
 			case SDLK_UP:
-				pInput->direction = UP;
+				if (!pInput->jumpOnGoing)
+					pInput->direction = UP;
 				break;
 			case SDLK_DOWN:
 				pInput->direction = DOWN;
 				break;
 			case SDLK_SPACE:
-				pInput->jump = 1;
+				if (!pInput->jumpOnGoing)
+					pInput->jump = 1;
 				break;
 			case SDLK_LCTRL:
 				pInput->bend = 1;
@@ -131,13 +137,9 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
 				break;
-
-			default:
-				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
-
 		default:
 			break;
 		}
@@ -151,11 +153,20 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 		pInput->raffraichissement = 1;
 	}
 }
+
+
+
+
+
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                   Gestion des Inputs                   /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
+
 /**
 * \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
 * \brief Gere les inputs.
@@ -178,33 +189,38 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer,wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion des Inputs de la camera
+	//shapeCollisionWithMap(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject,&x, &y);
+	//KaamGravityManagement(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject);
+	//KaamMotionManagement(pInput, wormsTab[pInput->wormsPlaying]->wormsObject);
+	//KaamCollisionManagement(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject);
+	static KaamObject* test = NULL;
+	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer, wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
 		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
 	}
-	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, pRenderer);	//appel de la fonction de gestion des Inputs des armes
-	if (wormsTab[pInput->wormsPlaying]->vie > 0)	//Si le worms en cours de jeu est vivant
+	/*if (pInput->lclick && test == NULL)
 	{
-		inputsJumpWorms(pInput, wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion des Inputs de saut de worms
-		gestionPhysique(pMapTerrain, pTextureDisplay, pInput, 0, wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion de physique globale
-		if (deathByLimitMap(wormsTab[pInput->wormsPlaying], pMapTerrain->imageMapSurface))	//Si le worms tombe en bas de la map
-		{
-			pInput->jumpOnGoing = 0;	//Remise à 0 du booleen indiquant un saut en cours
-			pInput->jump = 0;	//Remise à 0 du booleen de la touche espace
-		}
-		if (pInput->deplacement)	//Si le worms s'est déplacé
-		{
-			updateWorms(wormsTab, pMapTerrain->imageMapSurface, pInput, pTextureDisplay);	//appel de la fonction gerant l'update de l'affichage et d'overlay si nécessaire
-		}
+		test = testobject(pInput);
 	}
+	if (test != NULL)
+	{
+		KaamPhysicManagement(pInput, test, pMapTerrain->imageMapSurface);
+		updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, test->objectSurface, &test->objectBox);
+	}*/
+	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, pRenderer, wormsTab);	//appel de la fonction de gestion des Inputs des armes
 	if (pInput->screenshot)
 	{
 		screenshot(pRenderer);
 		pInput->screenshot = 0;
 	}
+	inputsJumpWorms(pInput, wormsTab[pInput->wormsPlaying], pMapTerrain->imageMapSurface);
+	updateGameWorms(pInput, wormsTab, pTextureDisplay, pMapTerrain->imageMapSurface);
+
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
+
+
 /**
 * \fn void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer)
 * \brief Gere les inputs relatives a la camera.
@@ -237,9 +253,11 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 	}
 	if (pInput->TestCentrer)
 	{
-		centerCam(pCamera, pWorms->wormsSurface, pTextureDisplay);
+		centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
 	}
 }
+
+
 /**
 * \fn void inputsJumpWorms(Input* pInput, Worms* worms)
 * \brief Gere les inputs relatives au saut du worms.
@@ -248,59 +266,27 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 * \param[in] pWorms, pointeur vers la structure du worms en cours
 * \returns void
 */
-void inputsJumpWorms(Input* pInput, Worms* pWorms)
+void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
-	/*On verifie qu'on est pas deja dans un saut*/
-	if (!pInput->jumpOnGoing)
+	int onGround = testGround(pSurfaceMap, pWorms->wormsObject->objectSurface, 1);
+	if (onGround)
 	{
-		//Recuperation des informations relatives à la direction du worms pour un deplacement au sol
-		if (pInput->direction == RIGHT || pInput->direction == LEFT)
+		if (!pInput->jumpOnGoing)
 		{
-			pWorms->dir = pInput->direction;	//direction du worms = direction de la fleche du clavier appuyee
-			pInput->raffraichissement = 1;	//Variable de raffraichissement
-		}
-		//Gestion du saut en arriere
-		if (pInput->jump && (pInput->direction != pWorms->dirSurface) && pInput->direction != NONE)
-		{
-			if (pWorms->dirSurface == RIGHT)	//Si le worms est oriente vers la droite
+			if (pInput->jump)
 			{
-				pWorms->dir = UPLEFT;	//Direction du saut en diagonale haut gauche
-				pWorms->vitx = -(float)(cos(pi / 3)* 0.75);	//valeur du vecteur de vitesse horizontale negative pour aller a gauche, legerement inferieur au saut en avant
+				setWormsSpeed(pWorms, pWorms->dirSurface);
+				pInput->jumpOnGoing = 1;
 			}
-			else	//Si le worms est oriente vers la gauche
+			else if (pInput->direction == UP)
 			{
-				pWorms->dir = UPRIGHT;	//Direction du saut en diagonale haut droite
-				pWorms->vitx = (float)(cos(pi / 3)*0.75);	//valeur du vecteur de vitesse horizontale positive pour aller a droite, legerement inferieur au saut en avant
+				setWormsSpeed(pWorms, UP);
+				pInput->jumpOnGoing = 1;
 			}
-			pInput->jumpOnGoing = 1;	//mise à 1 du booleen indiquant qu'un saut est en cours
-			pWorms->vity = (float)(sin(pi / 3)*1.6);	//valeur du vecteur de vitesse vertical, legerement superieure au saut en avant
-		}
-		//Gestion du saut classique
-		else if (pInput->jump && pWorms->dir == DOWN)
-		{
-			if (pWorms->dirSurface == RIGHT)	//Si le worms est oriente vers la droite
-			{
-				pWorms->dir = UPRIGHT;	//Direction du saut en diagonale haut droite
-				pWorms->vitx = (float)(cos(pi / 3)* 0.95);	//valeur du vecteur de vitesse horizontale positive pour aller a droite
-			}
-			else	//Si le worms est oriente vers la gauche
-			{
-				pWorms->dir = UPLEFT;	//Direction du saut en diagonale haut gauche
-				pWorms->vitx = -(float)(cos(pi / 3)*0.95);	//valeur du vecteur de vitesse horizontale negative pour aller a gauche
-			}
-			pInput->jumpOnGoing = 1;	//mise à 1 du booleen indiquant qu'un saut est en cours
-			pWorms->vity = (float)(sin(pi / 3)*1.3);	//valeur du vecteur de vitesse vertical
-		}
-		//Gestion du saut sur place
-		else if (pInput->direction == UP)
-		{
-			pWorms->dir = UP;	//direction du worms vers le haut
-			pWorms->vitx = 0;	//mise a 0 de la valeur du vecteur de vitesse horizontale
-			pInput->jumpOnGoing = 1;	//mise à 1 du booleen indiquant qu'un saut est en cours
-			pWorms->vity = (float)(sin(pi / 3)*1.3);	//valeur du vecteur de vitesse vertical
 		}
 	}
 }
+
 /**
 * \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain, SDL_Renderer * pRenderer)
 * \brief Gere les inputs relatives aux armes.
@@ -312,23 +298,30 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms)
 * \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \returns void
 */
-void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, SDL_Renderer * pRenderer)
+void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, SDL_Renderer * pRenderer, Worms** wormsTab)
 {
 	if (pInput->bombe)
 	{
 		static int rW, rH;
-		Mix_PlayChannel(2, sndFx, 0);
+		//Mix_PlayChannel(2, sndFx, 0);
 
 		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
-		explosion((int)(pInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x), (int)(pInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y), 50, pMapTerrain->imageMapSurface, pTextureDisplay);
-		pInput->bombe = 0;
+		int x = (int)(pInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x);
+		int y = (int)(pInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y);
+		int radius = 50;
+		SDL_Rect  rect = initRect(x - radius, y - radius, 2 * radius, 2 * radius);
+		explosion(x, y, radius, pMapTerrain->imageMapSurface, pTextureDisplay);
+		bombReactionManagement(pInput, wormsTab, &rect, x, y, radius);
 	}
 }
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                    Initialisations                     /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
+
 /**
 * \fn Input* initInput()
 * \brief Créé et initialise une structure Input.
@@ -368,6 +361,7 @@ Input* initInput()
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
+
 /**
 * \fn Cursor initCursor(void)
 * \brief Cree et initialise une structure cursor.
@@ -383,4 +377,18 @@ Cursor initCursor(void)
 	curseur.now.x = 0;
 	curseur.now.y = 0;
 	return curseur;
+}
+
+
+
+KaamObject* testobject(Input* pInput)
+{
+	SDL_Rect rect;
+	SDL_Surface* cercle = loadImage("../assets/pictures/cercle.png");
+	rect = initRect(pInput->cursor.now.x - cercle->w / 2, pInput->cursor.now.y - cercle->h / 2, cercle->w, cercle->h);
+	KaamObject* object = KaamInitObject(rect, vitesseX, vitesseY, UPLEFT, 1);
+	KaamInitSurfaceObject(object, (Uint32*)cercle->pixels, cercle->w * cercle->h);
+	SDL_FreeSurface(cercle);
+
+	return object;
 }

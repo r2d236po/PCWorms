@@ -148,6 +148,7 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIREC
 *
 * \param[in] direction, direction du déplacement
 * \param[in] zone, zone de la collision
+* \param[in] checkMode, mode pour le test de deplacement (0 par defaut)
 * \return DIRECTION, direction de la collision
 */
 
@@ -165,6 +166,21 @@ enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int 
 			break;
 		}
 	}
+	if (direction == UPRIGHT)
+	{
+		/*if (zone == 1)
+			return UPLEFT;
+			else if (zone == 2)
+			return UP;*/
+	}
+	else if (direction == UPLEFT)
+	{
+
+	}
+	if (zone == 3 && direction == DRIGHT)
+		return DOWN;
+	else if (zone == 4 && direction == DLEFT)
+		return DOWN;
 	if (checkMode && direction == UP && zone == 8)
 		return DOWN;
 	return direction;
@@ -314,264 +330,8 @@ int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMot
 }
 
 
-/**
-* \fn int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
-* \brief Detecte s'il y a collision entre deux surfaces selon le sens de déplacement du worms.
-*
-* \param[in] pSurfaceMap, pointeur vers la surface de la map
-* \param[in] pSurfaceMotion, pointeur vers la surface en mouvement dans la map
-* \param[in] pDirection, pointeur de la direction du deplacement du worms
-* \returns int, indicateur de collision : 1 = collision, 0 sinon
-*/
-int detectionCollisionSurfaceV2(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int checkMode)
-{
-	//Variables d'acquisitions
-	Uint32 pixelS1 = 0;	//Variable stockant le pixel en cours de lecture de la surface de la map
-	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface de la map
-	Uint32 pixelS2 = 0;	//Variable stockant le pixel en cours de lecture de la surface en mouvement
-	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface en mouvement
-	int offset_xS2 = pSurfaceMotion->clip_rect.x;	//Offset en x de la surface en mouvement dans la map
-	int offset_yS2 = pSurfaceMotion->clip_rect.y;	//Offset en y de la surface en mouvement dans la map
-	SDL_PixelFormat* formatS1 = pSurfaceMap->format;	//Pointeur du format de pixels de la surface de la map
-	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;	//Pointeur du format de pixels de la surface en mouvement
-	//Variables de balayage
-	int x = 0, y = 0;	//Variables de balayage des x, y
-	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w, xInc = 1;	//Variables de début, de fin et d'incrément du balayage des x
-	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h, yInc = 1;	//Variables de début, de fin et d'incrément du balayage des y
-	int zone[4] = { 0, 0, 0, 0 }, balayageGen = 0;
-	//Variable de collision
-	int collision = 0;	//Booleen de collision, 0 = pas de collision, 1 = collision
-
-	/*Test des limites de la map et de la fenetre*/
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, pDirection))	//Detection d'un dépassement de la map
-		return 1;
-
-	/*Détermination de l'ordre des zones à balayer*/
-	calculOrdreBalayage(*pDirection, zone);
-
-	for (balayageGen = 0; (balayageGen < 4) && (collision == 0); balayageGen += 1)
-	{
-		/*Détermination de yStart, yEnd, xStart et xEnd*/
-		calculXYBalayage(pSurfaceMotion, &xStart, &xEnd, &yStart, &yEnd, zone[balayageGen]);	//Calcul des valeurs de balayage des boucles for pour optimiser la vitesse de traitement
-
-		/*Calcul de la collision*/
-		for (y = yStart; (y < yEnd) && (collision == 0); y += yInc)
-		{
-			for (x = xStart; (x < xEnd) && (collision == 0); x += xInc)
-			{
-				/*Acquisition des pixels des surfaces 1 et 2*/
-				pixelS1 = ReadPixel(pSurfaceMap, MY_ABS(x), MY_ABS(y));	//Lecture du pixel de la map
-				pixelS2 = ReadPixel(pSurfaceMotion, MY_ABS(x) - offset_xS2, MY_ABS(y) - offset_yS2);	//Lecture du pixel de la surface en mouvement
-
-				/*Récupération des composantes colorimétriques*/
-				SDL_GetRGBA(pixelS1, formatS1, &rS1, &gS1, &bS1, &aS1);	//Informations sur les couleurs du pixel de la surface de la map
-				SDL_GetRGBA(pixelS2, formatS2, &rS2, &gS2, &bS2, &aS2);	//Informations sur les couleurs du pixel de la surface en mouvement
-
-				/*Détermination de la collision*/
-				if (aS1 != 255 || aS2 != 255)	//Si le pixel de la surface de la map ou le pixel de la surface en mouvement est transparent
-					collision = 0;	//Collision = 0 -> pas de collision
-				else	//Au moins l'un des pixels n'est pas transparent
-				{
-					collision = 1;	//Collision = 0 -> pas de collision
-					*pDirection = calculDirectionCollision(*pDirection, zone[balayageGen], checkMode);	//Calcul de la direction de la collision pour affiner le traitement
-				}
-			}
-		}
-	}
-	formatS1 = NULL;	//Remise à 0 des pointeurs de format
-	formatS2 = NULL;	//Remise à 0 des pointeurs de format
-	return collision;
-}
-
-/**
-* \fn void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* yStart, int* yEnd, int zone)
-* \brief Calcul les valeurs de debut et de fin pour X et Y afin d'optimiser la detection de collision.
-*
-* \param[in] pSurfaceMotion, surface en deplacement
-* \param[in] xStart, pointeur vers la variable xStart, debut du balayage en x
-* \param[in] xEnd, pointeur vers la variable xEnd, fin du balayage en x
-* \param[in] yStart, pointeur vers la variable yStart, debut du balayage en y
-* \param[in] yEnd, pointeur vers la variable yEnd, fin du balayage en y
-* \param[in] zone, zone de recherche de la collision
-* \returns void
-*/
-void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* yStart, int* yEnd, int zone)
-{
-	int x = pSurfaceMotion->clip_rect.x, w = pSurfaceMotion->w;
-	int y = pSurfaceMotion->clip_rect.y, h = pSurfaceMotion->h;
-	switch (zone)
-	{
-	case 1:
-		*xStart = x;
-		*xEnd = x + (w / 2);
-		*yStart = y;
-		*yEnd = y + (h / 2);
-		break;
-	case 2:
-		*xStart = -(x + w - 1);
-		*xEnd = -(x + (w / 2));
-		*yStart = y;
-		*yEnd = y + (h / 2);
-		break;
-	case 3:
-		*xStart = x;
-		*xEnd = x + (w / 2);
-		*yStart = -(y + h - 1);
-		*yEnd = -(y + (h / 2));
-		break;
-	case 4:
-		*xStart = -(x + w - 1);
-		*xEnd = -(x + (w / 2));
-		*yStart = -(y + h - 1);
-		*yEnd = -(y + (h / 2));
-		break;
-	case 5:
-		*xStart = x;
-		*xEnd = x + (w / 2);
-		*yStart = y + (2 * h / 8);
-		*yEnd = y + (6 * h / 8);
-		break;
-	case 6:
-		*xStart = -(x + w - 1);
-		*xEnd = -(x + (w / 2));
-		*yStart = y + (2 * h / 8);
-		*yEnd = y + (6 * h / 8);
-		break;
-	case 7:
-		*xStart = x;
-		*xEnd = x + w - 1;
-		*yStart = y;
-		*yEnd = y + (2 * h / 8);
-		break;
-	case 8:
-		*xStart = -(x + w - 1);
-		*xEnd = -x;
-		*yStart = -(y + h - 1);
-		*yEnd = -(y + (6 * h / 8));
-		break;
-	}
-}
 
 
-/**
-* \fn void calculOrdreBalayage(enum DIRECTION direction, int ordre[4])
-* \brief Calcul l'ordre des zones à balayer.
-*
-* \param[in] direction, direction du deplacement de l'objet
-* \param[in] ordre, tableau contenant l'ordre des zones
-* \returns void
-*/
-void calculOrdreBalayage(enum DIRECTION direction, int ordre[4])
-{
-	switch (direction)
-	{
-	case UP:
-		ordre[0] = 7;
-		ordre[1] = 5;
-		ordre[2] = 6;
-		ordre[3] = 8;
-		break;
-	case DOWN:
-		ordre[0] = 8;
-		ordre[1] = 5;
-		ordre[2] = 6;
-		ordre[3] = 7;
-		break;
-	case UPLEFT:
-		ordre[0] = 1;
-		ordre[1] = 2;
-		ordre[2] = 3;
-		ordre[3] = 4;
-		break;
-	case UPRIGHT:
-		ordre[0] = 2;
-		ordre[1] = 1;
-		ordre[2] = 4;
-		ordre[3] = 3;
-		break;
-	case DLEFT:
-		ordre[0] = 3;
-		ordre[1] = 4;
-		ordre[2] = 1;
-		ordre[3] = 2;
-		break;
-	case DRIGHT:
-		ordre[0] = 4;
-		ordre[1] = 3;
-		ordre[2] = 2;
-		ordre[3] = 1;
-		break;
-	case LEFT:
-		ordre[0] = 5;
-		ordre[1] = 8;
-		ordre[2] = 7;
-		ordre[3] = 6;
-		break;
-	case RIGHT:
-		ordre[0] = 6;
-		ordre[1] = 8;
-		ordre[2] = 7;
-		ordre[3] = 5;
-		break;
-	}
-
-}
 
 
-/**
-* \fn int gestionCollision(int vitesse, SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
-* \brief replace le worms en cas de collision.
-*
-* \param[in] vitesse, vitesse de deplacement du worms, sert pour le replacement
-* \param[in] pSurfaceMotion, surface en deplacement
-* \param[in] pSurfaceMap, surface de la map
-* \param[in] pDirection, direction du deplacement du worms, peut etre modifie par la fonction
-* \returns int collision, indique s'il y a eu collision
-*/
-int gestionCollision(int vitesse, SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
-{
-	int t = 0;
-	int collision = 0;
-	enum DIRECTION directionOriginale = *pDirection;
-	while (t < 60 && detectionCollisionSurfaceV2(pSurfaceMap, pSurfaceMotion, pDirection, 0))	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
-	{
-		switch (*pDirection)	//Switch de la valeur de derriere le pointeur pDirection, indiquant le sens de détection de la collision
-		{
-		case RIGHT:	//Cas d'une détection à droite
-			pSurfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x (0à gauche de l'écran et x à droite de l'écran)
-			break;
-		case LEFT:	//Cas d'une détection à gauche
-			pSurfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
-			break;
-		case DOWN:	//Cas d'une détection en bas
-			pSurfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y (0 en haut de l'écran et y en bas de l'écran)
-			if (directionOriginale == RIGHT || directionOriginale == LEFT)
-				t = 70;
-			break;
-		case UP:	//Cas d'une détection en hauteur
-			pSurfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
-			break;
-		case UPRIGHT:	//Cas d'une détection en diagonale haute droite
-			pSurfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
-			break;
-		case UPLEFT:	//Cas d'une détection en diagonale haute gauche
-			pSurfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y += vitesse;	//Addition de la vitesse de déplacement sur l'axe y
-			break;
-		case DRIGHT:	//Cas d'une détection en diagonale basse droite
-			pSurfaceMotion->clip_rect.x -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
-			break;
-		case DLEFT:	//Cas d'une détection en diagonale basse gauche
-			pSurfaceMotion->clip_rect.x += vitesse;	//Addition de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y -= vitesse;	//Soustraction de la vitesse de déplacement sur l'axe y 
-			break;
-		default:
-			break;
-		}
-		t++;	//Incrémentation du limiteur de boucle
-		collision = 1;	//Mise à 1 de l'indicateur de collision
-	}
-	return collision;	//Return l'indice de collision, 0 = pas de collision, 1 = collision
-}
+

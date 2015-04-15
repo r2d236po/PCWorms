@@ -1,0 +1,69 @@
+Start of session : Wed Apr 15 19:29:01 2015
+
+
+mainInit : DONE.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/spriteMov.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/Grenade_Sprite.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/Nuke_Sprite.png.
+initSprites : SUCCESS.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+creerFenetre : SUCCESS.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/icone.png.
+initSWR : SUCCESS.
+
+initInput : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest3.png.
+
+initialisationTerrain : SUCCESS.
+
+my_createTextureFromSurface : SUCCESS.
+
+initCameras : DONE.
+
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/Bip_explosion.wav.
+
+initCameras : DONE.
+
+destroyMap : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+
+
+End of Session : Wed Apr 15 19:29:38 2015

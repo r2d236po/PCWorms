@@ -89,6 +89,8 @@
     <ClCompile Include="Armes.c" />
     <ClCompile Include="HUD.c" />
     <ClCompile Include="input.c" />
+    <ClCompile Include="KaamEngine.c" />
+    <ClCompile Include="KaamEngineDependencies.c" />
     <ClCompile Include="main.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -105,6 +107,8 @@
     <ClInclude Include="carte.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="KaamEngine.h" />
+    <ClInclude Include="KaamEngineDependencies.h" />
     <ClInclude Include="Libraries.h" />
     <ClInclude Include="my_stdrFct.h" />
     <ClInclude Include="partie.h" />

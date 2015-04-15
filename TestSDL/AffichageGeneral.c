@@ -14,6 +14,7 @@ int mainFenetre(Jeu * jeu)
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	SDL_Texture * display = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
+	int indexTeam = 0;
 
 
 	//init SDL + fenetre + renderer
@@ -49,7 +50,7 @@ int mainFenetre(Jeu * jeu)
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
 
 		//Initialisation des worms
-		initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
+		//initGameWorms(jeu->equipes[0]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
 		if (loadSounds(BipExplo, 0) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
@@ -62,7 +63,7 @@ int mainFenetre(Jeu * jeu)
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[0]->worms))
+			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[indexTeam]->worms))
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
@@ -81,6 +82,12 @@ int mainFenetre(Jeu * jeu)
 			{
 				temps = SDL_GetTicks();
 				jeu->temps -= 1;
+			}
+			if (globalVar.nbEquipe > 1)
+			{
+				if (indexTeam != globalVar.nbEquipe - 1)
+					indexTeam += 1;
+				else indexTeam = 0;
 			}
 		}
 		destroyMap(&jeu->pMapTerrain);
@@ -180,6 +187,7 @@ int sandboxRenderer()
 	//SDL_Quit();
 	return 0;
 }
+
 /**
 * \fn int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 * \brief Initialisation de la fenêtre.
@@ -498,10 +506,10 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 		}
 	}
 	else{
-		pCamera->h = pWorms->wormsSurface->h * 10;
+		pCamera->h = pWorms->wormsObject->objectSurface->h * 10;
 		pCamera->w = pCamera->h * (int)((float)wW / (float)hW);
-		pCamera->x = pWorms->xAbs - (pCamera->w / 2);
-		pCamera->y = pWorms->yAbs - (pCamera->h / 2);
+		pCamera->x = pWorms->wormsObject->absoluteCoordinate.x - (pCamera->w / 2);
+		pCamera->y = pWorms->wormsObject->absoluteCoordinate.y - (pCamera->h / 2);
 		if (pCamera->x < 0)pCamera->x = 0;
 		if (pCamera->y < 0)pCamera->y = 0;
 	}
@@ -702,12 +710,12 @@ int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surfa
 	Uint32* pixelWrite = NULL;
 	Uint32 pixelRead;
 	int nombrePixel = 0;
-	SDL_Surface* pSurfaceWorms1 = wormsTab[indexWorms1]->wormsSurface;
-	SDL_Surface* pSurfaceWorms2 = wormsTab[indexWorms2]->wormsSurface;
+	SDL_Surface* pSurfaceWorms1 = wormsTab[indexWorms1]->wormsObject->objectSurface;
+	SDL_Surface* pSurfaceWorms2 = wormsTab[indexWorms2]->wormsObject->objectSurface;
 	SDL_Rect rect;
-	int x = 0, y = 0, h = wormsTab[indexWorms1]->wormsSurface->h, w = wormsTab[indexWorms1]->wormsSurface->w;
-	int y0 = wormsTab[indexWorms1]->wormsSurface->clip_rect.y, x0 = wormsTab[indexWorms1]->wormsSurface->clip_rect.x;
-	int y1 = wormsTab[indexWorms2]->wormsSurface->clip_rect.y, x1 = wormsTab[indexWorms2]->wormsSurface->clip_rect.x;
+	int x = 0, y = 0, h = wormsTab[indexWorms1]->wormsObject->objectSurface->h, w = wormsTab[indexWorms1]->wormsObject->objectSurface->w;
+	int y0 = wormsTab[indexWorms1]->wormsObject->objectSurface->clip_rect.y, x0 = wormsTab[indexWorms1]->wormsObject->objectSurface->clip_rect.x;
+	int y1 = wormsTab[indexWorms2]->wormsObject->objectSurface->clip_rect.y, x1 = wormsTab[indexWorms2]->wormsObject->objectSurface->clip_rect.x;
 	int yStart = y1, xEnd = x0 + w, yEnd = y0 + h, xStart = x1;
 	if (y1 < y0)
 	{

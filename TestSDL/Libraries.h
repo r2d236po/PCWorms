@@ -32,6 +32,7 @@
 #define cMAP_TEST	"../assets/pictures/maptest.png"
 #define cMAP_TEST2	"../assets/pictures/maptest2.png"
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"
+#define cMAP_TEST4	"../assets/pictures/maptest4.png"
 #define ICONE "../assets/pictures/icone.png"
 
 /*Structures globales*/
@@ -39,6 +40,18 @@ typedef struct{		//structure Point
 	int x;
 	int y;
 }Point;
+
+typedef struct{
+	float x;
+	float y;
+	float rayon;
+}Cercle;
+
+typedef struct{
+	float x;
+	float y;
+	double norm;
+}Vector;
 
 typedef struct{ //structure Curseur
 	Point before;
@@ -64,13 +77,30 @@ typedef struct{
 	char raffraichissement;
 	char windowResized;
 	char acceleration;
-	char bombe; //press to activate the bombe
+	char bombe;
 	int wormsPlaying;
 	char deplacement;
 	char screenshot;
-	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 	char TestCentrer;
+	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
+
+
+/*Structure objet KaamEngine*/
+typedef struct{
+	SDL_Rect objectBox;
+	Point absoluteCoordinate;
+	enum DIRECTION motionDirection;
+	float Xspeed;
+	float Yspeed;
+	int weapon;
+	int reactToBomb;
+	int rightOk;
+	int leftOk;
+	int relativeTime;
+	SDL_Surface* objectSurface;
+}KaamObject;
+
 
 typedef struct{		//structure gérant les polices
 	TTF_Font * FontName;

@@ -20,5 +20,13 @@ int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
 /*Fonctions diverse*/
 SDL_Rect initRect(int x, int y, int w, int h);	//Initialise un SDL_Rect
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
-int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2);
+int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2);
+int collisionPointWithCercle(Point P, int centerX, int centerY, int radius);
+int collisionPointWithRect(Point P, SDL_Rect* box);
+
+void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
+int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);
+void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint);
+void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint);
+int simplifiedShape(SDL_Point* shapeTab, int nbShapeOriginal, int coeff);
 #endif

@@ -133,6 +133,7 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		int x, y, offsety;
 		Uint32* pixelSurfaceMain = (Uint32*)pSurfaceMain->pixels;
 		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
+		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
 		nombrePixelToUpdate = pRect->h * pRect->w;
 		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
 		if (pixelWrite == NULL)
@@ -163,7 +164,7 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 
 /**
 * \fn int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
-* \brief Update texture associated to a surface on selected zone.
+* \brief Update texture associated to a surface on selected area.
 *
 * \param[in] pTexture, the pointer to the texture
 * \param[in] pSurfaceMain, the pointer to the surface
@@ -264,7 +265,7 @@ int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format)
 {
 	Uint8 a, b, g, r;
 	SDL_GetRGBA(pixelToRead, format, &r, &g, &b, &a);
-	return a < 200;
+	return a < 150;
 }
 
 /**
@@ -372,37 +373,293 @@ int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 }
 
 /**
-* \fn int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2)
+* \fn int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
 * \brief Test si deux rect se superpose.
 *
 * \param[in] pRect, rectangle 1
 * \param[in] pRect2, rectangle 2
 * \returns 1 = overlay, 0 = pas d'overlay
 */
-int checkRectOverlay(SDL_Rect* pRect, SDL_Rect* pRect2)
+int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
 {
 	int widthRel1 = pRect->w + pRect->x, widthRel2 = pRect2->w + pRect2->x;
 	int hightRel1 = pRect->h + pRect->y, hightRel2 = pRect2->h + pRect2->y;
-	if (widthRel1 >= pRect2->x && widthRel1 <= widthRel2 && hightRel1 >= pRect2->y && hightRel1 <= hightRel2)
+	/*if (widthRel1 >= pRect2->x && widthRel1 <= widthRel2 && hightRel1 >= pRect2->y && hightRel1 <= hightRel2)
 		return 1;
-	else if (widthRel2 >= pRect->x && widthRel2 <= widthRel1 && hightRel2 >= pRect->y && hightRel2 <= hightRel1)
+		else if (widthRel2 >= pRect->x && widthRel2 <= widthRel1 && hightRel2 >= pRect->y && hightRel2 <= hightRel1)
 		return 1;
-	return 0;
+		return 0;*/
+	if (pRect2->x >= widthRel1
+		|| widthRel2 <= pRect->x
+		|| pRect2->y >= hightRel1
+		|| hightRel2 <= pRect->y)
+		return 0;
+	else return 1;
 }
 
 /**
-* \fn SDL_Rect calculRectOverlay(SDL_Rect* pRect1, SDL_Rect* pRect2)
-* \brief Calcul et cree un rectangle de la taille de deux rectangles se supperposant.
+* \fn int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
+* \brief Test if a point is inside a cercle.
 *
-* \param[in] pRect1, rectangle 1
-* \param[in] pRect2, rectangle 2
+* \param[in] P, point to test
+* \param[in] centerX, X coordinate of the center of the cercle.
+* \param[in] centerY, Y coordinate of the center of the cercle.
+* \param[in] radius, radius of the cercle.
+* \returns 1 = point is in the cercle, 0 = point is out of the cercle
+*/
+int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
+{
+	int d2 = CARRE((P.x - centerX)) + CARRE((P.y - centerY));
+	if (d2 > CARRE(radius))
+		return 0;
+	else
+		return 1;
+}
+
+/**
+* \fn int collisionPointWithRect(Point P, SDL_Rect* box)
+* \brief Test if a point is inside a rect.
+*
+* \param[in] P, point to test.
+* \param[in] box, the box to test the collision with
+* \returns 1 = point is in the box, 0 = point is out of the box
+*/
+int collisionPointWithRect(Point P, SDL_Rect* box)
+{
+	if (P.x >= box->x
+		&& P.x < box->x + box->w
+		&& P.y >= box->y
+		&& P.y < box->y + box->h)
+		return 1;
+	else
+		return 0;
+}
+/**
+* \fn void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
+* \brief Reajust a surface with edges of the map.
+*
+* \param[in] pSurfaceMap, pointer to the map's surface
+* \param[in] pSurfaceMotion, pointer to the motion object's surface.
 * \return rect, une structure SDL_Rect initialisee aux dimensions et coordonnées combinees des deux rect.
 */
-/*SDL_Rect calculRectOverlay(SDL_Rect* pRect1, SDL_Rect* pRect2)
+
+void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
-SDL_Rect rect;
+	if (pSurfaceMotion->clip_rect.x < 0)
+		pSurfaceMotion->clip_rect.x = 0;
+	if (pSurfaceMotion->clip_rect.y < 0)
+		pSurfaceMotion->clip_rect.y = 0;
+	if (pSurfaceMotion->clip_rect.x + pSurfaceMotion->w > pSurfaceMap->w)
+		pSurfaceMotion->clip_rect.x = pSurfaceMap->w - pSurfaceMotion->w;
+	if (pSurfaceMotion->clip_rect.y + pSurfaceMotion->h > pSurfaceMap->h)
+		pSurfaceMotion->clip_rect.y = pSurfaceMap->h - pSurfaceMotion->h;
+}
 
-return rect;
-}*/
+/**
+* \fn int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab)
+* \brief Detect the shape of a surface and store it in an SDL_Point array.
+*
+* \param[in] pSurface, pointer to the surface.
+* \param[in] shapeTab, array of point.
+* \return nomber of points of the shape.
+*/
+int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab)
+{
+	int index, indexFin = pSurface->w * pSurface->h, indexStart = pSurface->w - 1, indexShape = 0, indexBalayage = 0;
+	int xSurface = pSurface->clip_rect.x, ySurface = pSurface->clip_rect.y;
+	Uint32* pixel = (Uint32*)pSurface->pixels;
+	int indexLine = 0, indexRow = 0, inc = -1, pixelFound = 0;
+	int lastLine = pSurface->h - 1, firstLine = 0;
+	int lastRow = pSurface->w - 1, firstRow = 0;
+	for (indexBalayage = 0; indexBalayage < 2; indexBalayage++)
+	{
+		for (index = indexStart; index <= indexFin; index += inc)
+		{
+			indexLine = index / pSurface->w;
+			indexRow = index % pSurface->w;
+			if (!pixelTransparent(pixel[index], pSurface->format))
+			{
+				if (indexBalayage == 0)
+				{
+					if (indexRow != lastRow)
+					{
+						if (pixelTransparent(pixel[index + 1], pSurface->format))
+						{
+							shapeTab[indexShape].x = indexRow + xSurface;
+							shapeTab[indexShape].y = indexLine + ySurface;
+							indexShape++;
+							pixelFound = 1;
+							index += (2 * pSurface->w - indexRow);
+						}
+						else pixelFound = 0;
+					}
+					else
+					{
+						shapeTab[indexShape].x = indexRow + xSurface;
+						shapeTab[indexShape].y = indexLine + ySurface;
+						indexShape++;
+						pixelFound = 1;
+						index += pSurface->w + 1;
+					}
+				}
+				else
+				{
+					if (indexRow != firstRow)
+					{
+						if (pixelTransparent(pixel[index - 1], pSurface->format))
+						{
+							shapeTab[indexShape].x = indexRow + xSurface;
+							shapeTab[indexShape].y = indexLine + ySurface;
+							indexShape++;
+							pixelFound = 1;
+							index = index - pSurface->w - indexRow - 1;
+						}
+						else pixelFound = 0;
+					}
+					else
+					{
+						shapeTab[indexShape].x = indexRow + xSurface;
+						shapeTab[indexShape].y = indexLine + ySurface;
+						indexShape++;
+						pixelFound = 1;
+						index = index - pSurface->w  - 1;
+					}
+				}
+			}
+			else pixelFound = 0;
+			if ((indexRow == firstRow && indexLine == lastLine 
+				|| indexLine == lastLine && pixelFound)  
+				&& indexBalayage == 0)
+			{
+				inc = 1;
+				indexStart = lastLine*pSurface->w;
+				break;
+			}
+			else if ((indexRow == lastRow && indexLine == firstLine 
+				|| indexLine == firstLine && pixelFound) 
+				&& 	indexBalayage == 1 || index < -1)
+				break;
+			if (!pixelFound)
+			{
+				if (indexRow == firstRow && indexBalayage == 0)
+				{
+					index += (2 * pSurface->w - 1);
+				}
+				else if (indexRow == lastRow  && indexBalayage == 1)
+				{
+					index -= (2 * pSurface->w - 1);
+				}
+			}
+		}
+	}
+	shapeTab[indexShape].x = shapeTab[0].x;
+	shapeTab[indexShape].y = shapeTab[0].y;
+	return indexShape + 1;
+}
+
+int simplifiedShape(SDL_Point* shapeTab, int nbShapeOriginal, int coeff)
+{
+	SDL_Point shapeTemp[100];
+	int index, h = nbShapeOriginal/2, newNbShape = 0, indexTab = 0;;
+	for (index = 0; index < h; index++)
+	{
+		if (index == 0 || index == h - 1)
+		{
+			shapeTemp[newNbShape].x = shapeTab[indexTab].x;
+			shapeTemp[newNbShape].y = shapeTab[indexTab].y;
+			newNbShape++;
+		}
+		else if (index % coeff == 0)
+		{
+			shapeTemp[newNbShape].x = shapeTab[indexTab].x;
+			shapeTemp[newNbShape].y = shapeTab[indexTab].y;
+			newNbShape++;
+		}
+		indexTab++;
+	}
+	for (index = h - 1; index >= 0; index--)
+	{
+		if (index == 0 || index == h - 1)
+		{
+			shapeTemp[newNbShape].x = shapeTab[indexTab].x;
+			shapeTemp[newNbShape].y = shapeTab[indexTab].y;
+			newNbShape++;
+		}
+		else if (index % coeff == 0)
+		{
+			shapeTemp[newNbShape].x = shapeTab[indexTab].x;
+			shapeTemp[newNbShape].y = shapeTab[indexTab].y;
+			newNbShape++;
+		}
+		indexTab++;
+	}
+	memcpy(shapeTab, shapeTemp, (newNbShape) * sizeof(SDL_Point));
+	shapeTab[newNbShape].x = shapeTab[0].x;
+	shapeTab[newNbShape].y = shapeTab[0].y;
+	return newNbShape + 1;
+}
+
+/**
+* \fn void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint)
+* \brief Move an array of points according to a delta on X and a delta on Y.
+*
+* \param[in] shapeTab, array of point.
+* \param[in] dx, delta along X axis.
+* \param[in] dy, delta along Y axis.
+* \param[in] nbPoint, array of point.
+* \return void
+*/
+void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint)
+{
+	int index;
+	for (index = 0; index < nbPoint; index++)
+	{
+		shapeTab[index].x += dx;
+		shapeTab[index].y += dy;
+	}
+}
+
+/**
+* \fn void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint)
+* \brief Draw an array of points.
+*
+* \param[in] pRenderer, pointer to the renderer.
+* \param[in] shapeTab, array of point
+* \param[in] nbPoint, array of point.
+* \return void
+*/
+void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint)
+{
+	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+	SDL_RenderDrawLines(pRenderer, shapeTab, nbPoint);
+}
 
 
+
+/*
+if (testLine != 0 && testLine != (pSurface->h - 1) && testRow != 0 && testRow != pSurface->w - 1)
+{
+if (pixelTransparent(pixel[index + 1], pSurface->format)
+|| pixelTransparent(pixel[index - 1], pSurface->format)
+|| pixelTransparent(pixel[index - pSurface->w], pSurface->format)
+|| pixelTransparent(pixel[index + pSurface->w], pSurface->format))
+{
+shapeTab[indexShape].x = index%pSurface->w + xSurface;
+shapeTab[indexShape].y = index / pSurface->w + ySurface;
+indexShape++;
+pixelFound = 1;
+}
+}
+if (testRow == 0 || testRow == pSurface->h - 1)
+{
+shapeTab[indexShape].x = index%pSurface->w + xSurface;
+shapeTab[indexShape].y = index / pSurface->w + ySurface;
+indexShape++;
+}
+if (testLine == 0 || testLine == pSurface->w)
+{
+shapeTab[indexShape].x = index%pSurface->w + xSurface;
+shapeTab[indexShape].y = index / pSurface->w + ySurface;
+indexShape++;
+}
+*/

@@ -2,6 +2,21 @@
 #include "AffichageGeneral.h"
 #include "physique.h"
 #include "my_stdrFct.h"
+#include "KaamEngine.h"
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////              Initialisation / Destruction              /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 /**
 * \fn Worms* createWorms(const char *file)
@@ -14,7 +29,6 @@
 Worms* createWorms(char* name)
 {
 	Worms* worms = NULL;
-	SDL_Surface* wormsSurface = NULL;
 	SDL_Surface* wormsSurfaceLeft = NULL;
 	SDL_Surface* wormsSurfaceRight = NULL;
 	SDL_Surface* texteSurface = NULL;
@@ -29,10 +43,10 @@ Worms* createWorms(char* name)
 	}
 	worms->wormsSurfaceLeft = NULL;
 	worms->wormsSurfaceRight = NULL;
-	worms->wormsSurface = NULL;
 	worms->texteSurface = NULL;
-	wormsSurfaceLeft = SDL_CreateRGBSurface(0, 31, 30, 32, RMASK, GMASK, BMASK, AMASK);
-	wormsSurfaceRight = SDL_CreateRGBSurface(0, 31, 30, 32, RMASK, GMASK, BMASK, AMASK);
+	wormsSurfaceLeft = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
+	wormsSurfaceRight = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
+	//wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
 	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
 	if (tombeSurface == NULL)
 	{
@@ -40,8 +54,7 @@ Worms* createWorms(char* name)
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
-	wormsSurface = SDL_CreateRGBSurface(0, wormsSurfaceLeft->w, wormsSurfaceLeft->h, 32, RMASK, GMASK, BMASK, AMASK);
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL || wormsSurface == NULL)
+	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
 		destroyWorms(&worms, 1);
@@ -57,32 +70,30 @@ Worms* createWorms(char* name)
 	worms->texteSurface = texteSurface;
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
 	worms->wormsSurfaceRight = wormsSurfaceRight;
-	worms->wormsSurface = wormsSurface;
-	worms->wormsSurface->pixels = worms->wormsSurfaceLeft->pixels;
 	worms->wormsSurfaceTomb = tombeSurface;
 
 	//Initialisations liees a l'image du worms
-	worms->wormsSurface->clip_rect.x = 300;
-	worms->wormsSurface->clip_rect.y = 100;
-	worms->wormsRect.x = worms->wormsSurface->clip_rect.x;
-	worms->wormsRect.y = worms->wormsSurface->clip_rect.y;
-	worms->wormsRect.w = wormsSurfaceLeft->clip_rect.w;
-	worms->wormsRect.h = wormsSurfaceLeft->clip_rect.h;
+	clip.x = 300;
+	clip.y = 100;
+	clip.w = wormsSurfaceRight->w;
+	clip.h = wormsSurfaceRight->h;
+	if ((worms->wormsObject = KaamInitObject(clip, 0.0, 0.0, DOWN, 0)) == NULL)
+	{
+		fprintf(logFile, "createWorms : FAILURE, KaamInitObject.\n\n");
+		destroyWorms(&worms, 1);
+		return NULL;
+	}
+	KaamInitSurfaceObject(worms->wormsObject, (Uint32*)wormsSurfaceRight->pixels, wormsSurfaceRight->w * wormsSurfaceRight->h);
 
 	//initialisation des variables autres
 	worms->vie = 100;
 	strcpy(worms->nom, name);
 	//worms->invent = initInvent(Worms* worms); A FAIRE
-	worms->xAbs = worms->wormsSurface->clip_rect.x;
-	worms->yAbs = worms->wormsSurface->clip_rect.y;
-	worms->vitx = 0;
-	worms->vity = 0;
-	worms->dirSurface = LEFT;
-	worms->dir = DOWN;
+	worms->indexAnim = 0;
+	worms->dirSurface = RIGHT;
 	worms->arme = NULL;
 
 	//remise à null des pointeurs temporaires
-	wormsSurface = NULL;
 	wormsSurfaceLeft = NULL;
 	wormsSurfaceRight = NULL;
 	texteSurface = NULL;
@@ -104,10 +115,10 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 	int i;
 	for (i = 0; i < nbWorms; i++)
 	{
-		if (wormsTab[i]->wormsSurface != NULL)
+		if (wormsTab[i]->wormsObject->objectSurface != NULL)
 		{
-			SDL_FreeSurface(wormsTab[i]->wormsSurface);
-			(wormsTab[i])->wormsSurface = NULL;
+			SDL_FreeSurface(wormsTab[i]->wormsObject->objectSurface);
+			(wormsTab[i])->wormsObject->objectSurface = NULL;
 		}
 		if ((wormsTab[i])->wormsSurfaceLeft != NULL)
 		{
@@ -129,6 +140,11 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 			SDL_FreeSurface((wormsTab[i])->texteSurface);
 			(wormsTab[i])->texteSurface = NULL;
 		}
+		if ((wormsTab[i])->wormsObject != NULL)
+		{
+			free((wormsTab[i])->wormsObject);
+			(wormsTab[i])->wormsObject = NULL;
+		}
 		free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
@@ -136,72 +152,52 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 }
 
 
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                 Gestion du retournement                /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
 /**
-* \fn int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
-* \brief Deplace un worms dans l'espace.
+* \fn void gestionRetournement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+* \brief Detecte un retournement du worms.
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
-* \param[in] pWorms, pointeur du worms a deplacer
-* \param[in] pSurfaceMap, pointeur vers la surface de la map
-* \param[in] swap, indique un retournement
-* \return void
+* \param[in] pWorms, pointeur du worms a tester
+* \returns void
 */
-int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
+int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
-	int deplacement = 0;
-	static int indexAnim = 0;
-	enum DIRECTION direction = pInput->direction;
-	if (pInput->direction != NONE)
+	int indexBoucle = 0, correction = 1;
+	if (swapWorms(pInput, pWorms))
 	{
-		switch (pInput->direction)
+		swapWormsSurface(pWorms);
+		pInput->direction = NONE;
+		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
+			&pWorms->wormsObject->absoluteCoordinate.x,
+			&pWorms->wormsObject->absoluteCoordinate.y);
+		while (indexBoucle < 60 && detectionCollisionSurface(pSurfaceMap, pWorms->wormsObject->objectSurface))
 		{
-		case RIGHT:
-			deplacement = pInput->acceleration;
-			break;
-		case LEFT:
-			deplacement = -pInput->acceleration;
-			break;
-		case UP:
-			deplacement = -pInput->acceleration;
-			break;
-		case DOWN:
-			deplacement = pInput->acceleration;
-			break;
+			if (indexBoucle > 10)
+				correction = -1;
+			if (pWorms->dirSurface == RIGHT)
+				pWorms->wormsObject->objectSurface->clip_rect.x -= correction;
+			else pWorms->wormsObject->objectSurface->clip_rect.x += correction;
+			indexBoucle++;
 		}
-		if (pInput->direction == RIGHT || pInput->direction == LEFT)
-		{
-			pWorms->wormsSurface->clip_rect.x += deplacement;
-			/*if (!swap)
-			{
-				animationWorms(pWorms, indexAnim, pInput->direction);
-				gestionCollision(1, pSurfaceMap, pWorms->wormsSurface, &direction);
-				if (indexAnim == 14)
-				{
-					indexAnim = 0;
-				}
-				else indexAnim++;
-			}
-			else indexAnim = 0;*/
-		}
-		else if (pInput->direction == UP || pInput->direction == DOWN)
-		{
-			pWorms->wormsSurface->clip_rect.y += deplacement;
-		}
-		if ((pWorms->wormsSurface->clip_rect.x + pWorms->wormsSurface->w) > pSurfaceMap->w || pWorms->wormsSurface->clip_rect.x < 0)
-		{
-			pWorms->wormsSurface->clip_rect.x -= deplacement;
-		}
-		if ((pWorms->wormsSurface->clip_rect.y + pWorms->wormsSurface->h) > pSurfaceMap->h || pWorms->wormsSurface->clip_rect.y < 0)
-		{
-			pWorms->wormsSurface->clip_rect.y -= deplacement;
-		}
-	}
-	if (indexAnim == 0)
 		return 1;
-	else return 0;
+	}
+	return 0;
 }
-
-
 
 /**
 * \fn int retournementWorms(Input* pInput, Worms* pWorms)
@@ -209,109 +205,121 @@ int deplacementWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, int
 *
 * \param[in] pInput, pointeur de la structure contenant les Input.
 * \param[in] pWorms, pointeur du worms a tester
-* \returns retournement, booleen indiquant s'il y a eu retournements
+* \returns booleen indiquant s'il y a eu retournement :
+*			1 = retournement
+*			0 = pas de retournement
 */
-int retournementWorms(Input* pInput, Worms* pWorms)
+int swapWorms(Input* pInput, Worms* pWorms)
 {
-	int retournement = 0;
-	if ((pInput->direction == RIGHT || pInput->direction == LEFT) && (pWorms->dirSurface != pInput->direction))
-	{
-		retournement = 1;
-	}
-	return retournement;
+	return (pInput->direction == RIGHT || pInput->direction == LEFT) && (pWorms->dirSurface != pInput->direction);
 }
 
 /**
-* \fn void swapSurface(Worms* pWorms)
+* \fn void swapWormsSurface(Worms* pWorms)
 * \brief Change la surface de sens.
 *
 * \param[in] pWorms, pointeur du worms a tester
 * \returns void
 * \remark Faire attention a la vitesse d'execution du programme et rajouter un booleen de securite dans la fonction l'appelant
 */
-void swapSurface(Worms* pWorms)
+void swapWormsSurface(Worms* pWorms)
 {
+	int w = pWorms->wormsObject->objectSurface->w, h = pWorms->wormsObject->objectSurface->h;
 	if (pWorms->dirSurface == RIGHT)
 		pWorms->dirSurface = LEFT;
 	else pWorms->dirSurface = RIGHT;
 	if (pWorms->dirSurface == RIGHT)
 	{
-		pWorms->wormsSurface->pixels = pWorms->wormsSurfaceRight->pixels;
+		memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceRight->pixels, w*h*sizeof(Uint32));
 	}
-	else pWorms->wormsSurface->pixels = pWorms->wormsSurfaceLeft->pixels;
+	else memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceLeft->pixels, w*h*sizeof(Uint32));
 	/*Offset entre la droite et la gauche*/
 	/*if (pWorms->dirSurface == RIGHT)
-		pWorms->wormsSurface->clip_rect.x += 10;
-	else pWorms->wormsSurface->clip_rect.x -= 10;*/
+	pWorms->wormsObject->objectSurface->clip_rect.x += 10;
+	else pWorms->wormsObject->objectSurface->clip_rect.x -= 10;*/
 }
 
-/**
-* \fn int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
-* \brief Detecte si on est au fond de la map et remplace la surface du worms par une tombe.
-*
-* \param[in] pWorms, pointeur du worms a tester
-* \param[in] pSurfaceMap, surface de la map
-* \returns int, 1 = Dead, 0 = vivant
-*/
-int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
-{
-	int dead = 0;
-	if ((pWorms->wormsSurface->clip_rect.y + pWorms->wormsSurface->h == pSurfaceMap->h) && !checkDeplacement(pSurfaceMap, pWorms->wormsSurface, DOWN))
-	{
-		pWorms->wormsSurface->clip_rect.y = pSurfaceMap->h - pWorms->wormsSurface->h;
-		pWorms->wormsSurface->pixels = pWorms->wormsSurfaceTomb->pixels;
-		pWorms->vie = 0;
-		dead = 1;
-	}
-	return dead;
-}
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                 Gestion du deplacement                 /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay)
-* \brief Update les surfaces des worms et gere l'overlay si besoin.
+* \fn void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection)
+* \brief Set the speed and direction of a jump for a worms.
 *
-* \param[in] wormsTab, tableau des worms
-* \param[in] pSurfaceMap, surface de la map
-* \param[in] pInput, pointeur de la structure d'inputs
-* \param[in] pTextureDisplay, texture globale d'affichage
+* \param[in] pWorms, pointer to the worms to swap
+* \param[in] jumpDirection, direction of the jump
 * \returns void
 */
-void updateWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Input* pInput, SDL_Texture* pTextureDisplay)
+void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection)
 {
-	int i = 0, indexWorms1 = 0, indexWorms2 = 0;
-	for (i = 0; i < globalVar.nbWormsEquipe; i++)
+	switch (jumpDirection)
 	{
-		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[i]->wormsSurface, &wormsTab[i]->wormsRect);
-		if (!wormsOverlay(wormsTab, &indexWorms1, &indexWorms2))
-			updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms1, indexWorms2);
+	case UP:
+		setSpeed(&pWorms->wormsObject->Xspeed, &pWorms->wormsObject->Yspeed, 0.0, vitesseY);
+		pWorms->wormsObject->motionDirection = UP;
+		break;
+	case RIGHT:
+		setSpeed(&pWorms->wormsObject->Xspeed, &pWorms->wormsObject->Yspeed, vitesseX, vitesseY);
+		pWorms->wormsObject->motionDirection = UPRIGHT;
+		break;
+	case LEFT:
+		setSpeed(&pWorms->wormsObject->Xspeed, &pWorms->wormsObject->Yspeed, -vitesseX, vitesseY);
+		pWorms->wormsObject->motionDirection = UPLEFT;
+		break;
 	}
 }
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                 Gestion de l'animation                 /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
-* \brief Regarde si deux worms se supperpose.
-* TO DO :
-*			Verifier la superposition de tous les worms.
-* \param[in] wormsTab, tableau de worms.
-* \param[in] indexWorms1, pointeur vers l'indice du worms 1 en supperposition
-* \param[in] indexWorms2, pointeur vers l'indice du worms 2 en supperposition
-* \return error, 1 = SUCCESS, 0 = FAIL
+* \fn void gestionAnimationWorms(Worms* pWorms, int swap)
+* \brief Manage animation of the worms.
+*
+* \param[in] pWorms, pointer to the worms to swap
+* \param[in] pSurfaceMap, pointer to the map surface
+* \param[in] swap, indicates if a swap occured.
+* \returns void
 */
-int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+void gestionAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
 {
-	int i = 0;
-	for (i = 1; i < globalVar.nbWormsEquipe; i++)
+	int indexBoucle = 0, correction = 1;
+	if (swap)
+		pWorms->indexAnim = 0;
+	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
+	while (indexBoucle < 60 && detectionCollisionSurface(pSurfaceMap, pWorms->wormsObject->objectSurface))
 	{
-		if (checkRectOverlay(&wormsTab[i]->wormsSurface->clip_rect, &wormsTab[i - 1]->wormsSurface->clip_rect))
-		{
-			*indexWorms1 = i - 1;
-			*indexWorms2 = i;
-			return 0;
-		}
+		if (indexBoucle > 10)
+			correction = -1;
+		if (pWorms->dirSurface == RIGHT)
+			pWorms->wormsObject->objectSurface->clip_rect.x -= correction;
+		else pWorms->wormsObject->objectSurface->clip_rect.x += correction;
+		indexBoucle++;
 	}
-	return 1;
+	if (pWorms->indexAnim >= 14)
+		pWorms->indexAnim = 0;
+	else pWorms->indexAnim++;
 }
-
 
 /**
 * \fn void animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
@@ -342,7 +350,233 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 	case DOWN:
 		break;
 	}
-	return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsSurface, NULL);
+	return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsObject->objectSurface, NULL);
+}
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                  Gestion de l'overlay                  /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
+* \brief Update les surfaces des worms et gere l'overlay si besoin et la multiple physique.
+*
+* \param[in] pInput, pointeur de la structure d'inputs
+* \param[in] wormsTab, tableau des worms
+* \param[in] pTextureDisplay, texture globale d'affichage
+* \param[in] pSurfaceMap, surface de la map
+* \returns void
+*/
+void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
+{
+	int indexWorms, indexWorms1, indexWorms2;
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
+	{
+		if (indexWorms == pInput->wormsPlaying || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
+			|| !testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
+		{
+			if (wormsTab[indexWorms]->vie > 0 
+				|| (wormsTab[indexWorms]->vie == 0 && !testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
+			{
+				KaamWormsMotionManagement(pInput, wormsTab[indexWorms], pSurfaceMap);
+			}
+			if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMap))
+				resetInputs(pInput);
+			if (pInput->deplacement)
+			{
+				pInput->deplacement = 0;
+				pInput->raffraichissement = 1;
+			}
+		}
+		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
+		if (wormsOverlay(wormsTab, &indexWorms1, &indexWorms2))
+		{
+			if (indexWorms1 == pInput->wormsPlaying)
+				updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms2, indexWorms1);
+			if (indexWorms2 == pInput->wormsPlaying)
+			{
+				SWAP(indexWorms1, indexWorms2);
+				updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms2, indexWorms1);
+			}
+			pInput->raffraichissement = 1;
+		}
+	}
+}
+
+/**
+* \fn int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+* \brief Regarde si deux worms se supperpose.
+* TO DO :
+*			Verifier la superposition de tous les worms.
+* \param[in] wormsTab, tableau de worms.
+* \param[in] indexWorms1, pointeur vers l'indice du worms 1 en supperposition
+* \param[in] indexWorms2, pointeur vers l'indice du worms 2 en supperposition
+* \return error, 1 = SUCCESS, 0 = FAIL
+*/
+int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+{
+	int i = 0;
+	for (i = 1; i < globalVar.nbWormsEquipe; i++)
+	{
+		if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &wormsTab[i - 1]->wormsObject->objectSurface->clip_rect))
+		{
+			*indexWorms1 = i - 1;
+			*indexWorms2 = i;
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                   Fonctions Diverses                   /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+* \fn int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
+* \brief Detecte si on est au fond de la map et remplace la surface du worms par une tombe.
+*
+* \param[in] pWorms, pointeur du worms a tester
+* \param[in] pSurfaceMap, surface de la map
+* \returns int, 1 = Dead, 0 = vivant
+*/
+int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap)
+{
+	int dead = 0;
+	if ((pWorms->wormsObject->objectSurface->clip_rect.y + pWorms->wormsObject->objectSurface->h >= pSurfaceMap->h - 1))
+	{
+		pWorms->wormsObject->objectSurface->clip_rect.y = pSurfaceMap->h - pWorms->wormsObject->objectSurface->h;
+		wormsDead(pWorms, 1);
+		dead = 1;
+	}
+	return dead;
+}
+
+/**
+* \fn void wormsDead(Worms* pWorms, int limitMap)
+* \brief load the death surface in the worms.
+*
+* \param[in] pWorms, pointer to the worms.
+* \param[in] limitMap, indicates if it is a death by limit of the map.
+* \returns void
+*/
+void wormsDead(Worms* pWorms, int limitMap)
+{
+	if (pWorms->vie <= 0 || limitMap == 1)
+	{
+		memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceTomb->pixels, pWorms->wormsSurfaceTomb->w * pWorms->wormsSurfaceTomb->h *sizeof(Uint32));
+		pWorms->vie = 0;
+	}
+}
+
+/**
+* \fn void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
+* \brief Detects if a worms is within the range of a weapon and applies dammage if so.
+*
+* \param[in] pInput, pointer to the Input structure.
+* \param[in] wormsTab, array of worms.
+* \param[in] cercleBox, box which contains the cercle of the explosion.
+* \param[in] centerX, X coordinate of the center of the cercle of the explosion.
+* \param[in] centerY, Y coordinate of the center of the cercle of the explosion.
+* \param[in] radius, radius of the explosion.
+* \returns void
+*/
+void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
+{
+	int indexWorms = 0;
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
+	{
+		if (collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
+		{
+			if (indexWorms != pInput->wormsPlaying || !pInput->jumpOnGoing)
+			{
+				wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
+				speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
+			}
+			continue;
+		}
+		/*for (i = 0; i < 4; i++)
+		{
+		p.x = wormsTab[indexWorms]->wormsObject->objectBox.x + (i == 1)*wormsTab[indexWorms]->wormsObject->objectBox.w;
+		p.y = wormsTab[indexWorms]->wormsObject->objectBox.y + (i == 2 || i == 3)*wormsTab[indexWorms]->wormsObject->objectBox.h;
+		if (collisionPointWithCercle(p, centerX, centerY, radius))
+		{
+		wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
+		speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
+		continue;
+		}
+		}
+		p.x = centerX;
+		p.y = centerY;
+		if (collisionPointWithRect(p, &wormsTab[indexWorms]->wormsObject->objectBox))
+		{
+		wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
+		speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
+		continue;
+		}*/
+	}
+	pInput->bombe = 0;
+}
+
+/**
+* \fn void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius
+* \brief Applies speed and dammage according to the position of the worms to the center of the explosion.
+*
+* \param[in] pWorms, pointer to the worms.
+* \param[in] centerX, X coordinate of the center of the cercle of the explosion.
+* \param[in] centerY, Y coordinate of the center of the cercle of the explosion.
+* \param[in] radius, radius of the explosion.
+* \returns void
+*/
+void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius)
+{
+	int middleX = pWorms->wormsObject->objectBox.x + pWorms->wormsObject->objectBox.w / 2;
+	int middleY = pWorms->wormsObject->objectBox.y + pWorms->wormsObject->objectBox.h / 2;
+	float signeX = 1.0, signeY = 1.0, distanceX = 0, distanceY = 0;
+	if (middleX < centerX)
+	{
+		signeX = -1.0;
+		if (middleY > centerY)
+		{
+			signeY = -1.0;
+		}
+	}
+	//calcul de la distance par rapport au centre
+	distanceX = MY_ABS((middleX - centerX)) / (float)radius;
+	distanceY = MY_ABS((middleY - centerY)) / (float)radius;
+	double decrease = sqrt(CARRE(distanceX) + CARRE(distanceY));
+	if (decrease <= 0.35)
+	{
+		pWorms->wormsObject->Xspeed = (float)(vitesseX * BombFactor * signeX*1.0 / 0.35);
+		pWorms->wormsObject->Yspeed = (float)(vitesseY * BombFactor * signeY*1.0 / 0.35);
+		pWorms->vie -= MAXDAMMAGE * 1.0 / 0.35;
+	}
+	else
+	{
+		pWorms->wormsObject->Xspeed = (float)(vitesseX * BombFactor * signeX * 1.0 / decrease);
+		pWorms->wormsObject->Yspeed = (float)(vitesseY * BombFactor * signeY * 1.0 / decrease);
+		pWorms->vie -= MAXDAMMAGE * 1.0 / decrease;
+	}
+	wormsDead(pWorms, 0);
 }
 
 

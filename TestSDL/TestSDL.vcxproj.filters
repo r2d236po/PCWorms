@@ -48,6 +48,12 @@
     <ClCompile Include="my_stdrFct.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KaamEngine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KaamEngineDependencies.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">
@@ -81,6 +87,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="my_stdrFct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KaamEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KaamEngineDependencies.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
