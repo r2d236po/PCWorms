@@ -24,7 +24,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 	SDL_Event event;
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 	Uint32 flags = (SDL_GetWindowFlags(pWindow) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
-
+	static int wormsCounter = 0;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -127,11 +127,12 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				else pInput->TestCentrer = 1;
 				break;
 			case SDLK_c:
-				if (globalVar.nbWormsEquipe > 1 && !pInput->jumpOnGoing)
+				if ((globalVar.nbWormsEquipe > 1 || globalVar.nbEquipe > 1) && !pInput->jumpOnGoing)
 				{
-					if (pInput->wormsPlaying != globalVar.nbWormsEquipe - 1)
-						pInput->wormsPlaying += 1;
-					else pInput->wormsPlaying = 0;
+					if (wormsCounter != globalVar.nbWormsEquipe - 1)
+						wormsCounter += 1;
+					else wormsCounter = 0;
+					pInput->wormsPlaying = wormsCounter + pInput->teamPlaying * globalVar.nbWormsEquipe;
 				}
 				break;
 			case SDLK_PRINTSCREEN:
@@ -358,6 +359,7 @@ Input* initInput()
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
 	pInput->TestCentrer = 0;
+	pInput->teamPlaying = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }

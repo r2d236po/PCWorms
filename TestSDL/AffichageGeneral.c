@@ -13,8 +13,9 @@ int mainFenetre(Jeu * jeu)
 	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
 	SDL_Window * pWindow = NULL;	//déclaration de la window
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
-	SDL_Texture * display = NULL;	//Texture globale
+	SDL_Texture * pTextureDisplay = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
+	Worms** wormsTab = NULL;
 	int indexTeam = 0;
 
 
@@ -26,38 +27,49 @@ int mainFenetre(Jeu * jeu)
 		if (pInput == NULL)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &display);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
 		//Initialisation du terrain
 		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &display);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
 
 		//Initialisation de l'affichage
-		display = my_createTextureFromSurface(jeu->pMapTerrain->imageMapSurface, pRenderer);
-		if (display == NULL)
+		pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->imageMapSurface, pRenderer);
+		if (pTextureDisplay == NULL)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 			destroyMap(&jeu->pMapTerrain);
-			cleanUp(&pWindow, &pRenderer, &pInput, &display);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
 
 		//Initialisation de la caméra
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
 
-		//Initialisation des worms
+		/*Initialisation du tableau global de worms*/
+		wormsTab = (Worms**)malloc(globalVar.nbEquipe * globalVar.nbWormsEquipe * sizeof(Worms*));
+		if (wormsTab == NULL)
+		{
+			destroyMap(&jeu->pMapTerrain);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
+			return -1;
+		}
 		for (indexTeam = 0; indexTeam < globalVar.nbEquipe; indexTeam++)
-			KaamInitGame(jeu->equipes[indexTeam]->worms, pInput, jeu->pMapTerrain, display, pRenderer, &camera);
+			wormsTab[indexTeam*globalVar.nbWormsEquipe] = jeu->equipes[indexTeam]->worms[0];
+
+		//Initialisation des worms
+		KaamInitGame(wormsTab, jeu->pMapTerrain->imageMapSurface);
 		indexTeam = 0;
 		if (loadSounds(BipExplo, 0) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &display);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
 		while (!(pInput->quit))
@@ -66,7 +78,7 @@ int mainFenetre(Jeu * jeu)
 			getInput(pInput, pWindow);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, display, &camera, jeu->equipes[indexTeam]->worms))
+			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
@@ -74,7 +86,7 @@ int mainFenetre(Jeu * jeu)
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, display, &camera, NULL);
+				updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 				pInput->raffraichissement = 0;
 			}
 
@@ -88,15 +100,17 @@ int mainFenetre(Jeu * jeu)
 			}
 			if (globalVar.nbEquipe > 1)
 			{
-				if (indexTeam != globalVar.nbEquipe - 1)
-					indexTeam += 1;
-				else indexTeam = 0;
+				if (pInput->teamPlaying != globalVar.nbEquipe - 1)
+					pInput->teamPlaying += 1;
+				else pInput->teamPlaying = 0;
 			}
 		}
 		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
+		free(wormsTab);
+		wormsTab = NULL;
 	}
-	cleanUp(&pWindow, &pRenderer, &pInput, &display);
+	cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	return 0;
 }

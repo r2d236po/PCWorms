@@ -182,9 +182,6 @@ int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 	{
 		swapWormsSurface(pWorms);
 		pInput->direction = NONE;
-		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
-			&pWorms->wormsObject->absoluteCoordinate.x,
-			&pWorms->wormsObject->absoluteCoordinate.y);
 		while (indexBoucle < 60 && detectionCollisionSurface(pSurfaceMap, pWorms->wormsObject->objectSurface))
 		{
 			if (indexBoucle > 10)
@@ -194,6 +191,9 @@ int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 			else pWorms->wormsObject->objectSurface->clip_rect.x += correction;
 			indexBoucle++;
 		}
+		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
+			&pWorms->wormsObject->absoluteCoordinate.x,
+			&pWorms->wormsObject->absoluteCoordinate.y);
 		return 1;
 	}
 	return 0;
@@ -378,7 +378,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
 {
 	int indexWorms, indexWorms1, indexWorms2;
-	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{
 		if (indexWorms == pInput->wormsPlaying || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
 			|| !testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
@@ -424,7 +424,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
 {
 	int i = 0;
-	for (i = 1; i < globalVar.nbWormsEquipe; i++)
+	for (i = 1; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
 	{
 		if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &wormsTab[i - 1]->wormsObject->objectSurface->clip_rect))
 		{
@@ -503,7 +503,7 @@ void wormsDead(Worms* pWorms, int limitMap)
 void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
 {
 	int indexWorms = 0;
-	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{
 		if (collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
 		{
