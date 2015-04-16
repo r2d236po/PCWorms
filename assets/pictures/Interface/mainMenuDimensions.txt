@@ -1,0 +1,5 @@
+Pour les différents menu principaux (mainMenu, versusMenu, mapMenu et optionMenu)
+j'ai laissé des images grandes de bases pour pouvoir s'adapter aux grandes résolutions, elles sont pas fixes comme les menus ingame,
+à toi de voir comment faire pour détecter les différents rectangles.
+
+Pour le menu principal d'options, au vu du nombre de cas différent possible j'ai préféré séparer les images de oui, non, défaut et menu.

@@ -1,0 +1,3 @@
+configuration : largeur = 221, hauteur = 73, position x = 77, position y = 126
+comment jouer : largeur = 221, hauteur = 73, position x = 77, position y = 278
+retour au jeu : largeur = 221, hauteur = 73, position x = 77, position y = 429

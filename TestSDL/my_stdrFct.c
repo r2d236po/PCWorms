@@ -9,12 +9,12 @@
 
 /**
 * \fn SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const char * windowName)
-* \brief Cree une fenetre SDL.
+* \brief Create and initialize an SDL window.
 *
-* \param[in] windowWidth, largeur de la fenetre
-* \param[in] windowHight, hauteur de la fenetre
-* \param[in] windowName, nom de la fenetre
-* \returns pointeur vers la fenetre creee, NULL si echec
+* \param[in] windowWidth, width of the window.
+* \param[in] windowHight, hight of the window.
+* \param[in] windowName, name of the window.
+* \returns pointer to the created window, NULL if error.
 */
 SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const char * windowName){
 	SDL_Window * pWindow = NULL;
@@ -49,10 +49,10 @@ SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const ch
 
 /**
 * \fn SDL_Surface * loadImage(const char * file)
-* \brief Cree une surface a partir d'une image exterieur.
+* \brief Create and load an image into a surface.
 *
-* \param[in] file, nom du fichier image a ouvrir
-* \returns pointeur vers la surface creee, NULL si echec
+* \param[in] file, name of the image to load (with the entire path if necessary).
+* \returns pointer to the created surface, NULL if error.
 */
 SDL_Surface * loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
@@ -68,11 +68,11 @@ SDL_Surface * loadImage(const char * file){
 
 /**
 * \fn SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
-* \brief Cree une texture a partir d'une image exterieur dans le renderer.
+* \brief Create and load an image into a texture for the current renderer.
 *
-* \param[in] pRenderer, pointeur vers le renderer de la fenetre
-* \param[in] file, nom du fichier image a ouvrir
-* \returns pointeur vers la texture creee, NULL si echec
+* \param[in] pRenderer, pointer to the window's renderer.
+* \param[in] file, name of the image to load (with the entire path if necessary).
+* \returns pointer to the created texture, NULL if error
 */
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 {
@@ -89,12 +89,12 @@ SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
 
 /**
 * \fn SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer)
-* \brief Cree une texture globale a partir d'une (version ressemblante à createTextureFromSurface mais nous donne acces aux pixels).
+* \brief Create a texture from a surface.
 *
-* \param[in] pSurface, pointeur vers la surface.
-* \param[in] pRenderer, pointeur du renderer.
-* \returns texture cree ou NULL si problem
-* \remarks si -1, le pointeur de la structure Texture sera mis a NULL sinon il pointera vers la texture globale.
+* \param[in] pSurface, pointer to the source surface.
+* \param[in] pRenderer, pointer to the current renderer.
+* \returns pointer to the created texture, NULL if error.
+* \remarks It is like createTextureFromSurface with error handling and access to pixel enable.
 */
 SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer)
 {
@@ -118,9 +118,9 @@ SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pR
 * \brief Update texture associated to a surface with a second surface.
 *
 * \param[in] pTexture, the pointer to the texture
-* \param[in] pSurfaceMain, the pointer to the first surface
+* \param[in] pSurfaceMain, the pointer to the surface associated with the texture (the map).
 * \param[in] pSurfaceSecond, the pointer to the second surface
-* \param[in] pRect, area to erase before to display the second surface
+* \param[in] pRect, area to erase before display the second surface (usually the precedent location of the surface).
 * \returns 0 = OK, -1 = problem allocating memory
 */
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
@@ -164,11 +164,11 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 
 /**
 * \fn int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
-* \brief Update texture associated to a surface on selected area.
+* \brief Update texture associated to a surface on a selected area.
 *
-* \param[in] pTexture, the pointer to the texture
-* \param[in] pSurfaceMain, the pointer to the surface
-* \param[in] pRect, area to update, NULL for the entire surface/texture
+* \param[in] pTexture, the pointer to the texture.
+* \param[in] pSurfaceMain, the pointer to the surface.
+* \param[in] pRect, area to update, NULL for the entire surface/texture.
 * \returns 0 = OK, -1 = problem allocating memory
 */
 int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
@@ -216,13 +216,13 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 
 /**
 * \fn Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
-* \brief Lit un pixel aux coordonnees x et y d'une surface.
+* \brief Read a pixel from a surface at (x,y) coordinates.
 *
-* \param[in] pSurface, surface dans laquelle on lit le pixel
-* \param[in] x, abscisse dans la surface
-* \param[in] y, ordonne dans la surface
-* \returns Uint32, pixel lu aux coordonnees contenant les 4 canaux (RGBA)
-* \remarks Faire attention que x et y soient bien compris dans la surface.
+* \param[in] pSurface, pointer to the surface to read from.
+* \param[in] x, X coordinate of the pixel to read in the surface.
+* \param[in] y, Y coordinate of the pixel to read in the surface.
+* \returns Uint32, pixel read on 32 bits with the surface's format.
+* \remarks This function does not handle false coordinates, be careful.
 */
 
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
@@ -236,12 +236,13 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 
 /**
 * \fn void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
-* \brief Ecrit un pixel aux coordonnees x et y d'une surface.
+* \brief Write a pixel to the (x,y) coordinates passed in parameters.
 *
-* \param[in] pSurface, surface dans laquelle on ecrit le pixel
-* \param[in] x, abscisse dans la surface
-* \param[in] y, ordonne dans la surface
-* \param[in] pixelToWrite, pixel a ecrire
+* \param[in] pSurface, pointer to the surface to write to.
+* \param[in] x, X coordinate of the pixel to write in the surface.
+* \param[in] y, Y coordinate of the pixel to write in the surface.
+* \param[in] pixelToWrite, the pixel to write.
+* \remarks Make sure that the formats of the pixel to write and the surface are the same.
 */
 void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 {
@@ -255,11 +256,11 @@ void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 
 /**
 * \fn int pixelTransparent(Uint32 pixelToRead,SDL_PixelFormat* format)
-* \brief Test la transparence d'un pixel.
+* \brief Test the transparency of a pixel.
 *
-* \param[in] pixelToRead, pixel en question
-* \param[in] format, format du pixel à lire
-* \returns 1 = pixel transparent, 0 = pixel non transparent
+* \param[in] pixelToRead, the pixel to test.
+* \param[in] format, format of the pixel.
+* \returns 1 = pixel transparent, 0 = pixel not transparent
 */
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format)
 {
@@ -270,13 +271,15 @@ int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format)
 
 /**
 * \fn int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest)
-* \brief Ecrit des pixels d'une surface dans une autre surface (comme BlitSurface).
+* \brief Make a copy from an area of a surface to an another area of a second surface.
 *
-* \param[in] pSurfaceSrc, surface source
-* \param[in] pRectSrc, rectangle de destination dans la surface source, NULL pour toute la surface
-* \param[in] pSurfaceDest, surface de destination
-* \param[in] pRectDest, rectangle de destination dans la surface de destination, NULL démarre à zéro
-* \returns 1 = copie OK, 0 = probleme de taille entre la source et la destination
+* \param[in] pSurfaceSrc, pointer to the source surface.
+* \param[in] pRectSrc, area to copy in the source surface, NULL for the entire surface.
+* \param[in] pSurfaceDest, pointer to the destination surface.
+* \param[in] pRectDest, area to paste the pixels, NULL will start the paste from the origin of the destination surface.
+* \returns 1 = copy OK, 0 = size problem between source and destination
+* \remarks This function does handle size issue between source and destination.
+*		   The destination SDL_Rect is used only for location, the width and hight are based on the source SDL_Rect.
 */
 int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest)
 {
@@ -332,13 +335,13 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 
 /**
 * \fn SDL_Rect initRect(int x, int y, int w, int h)
-* \brief Cree et nitialise un rectangle.
+* \brief Create and initializes a SDL_Rect structure.
 *
-* \param[in] x, position en x du rectangle
-* \param[in] y, position en y du rectangle
-* \param[in] w, largeur du rectangle
-* \param[in] h, hauteur du rectangle
-* \return rect, une structure SDL_Rect initialisee
+* \param[in] x, top left X coordinate.
+* \param[in] y, top left Y coordinate.
+* \param[in] w, width of the rectangle.
+* \param[in] h, hight of the rectangle
+* \return SDL_Rect structure initialized.
 */
 SDL_Rect initRect(int x, int y, int w, int h)
 {
@@ -353,19 +356,21 @@ SDL_Rect initRect(int x, int y, int w, int h)
 
 /**
 * \fn int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
-* \brief Test si un rect peut etre compris dans une surface.
+* \brief Test if a SDL_Rect can fit into a surface.
 *
-* \param[in] pSurface, surface source
-* \param[in] pRect, rectangle de destination dans la surface source
-* \returns 1 = dimensions OK, 0 = probleme de taille entre le rect et la surface
+* \param[in] pSurface, pointer to the source surface.
+* \param[in] pRect, destination area in the source surface.
+* \returns 1 = dimensions OK, 0 = size problem between the SDL_Rect and the surface.
+* \remarks This function only returns if either the Rect is too big or not within the surface limits,
+* it does not say which issue it is.
 */
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 {
-	if (pRect->w > pSurface->w || (pRect->x + pRect->w) > pSurface->w)
+	if (pRect->w > pSurface->w || (pRect->x + pRect->w) > (pSurface->clip_rect.x + pSurface->w))
 		return 0;
 	else if (pRect->x < 0 || pRect->x >(pSurface->clip_rect.x + pSurface->w))
 		return 0;
-	else if (pRect->h > pSurface->h || (pRect->y + pRect->h) > pSurface->h)
+	else if (pRect->h > pSurface->h || (pRect->y + pRect->h) > (pSurface->clip_rect.y + pSurface->h))
 		return 0;
 	else if (pRect->y < 0 || pRect->y >(pSurface->clip_rect.y + pSurface->h))
 		return 0;
@@ -374,11 +379,11 @@ int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 
 /**
 * \fn int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
-* \brief Test si deux rect se superpose.
+* \brief Test a collision between two rectangles.
 *
-* \param[in] pRect, rectangle 1
-* \param[in] pRect2, rectangle 2
-* \returns 1 = overlay, 0 = pas d'overlay
+* \param[in] pRect, pointer to the first rectangle.
+* \param[in] pRect2, pointer to the second rectangle.
+* \returns 1 = collision, 0 = no collision.
 */
 int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
 {
