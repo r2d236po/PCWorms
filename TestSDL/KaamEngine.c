@@ -44,11 +44,11 @@ void KaamInitGame(Worms** wormsTab, Input* pInput, Terrain* pMapTerrain, SDL_Tex
 	srand((int)time(NULL));
 	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
-		wormsTab[i]->wormsObject->objectSurface->clip_rect.x = rand_a_b(0, (pMapTerrain->imageMapSurface->w - wormsTab[i]->wormsObject->objectSurface->w));
+		wormsTab[i]->wormsObject->objectSurface->clip_rect.x = rand_a_b(0, (pMapTerrain->imageMapSurface->w - wormsTab[i]->wormsObject->objectSurface->w - 1));
 		wormsTab[i]->wormsObject->objectBox.x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x;
 		wormsTab[i]->wormsObject->objectBox.y = wormsTab[i]->wormsObject->objectSurface->clip_rect.y = 0;
 		resetAbsoluteCoordinates(wormsTab[i]->wormsObject->objectSurface, &wormsTab[i]->wormsObject->absoluteCoordinate.x, &wormsTab[i]->wormsObject->absoluteCoordinate.y);
-		while (!testGround(pMapTerrain->imageMapSurface, wormsTab[i]->wormsObject->objectSurface, 1))
+		while (!testGround(pMapTerrain->imageMapSurface, wormsTab[i]->wormsObject->objectSurface, 1) || !deathByLimitMap(wormsTab[i], pMapTerrain->imageMapSurface))
 		{
 			KaamWormsMotionManagement(pInput, wormsTab[i], pMapTerrain->imageMapSurface);
 			updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, wormsTab[i]->wormsObject->objectSurface, &wormsTab[i]->wormsObject->objectBox);
