@@ -157,18 +157,34 @@ int vieEquipe(Equipe * team)
 * \param[in] nbWpe, nombre de worms par equipe
 * \returns void
 */
-void mainInit(int nbE, int nbWpE)
+int mainInit(int nbE, int nbWpE)
 {
+	/*Initialisation SDL_TTF*/
+	if (TTF_Init() == -1)
+	{
+		fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
+		return -1;
+	}
+
 	setSDLColor(&globalVar.couleurNameBleu, 238, 131, 127);
 	setSDLColor(&globalVar.couleurNameRouge, 130, 125, 255);
 	setSDLColor(&globalVar.couleurNameVert, 119, 250, 123);
 	setSDLColor(&globalVar.couleurNameJaune, 120, 255, 255);
 
-	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 20);
+	globalVar.FontName = NULL;
+	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 16);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
+	if (globalVar.FontName == NULL)
+	{
+		fprintf(logFile, "Font loading : FAILURE.\n");
+		fprintf(logFile, "error : %s\n", TTF_GetError());
+		return -1;
+	}
 
 	globalVar.nbEquipe = nbE;
 	globalVar.nbWormsEquipe = nbWpE;
 	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
+
+	return 0;
 }
 
 /**

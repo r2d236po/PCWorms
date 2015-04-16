@@ -30,7 +30,7 @@ void destroyJeu(Jeu ** game);
 Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms);
 void destroyEquipe(Equipe ** team, int nbE);
 int vieEquipe(Equipe * team);
-void mainInit(int nbE, int nbWpE);	// Initialise les polices
+int mainInit(int nbE, int nbWpE);	// Initialise les polices
 void destroyPolice();
 int saveGame(Jeu* jeu);
 
