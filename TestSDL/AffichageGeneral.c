@@ -195,7 +195,7 @@ int sandboxRenderer()
 * \fn int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 * \brief Initialisation de la fenêtre.
 *
-*La fonction initSWR initialise la SDL, la SDL_Image, la SDL_TTF et les pointeurs
+*La fonction initSWR initialise la SDL, la SDL_Image et les pointeurs
 *pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
 *Elle retourne 1 si tout c'est bien passé, -1 sinon.
 *
@@ -238,12 +238,6 @@ int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 	{
 		fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
 		cleanUp(p_pWindow, p_pRenderer, NULL, NULL);
-		return -1;
-	}
-	/*Initialisation SDL_TTF*/
-	if (TTF_Init() == -1)
-	{
-		fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
 		return -1;
 	}
 	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
