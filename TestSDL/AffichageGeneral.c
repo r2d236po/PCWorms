@@ -844,14 +844,33 @@ void screenshot(SDL_Renderer* pRenderer)
 * \return void
 */
 void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture){
-	int x = 0, y = 0, wM = 0, hM = 0;
+	int x = 0, y = 0, wM = 0, hM = 0, diffX = 0, diffY = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
 
-	x = surfaceWhereCenter->clip_rect.x + surfaceWhereCenter->w / 2 - 1;
-	y = surfaceWhereCenter->clip_rect.y + surfaceWhereCenter->h / 2 - 1;
+	x = surfaceWhereCenter->clip_rect.x + surfaceWhereCenter->w / 2;
+	y = surfaceWhereCenter->clip_rect.y + surfaceWhereCenter->h / 2;
 
-	camera->x = x - camera->w / 2;
-	camera->y = y - camera->h / 2;
+	diffX = x - camera->x - camera->w / 2;
+	diffY = y - camera->y - camera->h / 2;
+
+	if (diffX > 50 || diffX < -50){
+		if (diffX < 0){
+			camera->x -= 5;
+		}
+		else
+		{
+			camera->x += 5;
+		}
+	}
+	if (diffY > 70 || diffY < -10){
+		if (diffY < 0){
+			camera->y -= 5;
+		}
+		else
+		{
+			camera->y += 5;
+		}
+	}
 
 	if (camera->x + camera->w > wM){
 		camera->x = wM - camera->w;

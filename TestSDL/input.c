@@ -131,7 +131,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				{
 					if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
 					{
-						globalVar.teamPlaying += 1;
+						globalVar.teamPlaying += 1; // tester si le worms suivant et vivant !!!!!!
 					}
 					else {
 						globalVar.teamPlaying = 0;
@@ -266,6 +266,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 	if (pInput->TestCentrer)
 	{
 		centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+		pInput->raffraichissement = 1;
 	}
 }
 
