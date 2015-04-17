@@ -380,7 +380,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 	int indexWorms, indexWorms1, indexWorms2;
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{
-		if (indexWorms == pInput->wormsPlaying || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
+		if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
 			|| !testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
 		{
 			if (wormsTab[indexWorms]->vie > 0 
@@ -399,9 +399,9 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
 		if (wormsOverlay(wormsTab, &indexWorms1, &indexWorms2))
 		{
-			if (indexWorms1 == pInput->wormsPlaying)
+			if (indexWorms1 == globalVar.indexWormsTab)
 				updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms2, indexWorms1);
-			if (indexWorms2 == pInput->wormsPlaying)
+			if (indexWorms2 == globalVar.indexWormsTab)
 			{
 				SWAP(indexWorms1, indexWorms2);
 				updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms2, indexWorms1);
@@ -507,7 +507,7 @@ void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox
 	{
 		if (collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
 		{
-			if (indexWorms != pInput->wormsPlaying || !pInput->jumpOnGoing)
+			if (indexWorms != globalVar.indexWormsTab || !pInput->jumpOnGoing)
 			{
 				wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
 				speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);

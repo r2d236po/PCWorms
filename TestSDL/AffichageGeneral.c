@@ -60,12 +60,19 @@ int mainFenetre(Jeu * jeu)
 			fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
 			return -1;
 		}
-		for (indexTeam = 0; indexTeam < globalVar.nbEquipe; indexTeam++)
-			wormsTab[indexTeam*globalVar.nbWormsEquipe] = jeu->equipes[indexTeam]->worms[0];
-
+		for (globalVar.teamPlaying = 0; globalVar.teamPlaying < globalVar.nbEquipe; globalVar.teamPlaying++)
+		{
+			for (globalVar.wormsPlaying = 0; globalVar.wormsPlaying < globalVar.nbWormsEquipe; globalVar.wormsPlaying++)
+			{
+				wormsTab[globalVar.indexWormsTab] = jeu->equipes[globalVar.teamPlaying]->worms[globalVar.wormsPlaying];
+				globalVar.indexWormsTab++;
+			}
+		}
 		//Initialisation des worms
 		KaamInitGame(wormsTab, jeu->pMapTerrain->imageMapSurface);
-		indexTeam = 0;
+		globalVar.teamPlaying = 0;
+		globalVar.wormsPlaying = 0;
+		globalVar.indexWormsTab = 0;
 		if (loadSounds(BipExplo, 0) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
@@ -98,13 +105,8 @@ int mainFenetre(Jeu * jeu)
 				temps = SDL_GetTicks();
 				jeu->temps -= 1;
 			}
-			if (globalVar.nbEquipe > 1)
-			{
-				if (pInput->teamPlaying != globalVar.nbEquipe - 1)
-					pInput->teamPlaying += 1;
-				else pInput->teamPlaying = 0;
-			}
 		}
+		fprintf(logFile, "||| END OF THE GAME |||\n");
 		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
 		free(wormsTab);

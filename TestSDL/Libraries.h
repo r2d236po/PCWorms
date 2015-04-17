@@ -78,11 +78,9 @@ typedef struct{
 	char windowResized;
 	char acceleration;
 	char bombe;
-	int wormsPlaying;
 	char deplacement;
 	char screenshot;
 	char TestCentrer;
-	char teamPlaying;
 	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
 
@@ -113,6 +111,10 @@ typedef struct{		//structure gérant les polices
 
 	int nbEquipe;
 	int nbWormsEquipe;
+
+	int teamPlaying;
+	int wormsPlaying;
+	int indexWormsTab;
 
 }GlobalVariable;
 

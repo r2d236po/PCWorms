@@ -61,7 +61,7 @@ SDL_Surface * loadImage(const char * file){
 		fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
 		return NULL;
 	}
-	fprintf(logFile, "loadImage : SUCCESS.\n\tnom du fichier : %s.\n", file);
+	fprintf(logFile, "loadImage : SUCCESS.\n\tnom du fichier : %s.\n\n", file);
 	return image;
 }
 

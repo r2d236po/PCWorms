@@ -1,16 +1,19 @@
-Start of session : Thu Apr 16 20:59:51 2015
+Start of session : Fri Apr 17 02:57:04 2015
 
 
 mainInit : DONE.
-	nombre d'equipes : 1.
-	nombre de worms par equipe : 1.
+	nombre d'equipes : 2.
+	nombre de worms par equipe : 2.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/spriteMov.png.
+
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/Grenade_Sprite.png.
+
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/Nuke_Sprite.png.
+
 initSprites : SUCCESS.
 
 nouveauJeu : START :
@@ -21,6 +24,41 @@ createWorms : START :
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
 KaamInitObject : SUCCESS.
 
 
@@ -33,6 +71,7 @@ nouveauJeu : SUCCESS.
 creerFenetre : SUCCESS.
 loadImage : SUCCESS.
 	nom du fichier : ../assets/pictures/icone.png.
+
 initSWR : SUCCESS.
 
 initInput : SUCCESS.
@@ -42,7 +81,8 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
+	nom du fichier : ../assets/pictures/maptest3.png.
+
 
 initialisationTerrain : SUCCESS.
 
@@ -57,6 +97,7 @@ loadSounds : SUCCESS.
 
 initCameras : DONE.
 
+||| END OF THE GAME |||
 destroyMap : DONE.
 cleanSprites : DONE.
 cleanSounds : DONE.
@@ -64,8 +105,9 @@ cleanUp : DONE.
 mainFenetre : SUCCESS.
 saveGame : SUCCESS.
 destroyWorms : DONE.
+destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Thu Apr 16 21:01:39 2015
+End of Session : Fri Apr 17 02:58:32 2015

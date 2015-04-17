@@ -182,6 +182,10 @@ int mainInit(int nbE, int nbWpE)
 
 	globalVar.nbEquipe = nbE;
 	globalVar.nbWormsEquipe = nbWpE;
+	globalVar.teamPlaying = 0;
+	globalVar.wormsPlaying = 0;
+	globalVar.indexWormsTab = 0;
+
 	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
 
 	return 0;

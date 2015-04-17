@@ -129,11 +129,22 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			case SDLK_c:
 				if ((globalVar.nbWormsEquipe > 1 || globalVar.nbEquipe > 1) && !pInput->jumpOnGoing)
 				{
-					if (wormsCounter != globalVar.nbWormsEquipe - 1)
-						wormsCounter += 1;
-					else wormsCounter = 0;
-					pInput->wormsPlaying = wormsCounter + pInput->teamPlaying * globalVar.nbWormsEquipe;
+					if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
+					{
+						globalVar.teamPlaying += 1;
+					}
+					else {
+						globalVar.teamPlaying = 0;
+						if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
+						{
+							globalVar.wormsPlaying += 1;
+						}
+						else {
+							globalVar.wormsPlaying = 0;
+						}
+					}
 				}
+				globalVar.indexWormsTab = globalVar.teamPlaying * globalVar.nbWormsEquipe + globalVar.wormsPlaying;
 				break;
 			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
@@ -195,7 +206,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	//KaamMotionManagement(pInput, wormsTab[pInput->wormsPlaying]->wormsObject);
 	//KaamCollisionManagement(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject);
 	static KaamObject* test = NULL;
-	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer, wormsTab[pInput->wormsPlaying]);	//appel de la fonction de gestion des Inputs de la camera
+	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
 		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
@@ -215,7 +226,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		screenshot(pRenderer);
 		pInput->screenshot = 0;
 	}
-	inputsJumpWorms(pInput, wormsTab[pInput->wormsPlaying], pMapTerrain->imageMapSurface);
+	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->imageMapSurface);
 	updateGameWorms(pInput, wormsTab, pTextureDisplay, pMapTerrain->imageMapSurface);
 
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
@@ -355,11 +366,9 @@ Input* initInput()
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
 	pInput->cursor = initCursor();
-	pInput->wormsPlaying = 0;
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
 	pInput->TestCentrer = 0;
-	pInput->teamPlaying = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
