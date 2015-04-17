@@ -423,14 +423,17 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 */
 int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
 {
-	int i = 0;
-	for (i = 1; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
+	int i = 0, j = 0;
+	for (i = 0; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
 	{
-		if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &wormsTab[i - 1]->wormsObject->objectSurface->clip_rect))
+		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
 		{
-			*indexWorms1 = i - 1;
-			*indexWorms2 = i;
-			return 1;
+			if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &wormsTab[j]->wormsObject->objectSurface->clip_rect))
+			{
+				*indexWorms1 = i;
+				*indexWorms2 = j;
+				return 1;
+			}
 		}
 	}
 	return 0;
