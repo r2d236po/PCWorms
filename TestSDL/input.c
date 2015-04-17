@@ -131,13 +131,13 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				{
 					if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
 					{
-						globalVar.teamPlaying += 1; // tester si le worms suivant et vivant !!!!!!
+						globalVar.teamPlaying += 1;		
 					}
 					else {
 						globalVar.teamPlaying = 0;
 						if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
 						{
-							globalVar.wormsPlaying += 1;
+							globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
 						}
 						else {
 							globalVar.wormsPlaying = 0;
