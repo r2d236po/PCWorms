@@ -1,4 +1,4 @@
-Start of session : Fri Apr 17 12:19:07 2015
+Start of session : Fri Apr 17 16:10:53 2015
 
 
 mainInit : DONE.
@@ -97,6 +97,8 @@ loadSounds : SUCCESS.
 
 initCameras : DONE.
 
+initCameras : DONE.
+
 ||| END OF THE GAME |||
 destroyMap : DONE.
 cleanSprites : DONE.
@@ -110,4 +112,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Fri Apr 17 12:20:19 2015
+End of Session : Fri Apr 17 16:11:22 2015
