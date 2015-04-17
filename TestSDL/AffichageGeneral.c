@@ -52,7 +52,7 @@ int mainFenetre(Jeu * jeu)
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
 
 		/*Initialisation du tableau global de worms*/
-		wormsTab = (Worms**)malloc(globalVar.nbEquipe * globalVar.nbWormsEquipe * sizeof(Worms*));
+		wormsTab = initWormsTab(jeu->equipes);
 		if (wormsTab == NULL)
 		{
 			destroyMap(&jeu->pMapTerrain);
@@ -60,19 +60,10 @@ int mainFenetre(Jeu * jeu)
 			fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
 			return -1;
 		}
-		for (globalVar.teamPlaying = 0; globalVar.teamPlaying < globalVar.nbEquipe; globalVar.teamPlaying++)
-		{
-			for (globalVar.wormsPlaying = 0; globalVar.wormsPlaying < globalVar.nbWormsEquipe; globalVar.wormsPlaying++)
-			{
-				wormsTab[globalVar.indexWormsTab] = jeu->equipes[globalVar.teamPlaying]->worms[globalVar.wormsPlaying];
-				globalVar.indexWormsTab++;
-			}
-		}
+
 		//Initialisation des worms
 		KaamInitGame(wormsTab, jeu->pMapTerrain->imageMapSurface);
-		globalVar.teamPlaying = 0;
-		globalVar.wormsPlaying = 0;
-		globalVar.indexWormsTab = 0;
+
 		if (loadSounds(BipExplo, 0) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
@@ -96,6 +87,7 @@ int mainFenetre(Jeu * jeu)
 				updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 				pInput->raffraichissement = 0;
 			}
+
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -865,4 +857,19 @@ void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture*
 	if (camera->y < 0){
 		camera->y = 0;
 	}
+}
+
+int initWormsTab(Equipe** equipes){
+	Worms** Tab = NULL;
+	int i, j, k=0;
+	Tab = (Worms**)malloc(globalVar.nbEquipe * globalVar.nbWormsEquipe * sizeof(Worms*));
+	for (i = 0; i < globalVar.nbEquipe; i++)
+	{
+		for (j = 0; j < globalVar.nbWormsEquipe; j++)
+		{
+			Tab[k] = equipes[i]->worms[j];
+			k++;
+		}
+	}
+	return Tab;
 }

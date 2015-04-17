@@ -64,8 +64,13 @@ Worms* createWorms(char* name)
 	clip.x = 24;
 	clip.y = 84;
 	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceRight, NULL);
-
-	//texteSurface = TTF_RenderText_Blended(font.FontName, worms->nom, font.couleurNameBleu);
+	texteSurface = TTF_RenderText_Blended(globalVar.FontName, "Ton père le chat", globalVar.couleurNameBleu);
+	if (texteSurface == NULL)
+	{
+		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
+		destroyWorms(&worms, 1);
+		return NULL;
+	}
 
 	worms->texteSurface = texteSurface;
 	worms->wormsSurfaceLeft = wormsSurfaceLeft;
