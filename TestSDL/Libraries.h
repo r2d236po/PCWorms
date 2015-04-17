@@ -18,6 +18,7 @@
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
 #define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
 #define CARRE(a) ((a) * (a))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 /*Constantes*/
 #define pi 3.14159265358

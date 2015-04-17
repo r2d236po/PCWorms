@@ -539,22 +539,22 @@ int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab)
 						shapeTab[indexShape].y = indexLine + ySurface;
 						indexShape++;
 						pixelFound = 1;
-						index = index - pSurface->w  - 1;
+						index = index - pSurface->w - 1;
 					}
 				}
 			}
 			else pixelFound = 0;
-			if ((indexRow == firstRow && indexLine == lastLine 
-				|| indexLine == lastLine && pixelFound)  
+			if ((indexRow == firstRow && indexLine == lastLine
+				|| indexLine == lastLine && pixelFound)
 				&& indexBalayage == 0)
 			{
 				inc = 1;
 				indexStart = lastLine*pSurface->w;
 				break;
 			}
-			else if ((indexRow == lastRow && indexLine == firstLine 
-				|| indexLine == firstLine && pixelFound) 
-				&& 	indexBalayage == 1 || index < -1)
+			else if ((indexRow == lastRow && indexLine == firstLine
+				|| indexLine == firstLine && pixelFound)
+				&& indexBalayage == 1 || index < -1)
 				break;
 			if (!pixelFound)
 			{
@@ -577,7 +577,7 @@ int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab)
 int simplifiedShape(SDL_Point* shapeTab, int nbShapeOriginal, int coeff)
 {
 	SDL_Point shapeTemp[100];
-	int index, h = nbShapeOriginal/2, newNbShape = 0, indexTab = 0;;
+	int index, h = nbShapeOriginal / 2, newNbShape = 0, indexTab = 0;;
 	for (index = 0; index < h; index++)
 	{
 		if (index == 0 || index == h - 1)
@@ -610,7 +610,7 @@ int simplifiedShape(SDL_Point* shapeTab, int nbShapeOriginal, int coeff)
 		}
 		indexTab++;
 	}
-	memcpy(shapeTab, shapeTemp, (newNbShape) * sizeof(SDL_Point));
+	memcpy(shapeTab, shapeTemp, (newNbShape)* sizeof(SDL_Point));
 	shapeTab[newNbShape].x = shapeTab[0].x;
 	shapeTab[newNbShape].y = shapeTab[0].y;
 	return newNbShape + 1;
@@ -680,3 +680,127 @@ shapeTab[indexShape].y = index / pSurface->w + ySurface;
 indexShape++;
 }
 */
+
+int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20])
+{
+	/*Check the number of surfaces*/
+	if (nbSurfaces > 20)
+	{
+		fprintf(logFile, "updateSurfacesOverlay : FAILURE, too much surfaces, OVER 9000 !!!\n\n.");
+		return -1;
+	}
+	
+	int indexSurface;
+	SDL_Rect rectToUpdate;
+	SDL_Rect* rectTab[20];
+
+	/*Initialisation of the surface array*/
+	for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
+	{
+		rectTab[indexSurface] = &surfaceTab[indexSurface]->clip_rect;
+	}
+	rectToUpdate = multipleRectOverlay(nbSurfaces, rectTab);
+
+	int nbPixels = rectToUpdate.w * rectToUpdate.h;
+	Uint32* pixelMap = (Uint32*)pSurfaceMap->pixels;
+	SDL_PixelFormat* format = pSurfaceMap->format;
+	Uint32* pixelSurface = NULL;
+	Uint32 pixelRead = 0;
+	Uint32* pixelToWrite = malloc(nbPixels*sizeof(Uint32));
+	if (pixelToWrite == NULL)
+	{
+		fprintf(logFile, "updateSurfacesOverlay : FAILURE, allocating memory to pixelToWrite.\n\n");
+		return -1;
+	}
+	int x, y;
+	for (y = rectToUpdate.y; y < (rectToUpdate.y + rectToUpdate.h); y++)
+	{
+		for (x = rectToUpdate.x; x < (rectToUpdate.x + rectToUpdate.w); x++)
+		{
+			Point p;
+			p.x = x;
+			p.y = y;
+			for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
+			{
+				pixelSurface = (Uint32 *)surfaceTab[indexSurface]->pixels;
+				if (collisionPointWithRect(p, &surfaceTab[indexSurface]->clip_rect))
+				{
+					pixelRead = pixelSurface[(x - surfaceTab[indexSurface]->clip_rect.x) + (y - surfaceTab[indexSurface]->clip_rect.y)*surfaceTab[indexSurface]->w];
+					if (pixelTransparent(pixelRead, format))
+						pixelRead = pixelMap[x + y*pSurfaceMap->w];
+					else break;
+				}
+				else pixelRead = pixelMap[x + y*pSurfaceMap->w];
+			}
+			pixelToWrite[(x - rectToUpdate.x) + (y - rectToUpdate.y)*rectToUpdate.w] = pixelRead;
+ 		}
+	}
+	
+
+	SDL_UpdateTexture(pTextureDisplay, &rectToUpdate, pixelToWrite, 4 * rectToUpdate.w);
+	free(pixelToWrite);
+	pixelToWrite = NULL;
+	return 1;
+}
+
+
+/**
+* \fn SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20])
+* \brief Create a rectangle that contains all rectangles of the array.
+* ____         _______
+*|   _|__     |       |
+*|__|_|  | => |       |
+*   |____|    |_______|
+*
+* \param[in] nbRect, nomber of rectangles
+* \param[in] rectTab, array of pointer to the rectangles.
+* \return the rectangle created, a null rectangle if error
+*/
+SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20])
+{	
+	int indexRect, xMin = 0, yMin = 0, wMax = 0, hMax = 0;
+	int indexTabWmax = 0, indexTabHmax = 0, d1 = 0, d2 = 0, d3 = 0, dy = 0, dx = 0;
+
+	/*Check the number of surfaces*/
+	if (nbRect > 20)
+	{
+		fprintf(logFile, "multipleRectOverlay : FAILURE, too much rect, OVER 9000 !!!\n\n.");
+		return initRect(0, 0, 0, 0);
+	}
+
+	xMin = rectTab[0]->x;
+	yMin = rectTab[0]->y;
+	wMax = rectTab[0]->w;
+	hMax = rectTab[0]->h;
+	for (indexRect = 1; indexRect < nbRect; indexRect++)
+	{
+		dy = (rectTab[indexRect]->y - rectTab[indexTabHmax]->y);
+		dx = (rectTab[indexRect]->x - rectTab[indexTabWmax]->x);
+		if (rectTab[indexRect]->x < xMin && rectTab[indexRect]->x >= 0)
+			xMin = rectTab[indexRect]->x;
+		if (rectTab[indexRect]->y < yMin && rectTab[indexRect]->y >= 0)
+			yMin = rectTab[indexRect]->y;
+		if (rectTab[indexRect]->x < rectTab[indexTabWmax]->x)
+			d1 = dx + rectTab[indexRect]->w;
+		else d1 = wMax - dx;
+		d2 = rectTab[indexRect]->w;
+		d3 = wMax + d2 - d1;
+		if (d3 > wMax)
+		{
+			wMax = d3;
+			indexTabWmax = indexRect;
+		}
+		if (rectTab[indexRect]->y < rectTab[indexTabHmax]->y)
+			d1 = dy + rectTab[indexRect]->h;
+		else d1 = hMax - dy;
+		d2 = rectTab[indexRect]->h;
+		d3 = hMax + d2 - d1;
+		if (d3 > hMax)
+		{
+			hMax = d3;
+			indexTabHmax = indexRect;
+		}
+	}
+	return initRect(xMin, yMin, wMax, hMax);
+}
+

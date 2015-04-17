@@ -25,7 +25,8 @@ int collisionPointWithCercle(Point P, int centerX, int centerY, int radius);
 int collisionPointWithRect(Point P, SDL_Rect* box);
 int rand_a_b(int a, int b);
 void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
-
+SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20]);
+int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20]);
 
 int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);
 void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint);

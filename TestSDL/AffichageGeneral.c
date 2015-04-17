@@ -16,8 +16,6 @@ int mainFenetre(Jeu * jeu)
 	SDL_Texture * pTextureDisplay = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 	Worms** wormsTab = NULL;
-	int indexTeam = 0;
-
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -651,62 +649,7 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 		camera->y = 0;
 	}
 }
-/**
-* \fn int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTexture, SDL_Rect* pRectSurfaceModif)
-* \brief Met a jour la texture globale sur une zone bien determinee.
-*
-* \param[in] pSurfaceMap, pointeur vers la surface de la map.
-* \param[in] pSurfaceModif, pointeur vers la surface a modifier
-* \param[in] pTextureDisplay, pointeur vers la texture globale cree avec createGlobalTexture.
-* \param[in] pRectSurfaceModif, pointeur vers la structure SDL_Rect associe a la surface a update, contient les coordonnees d'avant update.
-* \returns int, indicateur de reussite de la fonction : 0 = succes, -1 = echec
-* \remarks le SDL_Rect est mis a jour dans la fonction vers les nouvelles coordonnees de la surface
-*/
-int updateGlobaleTexture(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceModif, SDL_Texture* pTextureDisplay, SDL_Rect* pRectSurfaceModif)
-{
-	Uint32* pixelWrite = NULL;
-	Uint32 pixelRead;
-	int nombrePixel = 0;
-	Uint8 r = 0, g = 0, b = 0, a = 0;
-	int x = 0, y = 0, i = 0;
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceModif, NULL))
-		return -1;
-	nombrePixel = pRectSurfaceModif->w * pRectSurfaceModif->h;
-	reajustRect(pRectSurfaceModif, pSurfaceMap);
-	pixelWrite = malloc(nombrePixel*sizeof(Uint32));
-	if (pixelWrite == NULL)
-	{
-		if (logFile != NULL)
-			fprintf(logFile, "updateGlobalTexture : FAILURE, allocation memoire pixelWrite.\n\n");
-		return -1;
-	}
-	for (i = 0; i < 2; i++)
-	{
-		for (y = pRectSurfaceModif->y; y < pRectSurfaceModif->y + pRectSurfaceModif->h; y++)
-		{
-			for (x = pRectSurfaceModif->x; x < pRectSurfaceModif->x + pRectSurfaceModif->w; x++)
-			{
-				if (i != 0)
-				{
-					pixelRead = ReadPixel(pSurfaceModif, x - pRectSurfaceModif->x, y - pRectSurfaceModif->y);
-					SDL_GetRGBA(pixelRead, pSurfaceModif->format, &r, &g, &b, &a);
-					if (a < 200)
-					{
-						pixelRead = ReadPixel(pSurfaceMap, x, y);
-					}
-				}
-				else pixelRead = ReadPixel(pSurfaceMap, x, y);
-				pixelWrite[x - pRectSurfaceModif->x + (y - pRectSurfaceModif->y)* pRectSurfaceModif->w] = pixelRead;
-			}
-		}
-		SDL_UpdateTexture(pTextureDisplay, pRectSurfaceModif, pixelWrite, 4 * pRectSurfaceModif->w);
-		pRectSurfaceModif->y = pSurfaceModif->clip_rect.y;
-		pRectSurfaceModif->x = pSurfaceModif->clip_rect.x;
-	}
-	free(pixelWrite);
-	pixelWrite = NULL;
-	return 0;
-}
+
 /**
 * \fn int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int indexWorms1, int indexWorms2)
 * \brief Update l'affichage de deux worms supperpose .
