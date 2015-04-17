@@ -855,10 +855,9 @@ void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture*
 	diffY = y - camera->y - camera->h / 2;
 
 	 // largeur boite :
-	int sizeX = 120, sizeY = 40;
+	int sizeX = 100, sizeY = 40;
 	int coefDeplaX = 5, coefDeplaY = 5;
 	// version avec pythagore :
-
 
 	if ((diffX < -sizeX && diffX > sizeX) && (diffX > -sizeY && diffX < sizeY)){
 		if (diffX < -sizeX)
