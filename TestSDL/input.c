@@ -121,23 +121,23 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				pInput->bombe = 1;
 				break;
 			case SDLK_r:
-				if (pInput->TestCentrer){
-					pInput->TestCentrer = 0;
+				if (pInput->camCentrer){
+					pInput->camCentrer = 0;
 				}
-				else pInput->TestCentrer = 1;
+				else pInput->camCentrer = 1;
 				break;
 			case SDLK_c:
 				if ((globalVar.nbWormsEquipe > 1 || globalVar.nbEquipe > 1) && !pInput->jumpOnGoing)
 				{
 					if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
 					{
-						globalVar.teamPlaying += 1;
+						globalVar.teamPlaying += 1;		
 					}
 					else {
 						globalVar.teamPlaying = 0;
 						if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
 						{
-							globalVar.wormsPlaying += 1;
+							globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
 						}
 						else {
 							globalVar.wormsPlaying = 0;
@@ -263,9 +263,10 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 		zoomOut(pRenderer, pTextureDisplay, pCamera);
 		pInput->wheelDown = 0;
 	}
-	if (pInput->TestCentrer)
+	if (pInput->camCentrer)
 	{
 		centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+		pInput->raffraichissement = 1;
 	}
 }
 
@@ -368,7 +369,7 @@ Input* initInput()
 	pInput->cursor = initCursor();
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
-	pInput->TestCentrer = 0;
+	pInput->camCentrer = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }

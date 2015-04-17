@@ -540,6 +540,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 */
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 {
+	pInput->camCentrer = 0;
 	int w = 0, h = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
@@ -787,14 +788,53 @@ void screenshot(SDL_Renderer* pRenderer)
 * \return void
 */
 void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture){
-	int x = 0, y = 0, wM = 0, hM = 0;
+	int x = 0, y = 0, wM = 0, hM = 0, diffX = 0, diffY = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
 
-	x = surfaceWhereCenter->clip_rect.x + surfaceWhereCenter->w / 2 - 1;
-	y = surfaceWhereCenter->clip_rect.y + surfaceWhereCenter->h / 2 - 1;
+	x = surfaceWhereCenter->clip_rect.x + surfaceWhereCenter->w / 2;
+	y = surfaceWhereCenter->clip_rect.y + surfaceWhereCenter->h / 2;
 
-	camera->x = x - camera->w / 2;
-	camera->y = y - camera->h / 2;
+	diffX = x - camera->x - camera->w / 2;
+	diffY = y - camera->y - camera->h / 2;
+
+	 // largeur boite :
+	int sizeX = 100, sizeY = 40;
+	int coefDeplaX = 5, coefDeplaY = 5;
+	// version avec pythagore :
+
+	if ((diffX < -sizeX && diffX > sizeX) && (diffX > -sizeY && diffX < sizeY)){
+		if (diffX < -sizeX)
+		{
+			camera->x -= coefDeplaX;
+		}
+		else camera->x += coefDeplaX;
+	}
+	else if ((diffX > -sizeX && diffX < sizeX) && (diffX < -sizeY && diffX > sizeY)){
+		if (diffY < -sizeY)
+		{
+			camera->y -= coefDeplaY;
+		}
+		else camera->y += coefDeplaY;
+	}
+	else{
+		float coef = fabsf((float)diffY / diffX);
+		if (diffX < -sizeX){
+			camera->x -= coefDeplaX;
+		}
+		if (diffX > sizeX)
+		{
+			camera->x += coefDeplaX;
+		}
+		if (diffY > sizeY)
+		{
+			camera->y += coefDeplaY * coef;
+		}
+		if (diffY < -sizeY)
+		{
+			camera->y -= coefDeplaY * coef;
+		}
+	}
+
 
 	if (camera->x + camera->w > wM){
 		camera->x = wM - camera->w;
