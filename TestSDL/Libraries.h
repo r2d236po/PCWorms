@@ -82,6 +82,7 @@ typedef struct{
 	char deplacement;
 	char screenshot;
 	char camCentrer;
+	char changeWorms;
 	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
 
