@@ -258,7 +258,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 
 /**
 * \fn void inputsJumpWorms(Input* pInput, Worms* worms)
-* \brief Gere les inputs relatives au saut du worms.
+* \brief Handles the inputs for a worms's jump.
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pWorms, pointeur vers la structure du worms en cours
@@ -283,6 +283,31 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 			}
 		}
 	}
+}
+
+/**
+* \fn void callNextWorms()
+* \brief Change the index of the worms if a worms is dead.
+*
+* \returns void
+*/
+void callNextWorms()
+{
+	if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
+	{
+		globalVar.teamPlaying += 1;
+	}
+	else {
+		globalVar.teamPlaying = 0;
+		if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
+		{
+			globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
+		}
+		else {
+			globalVar.wormsPlaying = 0;
+		}
+	}
+	globalVar.indexWormsTab = globalVar.teamPlaying * globalVar.nbWormsEquipe + globalVar.wormsPlaying;
 }
 
 /**
@@ -390,20 +415,3 @@ KaamObject* testobject(Input* pInput)
 	return object;
 }
 
-void callNextWorms() {
-	if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
-	{
-		globalVar.teamPlaying += 1;
-	}
-	else {
-		globalVar.teamPlaying = 0;
-		if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
-		{
-			globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
-		}
-		else {
-			globalVar.wormsPlaying = 0;
-		}
-	}
-	globalVar.indexWormsTab = globalVar.teamPlaying * globalVar.nbWormsEquipe + globalVar.wormsPlaying;
-}

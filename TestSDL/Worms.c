@@ -3,6 +3,7 @@
 #include "physique.h"
 #include "my_stdrFct.h"
 #include "KaamEngine.h"
+#include "input.h"
 
 
 
