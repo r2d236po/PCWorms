@@ -64,7 +64,7 @@ Worms* createWorms(char* name)
 	clip.x = 24;
 	clip.y = 84;
 	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceRight, NULL);
-	texteSurface = TTF_RenderText_Blended(globalVar.FontName, "Ton père le chat", globalVar.couleurNameBleu);
+	texteSurface = TTF_RenderText_Blended(globalVar.FontName, "Ton père le chat", globalVar.couleurBleu);
 	if (texteSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
@@ -380,7 +380,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 	int indexWorms;
 	if (wormsTab[globalVar.indexWormsTab]->vie <= 0)
 	{
-
+		callNextWorms();
 	}
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{

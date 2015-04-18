@@ -45,6 +45,12 @@ int mainFenetre(Jeu * jeu)
 			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
+		if (loadSounds(BipExplo, 0) < 0)
+		{
+			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			return -1;
+		}
 
 		//Initialisation de la caméra
 		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
@@ -62,12 +68,6 @@ int mainFenetre(Jeu * jeu)
 		//Initialisation des worms
 		KaamInitGame(wormsTab, jeu->pMapTerrain->imageMapSurface);
 
-		if (loadSounds(BipExplo, 0) < 0)
-		{
-			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-			return -1;
-		}
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -86,6 +86,7 @@ int mainFenetre(Jeu * jeu)
 				pInput->raffraichissement = 0;
 			}
 
+			UpdateLifeWorms(wormsTab);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);

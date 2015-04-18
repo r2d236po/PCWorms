@@ -127,24 +127,9 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				else pInput->camCentrer = 1;
 				break;
 			case SDLK_c:
-				if ((globalVar.nbWormsEquipe > 1 || globalVar.nbEquipe > 1) && !pInput->jumpOnGoing)
-				{
-					if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
-					{
-						globalVar.teamPlaying += 1;		
-					}
-					else {
-						globalVar.teamPlaying = 0;
-						if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
-						{
-							globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
-						}
-						else {
-							globalVar.wormsPlaying = 0;
-						}
-					}
+				if ((globalVar.nbWormsEquipe > 1 || globalVar.nbEquipe > 1) && !pInput->jumpOnGoing){
+					callNextWorms();
 				}
-				globalVar.indexWormsTab = globalVar.teamPlaying * globalVar.nbWormsEquipe + globalVar.wormsPlaying;
 				break;
 			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
@@ -403,4 +388,22 @@ KaamObject* testobject(Input* pInput)
 	SDL_FreeSurface(cercle);
 
 	return object;
+}
+
+void callNextWorms() {
+	if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
+	{
+		globalVar.teamPlaying += 1;
+	}
+	else {
+		globalVar.teamPlaying = 0;
+		if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
+		{
+			globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
+		}
+		else {
+			globalVar.wormsPlaying = 0;
+		}
+	}
+	globalVar.indexWormsTab = globalVar.teamPlaying * globalVar.nbWormsEquipe + globalVar.wormsPlaying;
 }

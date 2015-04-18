@@ -1,4 +1,4 @@
-Start of session : Sat Apr 18 01:35:28 2015
+Start of session : Sat Apr 18 16:44:39 2015
 
 
 mainInit : DONE.
@@ -88,12 +88,12 @@ initialisationTerrain : SUCCESS.
 
 my_createTextureFromSurface : SUCCESS.
 
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/Bip_explosion.wav.
+
 initCameras : DONE.
 
 KaamInitGame : DONE.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/Bip_explosion.wav.
 
 initCameras : DONE.
 
@@ -110,4 +110,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Sat Apr 18 01:37:40 2015
+End of Session : Sat Apr 18 16:45:38 2015

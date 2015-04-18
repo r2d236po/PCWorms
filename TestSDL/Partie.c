@@ -37,7 +37,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	}
 	for (int i = 0; i < nbE; i++)
 	{
-		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
+		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurBleu, nbW);
 		if (jeu->equipes[i] == NULL)
 		{
 			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
@@ -166,10 +166,10 @@ int mainInit(int nbE, int nbWpE)
 		return -1;
 	}
 
-	setSDLColor(&globalVar.couleurNameBleu, 238, 131, 127);
-	setSDLColor(&globalVar.couleurNameRouge, 130, 125, 255);
-	setSDLColor(&globalVar.couleurNameVert, 119, 250, 123);
-	setSDLColor(&globalVar.couleurNameJaune, 120, 255, 255);
+	setSDLColor(&globalVar.couleurBleu, 238, 131, 127);
+	setSDLColor(&globalVar.couleurRouge, 130, 125, 255);
+	setSDLColor(&globalVar.couleurVert, 119, 250, 123);
+	setSDLColor(&globalVar.couleurJaune, 120, 255, 255);
 
 	globalVar.FontName = NULL;
 	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 16);  //  RETOURNE UN PUTAIN DE POINTEUR NULL

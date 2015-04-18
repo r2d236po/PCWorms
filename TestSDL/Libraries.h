@@ -105,10 +105,10 @@ typedef struct{
 typedef struct{		//structure gérant les polices
 	TTF_Font * FontName;
 
-	SDL_Color couleurNameBleu;
-	SDL_Color couleurNameRouge;
-	SDL_Color couleurNameVert;
-	SDL_Color couleurNameJaune;
+	SDL_Color couleurBleu;
+	SDL_Color couleurRouge;
+	SDL_Color couleurVert;
+	SDL_Color couleurJaune;
 
 	int nbEquipe;
 	int nbWormsEquipe;
