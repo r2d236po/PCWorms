@@ -86,7 +86,9 @@ int mainFenetre(Jeu * jeu)
 				pInput->raffraichissement = 0;
 			}
 
-			UpdateLifeWorms(wormsTab);
+			updateLifeSurfaceWorms(wormsTab);
+			updateTeamLife(jeu->equipes);
+			globalVar.gameEnd = isGameEnd(jeu->equipes);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);

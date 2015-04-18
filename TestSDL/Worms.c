@@ -378,7 +378,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
 {
 	int indexWorms;
-	if (wormsTab[globalVar.indexWormsTab]->vie <= 0)
+	if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 	{
 		callNextWorms();
 	}

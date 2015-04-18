@@ -7,7 +7,7 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 	color->b = b;
 }
 
-void UpdateLifeWorms(Worms** wormsTab)
+void updateLifeSurfaceWorms(Worms** wormsTab)
 {
 	static char str[10];
 	int i;

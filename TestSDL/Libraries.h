@@ -112,6 +112,7 @@ typedef struct{		//structure gérant les polices
 
 	int nbEquipe;
 	int nbWormsEquipe;
+	int gameEnd;
 
 	int teamPlaying;
 	int wormsPlaying;

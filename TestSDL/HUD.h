@@ -6,6 +6,6 @@
 
 
 void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b);
-void UpdateLifeWorms(Worms** wormsTab);
+void updateLifeSurfaceWorms(Worms** wormsTab);
 
 #endif

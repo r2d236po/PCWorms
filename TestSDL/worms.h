@@ -4,6 +4,7 @@
 #include "Libraries.h"
 #include "armes.h"
 
+
 #define vitesseX (float)(cos(pi / 3)* 0.95)
 #define vitesseY (float)(sin(pi / 3)*1.3)
 #define TAILLEINV 5
