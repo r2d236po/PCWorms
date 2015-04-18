@@ -17,5 +17,4 @@ void callNextWorms();
 Input* initInput();		//Initialise les Input
 Cursor initCursor(void);	//initialise la structure  cursor
 
-KaamObject* testobject(Input* pInput);
 #endif

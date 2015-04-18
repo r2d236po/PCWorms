@@ -184,25 +184,12 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	//shapeCollisionWithMap(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject,&x, &y);
-	//KaamGravityManagement(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject);
-	//KaamMotionManagement(pInput, wormsTab[pInput->wormsPlaying]->wormsObject);
-	//KaamCollisionManagement(pMapTerrain->imageMapSurface, wormsTab[pInput->wormsPlaying]->wormsObject);
 	static KaamObject* test = NULL;
 	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
 		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
 	}
-	/*if (pInput->lclick && test == NULL)
-	{
-	test = testobject(pInput);
-	}
-	if (test != NULL)
-	{
-	KaamPhysicManagement(pInput, test, pMapTerrain->imageMapSurface);
-	updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, test->objectSurface, &test->objectBox);
-	}*/
 	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, pRenderer, wormsTab);	//appel de la fonction de gestion des Inputs des armes
 	if (pInput->screenshot)
 	{
@@ -220,7 +207,9 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 
 
 	updateGameWorms(pInput, wormsTab, pTextureDisplay, pMapTerrain->imageMapSurface);
-
+	/*Pour afficher le texte*/
+	//updateTexteSurfacePosition
+	//updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, wormsTab[globalVar.indexWormsTab]->texteSurface, &wormsTab[globalVar.indexWormsTab]->texteSurface->clip_rect);
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -409,17 +398,4 @@ Cursor initCursor(void)
 	return curseur;
 }
 
-
-
-KaamObject* testobject(Input* pInput)
-{
-	SDL_Rect rect;
-	SDL_Surface* cercle = loadImage("../assets/pictures/cercle.png");
-	rect = initRect(pInput->cursor.now.x - cercle->w / 2, pInput->cursor.now.y - cercle->h / 2, cercle->w, cercle->h);
-	KaamObject* object = KaamInitObject(rect, vitesseX, vitesseY, UPLEFT, 1);
-	KaamInitSurfaceObject(object, (Uint32*)cercle->pixels, cercle->w * cercle->h);
-	SDL_FreeSurface(cercle);
-
-	return object;
-}
 
