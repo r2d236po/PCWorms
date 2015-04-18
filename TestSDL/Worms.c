@@ -173,10 +173,10 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void gestionRetournement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
-* \brief Detecte un retournement du worms.
+* \fn void swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+* \brief Manages the swap of a worms and collision if needed.
 *
-* \param[in] pInput, pointeur de la structure contenant les Input.
+* \param[in] pInput, pointer to the Input structure.
 * \param[in] pWorms, pointeur du worms a tester
 * \returns void
 */
@@ -199,20 +199,20 @@ int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
 			&pWorms->wormsObject->absoluteCoordinate.x,
 			&pWorms->wormsObject->absoluteCoordinate.y);
+		pInput->raffraichissement = 1;
 		return 1;
 	}
 	return 0;
 }
 
 /**
-* \fn int retournementWorms(Input* pInput, Worms* pWorms)
-* \brief Detecte un retournement du worms.
+* \fn int swapWorms(Input* pInput, Worms* pWorms)
+* \brief Detects a swap over of a worms.
 *
-* \param[in] pInput, pointeur de la structure contenant les Input.
-* \param[in] pWorms, pointeur du worms a tester
-* \returns booleen indiquant s'il y a eu retournement :
-*			1 = retournement
-*			0 = pas de retournement
+* \param[in] pInput, pointer to the Input structure.
+* \param[in] pWorms, pointer to the worms.
+* \returns 	1 = there is a swap
+*			0 = no swap
 */
 int swapWorms(Input* pInput, Worms* pWorms)
 {
@@ -221,11 +221,10 @@ int swapWorms(Input* pInput, Worms* pWorms)
 
 /**
 * \fn void swapWormsSurface(Worms* pWorms)
-* \brief Change la surface de sens.
+* \brief Swap the surface of a worms (if he was pointing to the right, he's goint to look left).
 *
-* \param[in] pWorms, pointeur du worms a tester
+* \param[in] pWorms, pointer to the worms.
 * \returns void
-* \remark Faire attention a la vitesse d'execution du programme et rajouter un booleen de securite dans la fonction l'appelant
 */
 void swapWormsSurface(Worms* pWorms)
 {
@@ -238,10 +237,6 @@ void swapWormsSurface(Worms* pWorms)
 		memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceRight->pixels, w*h*sizeof(Uint32));
 	}
 	else memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceLeft->pixels, w*h*sizeof(Uint32));
-	/*Offset entre la droite et la gauche*/
-	/*if (pWorms->dirSurface == RIGHT)
-	pWorms->wormsObject->objectSurface->clip_rect.x += 10;
-	else pWorms->wormsObject->objectSurface->clip_rect.x -= 10;*/
 }
 
 
@@ -299,7 +294,7 @@ void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection)
 
 /**
 * \fn void gestionAnimationWorms(Worms* pWorms, int swap)
-* \brief Manage animation of the worms.
+* \brief Manages animation of the worms.
 *
 * \param[in] pWorms, pointer to the worms to swap
 * \param[in] pSurfaceMap, pointer to the map surface
@@ -372,76 +367,88 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 
 /**
 * \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
-* \brief Update les surfaces des worms et gere l'overlay si besoin et la multiple physique.
+* \brief Update worms display, manages overlay and physics for all worms.
 *
-* \param[in] pInput, pointeur de la structure d'inputs
-* \param[in] wormsTab, tableau des worms
-* \param[in] pTextureDisplay, texture globale d'affichage
-* \param[in] pSurfaceMap, surface de la map
+* \param[in] pInput, pointer to the Input structure.
+* \param[in] wormsTab, array of worms.
+* \param[in] pTextureDisplay, pointer to the main texture.
+* \param[in] pSurfaceMap, pointer to the map's surface.
 * \returns void
 */
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
 {
-	int indexWorms, indexWorms1, indexWorms2;
+	int indexWorms;
+	if (wormsTab[globalVar.indexWormsTab]->vie <= 0)
+	{
+
+	}
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{
 		if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
 			|| !testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
 		{
-			if (wormsTab[indexWorms]->vie > 0 
+			if (wormsTab[indexWorms]->vie > 0
 				|| (wormsTab[indexWorms]->vie == 0 && !testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
 			{
 				KaamWormsMotionManagement(pInput, wormsTab[indexWorms], pSurfaceMap);
 			}
 			if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMap))
 				resetInputs(pInput);
-			if (pInput->deplacement)
-			{
-				pInput->deplacement = 0;
-				pInput->raffraichissement = 1;
-			}
 		}
-		updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
-		if (wormsOverlay(wormsTab, &indexWorms1, &indexWorms2))
+		if (pInput->deplacement || pInput->raffraichissement)
 		{
-			if (indexWorms1 == globalVar.indexWormsTab)
-				updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms2, indexWorms1);
-			if (indexWorms2 == globalVar.indexWormsTab)
-			{
-				SWAP(indexWorms1, indexWorms2);
-				updateWormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap, indexWorms2, indexWorms1);
-			}
+			updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
+			int nbOverlay = wormsOverlay(wormsTab, pTextureDisplay, pSurfaceMap);
 			pInput->raffraichissement = 1;
 		}
+		pInput->deplacement = 0;
 	}
 }
 
 /**
-* \fn int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
-* \brief Regarde si deux worms se supperpose.
-* TO DO :
-*			Verifier la superposition de tous les worms.
-* \param[in] wormsTab, tableau de worms.
-* \param[in] indexWorms1, pointeur vers l'indice du worms 1 en supperposition
-* \param[in] indexWorms2, pointeur vers l'indice du worms 2 en supperposition
-* \return error, 1 = SUCCESS, 0 = FAIL
+* \fn int wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
+* \brief Check if multiple worms are overlaying.
+*
+* \param[in] wormsTab, array of worms.
+* \param[in] pTextureDisplay, pointer to the main texture.
+* \param[in] pSurfaceMap, pointer to the map's surface.
+* \return >=1 : 1 or multiple overlay detected, 0 = no overlay
 */
-int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2)
+int wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
 {
-	int i = 0, j = 0;
+	int i = 0, j = 0, nbOverlay = 0, index = 0, realNb = 0, i1 = 0;
+	SDL_Surface* surfaceTab[20];
+	int indexWorms[20] = { 0 };
 	for (i = 0; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
 	{
 		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
 		{
 			if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &wormsTab[j]->wormsObject->objectSurface->clip_rect))
 			{
-				*indexWorms1 = i;
-				*indexWorms2 = j;
-				return 1;
+				if (indexWorms[index - nbOverlay] != i)
+					indexWorms[index] = i;
+				index++;
+				indexWorms[index] = j;
+				if (indexWorms[nbOverlay] == globalVar.indexWormsTab)
+				{
+					SWAP(indexWorms[0], indexWorms[index]);
+				}
+				nbOverlay++;
 			}
+			if (nbOverlay != 0)
+			{
+				for (i1 = 0; i1 <= nbOverlay; i1++)
+				{
+					surfaceTab[i1] = wormsTab[indexWorms[i1]]->wormsObject->objectSurface;
+				}
+				updateSurfacesOverlay(pTextureDisplay, pSurfaceMap, nbOverlay + 1, surfaceTab);
+				realNb += 1;
+			}
+			index = 0;
+			nbOverlay = 0;
 		}
 	}
-	return 0;
+	return realNb;
 }
 
 

@@ -43,7 +43,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction);
 
 /*Gestion de l'overlay*/
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap);
-int wormsOverlay(Worms** wormsTab, int* indexWorms1, int* indexWorms2);
+int wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap);
 
 /*Fonctions diverses*/
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);
