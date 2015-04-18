@@ -1,6 +1,5 @@
 #include "AffichageGeneral.h"
 #include "input.h"
-#include "physique.h"
 #include "Sounds.h"
 #include "my_stdrFct.h"
 #include "KaamEngine.h"
@@ -318,6 +317,7 @@ void cleanSprites(void)
 	}
 	fprintf(logFile, "cleanSprites : DONE.\n");
 }
+
 /**
 * \fn void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 * \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL.

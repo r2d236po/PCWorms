@@ -283,7 +283,7 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 
 /**
 * \fn void callNextWorms()
-* \brief Change the index of the worms if a worms is dead.
+* \brief Change the index of the worms playing if it is dead.
 *
 * \returns void
 */
