@@ -276,60 +276,6 @@ int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, in
 }
 
 
-/**
-* \fn int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-* \brief Detecte s'il y a collision entre deux surfaces.
-*
-* \param[in] pSurfaceMap, pointeur vers la surface de la map
-* \param[in] pSurfaceMotion, pointeur vers la surface en mouvement dans la map
-* \returns int, indicateur de collision : 1 = collision, 0 sinon
-*/
-int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
-{
-	//Variables d'acquisitions
-	Uint32 pixelS1 = 0;	//Variable stockant le pixel en cours de lecture de la surface de la map
-	Uint8 rS1 = 0, gS1 = 0, bS1 = 0, aS1 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface de la map
-	Uint32 pixelS2 = 0;	//Variable stockant le pixel en cours de lecture de la surface en mouvement
-	Uint8 rS2 = 0, gS2 = 0, bS2 = 0, aS2 = 0;	//Variables stockant les informations sur les couleurs du pixel lu de la surface en mouvement
-	int offset_xS2 = pSurfaceMotion->clip_rect.x;	//Offset en x de la surface en mouvement dans la map
-	int offset_yS2 = pSurfaceMotion->clip_rect.y;	//Offset en y de la surface en mouvement dans la map
-	SDL_PixelFormat* formatS1 = pSurfaceMap->format;	//Pointeur du format de pixels de la surface de la map
-	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;	//Pointeur du format de pixels de la surface en mouvement
-	//Variables de balayage
-	int x = 0, y = 0;
-	int xStart = pSurfaceMotion->clip_rect.x, xEnd = pSurfaceMotion->clip_rect.x + pSurfaceMotion->clip_rect.w;	//Variables de début, de fin et d'incrément du balayage des x
-	int yStart = pSurfaceMotion->clip_rect.y, yEnd = pSurfaceMotion->clip_rect.y + pSurfaceMotion->clip_rect.h;	//Variables de début, de fin et d'incrément du balayage des y
-	//Varable de collision
-	int collision = 0;	//Booleen de collision, 0 = pas de collision, 1 = collision
-	//Test des limites de la map et de la fenetre
-	if (limitMap(pSurfaceMap->h, pSurfaceMap->w, pSurfaceMotion, NULL))	//Detection d'un dépassement de la map
-		return 1;
-
-	for (y = yStart; (y < yEnd) && (collision == 0); y++)
-	{
-		for (x = xStart; (x < xEnd) && (collision == 0); x++)
-		{
-			//Acquisition pixel surface 1
-			pixelS1 = ReadPixel(pSurfaceMap, x, y);	//Lecture du pixel de la map
-			SDL_GetRGBA(pixelS1, formatS1, &rS1, &gS1, &bS1, &aS1);	//Informations sur les couleurs du pixel de la surface de la map
-			//Acquisition pixel surface 2
-			pixelS2 = ReadPixel(pSurfaceMotion, x - offset_xS2, y - offset_yS2);	//Lecture du pixel de la surface en mouvement
-			SDL_GetRGBA(pixelS2, formatS2, &rS2, &gS2, &bS2, &aS2);	//Informations sur les couleurs du pixel de la surface en mouvement
-			//Détermination de la collision
-			if (aS1 != 255 || aS2 != 255)	//Si le pixel de la surface de la map ou le pixel de la surface en mouvement est transparent
-				collision = 0;	//Collision = 0 -> pas de collision
-			else	//Au moins l'un des pixels n'est pas transparent
-			{
-				collision = 1;	//Collision = 0 -> pas de collision
-			}
-		}
-	}
-	formatS1 = NULL;	//Remise à 0 des pointeurs de format
-	formatS2 = NULL;	//Remise à 0 des pointeurs de format
-	return collision;
-}
-
-
 
 
 

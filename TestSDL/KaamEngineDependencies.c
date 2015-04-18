@@ -341,7 +341,7 @@ int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, int testVa
 * \brief Test if the side variables have been initialized.
 *
 * \param[in] pObject, pointer to the object to test.
-* \returns 1 = variables are initialized, 0= variables aren't initialized
+* \returns 1 = variables are initialized, 0 = variables aren't initialized
 */
 int sideInitialized(KaamObject* pObject)
 {
@@ -390,9 +390,9 @@ int collisionSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfac
 * \fn int collisionSurfaceWithMap(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
 * \brief Detecte s'il y a collision entre deux surfaces selon le sens de déplacement du worms.
 *
-* \param[in] pSurfaceMap, pointeur vers la surface de la map
-* \param[in] pSurfaceMotion, pointeur vers la surface en mouvement dans la map
-* \param[in] pDirection, pointeur de la direction du deplacement du worms
+* \param[in] pSurfaceMap, pointer to the surface of the map.
+* \param[in] pSurfaceMotion, pointer to the surface in motion.
+* \param[in] pDirection, pointer to the object direction.
 * \returns int, indicateur de collision : 1 = collision, 0 sinon
 */
 int collisionSurfaceWithMap(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int checkMode)
@@ -467,27 +467,29 @@ int collisionSurfaceWithMap(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotio
 */
 int collisionSurfaceWithMapBasic(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
-	Uint32 nombrePixelToRead, indexSurfaceMap = 0, index;
-	int x1, y1, offsety, collision = 0;
+	Uint32 indexSurfaceMap = 0, index;
+	int x1, y1, w, h, collision = 0, x, y;
 	Uint32* pixelSurfaceMap = (Uint32*)pSurfaceMap->pixels;
 	Uint32* pixelSurfaceMotion = (Uint32*)pSurfaceMotion->pixels;
 	SDL_PixelFormat* formatS1 = pSurfaceMap->format;	//Pointeur du format de pixels de la surface de la map
 	SDL_PixelFormat* formatS2 = pSurfaceMotion->format;	//Pointeur du format de pixels de la surface en mouvement
-	nombrePixelToRead = pSurfaceMotion->h * pSurfaceMotion->w;
+
+	if (collisionSurfaceWithMapLimits(pSurfaceMap, pSurfaceMotion))
+		return 1;
 
 	x1 = pSurfaceMotion->clip_rect.x;
 	y1 = pSurfaceMotion->clip_rect.y;
-	offsety = y1 * pSurfaceMap->w;
-	for (index = 0; (index < nombrePixelToRead) && (!collision); index++)
+	h = y1 + pSurfaceMotion->h;
+	w = x1 + pSurfaceMotion->w;
+	for (y = y1; (y < h) && (!collision); y++)
 	{
-		indexSurfaceMap = (index%pSurfaceMotion->w + x1) + (index / pSurfaceMotion->w)*pSurfaceMap->w + offsety;
-		if (pixelTransparent(pixelSurfaceMotion[index], formatS2) || pixelTransparent(pixelSurfaceMap[indexSurfaceMap], formatS1))
+		for (x = x1; (x < w) && (!collision); x++)
 		{
-			collision = 0;
-		}
-		else
-		{
-			collision = 1;
+			index = (x - x1) + (y - y1) * pSurfaceMotion->w;
+			indexSurfaceMap = x + y * pSurfaceMap->w;
+			if (pixelTransparent(pixelSurfaceMotion[index], formatS2) || pixelTransparent(pixelSurfaceMap[indexSurfaceMap], formatS1))
+				collision = 0;
+			else collision = 1;
 		}
 	}
 
@@ -678,7 +680,7 @@ enum DIRECTION motionDirectionProcess(int dx, int dy)
 {
 	if (dx == 0)
 	{
-		if (dy > 0)
+		if (dy >= 0)
 			return DOWN;
 		else return UP;
 	}

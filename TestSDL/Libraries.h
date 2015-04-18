@@ -97,6 +97,7 @@ typedef struct{
 	int reactToBomb;
 	int rightOk;
 	int leftOk;
+	int falling;
 	int relativeTime;
 	SDL_Surface* objectSurface;
 }KaamObject;

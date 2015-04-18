@@ -8,26 +8,32 @@ SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const ch
 SDL_Surface * loadImage(const char * file);	//Charge une image dans une surface
 SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);	//Charge une image dans une texture
 SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer);
-int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRectPrec);
-int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect);
 
 /*Manipulation des pixels*/
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
-void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
-int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest);
+void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
+int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest);
 
-/*Fonctions diverse*/
-SDL_Rect initRect(int x, int y, int w, int h);	//Initialise un SDL_Rect
-int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
+/*Update Texture*/
+int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRectPrec);
+int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect);
+int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20]);
+
+/*Basics collisions*/
 int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2);
 int collisionPointWithCercle(Point P, int centerX, int centerY, int radius);
 int collisionPointWithRect(Point P, SDL_Rect* box);
-int rand_a_b(int a, int b);
-void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
-SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20]);
-int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20]);
+int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By);
 
+/*Fonctions diverse*/
+SDL_Rect initRect(int x, int y, int w, int h);	//Initialise un SDL_Rect
+SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20]);
+void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
+int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
+int rand_a_b(int a, int b);
+
+/*Manipulation de formes*/
 int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);
 void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint);
 void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint);

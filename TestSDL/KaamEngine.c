@@ -50,15 +50,16 @@ void KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 
 /**
 * \fn KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
-* \brief Initialiase a KaamObject structure.
+* \brief Initialiazes a KaamObject structure.
 *
-* \param[in] rectSurface, rect of the size of the surface to create and position.
+* \param[in] rectSurface, rect of the size and position of the surface to create.
 * \param[in] initSpeedX, speed along X axis to initialises the object with.
 * \param[in] initSpeedY, speed along Y axis to initialises the object with.
 * \param[in] initDirection, direction of the object.
-* \param[in] weapon, indicate if the object is a weapon or not.
+* \param[in] weapon, indicate whether of not if the object is a weapon.
 * \returns pointer to the KaamObject created, NULL if error was encountered.
-* \remarks The surface is just initiliased, there is no pixels in it. It should be done after calling this function
+* \remarks The surface is just initiliased, there is no pixels in it. It should be done after calling this function.
+*		   Use KaamInitSurfaceObject.
 */
 KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
 {
@@ -74,7 +75,7 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 	if (objectTemp->objectSurface == NULL)
 	{
 		fprintf(logFile, "KaamInitObject : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
-		free(objectTemp);
+		KaamDestroyObject(&objectTemp);
 		return NULL;
 	}
 	objectTemp->objectSurface->clip_rect.x = rectSurface.x;
@@ -97,6 +98,7 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 
 	/*Init relative time*/
 	objectTemp->relativeTime = 0;
+	objectTemp->falling = 0;
 
 	/*Init react to bomb*/
 	objectTemp->reactToBomb = 0;
@@ -114,6 +116,27 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 	return objectTemp;
 }
 
+/**
+* \fn void KaamDestroyObject(KaamObject** p_pObject)
+* \brief Deallocate a KaamObject.
+*
+* \param[in] p_pObject, adress of the pointer to the object to destroy.
+* \returns void
+*/
+void KaamDestroyObject(KaamObject** p_pObject)
+{
+	if ((*p_pObject)->objectSurface != NULL)
+	{
+		SDL_FreeSurface((*p_pObject)->objectSurface);
+		(*p_pObject)->objectSurface = NULL;
+	}
+	if ((*p_pObject) != NULL)
+	{
+		free((*p_pObject));
+		(*p_pObject) = NULL;
+	}
+	fprintf(logFile, "KaamDestroyObject : DONE. \n\n");
+}
 
 /**
 * \fn void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels)
@@ -127,23 +150,6 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels)
 {
 	memcpy(pObject->objectSurface->pixels, pixels, nbPixels*sizeof(Uint32));
-}
-
-
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////
-/////////////////                                                        /////////////////
-/////////////////                         Inputs                         /////////////////
-/////////////////                                                        /////////////////
-//////////////////////////////////////////////////////////////////////////////////////////
-void KaamInputs(Input* pInput)
-{
-
 }
 
 
@@ -210,10 +216,11 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 		setSurfaceAbsoluteCoordinates(pObject->objectSurface, pObject->absoluteCoordinate.x, pObject->absoluteCoordinate.y);
 		setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, 0.0, 0.0);
 		pObject->relativeTime += 7;
-
+		pObject->falling = 1;
 		if (KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &downDirection))
-		{			
+		{
 			pObject->relativeTime = 0;
+			pObject->falling = 0;
 			setSideMotionPossibility(pObject, pSurfaceMap);
 			resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 		}
@@ -222,6 +229,7 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 	{
 		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 		pObject->relativeTime = 0;
+		pObject->falling = 0;
 	}
 }
 
@@ -236,7 +244,7 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 */
 void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
-	int launchAnim = pInput->direction != NONE && !pInput->jumpOnGoing;
+	int launchAnim = pInput->direction != NONE && !pInput->jumpOnGoing && (pWorms->wormsObject->falling == 0);
 	int swap = 0;
 	if (launchAnim)
 	{
@@ -244,14 +252,8 @@ void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfa
 			swap = swapManagement(pInput, pWorms, pSurfaceMap);
 		gestionAnimationWorms(pWorms, pSurfaceMap, swap);
 	}
-	int yAbs = pWorms->wormsObject->absoluteCoordinate.y;
 	KaamPhysicManagement(pInput, pWorms->wormsObject, pSurfaceMap);
-	if (yAbs - pWorms->wormsObject->objectSurface->clip_rect.y > (pSurfaceMap->h / 10) && testGround(pSurfaceMap, pWorms->wormsObject->objectSurface, 1))
-		pWorms->vie -= 20;
-	else if (yAbs - pWorms->wormsObject->objectSurface->clip_rect.y > (pSurfaceMap->h / 15) && testGround(pSurfaceMap, pWorms->wormsObject->objectSurface, 1))
-		pWorms->vie -= 10;
-	if (MY_ABS(dxProcess(pWorms->wormsObject)) > 0 || MY_ABS(dyProcess(pWorms->wormsObject)) > 0)
-		pInput->deplacement = 1;
+	pInput->deplacement = (MY_ABS(dxProcess(pWorms->wormsObject)) > 0 || MY_ABS(dyProcess(pWorms->wormsObject)) > 0);
 }
 
 
@@ -303,7 +305,7 @@ void KaamGroundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface*
 			pObject->objectSurface->clip_rect.y -= 1;
 		}
 	}
-	while (indexBoucle < 60 && detectionCollisionSurface(pSurfaceMap, pObject->objectSurface))
+	while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pObject->objectSurface))
 	{
 		if (pObject->motionDirection == RIGHT)
 			pObject->objectSurface->clip_rect.x -= 1;
@@ -323,10 +325,9 @@ void KaamGroundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface*
 */
 void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
 {
-	int onGround = testGround(pSurfaceMap, pObject->objectSurface, 5);
-	int authorizeMovement = (pInput->direction != NONE && pInput->direction != UP);
+	int authorizeMovement = (pInput->direction != NONE && pInput->direction != UP && !pInput->jumpOnGoing);
 
-	if (onGround && authorizeMovement)
+	if (authorizeMovement && pObject->falling == 0)
 	{
 		if (!sideInitialized(pObject))
 			setSideMotionPossibility(pObject, pSurfaceMap);
@@ -362,6 +363,7 @@ void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceM
 void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound)
 {
 	static int  xPrec = 0, yPrec = 0, startMotion = 0, rebound = 0;
+	int stopReact = allowRebound && pObject->relativeTime >= 42 && (pObject->Yspeed == 0);
 	enum DIRECTION directionBeforeCollision;
 	if (!startMotion)
 	{
@@ -372,11 +374,17 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 	if (startMotion)
 	{
 		setSurfaceAbsoluteCoordinates(pObject->objectSurface, pObject->absoluteCoordinate.x, pObject->absoluteCoordinate.y);
-		setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, pObject->Xspeed, pObject->Yspeed);
+		if ((pObject->Yspeed <= 0) && testGround(pSurfaceMap, pObject->objectSurface, 1))
+		{
+			float relativeX = (float)(pObject->Xspeed * pObject->relativeTime);
+			pObject->objectSurface->clip_rect.x += (int)relativeX;
+			pObject->Yspeed = 0.0;
+		}
+		else setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, pObject->Xspeed, pObject->Yspeed);
 		pObject->motionDirection = motionDirectionProcess((pObject->objectSurface->clip_rect.x - xPrec), (pObject->objectSurface->clip_rect.y - yPrec));
 		directionBeforeCollision = pObject->motionDirection;
 		pObject->relativeTime += 7;
-		if (pObject->relativeTime > 7 && KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &pObject->motionDirection))
+		if (stopReact || pObject->relativeTime > 7 && KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &pObject->motionDirection))
 		{
 			if (!KaamCollisionReaction(pObject, directionBeforeCollision, allowRebound, &rebound))
 			{
@@ -484,9 +492,7 @@ int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCol
 		resetReboundVariables(pObject, -1.0, -1.0, 1.0, 2.0);
 		reaction = 1;
 	}
-	else if (directionBeforeCollision == UPRIGHT && pObject->motionDirection == RIGHT
-		|| directionBeforeCollision == UPLEFT && pObject->motionDirection == LEFT
-		|| pObject->motionDirection == UPRIGHT || pObject->motionDirection == UPLEFT)
+	else if (pObject->motionDirection == UPRIGHT || pObject->motionDirection == UPLEFT)
 	{
 		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
 		reaction = 1;
@@ -501,9 +507,7 @@ int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCol
 	}
 	else if (directionBeforeCollision == UP)
 	{
-		pObject->Yspeed = -pObject->Yspeed;
-		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
-		pObject->relativeTime = 0;
+		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
 		reaction = 1;
 	}
 	else if ((directionBeforeCollision == UPLEFT || directionBeforeCollision == UPRIGHT) && pObject->motionDirection == UP)

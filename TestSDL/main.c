@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 		fprintf(logFile, "Start of session : %s\n\n", ctime(&t1));
 	};
 
-	if (mainInit(1, 1) < 0)	//set le nombre d'équipe et le nombre de worms par équipe
+	if (mainInit(1, 2) < 0)	//set le nombre d'équipe et le nombre de worms par équipe
 	{
 		fprintf(logFile, "mainInit : FAILURE.\n");
 		return 0;

@@ -113,95 +113,6 @@ SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pR
 }
 
 
-/**
-* \fn int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
-* \brief Update texture associated to a surface with a second surface.
-*
-* \param[in] pTexture, the pointer to the texture
-* \param[in] pSurfaceMain, the pointer to the surface associated with the texture (the map).
-* \param[in] pSurfaceSecond, the pointer to the second surface
-* \param[in] pRect, area to erase before display the second surface (usually the precedent location of the surface).
-* \returns 0 = OK, -1 = problem allocating memory
-*/
-int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
-{
-	updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
-	if (pSurfaceMain != pSurfaceSecond)
-	{
-		Uint32* pixelWrite = NULL;
-		Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
-		int x, y, offsety;
-		Uint32* pixelSurfaceMain = (Uint32*)pSurfaceMain->pixels;
-		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
-		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
-		nombrePixelToUpdate = pRect->h * pRect->w;
-		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
-		if (pixelWrite == NULL)
-		{
-			fprintf(logFile, "updateTextureFromMultipleSurface : FAILURE, allocating memory to pixelWrite.\n\n");
-			return -1;
-		}
-		x = pSurfaceSecond->clip_rect.x;
-		y = pSurfaceSecond->clip_rect.y;
-		offsety = y * pSurfaceMain->w;
-		for (index = 0; index < nombrePixelToUpdate; index++)
-		{
-			if (pixelTransparent(pixelSurfaceSecond[index], pSurfaceSecond->format))
-			{
-				indexSurfaceMain = (index%pSurfaceSecond->w + x) + (index / pSurfaceSecond->w)*pSurfaceMain->w + offsety;
-				pixelWrite[index] = pixelSurfaceMain[indexSurfaceMain];
-			}
-			else pixelWrite[index] = pixelSurfaceSecond[index];
-		}
-		pRect->x = x;
-		pRect->y = y;
-		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
-		free(pixelWrite);
-		pixelWrite = NULL;
-	}
-	return 0;
-}
-
-/**
-* \fn int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
-* \brief Update texture associated to a surface on a selected area.
-*
-* \param[in] pTexture, the pointer to the texture.
-* \param[in] pSurfaceMain, the pointer to the surface.
-* \param[in] pRect, area to update, NULL for the entire surface/texture.
-* \returns 0 = OK, -1 = problem allocating memory
-*/
-int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
-{
-	Uint32* pixelWrite = NULL;
-	Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
-	int x, y, offsety;
-	if (pRect != NULL)
-	{
-		nombrePixelToUpdate = pRect->h * pRect->w;
-		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
-		if (pixelWrite == NULL)
-		{
-			fprintf(logFile, "updateTextureFromSurface : FAILURE, allocating memory to pixelWrite.\n\n");
-			return -1;
-		}
-		x = pRect->x;
-		y = pRect->y;
-		offsety = y *pSurfaceMain->w;
-		for (index = 0; index < nombrePixelToUpdate; index += pRect->w)
-		{
-			indexSurfaceMain = x + y*pSurfaceMain->w;
-			memmove((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexSurfaceMain), pRect->w * sizeof(Uint32));
-			y++;
-		}
-		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
-		free(pixelWrite);
-		pixelWrite = NULL;
-	}
-	else SDL_UpdateTexture(pTexture, pRect, pSurfaceMain->pixels, pSurfaceMain->pitch);
-	return 0;
-}
-
 
 
 
@@ -235,7 +146,7 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 
 
 /**
-* \fn void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
+* \fn void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 * \brief Write a pixel to the (x,y) coordinates passed in parameters.
 *
 * \param[in] pSurface, pointer to the surface to write to.
@@ -244,7 +155,7 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 * \param[in] pixelToWrite, the pixel to write.
 * \remarks Make sure that the formats of the pixel to write and the surface are the same.
 */
-void DrawPixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
+void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 {
 	//Convert the pixels to 32 bit
 	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixel de la surface
@@ -329,6 +240,278 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
+/////////////////                    Update Texture                      /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+/**
+* \fn int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
+* \brief Update texture associated to a surface with a second surface.
+*
+* \param[in] pTexture, pointer to the texture
+* \param[in] pSurfaceMain, pointer to the surface associated with the texture (the map).
+* \param[in] pSurfaceSecond, pointer to the second surface
+* \param[in] pRect, area to erase before display the second surface (usually the precedent location of the surface).
+* \returns 0 = OK, -1 = problem allocating memory
+*/
+int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
+{
+	updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
+	if (pSurfaceMain != pSurfaceSecond)
+	{
+		Uint32* pixelWrite = NULL;
+		Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
+		int x, y, offsety;
+		Uint32* pixelSurfaceMain = (Uint32*)pSurfaceMain->pixels;
+		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
+		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
+		nombrePixelToUpdate = pRect->h * pRect->w;
+		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		if (pixelWrite == NULL)
+		{
+			fprintf(logFile, "updateTextureFromMultipleSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			return -1;
+		}
+		x = pSurfaceSecond->clip_rect.x;
+		y = pSurfaceSecond->clip_rect.y;
+		offsety = y * pSurfaceMain->w;
+		for (index = 0; index < nombrePixelToUpdate; index++)
+		{
+			if (pixelTransparent(pixelSurfaceSecond[index], pSurfaceSecond->format))
+			{
+				indexSurfaceMain = (index%pSurfaceSecond->w + x) + (index / pSurfaceSecond->w)*pSurfaceMain->w + offsety;
+				pixelWrite[index] = pixelSurfaceMain[indexSurfaceMain];
+			}
+			else pixelWrite[index] = pixelSurfaceSecond[index];
+		}
+		pRect->x = x;
+		pRect->y = y;
+		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
+		free(pixelWrite);
+		pixelWrite = NULL;
+	}
+	return 0;
+}
+
+/**
+* \fn int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
+* \brief Update texture associated to a surface on a selected area.
+*
+* \param[in] pTexture, pointer to the texture.
+* \param[in] pSurfaceMain, pointer to the surface.
+* \param[in] pRect, area to update, NULL for the entire surface/texture.
+* \returns 0 = OK, -1 = problem allocating memory
+*/
+int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
+{
+	Uint32* pixelWrite = NULL;
+	Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
+	int x, y, offsety;
+	if (pRect != NULL)
+	{
+		nombrePixelToUpdate = pRect->h * pRect->w;
+		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		if (pixelWrite == NULL)
+		{
+			fprintf(logFile, "updateTextureFromSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			return -1;
+		}
+		x = pRect->x;
+		y = pRect->y;
+		offsety = y *pSurfaceMain->w;
+		for (index = 0; index < nombrePixelToUpdate; index += pRect->w)
+		{
+			indexSurfaceMain = x + y*pSurfaceMain->w;
+			memmove((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexSurfaceMain), pRect->w * sizeof(Uint32));
+			y++;
+		}
+		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
+		free(pixelWrite);
+		pixelWrite = NULL;
+	}
+	else SDL_UpdateTexture(pTexture, pRect, pSurfaceMain->pixels, pSurfaceMain->pitch);
+	return 0;
+}
+
+/**
+* \fn int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20])
+* \brief Update texture with surfaces that are overlaying.
+*
+* \param[in] pTextureDisplay, pointer to the texture.
+* \param[in] pSurfaceMap, pointer to the map's surface.
+* \param[in] nbSurfaces, number of surface to update.
+* \param[in] surfaceTab, array of surface to update.
+* \returns 1 = OK, -1 = problem allocating memory
+* \remarks This function updates a maximum of 20 surfaces.
+*		   Also note that this function is rather CPU demanding, it is recommended to use it only if there is a dynamic motion.
+*		   Last, the surfaces should be in the same range of coordinnate, if you have multiple group of overlaying surfaces, call this function
+*		   as many times as you have different groups.
+*/
+int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20])
+{
+	/*Check the number of surfaces*/
+	if (nbSurfaces > 20)
+	{
+		fprintf(logFile, "updateSurfacesOverlay : FAILURE, too much surfaces, OVER 9000 !!!\n\n.");
+		return -1;
+	}
+
+	int indexSurface;
+	SDL_Rect rectToUpdate;
+	SDL_Rect* rectTab[20];
+
+	/*Initialisation of the surface array*/
+	for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
+	{
+		rectTab[indexSurface] = &surfaceTab[indexSurface]->clip_rect;
+	}
+	rectToUpdate = multipleRectOverlay(nbSurfaces, rectTab);
+
+	int nbPixels = rectToUpdate.w * rectToUpdate.h;
+	Uint32* pixelMap = (Uint32*)pSurfaceMap->pixels;
+	SDL_PixelFormat* format = pSurfaceMap->format;
+	Uint32* pixelSurface = NULL;
+	Uint32 pixelRead = 0;
+	Uint32* pixelToWrite = malloc(nbPixels*sizeof(Uint32));
+	if (pixelToWrite == NULL)
+	{
+		fprintf(logFile, "updateSurfacesOverlay : FAILURE, allocating memory to pixelToWrite.\n\n");
+		return -1;
+	}
+	int x, y;
+	for (y = rectToUpdate.y; y < (rectToUpdate.y + rectToUpdate.h); y++)
+	{
+		for (x = rectToUpdate.x; x < (rectToUpdate.x + rectToUpdate.w); x++)
+		{
+			Point p;
+			p.x = x;
+			p.y = y;
+			for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
+			{
+				pixelSurface = (Uint32 *)surfaceTab[indexSurface]->pixels;
+				if (collisionPointWithRect(p, &surfaceTab[indexSurface]->clip_rect))
+				{
+					pixelRead = pixelSurface[(x - surfaceTab[indexSurface]->clip_rect.x) + (y - surfaceTab[indexSurface]->clip_rect.y)*surfaceTab[indexSurface]->w];
+					if (pixelTransparent(pixelRead, format))
+						pixelRead = pixelMap[x + y*pSurfaceMap->w];
+					else break;
+				}
+				else pixelRead = pixelMap[x + y*pSurfaceMap->w];
+			}
+			pixelToWrite[(x - rectToUpdate.x) + (y - rectToUpdate.y)*rectToUpdate.w] = pixelRead;
+		}
+	}
+
+
+	SDL_UpdateTexture(pTextureDisplay, &rectToUpdate, pixelToWrite, 4 * rectToUpdate.w);
+	free(pixelToWrite);
+	pixelToWrite = NULL;
+	return 1;
+}
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
+/////////////////                   Basics collisions                    /////////////////
+/////////////////                                                        /////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+/**
+* \fn int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
+* \brief Test a collision between two rectangles.
+*
+* \param[in] pRect, pointer to the first rectangle.
+* \param[in] pRect2, pointer to the second rectangle.
+* \returns 1 = collision, 0 = no collision.
+*/
+int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
+{
+	int widthRel1 = pRect->w + pRect->x, widthRel2 = pRect2->w + pRect2->x;
+	int hightRel1 = pRect->h + pRect->y, hightRel2 = pRect2->h + pRect2->y;
+	if (pRect2->x >= widthRel1
+		|| widthRel2 <= pRect->x
+		|| pRect2->y >= hightRel1
+		|| hightRel2 <= pRect->y)
+		return 0;
+	else return 1;
+}
+
+/**
+* \fn int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
+* \brief Test if a point is inside a cercle.
+*
+* \param[in] P, point to test
+* \param[in] centerX, X coordinate of the center of the cercle.
+* \param[in] centerY, Y coordinate of the center of the cercle.
+* \param[in] radius, radius of the cercle.
+* \returns 1 = point is in the cercle, 0 = point is out of the cercle
+*/
+int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
+{
+	int d2 = CARRE((P.x - centerX)) + CARRE((P.y - centerY));
+	if (d2 > CARRE(radius))
+		return 0;
+	else
+		return 1;
+}
+
+/**
+* \fn int collisionPointWithRect(Point P, SDL_Rect* box)
+* \brief Test if a point is inside a rect.
+*
+* \param[in] P, point to test.
+* \param[in] box, the box to test the collision with
+* \returns 1 = point is in the box, 0 = point is out of the box
+*/
+int collisionPointWithRect(Point P, SDL_Rect* box)
+{
+	if (P.x >= box->x
+		&& P.x < box->x + box->w
+		&& P.y >= box->y
+		&& P.y < box->y + box->h)
+		return 1;
+	else
+		return 0;
+}
+
+/**
+* \fn int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By)
+* \brief Test if a point is inside a rect.
+*
+* \param[in] C, point to test.
+* \param[in] Ax, X coordinate of first edge of the segment.
+* \param[in] Ay, Y coordinate of first edge of the segment.
+* \param[in] Bx, X coordinate of second edge of the segment.
+* \param[in] By, Y coordinate of second edge of the segment.
+* \returns 1 = the projection of the point is on the segment, 0 = the projection of the point is not on the segment
+*/
+int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By)
+{
+	int ACx = C.x - Ax;
+	int ACy = C.y - Ay;
+	int ABx = Bx - Ax;
+	int ABy = By - Ay;
+	int BCx = C.x - Bx;
+	int BCy = C.y - By;
+	int s1 = (ACx*ABx) + (ACy*ABy);
+	int s2 = (BCx*ABx) + (BCy*ABy);
+	if (s1*s2>0)
+		return 0;
+	return 1;
+}
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////                                                        /////////////////
 /////////////////                  Fonctions Diverses                    /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -377,68 +560,6 @@ int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 	return 1;
 }
 
-/**
-* \fn int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
-* \brief Test a collision between two rectangles.
-*
-* \param[in] pRect, pointer to the first rectangle.
-* \param[in] pRect2, pointer to the second rectangle.
-* \returns 1 = collision, 0 = no collision.
-*/
-int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
-{
-	int widthRel1 = pRect->w + pRect->x, widthRel2 = pRect2->w + pRect2->x;
-	int hightRel1 = pRect->h + pRect->y, hightRel2 = pRect2->h + pRect2->y;
-	/*if (widthRel1 >= pRect2->x && widthRel1 <= widthRel2 && hightRel1 >= pRect2->y && hightRel1 <= hightRel2)
-		return 1;
-		else if (widthRel2 >= pRect->x && widthRel2 <= widthRel1 && hightRel2 >= pRect->y && hightRel2 <= hightRel1)
-		return 1;
-		return 0;*/
-	if (pRect2->x >= widthRel1
-		|| widthRel2 <= pRect->x
-		|| pRect2->y >= hightRel1
-		|| hightRel2 <= pRect->y)
-		return 0;
-	else return 1;
-}
-
-/**
-* \fn int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
-* \brief Test if a point is inside a cercle.
-*
-* \param[in] P, point to test
-* \param[in] centerX, X coordinate of the center of the cercle.
-* \param[in] centerY, Y coordinate of the center of the cercle.
-* \param[in] radius, radius of the cercle.
-* \returns 1 = point is in the cercle, 0 = point is out of the cercle
-*/
-int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
-{
-	int d2 = CARRE((P.x - centerX)) + CARRE((P.y - centerY));
-	if (d2 > CARRE(radius))
-		return 0;
-	else
-		return 1;
-}
-
-/**
-* \fn int collisionPointWithRect(Point P, SDL_Rect* box)
-* \brief Test if a point is inside a rect.
-*
-* \param[in] P, point to test.
-* \param[in] box, the box to test the collision with
-* \returns 1 = point is in the box, 0 = point is out of the box
-*/
-int collisionPointWithRect(Point P, SDL_Rect* box)
-{
-	if (P.x >= box->x
-		&& P.x < box->x + box->w
-		&& P.y >= box->y
-		&& P.y < box->y + box->h)
-		return 1;
-	else
-		return 0;
-}
 /**
 * \fn void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 * \brief Reajust a surface with edges of the map.
@@ -681,67 +802,7 @@ indexShape++;
 }
 */
 
-int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20])
-{
-	/*Check the number of surfaces*/
-	if (nbSurfaces > 20)
-	{
-		fprintf(logFile, "updateSurfacesOverlay : FAILURE, too much surfaces, OVER 9000 !!!\n\n.");
-		return -1;
-	}
-	
-	int indexSurface;
-	SDL_Rect rectToUpdate;
-	SDL_Rect* rectTab[20];
 
-	/*Initialisation of the surface array*/
-	for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
-	{
-		rectTab[indexSurface] = &surfaceTab[indexSurface]->clip_rect;
-	}
-	rectToUpdate = multipleRectOverlay(nbSurfaces, rectTab);
-
-	int nbPixels = rectToUpdate.w * rectToUpdate.h;
-	Uint32* pixelMap = (Uint32*)pSurfaceMap->pixels;
-	SDL_PixelFormat* format = pSurfaceMap->format;
-	Uint32* pixelSurface = NULL;
-	Uint32 pixelRead = 0;
-	Uint32* pixelToWrite = malloc(nbPixels*sizeof(Uint32));
-	if (pixelToWrite == NULL)
-	{
-		fprintf(logFile, "updateSurfacesOverlay : FAILURE, allocating memory to pixelToWrite.\n\n");
-		return -1;
-	}
-	int x, y;
-	for (y = rectToUpdate.y; y < (rectToUpdate.y + rectToUpdate.h); y++)
-	{
-		for (x = rectToUpdate.x; x < (rectToUpdate.x + rectToUpdate.w); x++)
-		{
-			Point p;
-			p.x = x;
-			p.y = y;
-			for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
-			{
-				pixelSurface = (Uint32 *)surfaceTab[indexSurface]->pixels;
-				if (collisionPointWithRect(p, &surfaceTab[indexSurface]->clip_rect))
-				{
-					pixelRead = pixelSurface[(x - surfaceTab[indexSurface]->clip_rect.x) + (y - surfaceTab[indexSurface]->clip_rect.y)*surfaceTab[indexSurface]->w];
-					if (pixelTransparent(pixelRead, format))
-						pixelRead = pixelMap[x + y*pSurfaceMap->w];
-					else break;
-				}
-				else pixelRead = pixelMap[x + y*pSurfaceMap->w];
-			}
-			pixelToWrite[(x - rectToUpdate.x) + (y - rectToUpdate.y)*rectToUpdate.w] = pixelRead;
- 		}
-	}
-	
-
-	SDL_UpdateTexture(pTextureDisplay, &rectToUpdate, pixelToWrite, 4 * rectToUpdate.w);
-	free(pixelToWrite);
-	pixelToWrite = NULL;
-	return 1;
-}
 
 
 /**
