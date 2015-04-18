@@ -30,11 +30,11 @@ int testGround(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, int testVa
 int sideInitialized(KaamObject* pObject);
 
 /*Collision functions*/
-int collisionSurfaceWithMapLimits(SDL_Surface* pSurfaceMap,SDL_Surface* pSurfaceMotion);
+int collisionSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
+int collisionSurfaceWithMapBasic(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
 int collisionSurfaceWithMap(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int checkMode);
 void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* yStart, int* yEnd, int zone);
 void calculOrdreBalayage(enum DIRECTION direction, int ordre[4]);
-int collisionSurfaceWithMapBasic(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
 
 /*Motion functions*/
 int dyProcess(KaamObject* pObject);

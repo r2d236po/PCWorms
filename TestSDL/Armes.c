@@ -39,7 +39,7 @@ void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture *
 				&& j + offsetY < pSurfaceMap->clip_rect.h
 				)
 			{
-				DrawPixel(pSurfaceMap, i + offsetX, j + offsetY, pixelTransparent);
+				WritePixel(pSurfaceMap, i + offsetX, j + offsetY, pixelTransparent);
 			}
 		}
 	}

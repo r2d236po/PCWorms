@@ -110,21 +110,17 @@ Worms* createWorms(char* name)
 }
 
 /**
-* \fn void destroyWorms(Worms** wormsTab)
-* \brief Détruit une structure Worms et remet ses pointeurs à NULL.
+* \fn void destroyWorms(Worms** wormsTab, int nbWorms)
+* \brief Deallocate memory for an array of worms pointer structure.
 *
-* \param[in] wormsTab, tableau de worms a detruire.
+* \param[in] wormsTab, array of worms to destroy.
+* \param[in] nbWorms, number of worms to destroy.
 */
 void destroyWorms(Worms** wormsTab, int nbWorms)
 {
 	int i;
 	for (i = 0; i < nbWorms; i++)
 	{
-		if (wormsTab[i]->wormsObject->objectSurface != NULL)
-		{
-			SDL_FreeSurface(wormsTab[i]->wormsObject->objectSurface);
-			(wormsTab[i])->wormsObject->objectSurface = NULL;
-		}
 		if ((wormsTab[i])->wormsSurfaceLeft != NULL)
 		{
 			SDL_FreeSurface((wormsTab[i])->wormsSurfaceLeft);
@@ -145,11 +141,7 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 			SDL_FreeSurface((wormsTab[i])->texteSurface);
 			(wormsTab[i])->texteSurface = NULL;
 		}
-		if ((wormsTab[i])->wormsObject != NULL)
-		{
-			free((wormsTab[i])->wormsObject);
-			(wormsTab[i])->wormsObject = NULL;
-		}
+		KaamDestroyObject(&wormsTab[i]->wormsObject);
 		free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
@@ -187,7 +179,7 @@ int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 	{
 		swapWormsSurface(pWorms);
 		pInput->direction = NONE;
-		while (indexBoucle < 60 && detectionCollisionSurface(pSurfaceMap, pWorms->wormsObject->objectSurface))
+		while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
 		{
 			if (indexBoucle > 10)
 				correction = -1;
@@ -307,7 +299,7 @@ void gestionAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
 	if (swap)
 		pWorms->indexAnim = 0;
 	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
-	while (indexBoucle < 60 && detectionCollisionSurface(pSurfaceMap, pWorms->wormsObject->objectSurface))
+	while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
 	{
 		if (indexBoucle > 10)
 			correction = -1;
@@ -517,37 +509,44 @@ void wormsDead(Worms* pWorms, int limitMap)
 */
 void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
 {
-	int indexWorms = 0;
+	int indexWorms = 0, i;
+	Point P;
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{
-		if (collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
+		if (!collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
+			continue;
+		if (pInput->jumpOnGoing && indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1)
+			continue;
+		int x = wormsTab[indexWorms]->wormsObject->objectBox.x, y = wormsTab[indexWorms]->wormsObject->objectBox.y;
+		int w = wormsTab[indexWorms]->wormsObject->objectBox.w, h = wormsTab[indexWorms]->wormsObject->objectBox.h;
+		for (i = 0; i < 4; i++)
 		{
-			if (indexWorms != globalVar.indexWormsTab || !pInput->jumpOnGoing)
+			P.x = x + (i == 1)*w;
+			P.y = y + (i == 2 || i == 3)*h;
+			if (collisionPointWithCercle(P, centerX, centerY, radius))
 			{
 				wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
 				speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
+				break;
 			}
+		}
+		if (wormsTab[indexWorms]->wormsObject->reactToBomb == 1)
+			continue;
+		P.x = centerX;
+		P.y = centerY;
+		if (collisionPointWithRect(P, &wormsTab[indexWorms]->wormsObject->objectBox))
+		{
+			wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
+			speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
 			continue;
 		}
-		/*for (i = 0; i < 4; i++)
+		int projectVertical = pointProjectionOnSegment(P, x, y, x, y + h);
+		int projectHorizontal = pointProjectionOnSegment(P, x, y, x + w, y);
+		if (projectVertical || projectHorizontal)
 		{
-		p.x = wormsTab[indexWorms]->wormsObject->objectBox.x + (i == 1)*wormsTab[indexWorms]->wormsObject->objectBox.w;
-		p.y = wormsTab[indexWorms]->wormsObject->objectBox.y + (i == 2 || i == 3)*wormsTab[indexWorms]->wormsObject->objectBox.h;
-		if (collisionPointWithCercle(p, centerX, centerY, radius))
-		{
-		wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
-		speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
-		continue;
+			wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
+			speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
 		}
-		}
-		p.x = centerX;
-		p.y = centerY;
-		if (collisionPointWithRect(p, &wormsTab[indexWorms]->wormsObject->objectBox))
-		{
-		wormsTab[indexWorms]->wormsObject->reactToBomb = 1;
-		speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
-		continue;
-		}*/
 	}
 	pInput->bombe = 0;
 }

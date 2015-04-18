@@ -845,10 +845,21 @@ void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture*
 	}
 }
 
-int initWormsTab(Equipe** equipes){
+
+/**
+* \fn Worms** initWormsTab(Equipe** equipes)
+* \brief Initialize the global array of pointer to the worms in game.
+*
+* \param[in] equipes, array of all the team in game.
+* \return the array of pointer, NULL if error.
+*/
+Worms** initWormsTab(Equipe** equipes)
+{
 	Worms** Tab = NULL;
 	int i, j, k=0;
 	Tab = (Worms**)malloc(globalVar.nbEquipe * globalVar.nbWormsEquipe * sizeof(Worms*));
+	if (Tab == NULL)
+		return NULL;
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
 		for (j = 0; j < globalVar.nbWormsEquipe; j++)

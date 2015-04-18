@@ -13,6 +13,7 @@ typedef struct{
 	char* nom;			/* Nom de la caisse */
 	int posx;			/* Position en X */
 	int posy;			/* Position en Y */
+	KaamObject* boxObject;
 	//image?
 } Caisse;
 
@@ -27,7 +28,6 @@ int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIREC
 
 /*Détection et gestion des collisions*/
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
-int detectionCollisionSurface(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
 
 enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);
 
