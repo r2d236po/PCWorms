@@ -127,9 +127,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				else pInput->camCentrer = 1;
 				break;
 			case SDLK_c:
-				if ((globalVar.nbWormsEquipe > 1 || globalVar.nbEquipe > 1) && !pInput->jumpOnGoing){
-					callNextWorms();
-				}
+				pInput->changeWorms = 1;
 				break;
 			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
@@ -198,12 +196,12 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	}
 	/*if (pInput->lclick && test == NULL)
 	{
-		test = testobject(pInput);
+	test = testobject(pInput);
 	}
 	if (test != NULL)
 	{
-		KaamPhysicManagement(pInput, test, pMapTerrain->imageMapSurface);
-		updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, test->objectSurface, &test->objectBox);
+	KaamPhysicManagement(pInput, test, pMapTerrain->imageMapSurface);
+	updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->imageMapSurface, test->objectSurface, &test->objectBox);
 	}*/
 	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, pRenderer, wormsTab);	//appel de la fonction de gestion des Inputs des armes
 	if (pInput->screenshot)
@@ -211,7 +209,16 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		screenshot(pRenderer);
 		pInput->screenshot = 0;
 	}
+	if (pInput->changeWorms)
+	{
+		if (!pInput->jumpOnGoing && !globalVar.gameEnd){
+			callNextWorms();
+		}
+		pInput->changeWorms = 0;
+	}
 	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->imageMapSurface);
+
+
 	updateGameWorms(pInput, wormsTab, pTextureDisplay, pMapTerrain->imageMapSurface);
 
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
@@ -380,6 +387,7 @@ Input* initInput()
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
 	pInput->camCentrer = 0;
+	pInput->changeWorms = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
