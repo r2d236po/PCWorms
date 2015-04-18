@@ -37,7 +37,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	}
 	for (int i = 0; i < nbE; i++)
 	{
-		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurNameBleu, nbW);
+		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurBleu, nbW);
 		if (jeu->equipes[i] == NULL)
 		{
 			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
@@ -106,7 +106,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 			break;
 		}
 	}
-	team->vie = vieEquipe(team);
+	team->vie = getLifeTeam(team);
 	fprintf(logFile, "nouvelleEquipe : SUCCESS.\n\n");
 	return team;
 }
@@ -133,13 +133,13 @@ void destroyEquipe(Equipe ** team, int nbE)
 }
 
 /**
-* \fn int vieEquipe(Equipe * team)
+* \fn int getLifeTeam(Equipe * team)
 * \brief
 *
 * \param[in] team,
 * \returns
 */
-int vieEquipe(Equipe * team)
+int getLifeTeam(Equipe * team)
 {
 	int i, vie = 0;
 	for (i = 0; i < team->nbWormsStart; i++)
@@ -147,6 +147,26 @@ int vieEquipe(Equipe * team)
 		vie += team->worms[i]->vie;
 	}
 	return vie;
+}
+
+/**
+* \fn int updateTeamLife(Equipe** equipeTab)
+* \brief Mets à jours la vie de toutes les equipes
+*
+* \param[in] equipeTab, tableau des equipes
+*/
+void updateTeamLife(Equipe** equipeTab)
+{
+	int i, j, vie;
+	for (i = 0; i < globalVar.nbEquipe; i++)
+	{
+		vie = 0;
+		for (j = 0; j < globalVar.nbWormsEquipe; j++)
+		{
+			vie += equipeTab[i]->worms[j]->vie;
+		}
+		equipeTab[i]->vie = vie;
+	}
 }
 
 /**
@@ -166,10 +186,10 @@ int mainInit(int nbE, int nbWpE)
 		return -1;
 	}
 
-	setSDLColor(&globalVar.couleurNameBleu, 238, 131, 127);
-	setSDLColor(&globalVar.couleurNameRouge, 130, 125, 255);
-	setSDLColor(&globalVar.couleurNameVert, 119, 250, 123);
-	setSDLColor(&globalVar.couleurNameJaune, 120, 255, 255);
+	setSDLColor(&globalVar.couleurBleu, 238, 131, 127);
+	setSDLColor(&globalVar.couleurRouge, 130, 125, 255);
+	setSDLColor(&globalVar.couleurVert, 119, 250, 123);
+	setSDLColor(&globalVar.couleurJaune, 120, 255, 255);
 
 	globalVar.FontName = NULL;
 	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 16);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
@@ -185,6 +205,7 @@ int mainInit(int nbE, int nbWpE)
 	globalVar.teamPlaying = 0;
 	globalVar.wormsPlaying = 0;
 	globalVar.indexWormsTab = 0;
+	globalVar.gameEnd = 0;
 
 	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
 
@@ -238,4 +259,13 @@ int saveGame(Jeu* jeu)
 	fprintf(logFile, "saveGame : SUCCESS.\n");
 	fclose(file);
 	return 1;
+}
+
+int isGameEnd(Equipe** equipeTab) {
+	int i;
+	for (i=0; i<globalVar.nbEquipe; i++)
+	{
+		if (equipeTab[i]->vie <= 0) return 1;
+	}
+	return 0;
 }
