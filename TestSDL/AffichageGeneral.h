@@ -29,7 +29,6 @@ void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);	//affiche une lign
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace un rectangle en fonction de la souris
 int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap);	//réajuste un rectangle pour pas dépasser de la map
 void frameRate(unsigned int fM);	//gère le framerate
-int updateWormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int indexWorms1, int indexWorms2);
 void screenshot(SDL_Renderer* pRenderer);
 
 //gestion de l'affichage

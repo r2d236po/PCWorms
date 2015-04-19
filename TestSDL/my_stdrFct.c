@@ -409,7 +409,65 @@ int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap
 }
 
 
+void updateTwoSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, SDL_Surface* pSurface1, SDL_Surface* pSurface2)
+{
+	int x1 = pSurface1->clip_rect.x, y1 = pSurface1->clip_rect.y, w1 = pSurface1->w, h1 = pSurface1->h;
+	int x2 = pSurface2->clip_rect.x, y2 = pSurface2->clip_rect.y, w2 = pSurface2->w, h2 = pSurface2->h;
+	int x, y, nombrePixel, indexSurface;
+	SDL_Rect rectOverlay = initRect(x1, y1, x2 + w2 - x1, y2 + h2 - y1);
+	Uint32 pixelRead;
+	Uint32* pixelMap = (Uint32*)pSurfaceMap->pixels;
+	SDL_PixelFormat* format = pSurfaceMap->format;
+	Uint32* pixelSurface1 = (Uint32*)pSurface1->pixels, *pixelSurface2 = (Uint32*)pSurface2->pixels, *pixelToWrite = NULL;
 
+	if (x1 <= x2)
+	{
+		rectOverlay.x = x2;
+		rectOverlay.w = x1 + w1 - x2;
+	}
+	if (y1 <= y2)
+	{
+		rectOverlay.y = y2;
+		rectOverlay.h = y1 + h1 - y2;
+	}
+	nombrePixel = rectOverlay.w*rectOverlay.h;
+	pixelToWrite = (Uint32*)malloc(nombrePixel*sizeof(Uint32));
+	if (pixelToWrite == NULL)
+	{
+		fprintf(logFile, "updateTwoSurfaceOverlay : FAILURE, allocating memory to pixelToWrite.\n\n");
+		return;
+	}
+	for (y = rectOverlay.y; y < rectOverlay.y + rectOverlay.h; y++)
+	{
+		for (x = rectOverlay.x; x < rectOverlay.x + rectOverlay.w; x++)
+		{
+			Point p;
+			p.x = x;
+			p.y = y;
+			for (indexSurface = 0; indexSurface < 2; indexSurface++)
+			{
+				SDL_Rect* rect = &pSurface1->clip_rect;
+				if (indexSurface == 1)
+					rect = &pSurface2->clip_rect;
+				if (collisionPointWithRect(p, rect))
+				{
+					if (indexSurface == 0)
+						pixelRead = pixelSurface1[(x - x1) + (y - y1)*w1];
+					else pixelRead = pixelSurface2[(x - x2) + (y - y2)*w2];
+					if (pixelTransparent(pixelRead, format))
+						pixelRead = pixelMap[x + y*pSurfaceMap->w];
+					else break;
+				}
+				else pixelRead = pixelMap[x + y*pSurfaceMap->w];
+			}
+			pixelToWrite[(x - rectOverlay.x) + (y - rectOverlay.y)*rectOverlay.w] = pixelRead;
+		}
+	}
+
+	SDL_UpdateTexture(pTextureDisplay, &rectOverlay, pixelToWrite, 4 * rectOverlay.w);
+	free(pixelToWrite);
+	pixelToWrite = NULL;
+}
 
 
 
@@ -500,7 +558,7 @@ int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By)
 	int BCy = C.y - By;
 	int s1 = (ACx*ABx) + (ACy*ABy);
 	int s2 = (BCx*ABx) + (BCy*ABy);
-	if (s1*s2>0)
+	if (s1*s2 > 0)
 		return 0;
 	return 1;
 }
@@ -818,7 +876,7 @@ indexShape++;
 * \return the rectangle created, a null rectangle if error
 */
 SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20])
-{	
+{
 	int indexRect, xMin = 0, yMin = 0, wMax = 0, hMax = 0;
 	int indexTabWmax = 0, indexTabHmax = 0, d1 = 0, d2 = 0, d3 = 0, dy = 0, dx = 0;
 
