@@ -262,10 +262,14 @@ int saveGame(Jeu* jeu)
 }
 
 int isGameEnd(Equipe** equipeTab) {
-	int i;
+	int i, nbTeamAlive = 0;
 	for (i=0; i<globalVar.nbEquipe; i++)
 	{
-		if (equipeTab[i]->vie <= 0) return 1;
+		if (equipeTab[i]->vie <= 0) nbTeamAlive++;
 	}
-	return 0;
+	if (nbTeamAlive > 1) {
+		globalVar.gameEnd = 1;
+		return 0;
+	}
+	return 1;
 }
