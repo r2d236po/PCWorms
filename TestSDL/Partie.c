@@ -270,10 +270,14 @@ int saveGame(Jeu* jeu)
 * \returns  1 = the game if over, 0 = the game is not over yet.
 */
 int isGameEnd(Equipe** equipeTab) {
-	int i;
-	for (i = 0; i<globalVar.nbEquipe; i++)
+	int i, nbTeamAlive = 0;
+	for (i=0; i<globalVar.nbEquipe; i++)
 	{
-		if (equipeTab[i]->vie <= 0) return 1;
+		if (equipeTab[i]->vie <= 0) nbTeamAlive++;
 	}
+	if (nbTeamAlive > 1) {
+		globalVar.gameEnd = 1;
 	return 0;
+}
+	return 1;
 }
