@@ -134,15 +134,15 @@ void destroyEquipe(Equipe ** team, int nbE)
 
 /**
 * \fn int getLifeTeam(Equipe * team)
-* \brief
+* \brief Calculate the life of a team depending of the life of every worms in this team.
 *
-* \param[in] team,
-* \returns
+* \param[in] team, pointer of the team.
+* \returns life of the team.
 */
-int getLifeTeam(Equipe * team)
+int getLifeTeam(Equipe* team)
 {
 	int i, vie = 0;
-	for (i = 0; i < team->nbWormsStart; i++)
+	for (i = 0; i < globalVar.nbWormsEquipe; i++)
 	{
 		vie += team->worms[i]->vie;
 	}
@@ -151,21 +151,22 @@ int getLifeTeam(Equipe * team)
 
 /**
 * \fn int updateTeamLife(Equipe** equipeTab)
-* \brief Mets à jours la vie de toutes les equipes
+* \brief Updates the life of every team in game.
 *
-* \param[in] equipeTab, tableau des equipes
+* \param[in] equipeTab, array of team.
 */
 void updateTeamLife(Equipe** equipeTab)
 {
 	int i, j, vie;
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		vie = 0;
+		/*vie = 0;
 		for (j = 0; j < globalVar.nbWormsEquipe; j++)
 		{
 			vie += equipeTab[i]->worms[j]->vie;
 		}
-		equipeTab[i]->vie = vie;
+		equipeTab[i]->vie = vie;*/
+		equipeTab[i]->vie = getLifeTeam(equipeTab[i]);
 	}
 }
 
@@ -225,9 +226,9 @@ void destroyPolice()
 
 /**
 * \fn int saveGame(Jeu* jeu)
-* \brief Sauvegarde les résultat de la partie
+* \brief Save the results of the game.
 *
-* \param[in] jeu, pointeur vers la structure du jeu
+* \param[in] jeu, pointer to the game structure.
 * \returns  1 = succes, 0 = fail
 */
 int saveGame(Jeu* jeu)
@@ -261,6 +262,13 @@ int saveGame(Jeu* jeu)
 	return 1;
 }
 
+/**
+* \fn int isGameEnd(Equipe** equipeTab) 
+* \brief Determines if a game is over by checking the global life of every team.
+*
+* \param[in] equipeTab, array of team.
+* \returns  1 = the game if over, 0 = the game is not over yet.
+*/
 int isGameEnd(Equipe** equipeTab) {
 	int i, nbTeamAlive = 0;
 	for (i=0; i<globalVar.nbEquipe; i++)
@@ -269,7 +277,7 @@ int isGameEnd(Equipe** equipeTab) {
 	}
 	if (nbTeamAlive > 1) {
 		globalVar.gameEnd = 1;
-		return 0;
-	}
+	return 0;
+}
 	return 1;
 }

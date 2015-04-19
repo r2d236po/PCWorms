@@ -97,7 +97,6 @@
     <ClCompile Include="Carte.c" />
     <ClCompile Include="my_stdrFct.c" />
     <ClCompile Include="Partie.c" />
-    <ClCompile Include="Physique.c" />
     <ClCompile Include="Sounds.c" />
     <ClCompile Include="Worms.c" />
   </ItemGroup>
@@ -112,7 +111,6 @@
     <ClInclude Include="Libraries.h" />
     <ClInclude Include="my_stdrFct.h" />
     <ClInclude Include="partie.h" />
-    <ClInclude Include="physique.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="worms.h" />
   </ItemGroup>

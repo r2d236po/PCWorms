@@ -1,5 +1,15 @@
 #include "HUD.h"
 
+/**
+* \fn void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
+* \brief Initializes an SDL_Color structure.
+*
+* \param[in] color, pointer to the SDL_Color structure.
+* \param[in] r, value of the red.
+* \param[in] g, value of the green.
+* \param[in] b, value of the blue.
+* \returns void
+*/
 void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 {
 	color->r = r;
@@ -7,6 +17,13 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 	color->b = b;
 }
 
+/**
+* \fn void updateLifeSurfaceWorms(Worms** wormsTab)
+* \brief Updates the life display of the worms in game.
+*
+* \param[in] wormsTab, array of worms.
+* \returns void
+*/
 void updateLifeSurfaceWorms(Worms** wormsTab)
 {
 	static char str[10];
