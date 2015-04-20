@@ -390,8 +390,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 		}
 		if (pInput->deplacement || pInput->raffraichissement)
 		{			
-
-			updateSurfaceFromSurface(pSurfaceMapDisplay, pSurfaceMapCollision, &wormsTab[indexWorms]->wormsObject->objectBox);
+			copySurfacePixels(pSurfaceMapCollision, &wormsTab[indexWorms]->wormsObject->objectBox, pSurfaceMapDisplay, &wormsTab[indexWorms]->wormsObject->objectBox);
 			updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMapDisplay, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
 			wormsOverlay(wormsTab, pTextureDisplay, pSurfaceMapDisplay);
 			pInput->raffraichissement = 1;
@@ -407,7 +406,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 * \param[in] wormsTab, array of worms.
 * \param[in] pTextureDisplay, pointer to the main texture.
 * \param[in] pSurfaceMap, pointer to the map's surface.
-* \return >=1 : 1 or multiple overlay detected, 0 = no overlay
+* \return void
 */
 void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
 {
@@ -416,12 +415,8 @@ void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* p
 	{
 		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
 		{
-			SDL_Rect boxOverlay;
-			if (wormsTab[j]->wormsObject->objectSurface->clip_rect.x > 0 && wormsTab[j]->wormsObject->objectSurface->clip_rect.y > 0)
-				boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x - wormsTab[j]->wormsObject->objectSurface->w / 2,
+			SDL_Rect boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x - wormsTab[j]->wormsObject->objectSurface->w / 2,
 				wormsTab[j]->wormsObject->objectSurface->clip_rect.y - wormsTab[j]->wormsObject->objectSurface->h / 2,
-				2 * wormsTab[j]->wormsObject->objectSurface->w, 2 * wormsTab[j]->wormsObject->objectSurface->h);
-			else boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x, wormsTab[j]->wormsObject->objectSurface->clip_rect.y,
 				2 * wormsTab[j]->wormsObject->objectSurface->w, 2 * wormsTab[j]->wormsObject->objectSurface->h);
 			if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &boxOverlay))
 			{
