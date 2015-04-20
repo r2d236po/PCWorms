@@ -390,8 +390,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 		}
 		if (pInput->deplacement || pInput->raffraichissement)
 		{			
-
-			updateSurfaceFromSurface(pSurfaceMapDisplay, pSurfaceMapCollision, &wormsTab[indexWorms]->wormsObject->objectBox);
+			copySurfacePixels(pSurfaceMapCollision, &wormsTab[indexWorms]->wormsObject->objectBox, pSurfaceMapDisplay, &wormsTab[indexWorms]->wormsObject->objectBox);
 			updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMapDisplay, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
 			wormsOverlay(wormsTab, pTextureDisplay, pSurfaceMapDisplay);
 			pInput->raffraichissement = 1;
@@ -407,7 +406,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 * \param[in] wormsTab, array of worms.
 * \param[in] pTextureDisplay, pointer to the main texture.
 * \param[in] pSurfaceMap, pointer to the map's surface.
-* \return >=1 : 1 or multiple overlay detected, 0 = no overlay
+* \return void
 */
 void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
 {
