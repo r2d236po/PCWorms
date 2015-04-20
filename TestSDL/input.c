@@ -333,6 +333,7 @@ void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamer
 		bombReactionManagement(pInput, wormsTab, &rect, x, y, radius);
 		//Update of the collision surface
 		updateSurfaceFromSurface(pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface, &rect);
+		pInput->raffraichissement = 1;
 	}
 }
 
