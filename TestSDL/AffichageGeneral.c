@@ -36,7 +36,7 @@ int mainFenetre(Jeu * jeu)
 		}
 
 		//Initialisation de l'affichage
-		pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->imageMapSurface, pRenderer);
+		pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface, pRenderer);
 		if (pTextureDisplay == NULL)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
@@ -65,7 +65,7 @@ int mainFenetre(Jeu * jeu)
 		}
 
 		//Initialisation des worms
-		KaamInitGame(wormsTab, jeu->pMapTerrain->imageMapSurface);
+		KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface);
 
 		while (!(pInput->quit))
 		{
@@ -502,8 +502,8 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 	int w = 0, h = 0, wW = 0, hW = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
 	if (pWorms == NULL){
-		w = pMapTerrain->imageMapSurface->w;
-		h = pMapTerrain->imageMapSurface->h;
+		w = pMapTerrain->collisionMapSurface->w;
+		h = pMapTerrain->collisionMapSurface->h;
 		pCamera->x = 0;
 		pCamera->y = 0;
 		if (h > hW || w > wW){

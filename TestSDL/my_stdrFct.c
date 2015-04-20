@@ -255,7 +255,8 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 */
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
 {
-	updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
+	if (pRect->x != pSurfaceSecond->clip_rect.x || pRect->y != pSurfaceSecond->clip_rect.y)
+		updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
 	if (pSurfaceMain != pSurfaceSecond)
 	{
 		Uint32* pixelWrite = NULL;
@@ -285,6 +286,12 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		}
 		pRect->x = x;
 		pRect->y = y;
+		for (index = 0; index < nombrePixelToUpdate; index += pSurfaceSecond->w)
+		{
+			int indexDest = x + y*pSurfaceMain->w;
+			memcpy((pixelSurfaceMain + indexDest), (pixelWrite + index), pRect->w*sizeof(Uint32));
+			y++;
+		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
 		free(pixelWrite);
 		pixelWrite = NULL;
@@ -333,141 +340,33 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 }
 
 /**
-* \fn int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20])
-* \brief Update texture with surfaces that are overlaying.
+* \fn void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect)
+* \brief Update a surface from a same size surface.
 *
-* \param[in] pTextureDisplay, pointer to the texture.
-* \param[in] pSurfaceMap, pointer to the map's surface.
-* \param[in] nbSurfaces, number of surface to update.
-* \param[in] surfaceTab, array of surface to update.
-* \returns 1 = OK, -1 = problem allocating memory
-* \remarks This function updates a maximum of 20 surfaces.
-*		   Also note that this function is rather CPU demanding, it is recommended to use it only if there is a dynamic motion.
-*		   Last, the surfaces should be in the same range of coordinnate, if you have multiple group of overlaying surfaces, call this function
-*		   as many times as you have different groups.
+* \param[in] pSurfaceDest, pointer to the destination surface.
+* \param[in] pSurfaceSrc, pointer to the source surface.
+* \param[in] pRect, area to update.
+* \returns void
+* \remarks Note that this function is supposed to work as a calc, which means the two surfaces should be based on the same image.
+*          It will only take the transparent pixel of the source surface to copy them in the destination surface.
+*          IMPORTANT : This function does not handle different size of surface, they have to be the same size.
 */
-int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20])
+void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect)
 {
-	/*Check the number of surfaces*/
-	if (nbSurfaces > 20)
+	int x = 0, y = 0;
+	Uint32 pixel;
+	for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 	{
-		fprintf(logFile, "updateSurfacesOverlay : FAILURE, too much surfaces, OVER 9000 !!!\n\n.");
-		return -1;
-	}
-
-	int indexSurface;
-	SDL_Rect rectToUpdate;
-	SDL_Rect* rectTab[20];
-
-	/*Initialisation of the surface array*/
-	for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
-	{
-		rectTab[indexSurface] = &surfaceTab[indexSurface]->clip_rect;
-	}
-	rectToUpdate = multipleRectOverlay(nbSurfaces, rectTab);
-
-	int nbPixels = rectToUpdate.w * rectToUpdate.h;
-	Uint32* pixelMap = (Uint32*)pSurfaceMap->pixels;
-	SDL_PixelFormat* format = pSurfaceMap->format;
-	Uint32* pixelSurface = NULL;
-	Uint32 pixelRead = 0;
-	Uint32* pixelToWrite = malloc(nbPixels*sizeof(Uint32));
-	if (pixelToWrite == NULL)
-	{
-		fprintf(logFile, "updateSurfacesOverlay : FAILURE, allocating memory to pixelToWrite.\n\n");
-		return -1;
-	}
-	int x, y;
-	for (y = rectToUpdate.y; y < (rectToUpdate.y + rectToUpdate.h); y++)
-	{
-		for (x = rectToUpdate.x; x < (rectToUpdate.x + rectToUpdate.w); x++)
+		for (x = pRect->x; x < (pRect->x + pRect->w); x++)
 		{
-			Point p;
-			p.x = x;
-			p.y = y;
-			for (indexSurface = 0; indexSurface < nbSurfaces; indexSurface++)
-			{
-				pixelSurface = (Uint32 *)surfaceTab[indexSurface]->pixels;
-				if (collisionPointWithRect(p, &surfaceTab[indexSurface]->clip_rect))
-				{
-					pixelRead = pixelSurface[(x - surfaceTab[indexSurface]->clip_rect.x) + (y - surfaceTab[indexSurface]->clip_rect.y)*surfaceTab[indexSurface]->w];
-					if (pixelTransparent(pixelRead, format))
-						pixelRead = pixelMap[x + y*pSurfaceMap->w];
-					else break;
-				}
-				else pixelRead = pixelMap[x + y*pSurfaceMap->w];
-			}
-			pixelToWrite[(x - rectToUpdate.x) + (y - rectToUpdate.y)*rectToUpdate.w] = pixelRead;
+			pixel = ReadPixel(pSurfaceSrc, x, y);
+			if (pixelTransparent(pixel, pSurfaceSrc->format))
+				WritePixel(pSurfaceDest, x, y, pixel);
 		}
 	}
-
-
-	SDL_UpdateTexture(pTextureDisplay, &rectToUpdate, pixelToWrite, 4 * rectToUpdate.w);
-	free(pixelToWrite);
-	pixelToWrite = NULL;
-	return 1;
 }
 
 
-void updateTwoSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, SDL_Surface* pSurface1, SDL_Surface* pSurface2)
-{
-	int x1 = pSurface1->clip_rect.x, y1 = pSurface1->clip_rect.y, w1 = pSurface1->w, h1 = pSurface1->h;
-	int x2 = pSurface2->clip_rect.x, y2 = pSurface2->clip_rect.y, w2 = pSurface2->w, h2 = pSurface2->h;
-	int x, y, nombrePixel, indexSurface;
-	SDL_Rect rectOverlay = initRect(x1, y1, x2 + w2 - x1, y2 + h2 - y1);
-	Uint32 pixelRead;
-	Uint32* pixelMap = (Uint32*)pSurfaceMap->pixels;
-	SDL_PixelFormat* format = pSurfaceMap->format;
-	Uint32* pixelSurface1 = (Uint32*)pSurface1->pixels, *pixelSurface2 = (Uint32*)pSurface2->pixels, *pixelToWrite = NULL;
-
-	if (x1 <= x2)
-	{
-		rectOverlay.x = x2;
-		rectOverlay.w = x1 + w1 - x2;
-	}
-	if (y1 <= y2)
-	{
-		rectOverlay.y = y2;
-		rectOverlay.h = y1 + h1 - y2;
-	}
-	nombrePixel = rectOverlay.w*rectOverlay.h;
-	pixelToWrite = (Uint32*)malloc(nombrePixel*sizeof(Uint32));
-	if (pixelToWrite == NULL)
-	{
-		fprintf(logFile, "updateTwoSurfaceOverlay : FAILURE, allocating memory to pixelToWrite.\n\n");
-		return;
-	}
-	for (y = rectOverlay.y; y < rectOverlay.y + rectOverlay.h; y++)
-	{
-		for (x = rectOverlay.x; x < rectOverlay.x + rectOverlay.w; x++)
-		{
-			Point p;
-			p.x = x;
-			p.y = y;
-			for (indexSurface = 0; indexSurface < 2; indexSurface++)
-			{
-				SDL_Rect* rect = &pSurface1->clip_rect;
-				if (indexSurface == 1)
-					rect = &pSurface2->clip_rect;
-				if (collisionPointWithRect(p, rect))
-				{
-					if (indexSurface == 0)
-						pixelRead = pixelSurface1[(x - x1) + (y - y1)*w1];
-					else pixelRead = pixelSurface2[(x - x2) + (y - y2)*w2];
-					if (pixelTransparent(pixelRead, format))
-						pixelRead = pixelMap[x + y*pSurfaceMap->w];
-					else break;
-				}
-				else pixelRead = pixelMap[x + y*pSurfaceMap->w];
-			}
-			pixelToWrite[(x - rectOverlay.x) + (y - rectOverlay.y)*rectOverlay.w] = pixelRead;
-		}
-	}
-
-	SDL_UpdateTexture(pTextureDisplay, &rectOverlay, pixelToWrite, 4 * rectOverlay.w);
-	free(pixelToWrite);
-	pixelToWrite = NULL;
-}
 
 
 

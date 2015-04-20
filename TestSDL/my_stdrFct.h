@@ -14,12 +14,11 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
 void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
 int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest);
+void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect);
 
 /*Update Texture*/
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRectPrec);
 int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect);
-int updateSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, int nbSurfaces, SDL_Surface* surfaceTab[20]);
-void updateTwoSurfacesOverlay(SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, SDL_Surface* pSurface1, SDL_Surface* pSurface2);
 
 /*Basics collisions*/
 int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2);

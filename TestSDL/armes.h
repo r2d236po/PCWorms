@@ -18,11 +18,13 @@ typedef struct{		/* Structure munition */
 typedef struct {	/* Structure arme */
 	char* nom;			/* Nom de l'arme */
 	float degats;		/* Dégats de l'arme */
-	float radius;		/* Diamètre d'action de l'arme */
-	float portee;		/* Portée de l'arme à rentrer dans l'équation de parabole (cf Gravitée) */
+	int radius;		/* Diamètre d'action de l'arme */
+	int range;	    /*Ce paramètre ne s'applique que pour les armes non lancées (mitrailleuse, ce genre de truc)*/
 	int nbmuni;			/* Nombre de munitions */
 	Munition muni;		/* Munition en cours d'utilisation */
 	float angle;		/* Angle de l'arme (sa position est celle du worms) */
+	KaamObject* weaponObject;	/*Pour une grenade : A initialiser avec la vitesse horizontale et la vitesse verticale correspondant au tir*/ 
+								/*Dépendent de la puissance et l'inclinaison du tir, les vitesses sont exprimées en A.cos(angle) pour X et B.sin(angle) pour Y*/
 	//image?
 	//son?
 } Arme;

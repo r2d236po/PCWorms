@@ -6,7 +6,8 @@
 
 typedef struct {	/* Structure terrain */
 	SDL_Texture* imageBackground; /* background */
-	SDL_Surface* imageMapSurface;
+	SDL_Surface* collisionMapSurface;
+	SDL_Surface* globalMapSurface;
 } Terrain;
 
 typedef struct{
