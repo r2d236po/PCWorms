@@ -1,8 +1,8 @@
-Start of session : Sun Apr 19 04:45:18 2015
+Start of session : Mon Apr 20 10:52:57 2015
 
 
 mainInit : DONE.
-	nombre d'equipes : 2.
+	nombre d'equipes : 1.
 	nombre de worms par equipe : 2.
 
 loadImage : SUCCESS.
@@ -17,30 +17,6 @@ loadImage : SUCCESS.
 initSprites : SUCCESS.
 
 nouveauJeu : START :
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
 
 nouvelleEquipe : START :
 
@@ -109,13 +85,8 @@ KaamDestroyObject : DONE.
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
-KaamDestroyObject : DONE. 
-
-KaamDestroyObject : DONE. 
-
-destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Sun Apr 19 04:45:33 2015
+End of Session : Mon Apr 20 10:54:15 2015

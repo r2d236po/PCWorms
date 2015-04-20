@@ -138,16 +138,15 @@ void resetSpeed(float* Xspeed, float* Yspeed)
 *
 * \param[in] pInput, pointer to the structure of inputs.
 * \param[in] pObject, pointer to the object to move.
-* \param[in] startMotion, pointer to the startJump variable to be reset.
 * \returns void
 */
-void resetMotionVariables(Input* pInput, KaamObject* pObject, int* startMotion)
+void resetMotionVariables(Input* pInput, KaamObject* pObject)
 {
 	resetInputs(pInput);
 	resetSpeed(&pObject->Xspeed, &pObject->Yspeed);
 	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 	pObject->relativeTime = 0;
-	*startMotion = 0;
+	pObject->startMotion = 0;
 	pObject->motionDirection = DOWN;
 }
 

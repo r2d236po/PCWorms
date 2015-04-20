@@ -27,6 +27,6 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 
 /*Collision Management*/
 int KaamCollisionManagement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection);
-int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound, int* rebound);
+int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound);
 
 #endif // !KAAMENGINE_H

@@ -17,7 +17,7 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap);
 /*Reset functions*/
 void resetInputs(Input* pInput);
 void resetSpeed(float* Xspeed, float* Yspeed);
-void resetMotionVariables(Input* pInput, KaamObject* pObject, int* startMotion);
+void resetMotionVariables(Input* pInput, KaamObject* pObject);
 void resetAbsoluteCoordinates(SDL_Surface* pSurface, int* absoluteX, int* absoluteY);
 void resetReboundVariables(KaamObject* pObject, float signX, float signY, float coeffX, float coeffY);
 

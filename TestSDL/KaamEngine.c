@@ -87,6 +87,7 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 
 	/*Init motion direction*/
 	objectTemp->motionDirection = initDirection;
+	objectTemp->startMotion = 0;
 
 	/*Init side*/
 	objectTemp->leftOk = -1;
@@ -102,6 +103,7 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 
 	/*Init react to bomb*/
 	objectTemp->reactToBomb = 0;
+	objectTemp->rebound = 0;
 
 	/*Init weapon*/
 	objectTemp->weapon = weapon;
@@ -362,16 +364,15 @@ void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceM
 */
 void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, int allowRebound)
 {
-	static int  xPrec = 0, yPrec = 0, startMotion = 0, rebound = 0;
 	int stopReact = allowRebound && pObject->relativeTime >= 42 && (pObject->Yspeed == 0);
 	enum DIRECTION directionBeforeCollision;
-	if (!startMotion)
+	if (!pObject->startMotion)
 	{
-		resetAbsoluteCoordinates(pObject->objectSurface, &xPrec, &yPrec);
-		if ((startMotion = getStartMotion(pInput, pObject, pSurfaceMap)) == 0)
+		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
+		if ((pObject->startMotion = getStartMotion(pInput, pObject, pSurfaceMap)) == 0)
 			pObject->reactToBomb = 0;
 	}
-	if (startMotion)
+	if (pObject->startMotion)
 	{
 		setSurfaceAbsoluteCoordinates(pObject->objectSurface, pObject->absoluteCoordinate.x, pObject->absoluteCoordinate.y);
 		if ((pObject->Yspeed <= 0) && testGround(pSurfaceMap, pObject->objectSurface, 1))
@@ -381,22 +382,22 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 			pObject->Yspeed = 0.0;
 		}
 		else setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, pObject->Xspeed, pObject->Yspeed);
-		pObject->motionDirection = motionDirectionProcess((pObject->objectSurface->clip_rect.x - xPrec), (pObject->objectSurface->clip_rect.y - yPrec));
+		pObject->motionDirection = motionDirectionProcess((pObject->objectSurface->clip_rect.x - pObject->precedentCoordinate.x), (pObject->objectSurface->clip_rect.y - pObject->precedentCoordinate.y));
 		directionBeforeCollision = pObject->motionDirection;
 		pObject->relativeTime += 7;
 		if (stopReact || pObject->relativeTime > 7 && KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &pObject->motionDirection))
 		{
-			if (!KaamCollisionReaction(pObject, directionBeforeCollision, allowRebound, &rebound))
+			if (!KaamCollisionReaction(pObject, directionBeforeCollision, allowRebound))
 			{
-				rebound = 0;
-				resetMotionVariables(pInput, pObject, &startMotion);
+				pObject->rebound = 0;
+				resetMotionVariables(pInput, pObject);
 				pObject->reactToBomb = 0;
 				setSideMotionPossibility(pObject, pSurfaceMap);
 			}
 		}
-		resetAbsoluteCoordinates(pObject->objectSurface, &xPrec, &yPrec);
+		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
 	}
-	else resetMotionVariables(pInput, pObject, &startMotion);
+	else resetMotionVariables(pInput, pObject);
 }
 
 
@@ -474,10 +475,9 @@ int KaamCollisionManagement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotio
 * \param[in] pObject, pointer to the object to move.
 * \param[in] directionBeforeCollision, direction of the movement before collision.
 * \param[in] allowRebound, selects if rebound are allowed in the motion.
-* \param[in] rebound, pointer to the rebound counter.
 * \returns void
 */
-int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound, int* rebound)
+int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound)
 {
 	int reaction = 0;
 	if (directionBeforeCollision == UPLEFT && pObject->motionDirection == DLEFT
@@ -497,13 +497,13 @@ int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCol
 		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
 		reaction = 1;
 	}
-	else if (allowRebound && *rebound < 1 &&
+	else if (allowRebound && pObject->rebound < 1 &&
 		(pObject->motionDirection == DRIGHT
 		|| pObject->motionDirection == DLEFT))
 	{
 		resetReboundVariables(pObject, 1.0, 1.0, 2.0, 2.0);
 		reaction = 1;
-		*rebound++;
+		pObject->rebound += 1;
 	}
 	else if (directionBeforeCollision == UP)
 	{

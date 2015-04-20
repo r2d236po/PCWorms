@@ -91,6 +91,7 @@ typedef struct{
 typedef struct{
 	SDL_Rect objectBox;
 	Point absoluteCoordinate;
+	Point precedentCoordinate;
 	enum DIRECTION motionDirection;
 	float Xspeed;
 	float Yspeed;
@@ -99,6 +100,8 @@ typedef struct{
 	int rightOk;
 	int leftOk;
 	int falling;
+	int rebound;
+	int startMotion;
 	int relativeTime;
 	SDL_Surface* objectSurface;
 }KaamObject;
