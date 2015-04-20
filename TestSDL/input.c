@@ -244,11 +244,14 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 	if (pInput->wheelUp){
 		zoomIn(pRenderer, pTextureDisplay, pCamera, pInput);
 		pInput->wheelUp = 0;
+		pInput->raffraichissement = 1;
 	}
 	if (pInput->wheelDown){
 		zoomOut(pRenderer, pTextureDisplay, pCamera);
 		pInput->wheelDown = 0;
+		pInput->raffraichissement = 1;
 	}
+	
 	
 }
 
