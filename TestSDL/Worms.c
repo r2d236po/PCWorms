@@ -416,12 +416,8 @@ void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* p
 	{
 		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
 		{
-			SDL_Rect boxOverlay;
-			if (wormsTab[j]->wormsObject->objectSurface->clip_rect.x > 0 && wormsTab[j]->wormsObject->objectSurface->clip_rect.y > 0)
-				boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x - wormsTab[j]->wormsObject->objectSurface->w / 2,
+			SDL_Rect boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x - wormsTab[j]->wormsObject->objectSurface->w / 2,
 				wormsTab[j]->wormsObject->objectSurface->clip_rect.y - wormsTab[j]->wormsObject->objectSurface->h / 2,
-				2 * wormsTab[j]->wormsObject->objectSurface->w, 2 * wormsTab[j]->wormsObject->objectSurface->h);
-			else boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x, wormsTab[j]->wormsObject->objectSurface->clip_rect.y,
 				2 * wormsTab[j]->wormsObject->objectSurface->w, 2 * wormsTab[j]->wormsObject->objectSurface->h);
 			if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &boxOverlay))
 			{
