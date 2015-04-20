@@ -226,6 +226,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 */
 void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, SDL_Renderer * pRenderer, Worms * pWorms)
 {
+	
 	if (pInput->rclick)
 	{
 		moveCam(pTextureDisplay, pCamera, pInput); //gestion du scrolling de caméra
@@ -236,6 +237,10 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
 		pInput->cursor.motion = 0;
 	}
+	if (pInput->camCentrer)
+	{
+		pInput->raffraichissement = centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+	}
 	if (pInput->wheelUp){
 		zoomIn(pRenderer, pTextureDisplay, pCamera, pInput);
 		pInput->wheelUp = 0;
@@ -244,11 +249,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 		zoomOut(pRenderer, pTextureDisplay, pCamera);
 		pInput->wheelDown = 0;
 	}
-	if (pInput->camCentrer)
-	{
-		pInput->raffraichissement =  centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
-		 
-	}
+	
 }
 
 
