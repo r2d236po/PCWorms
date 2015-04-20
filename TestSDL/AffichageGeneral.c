@@ -738,7 +738,7 @@ int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* 
 
 	// version avec pythagore :
 
-	if (diffX < -sizeBoxX || diffX > sizeBoxX || diffY < -sizeBoxY || diffY > sizeBoxY){
+	if ((diffX < -sizeBoxX && camera->x > coefDeplaX) || (diffX > sizeBoxX && camera->x + camera->w < wM) || (diffY < -sizeBoxY && camera->y > coefDeplaY) || (diffY > sizeBoxY && camera->y + camera->h < hM)){
 		notCentered = 1;
 	}
 
