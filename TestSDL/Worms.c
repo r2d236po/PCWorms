@@ -375,6 +375,8 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 	{
 		callNextWorms();
 	}
+	if (pInput->deplacement)
+		pInput->deplacement = 0;
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 	{
 		if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
@@ -395,7 +397,6 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 			wormsOverlay(wormsTab, pTextureDisplay, pSurfaceMapDisplay);
 			pInput->raffraichissement = 1;
 		}
-		pInput->deplacement = 0;
 	}
 }
 
