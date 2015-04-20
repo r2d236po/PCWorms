@@ -716,8 +716,9 @@ void screenshot(SDL_Renderer* pRenderer)
 * \param[in] pTexture, pointer texture of the main window
 * \return void
 */
-void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture){
-	int x = 0, y = 0, wM = 0, hM = 0, diffX = 0, diffY = 0;
+int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture){
+	int x = 0, y = 0, wM = 0, hM = 0, diffX = 0, diffY = 0, returnValue = 0;
+	static int notCentered = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
 
 	x = surfaceWhereCenter->clip_rect.x + surfaceWhereCenter->w / 2;
@@ -726,57 +727,79 @@ void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture*
 	diffX = x - camera->x - camera->w / 2;
 	diffY = y - camera->y - camera->h / 2;
 
-	 // largeur boite :
-	int sizeX = 100, sizeY = 40;
-	int coefDeplaX = 5, coefDeplaY = 5;
+	// largeur boite centrage :
+	int sizeX = 40, sizeY = 40;
+
+	// largeur boite detection : 
+	int sizeBoxX = camera->w / 3.5, sizeBoxY = camera->h / 4.5;
+	
+	//Vitesse de déplacement
+	int coefDeplaX = 7, coefDeplaY = 7;
+
 	// version avec pythagore :
 
-	if ((diffX < -sizeX && diffX > sizeX) && (diffX > -sizeY && diffX < sizeY)){
-		if (diffX < -sizeX)
-		{
-			camera->x -= coefDeplaX;
-		}
-		else camera->x += coefDeplaX;
-	}
-	else if ((diffX > -sizeX && diffX < sizeX) && (diffX < -sizeY && diffX > sizeY)){
-		if (diffY < -sizeY)
-		{
-			camera->y -= coefDeplaY;
-		}
-		else camera->y += coefDeplaY;
-	}
-	else{
-		float coef = fabsf((float)diffY / diffX);
-		if (diffX < -sizeX){
-			camera->x -= coefDeplaX;
-		}
-		if (diffX > sizeX)
-		{
-			camera->x += coefDeplaX;
-		}
-		if (diffY > sizeY)
-		{
-			camera->y += coefDeplaY * coef;
-		}
-		if (diffY < -sizeY)
-		{
-			camera->y -= coefDeplaY * coef;
-		}
+	if (diffX < -sizeBoxX || diffX > sizeBoxX || diffY < -sizeBoxY || diffY > sizeBoxY){
+		notCentered = 1;
 	}
 
+	if (notCentered){
 
-	if (camera->x + camera->w > wM){
-		camera->x = wM - camera->w;
+		if ((diffX > -sizeX && diffX < sizeX) && (diffY > -sizeY && diffY < sizeY)){
+			notCentered = 0;
+		}
+
+		if ((diffX < -sizeX && diffX > sizeX) && (diffY > -sizeY && diffY < sizeY)){
+			returnValue = 1;
+			if (diffX < -sizeX)
+			{
+				camera->x -= coefDeplaX;
+			}
+			else camera->x += coefDeplaX;
+		}
+		else if ((diffX > -sizeX && diffX < sizeX) && (diffX < -sizeY && diffX > sizeY)){
+			returnValue = 1;
+			if (diffY < -sizeY)
+			{
+				camera->y -= coefDeplaY;
+			}
+			else camera->y += coefDeplaY;
+		}
+		else{
+			returnValue = 1;
+			float coef = fabsf((float)diffY / diffX);
+
+			if (diffX <= (-sizeX)){
+				camera->x -= coefDeplaX;
+			}
+			if (diffX >= sizeX)
+			{
+				camera->x += coefDeplaX;
+			}
+			if (diffY >= sizeY)
+			{
+				camera->y += coefDeplaY * coef;
+			}
+			if (diffY <= (-sizeY))
+			{
+				camera->y -= coefDeplaY * coef;
+			}
+		}
+
+
+		if (camera->x + camera->w > wM){
+			camera->x = wM - camera->w;
+		}
+		if (camera->y + camera->h > hM){
+			camera->y = hM - camera->h;
+		}
+		if (camera->x < 0){
+			camera->x = 0;
+		}
+		if (camera->y < 0){
+			camera->y = 0;
+		}
 	}
-	if (camera->y + camera->h > hM){
-		camera->y = hM - camera->h;
-	}
-	if (camera->x < 0){
-		camera->x = 0;
-	}
-	if (camera->y < 0){
-		camera->y = 0;
-	}
+	return returnValue;
 }
 
 
@@ -790,7 +813,7 @@ void centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture*
 Worms** initWormsTab(Equipe** equipes)
 {
 	Worms** Tab = NULL;
-	int i, j, k=0;
+	int i, j, k = 0;
 	Tab = (Worms**)malloc(globalVar.nbEquipe * globalVar.nbWormsEquipe * sizeof(Worms*));
 	if (Tab == NULL)
 		return NULL;

@@ -246,8 +246,8 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 	}
 	if (pInput->camCentrer)
 	{
-		centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
-		pInput->raffraichissement = 1;
+		pInput->raffraichissement =  centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+		 
 	}
 }
 
