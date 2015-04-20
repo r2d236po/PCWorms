@@ -732,7 +732,7 @@ int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* 
 
 	// largeur boite detection : 
 	int sizeBoxX = camera->w / 3.5, sizeBoxY = camera->h / 4.5;
-	
+
 	//Vitesse de déplacement
 	int coefDeplaX = 7, coefDeplaY = 7;
 
@@ -740,6 +740,10 @@ int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* 
 
 	if ((diffX < -sizeBoxX && camera->x > coefDeplaX) || (diffX > sizeBoxX && camera->x + camera->w < wM) || (diffY < -sizeBoxY && camera->y > coefDeplaY) || (diffY > sizeBoxY && camera->y + camera->h < hM)){
 		notCentered = 1;
+	}
+	else
+	{
+		notCentered = 0;
 	}
 
 	if (notCentered){
