@@ -1,17 +1,17 @@
 Resultat de la partie : 
 
-	Temps de jeu : 116 secondes.
+	Temps de jeu : 23 secondes.
 	Map jouée : ../assets/pictures/maptest3.png.
 	Nombre d'equipes : 2.
 	Nombre de worms par equipe : 2.
 
 Bravo à l'équipe 1 composée des braves : 
-	Gerard,	Tu es mort comme un héros !
-	Gerard,	Tu es mort comme un héros !
+	Gerard,	Félicitation pour avoir fait un massacre chez l'ennemie !
+	Gerard,	Félicitation pour avoir fait un massacre chez l'ennemie !
 
 
 Bravo à l'équipe 2 composée des braves : 
-	Gerard,	Tu es mort comme un héros !
+	Gerard,	Félicitation pour avoir fait un massacre chez l'ennemie !
 	Gerard,	Tu es mort comme un héros !
 
 
