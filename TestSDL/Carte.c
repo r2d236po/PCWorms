@@ -108,53 +108,6 @@ void destroyMap(Terrain** p_pMapTerrain)
 /////////////////                  Fonctions diverses                    /////////////////
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
-
-/**
-* \fn int limitMap(unsigned int mapHight, unsigned int mapWidth, SDL_Surface* pSurface, enum DIRECTION* dir)
-* \brief Test les limites de la map avec l'objet en mouvement.
-*
-* \param[in] mapHight, hauteur de la map
-* \param[in] mapWidth, largeur de la map
-* \param[in] pSurfaceMotion, surface de l'objet en mouvement
-* \param[in] pDirecion, pointeur de la direction du deplacement du worms, NULL si non utile
-* \return 1 = depassement de la map, 0 = pas de depassement de la map
-*/
-int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirecion)
-{
-	int xSurface = pSurfaceMotion->clip_rect.x;	//stockage de la valeur x de la surface en déplacement pour simplifier la lecture
-	int ySurface = pSurfaceMotion->clip_rect.y;	//stockage de la valeur y de la surface en déplacement pour simplifier la lecture
-	if (xSurface < 0)	//Si la surface sors de la map par la gauche
-	{
-		pSurfaceMotion->clip_rect.x = 0;	//Set de la valeur de x à 0 pour coller à la map
-		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
-			*pDirecion = LEFT;	//Set de la direction à gauche
-		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
-	}
-	else if (xSurface + pSurfaceMotion->w > mapWidth)	//Si la surface sors de la map par la droite
-	{
-		pSurfaceMotion->clip_rect.x = mapWidth - pSurfaceMotion->clip_rect.w;	//Set de la valeur de x à la largeur de la map - la largeur de l'objet pour coller à la map
-		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
-			*pDirecion = RIGHT;	//Set de la direction à droite
-		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
-	}
-	if (ySurface < 0)	//Si la surface sors de la map par le dessus
-	{
-		pSurfaceMotion->clip_rect.y = 0;	//Set de la valeur de y pour coller au haut de la map
-		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
-			*pDirecion = UP;	//Set de la direction à haut
-		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
-	}
-	else if (ySurface + pSurfaceMotion->h > mapHight)	//Si la surface sors de la map par le dessous
-	{
-		pSurfaceMotion->clip_rect.y = mapHight - pSurfaceMotion->clip_rect.h + 1;	//Set de la valeur de y à hauteur de la map - hauteur de l'objet pour coller à la map
-		if (pDirecion != NULL)	//Si le pointeur de direction n'est pas NULL
-			*pDirecion = DOWN;	//Set de la direction à bas
-		return 1;	//return 1 = dépassement de la map, 0 = pas de dépassement
-	}
-	return 0;	//return 1 = dépassement de la map, 0 = pas de dépassement
-}
-
-
 /**
 * \fn enum DIRECTION calculDirection(enum DIRECTION direction, int zone, int checkMode)
 *
