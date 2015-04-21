@@ -32,7 +32,7 @@ void frameRate(unsigned int fM);	//gère le framerate
 void screenshot(SDL_Renderer* pRenderer);
 
 //gestion de l'affichage
-void updateScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
+void renderScreen(SDL_Renderer * pRenderer, int nb, ...);	//actualise l'affichage
 void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//Zoom In, grossis
 void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera);	//Zoom out, rétrécis

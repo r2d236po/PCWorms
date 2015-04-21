@@ -82,7 +82,7 @@ int mainFenetre(Jeu * jeu)
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				updateScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
+				renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 				pInput->raffraichissement = 0;
 			}
 
@@ -99,6 +99,7 @@ int mainFenetre(Jeu * jeu)
 				jeu->temps -= 1;
 			}
 		}
+		endDisplay();
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
@@ -401,7 +402,7 @@ void clearRenderer(SDL_Renderer * pRenderer)
 	SDL_RenderPresent(pRenderer);
 }
 /**
-* \fn void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
+* \fn void renderScreen(SDL_Renderer * pRenderer, int nb, ...)
 * \brief Actualise l'affichage.
 *
 * Cette fonction est appelée à chaque changement dans l'image pour
@@ -419,46 +420,44 @@ void clearRenderer(SDL_Renderer * pRenderer)
 * ATTENTION : Penser a incrementer nb en fonction du nombre de paramètre en plus,
 * par exemple : une texture et un rectangle => nb = 2
 */
-void updateScreen(SDL_Renderer * pRenderer, int nb, ...)
+void renderScreen(SDL_Renderer * pRenderer, int nb, ...)
 {
-	SDL_Rect* rect = NULL;
-	SDL_Rect* rect2 = NULL;
-	SDL_Rect temp = initRect(0, 0, 0, 0);
-	Terrain * map = NULL;
-	SDL_Texture* text = NULL;
-	va_list list;
+	Terrain* pMap = NULL;
+	SDL_Texture* pTexture = NULL;
+	SDL_Rect* pRectSrc = NULL;
+	SDL_Rect* pRectDst = NULL;
 	Uint32 rgb = 0;
-	int i = 0, w = 0, h = 0;
+	va_list list;
+	int indexList = 0;
 	va_start(list, nb);
-	for (i = 0; i < nb; i++)
+	for (indexList = 0; indexList < nb; indexList++)
 	{
 		switch (va_arg(list, int))
 		{
 		case 0:
-			map = va_arg(list, Terrain*);
-			SDL_GetRendererOutputSize(pRenderer, &w, &h);
-			temp.w = w;
-			temp.h = h;
-			SDL_RenderCopy(pRenderer, map->imageBackground, NULL, NULL);
+			pMap = va_arg(list, Terrain*);
+			SDL_RenderCopy(pRenderer, pMap->imageBackground, NULL, NULL);
 			break;
 		case 1:
-			text = va_arg(list, SDL_Texture*);
-			rect = va_arg(list, SDL_Rect*);
-			rect2 = va_arg(list, SDL_Rect*);
-			SDL_RenderCopy(pRenderer, text, rect, rect2);
+			pTexture = va_arg(list, SDL_Texture*);
+			pRectSrc = va_arg(list, SDL_Rect*);
+			pRectDst = va_arg(list, SDL_Rect*);
+			SDL_RenderCopy(pRenderer, pTexture, pRectSrc, pRectDst);
 			break;
 		case 2:
 			rgb = va_arg(list, Uint32);
+			pRectDst = va_arg(list, SDL_Rect*);
 			SDL_SetRenderDrawColor(pRenderer, rgb >> 24, (rgb >> 16) & 0x00FF, (rgb >> 8) & 0x0000FF, (rgb & 0x000000FF));
-			SDL_RenderFillRect(pRenderer, va_arg(list, SDL_Rect*));
+			SDL_RenderFillRect(pRenderer, pRectDst);
 			break;
 		default:
 			break;
 		}
 	}
-	map = NULL;
-	text = NULL;
-	rect = NULL;
+	pMap = NULL;
+	pTexture = NULL;
+	pRectSrc = NULL;
+	pRectDst = NULL;
 	SDL_RenderPresent(pRenderer);
 	va_end(list);
 }

@@ -42,10 +42,9 @@ int display(SDL_Surface* pSurface, int mode)
 {
 	static SDL_Surface* surfaceTab[NBSURFACEMAX];
 	static int nbSurface = 0, xTab[NBSURFACEMAX], yTab[NBSURFACEMAX];
-	if (pSurface == NULL)
+	if (pSurface == NULL && mode >= 0)
 	{
 		fprintf(logFile, "display : FAILURE, pSurface = NULL.\n\n");
-		endDisplay();
 		return -1;
 	}
 	int index, surfaceFound = 0;
