@@ -157,15 +157,9 @@ int getLifeTeam(Equipe* team)
 */
 void updateTeamLife(Equipe** equipeTab)
 {
-	int i, j, vie;
+	int i;
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		/*vie = 0;
-		for (j = 0; j < globalVar.nbWormsEquipe; j++)
-		{
-			vie += equipeTab[i]->worms[j]->vie;
-		}
-		equipeTab[i]->vie = vie;*/
 		equipeTab[i]->vie = getLifeTeam(equipeTab[i]);
 	}
 }
