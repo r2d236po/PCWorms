@@ -737,70 +737,67 @@ int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* 
 	int coefDeplaX = 7, coefDeplaY = 7;
 
 	// version avec pythagore :
-
-	if ((diffX < -sizeBoxX && camera->x > coefDeplaX) || (diffX > sizeBoxX && camera->x + camera->w < wM) || (diffY < -sizeBoxY && camera->y > coefDeplaY) || (diffY > sizeBoxY && camera->y + camera->h < hM)){
-		notCentered = 1;
-	}
-	else
+	if (!(sizeBoxX < sizeX && sizeBoxY < sizeY))
 	{
-		notCentered = 0;
-	}
-
-	if (notCentered){
-
-		if ((diffX > -sizeX && diffX < sizeX) && (diffY > -sizeY && diffY < sizeY)){
-			notCentered = 0;
+		if ((diffX < -sizeBoxX && camera->x > coefDeplaX) || (diffX > sizeBoxX && camera->x + camera->w + coefDeplaX < wM) || (diffY < -sizeBoxY && camera->y > coefDeplaY) || (diffY > sizeBoxY && camera->y + camera->h + coefDeplaY < hM)){
+			notCentered = 1;
 		}
-
-		if ((diffX < -sizeX && diffX > sizeX) && (diffY > -sizeY && diffY < sizeY)){
-			returnValue = 1;
-			if (diffX < -sizeX)
-			{
-				camera->x -= coefDeplaX;
+		if (notCentered){
+			if ((diffX > -sizeX && diffX < sizeX) && (diffY > -sizeY && diffY < sizeY) || camera->x + camera->w + coefDeplaX > wM || camera->y + camera->h + coefDeplaY > hM){
+				notCentered = 0;
 			}
-			else camera->x += coefDeplaX;
-		}
-		else if ((diffX > -sizeX && diffX < sizeX) && (diffX < -sizeY && diffX > sizeY)){
-			returnValue = 1;
-			if (diffY < -sizeY)
-			{
-				camera->y -= coefDeplaY;
-			}
-			else camera->y += coefDeplaY;
-		}
-		else{
-			returnValue = 1;
-			float coef = fabsf((float)diffY / diffX);
+			else{
+				if ((diffX < -sizeX && diffX > sizeX) && (diffY > -sizeY && diffY < sizeY)){
+					returnValue = 1;
+					if (diffX < -sizeX)
+					{
+						camera->x -= coefDeplaX;
+					}
+					else camera->x += coefDeplaX;
+				}
+				else if ((diffX > -sizeX && diffX < sizeX) && (diffX < -sizeY && diffX > sizeY)){
+					returnValue = 1;
+					if (diffY < -sizeY)
+					{
+						camera->y -= coefDeplaY;
+					}
+					else camera->y += coefDeplaY;
+				}
+				else{
+					returnValue = 1;
+					float coef = fabsf((float)diffY / diffX);
 
-			if (diffX <= (-sizeX)){
-				camera->x -= coefDeplaX;
+					if (diffX <= (-sizeX)){
+						camera->x -= coefDeplaX;
+					}
+					if (diffX >= sizeX)
+					{
+						camera->x += coefDeplaX;
+					}
+					if (diffY >= sizeY)
+					{
+						camera->y += coefDeplaY * coef;
+					}
+					if (diffY <= (-sizeY))
+					{
+						camera->y -= coefDeplaY * coef;
+					}
+				}
 			}
-			if (diffX >= sizeX)
-			{
-				camera->x += coefDeplaX;
-			}
-			if (diffY >= sizeY)
-			{
-				camera->y += coefDeplaY * coef;
-			}
-			if (diffY <= (-sizeY))
-			{
-				camera->y -= coefDeplaY * coef;
-			}
-		}
 
 
-		if (camera->x + camera->w > wM){
-			camera->x = wM - camera->w;
-		}
-		if (camera->y + camera->h > hM){
-			camera->y = hM - camera->h;
-		}
-		if (camera->x < 0){
-			camera->x = 0;
-		}
-		if (camera->y < 0){
-			camera->y = 0;
+			if (camera->x + camera->w > wM){
+				camera->x = wM - camera->w;
+			}
+			if (camera->y + camera->h > hM){
+				camera->y = hM - camera->h;
+			}
+			if (camera->x < 0){
+				camera->x = 0;
+			}
+			if (camera->y < 0){
+				camera->y = 0;
+			}
 		}
 	}
 	return returnValue;
