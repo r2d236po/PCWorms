@@ -7,7 +7,7 @@
 
 #define vitesseX (float)(cos(pi / 3)* 0.95)
 #define vitesseY (float)(sin(pi / 3)*1.3)
-#define TAILLEINV 5
+#define TAILLEINV 5 
 #define widthSpriteMov 31
 #define hightSpriteMov 30
 

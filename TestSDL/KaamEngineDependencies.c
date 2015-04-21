@@ -77,7 +77,14 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		|| collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1))
 	{
 		if (directionTest == DOWN)
-			pObject->rightOk = 2;
+		{
+			directionTest = UP;
+			pObject->objectSurface->clip_rect.y -= 1;
+			if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1) && directionTest != DOWN)
+				pObject->rightOk = 0;
+			else pObject->rightOk = 2;
+			pObject->objectSurface->clip_rect.y += 1;
+		}
 		else pObject->rightOk = 0;
 	}
 	pObject->objectSurface->clip_rect.x -= 2;
@@ -85,7 +92,14 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		|| collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1))
 	{
 		if (directionTest == DOWN)
-			pObject->leftOk = 2;
+		{
+			directionTest = UP;
+			pObject->objectSurface->clip_rect.y -= 1;
+			if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1) && directionTest != DOWN)
+				pObject->leftOk = 0;
+			else pObject->leftOk = 2;
+			pObject->objectSurface->clip_rect.y += 1;
+		}
 		else pObject->leftOk = 0;
 	}
 	pObject->objectSurface->clip_rect.x += 1;

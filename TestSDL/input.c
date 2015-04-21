@@ -209,6 +209,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	updateGameWorms(pInput, wormsTab, pTextureDisplay, pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface);
 	/*Pour afficher le texte*/
 	//updateTexteSurfacePosition
+	//copySurfacePixels( pMapTerrain->collisionMapSurface, &wormsTab[globalVar.indexWormsTab]->texteSurface->clip_rect,  pMapTerrain->globalMapSurface, &wormsTab[globalVar.indexWormsTab]->texteSurface->clip_rect);
 	//updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->globalMapSurface, wormsTab[globalVar.indexWormsTab]->texteSurface, &wormsTab[globalVar.indexWormsTab]->texteSurface->clip_rect);
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
@@ -239,7 +240,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 	}
 	if (pInput->camCentrer)
 	{
-		pInput->raffraichissement = centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+		pInput->raffraichissement = (char)centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
 	}
 	if (pInput->wheelUp){
 		zoomIn(pRenderer, pTextureDisplay, pCamera, pInput);
