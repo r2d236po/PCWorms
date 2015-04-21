@@ -1,6 +1,6 @@
 Resultat de la partie : 
 
-	Temps de jeu : 18 secondes.
+	Temps de jeu : 47 secondes.
 	Map jouée : ../assets/pictures/maptest3.png.
 	Nombre d'equipes : 2.
 	Nombre de worms par equipe : 2.

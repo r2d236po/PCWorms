@@ -7,6 +7,8 @@
 #include "my_stdrFct.h"
 
 #define groundSpeed 1
+#define Xtest 1
+#define Ytest 2
 
 /*Set functions*/
 void setSurfaceRelativeCoordinates(SDL_Surface* pSurface, int relativeTime, float Xspeed, float Yspeed);

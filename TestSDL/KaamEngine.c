@@ -198,6 +198,8 @@ void KaamPhysicManagement(Input* pInput, KaamObject* pObject, SDL_Surface* pSurf
 		KaamGroundMotion(pInput, pObject, pSurfaceMap);
 		KaamGravityManagement(pSurfaceMap, pObject);
 	}
+	pInput->deplacement = (MY_ABS(dxProcess(pObject)) > 0 || MY_ABS(dyProcess(pObject)) > 0);
+	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->objectBox.x, &pObject->objectBox.y);
 }
 
 /**
@@ -255,7 +257,6 @@ void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfa
 		gestionAnimationWorms(pWorms, pSurfaceMap, swap);
 	}
 	KaamPhysicManagement(pInput, pWorms->wormsObject, pSurfaceMap);
-	pInput->deplacement = (MY_ABS(dxProcess(pWorms->wormsObject)) > 0 || MY_ABS(dyProcess(pWorms->wormsObject)) > 0);
 }
 
 
