@@ -3,7 +3,7 @@
 #include "my_stdrFct.h"
 #include "KaamEngine.h"
 #include "input.h"
-
+#include "display.h"
 
 
 
@@ -358,17 +358,15 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMapDisplay)
+* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMap)
 * \brief Update worms display, manages overlay and physics for all worms.
 *
 * \param[in] pInput, pointer to the Input structure.
 * \param[in] wormsTab, array of worms.
-* \param[in] pTextureDisplay, pointer to the main texture.
 * \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
-* \param[in] pSurfaceMapDisplay, pointer to the display map's surface.
 * \returns void
 */
-void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMapCollision, SDL_Surface* pSurfaceMapDisplay)
+void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision)
 {
 	int indexWorms;
 	if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
@@ -389,27 +387,26 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Texture* pTextureDispl
 			}
 			if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
 				resetInputs(pInput);
-		}
+		}		
 		if (pInput->deplacement || pInput->raffraichissement)
 		{			
-			copySurfacePixels(pSurfaceMapCollision, &wormsTab[indexWorms]->wormsObject->objectBox, pSurfaceMapDisplay, &wormsTab[indexWorms]->wormsObject->objectBox);
-			updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMapDisplay, wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->objectBox);
-			wormsOverlay(wormsTab, pTextureDisplay, pSurfaceMapDisplay);
+			display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
+			wormsOverlay(wormsTab);
+			wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
+			wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y;
 			pInput->raffraichissement = 1;
 		}
 	}
 }
 
 /**
-* \fn void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
+* \fn void wormsOverlay(Worms** wormsTab)
 * \brief Check if multiple worms are overlaying.
 *
 * \param[in] wormsTab, array of worms.
-* \param[in] pTextureDisplay, pointer to the main texture.
-* \param[in] pSurfaceMap, pointer to the map's surface.
 * \return void
 */
-void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* pSurfaceMap)
+void wormsOverlay(Worms** wormsTab)
 {
 	int i = 0, j = 0;
 	for (i = 0; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
@@ -421,8 +418,8 @@ void wormsOverlay(Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Surface* p
 				2 * wormsTab[j]->wormsObject->objectSurface->w, 2 * wormsTab[j]->wormsObject->objectSurface->h);
 			if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &boxOverlay))
 			{
-				updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[i]->wormsObject->objectSurface, &wormsTab[i]->wormsObject->objectBox);
-				updateTextureFromMultipleSurface(pTextureDisplay, pSurfaceMap, wormsTab[j]->wormsObject->objectSurface, &wormsTab[j]->wormsObject->objectBox);
+				display(wormsTab[i]->wormsObject->objectSurface, 0);
+				display(wormsTab[j]->wormsObject->objectSurface, 0);
 			}
 		}
 	}

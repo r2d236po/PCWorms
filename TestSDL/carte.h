@@ -24,13 +24,12 @@ void destroyMap(Terrain** p_pMapTerrain);	//détruit un terrain
 
 
 /*Fonctions diverses*/
-int limitMap(int mapHight, int mapWidth, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirecion); //Détermine si un objet est hors map et le replace si il faut
-
+enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);
 
 /*Détection et gestion des collisions*/
 int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
 
-enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);
+
 
 
 

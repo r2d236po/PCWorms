@@ -1,7 +1,7 @@
 
 
-#ifndef DISPLAY_H
-#define DISPLAY_H
+#ifndef MAINDISPLAY_H
+#define MAINDISPLAY_H
 
 #include "worms.h"
 #include "HUD.h"

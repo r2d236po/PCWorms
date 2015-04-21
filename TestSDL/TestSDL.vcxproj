@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="AffichageGeneral.c" />
     <ClCompile Include="Armes.c" />
+    <ClCompile Include="Display.c" />
     <ClCompile Include="HUD.c" />
     <ClCompile Include="input.c" />
     <ClCompile Include="KaamEngine.c" />
@@ -104,6 +105,7 @@
     <ClInclude Include="AffichageGeneral.h" />
     <ClInclude Include="armes.h" />
     <ClInclude Include="carte.h" />
+    <ClInclude Include="display.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="KaamEngine.h" />

@@ -3,7 +3,7 @@
 #include "Sounds.h"
 #include "my_stdrFct.h"
 #include "KaamEngine.h"
-
+#include "display.h"
 
 
 int mainFenetre(Jeu * jeu)
@@ -63,6 +63,7 @@ int mainFenetre(Jeu * jeu)
 			fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
 			return -1;
 		}
+		initDisplay(jeu->pMapTerrain, pTextureDisplay);
 
 		//Initialisation des worms
 		KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface);

@@ -51,6 +51,9 @@
     <ClCompile Include="KaamEngineDependencies.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Display.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffichageGeneral.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="KaamEngineDependencies.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="display.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

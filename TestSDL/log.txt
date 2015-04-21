@@ -1,4 +1,4 @@
-Start of session : Mon Apr 20 18:45:30 2015
+Start of session : Tue Apr 21 17:06:39 2015
 
 
 mainInit : DONE.
@@ -93,6 +93,8 @@ loadSounds : SUCCESS.
 
 initCameras : DONE.
 
+initDisplay : DONE.
+
 KaamInitGame : DONE.
 
 initCameras : DONE.
@@ -118,4 +120,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Mon Apr 20 18:46:01 2015
+End of Session : Tue Apr 21 17:07:02 2015

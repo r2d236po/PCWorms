@@ -4,6 +4,7 @@
 #include "worms.h"
 #include "Sounds.h"
 #include "my_stdrFct.h"
+#include "display.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -204,12 +205,8 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		pInput->changeWorms = 0;
 	}
 	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
+	updateGameWorms(pInput, wormsTab, pMapTerrain->collisionMapSurface);
 
-
-	updateGameWorms(pInput, wormsTab, pTextureDisplay, pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface);
-	/*Pour afficher le texte*/
-	//updateTexteSurfacePosition
-	//updateTextureFromMultipleSurface(pTextureDisplay, pMapTerrain->globalMapSurface, wormsTab[globalVar.indexWormsTab]->texteSurface, &wormsTab[globalVar.indexWormsTab]->texteSurface->clip_rect);
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -239,7 +236,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 	}
 	if (pInput->camCentrer)
 	{
-		pInput->raffraichissement = centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+		pInput->raffraichissement = (char)centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
 	}
 	if (pInput->wheelUp){
 		zoomIn(pRenderer, pTextureDisplay, pCamera, pInput);
