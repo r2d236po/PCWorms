@@ -47,7 +47,7 @@ int display(SDL_Surface* pSurface, int mode)
 		fprintf(logFile, "display : FAILURE, pSurface = NULL.\n\n");
 		return -1;
 	}
-	int index, surfaceFound = 0;
+	int index, surfaceFound = 0, indexFound = 0;
 	if (nbSurface == 0)
 	{
 		xTab[0] = 0;
@@ -59,7 +59,15 @@ int display(SDL_Surface* pSurface, int mode)
 		if (surfaceTab[index] == pSurface)
 		{
 			surfaceFound = 1;
-			break;
+			indexFound = index;
+		}
+		if (surfaceTab[index]->flags != 0 || surfaceTab[index]->format == NULL)
+		{
+			cleanTab(nbSurface, index, 0, surfaceTab);
+			cleanTab(nbSurface, index, 1, xTab);
+			cleanTab(nbSurface, index, 1, yTab);
+			nbSurface--;
+			index = 0;
 		}
 	}
 	if (!surfaceFound)
@@ -68,15 +76,37 @@ int display(SDL_Surface* pSurface, int mode)
 		surfaceTab[index] = pSurface;
 		xTab[index] = pSurface->clip_rect.x;
 		yTab[index] = pSurface->clip_rect.y;
+		indexFound = index;
 	}
-	SDL_Rect rect = initRect(xTab[index], yTab[index], pSurface->w, pSurface->h);
+	SDL_Rect rect = initRect(xTab[indexFound], yTab[indexFound], pSurface->w, pSurface->h);
 	if (mode == 1)
 		copySurfacePixels(pMainTerrain->collisionMapSurface, &rect, pMainTerrain->globalMapSurface, &rect);
 	updateTextureFromMultipleSurface(pGlobalTexture, pMainTerrain->globalMapSurface, pSurface, &rect);
-	xTab[index] = pSurface->clip_rect.x;
-	yTab[index] = pSurface->clip_rect.y;
+	xTab[indexFound] = pSurface->clip_rect.x;
+	yTab[indexFound] = pSurface->clip_rect.y;
 	return 0;
 }
+
+
+void cleanTab(int size, int startPosition, ...)
+{
+	int index;
+	int* tab = NULL;
+	SDL_Surface** tab2 = NULL;
+	va_list list;
+	va_start(list, startPosition);
+	if (va_arg(list, int) == 0)
+		tab2 = va_arg(list, SDL_Surface**);
+	else tab = va_arg(list, int*);
+	for (index = startPosition; index < size; index++)
+	{
+		if (tab != NULL)
+			tab[index] = tab[index + 1];
+		else tab2[index] = tab2[index + 1];
+	}
+	va_end(list);
+}
+
 
 /**
 * \fn void endDisplay()

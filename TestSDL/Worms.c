@@ -387,12 +387,13 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			}
 			if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
 				resetInputs(pInput);
-		}		
+		}
 		if (pInput->deplacement || pInput->raffraichissement)
-		{			
+		{
 			display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 			wormsOverlay(wormsTab);
 			pInput->raffraichissement = 1;
+			display(wormsTab[indexWorms]->texteSurface, 1);
 		}
 	}
 }

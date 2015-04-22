@@ -15,5 +15,5 @@ void endDisplay();
 
 /*Display*/
 int display(SDL_Surface* pSurface, int mode);
-
+void cleanTab(int size, int startPosition, ...);
 #endif // !DISPLAY_H
