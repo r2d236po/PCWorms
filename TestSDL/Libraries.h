@@ -58,6 +58,9 @@ typedef struct{ //structure Curseur
 	Point before;
 	Point now;
 	int motion;
+	char currentCursor;
+	SDL_Cursor * cursor1;
+	SDL_Cursor * cursor2;
 }Cursor;
 
 enum DIRECTION { RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, UPLEFT = 4, UPRIGHT = 5, DLEFT = 6, DRIGHT = 7, NONE = 8 };
