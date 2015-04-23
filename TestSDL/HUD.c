@@ -18,13 +18,13 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 }
 
 /**
-* \fn void updateLifeSurfaceWorms(Worms** wormsTab)
+* \fn void updateTextSurfaceWorms(Worms** wormsTab)
 * \brief Updates the life display of the worms in game.
 *
 * \param[in] wormsTab, array of worms.
 * \returns void
 */
-void updateLifeSurfaceWorms(Worms** wormsTab)
+void updateTextSurfaceWorms(Worms** wormsTab)
 {
 	static char str[10];
 	int i;
@@ -40,4 +40,29 @@ void updateLifeSurfaceWorms(Worms** wormsTab)
 		wormsTab[i]->texteSurface = txtSurface;
 	}
 	txtSurface = NULL;
+
+	updateTextSurfacePosition(wormsTab);
+}
+
+/**
+* \fn void updateTextSurfacePosition(Worms** wormsTab)
+* \brief Updates the life display of the worms in game.
+*
+* \param[in] wormsTab, array of worms.
+*/
+void updateTextSurfacePosition(Worms** wormsTab)
+{
+	int i, t_x, t_y;
+
+	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe; i++)
+	{
+		t_x = wormsTab[i]->wormsObject->absoluteCoordinate.x + 15 - (wormsTab[i]->texteSurface->clip_rect.w / 2);
+		t_y = wormsTab[i]->wormsObject->absoluteCoordinate.y - 20;
+
+		if (t_x >= 0){ wormsTab[i]->texteSurface->clip_rect.x = t_x; }
+		else { wormsTab[i]->texteSurface->clip_rect.x = wormsTab[i]->wormsObject->absoluteCoordinate.x; }
+
+		if (t_y >= 0) { wormsTab[i]->texteSurface->clip_rect.y = t_y; }
+		else { wormsTab[i]->texteSurface->clip_rect.y = wormsTab[i]->wormsObject->absoluteCoordinate.y; }
 	}
+}

@@ -64,7 +64,11 @@ Worms* createWorms(char* name)
 	clip.x = 24;
 	clip.y = 84;
 	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceRight, NULL);
-	texteSurface = TTF_RenderText_Blended(globalVar.FontName, "Ton père le chat", globalVar.couleurBleu);
+
+	//initialisation des variables autres
+	worms->vie = 100;
+	strcpy(worms->nom, name);
+	texteSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, globalVar.couleurBleu);
 	if (texteSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
@@ -90,9 +94,6 @@ Worms* createWorms(char* name)
 	}
 	KaamInitSurfaceObject(worms->wormsObject, (Uint32*)wormsSurfaceRight->pixels, wormsSurfaceRight->w * wormsSurfaceRight->h);
 
-	//initialisation des variables autres
-	worms->vie = 100;
-	strcpy(worms->nom, name);
 	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->indexAnim = 0;
 	worms->dirSurface = RIGHT;
