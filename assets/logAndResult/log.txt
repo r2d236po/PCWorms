@@ -1,4 +1,4 @@
-Start of session : Thu Apr 23 22:13:38 2015
+Start of session : Thu Apr 23 23:50:45 2015
 
 
 mainInit : DONE.
@@ -74,6 +74,12 @@ loadImage : SUCCESS.
 
 initSWR : SUCCESS.
 
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/cursor.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/aim.png.
+
 initInput : SUCCESS.
 
 initialisationTerrain : START :
@@ -120,4 +126,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Thu Apr 23 22:13:46 2015
+End of Session : Thu Apr 23 23:50:54 2015
