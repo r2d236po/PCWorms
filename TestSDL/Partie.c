@@ -227,7 +227,7 @@ void destroyPolice()
 */
 int saveGame(Jeu* jeu)
 {
-	FILE* file = fopen("Resultat de la Partie.txt", "w+");
+	FILE* file = fopen("../assets/logAndResult/Resultat de la Partie.txt", "w+");
 	int indexEquipe = 0, indexWorms = 0;
 	if (file == NULL)
 	{

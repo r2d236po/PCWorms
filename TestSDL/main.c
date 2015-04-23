@@ -9,12 +9,11 @@ int main(int argc, char** argv)
 	{
 		time_t t1;
 		t1 = time(NULL);
-		logFile = fopen("log.txt", "w+");
+		logFile = fopen("../assets/logAndResult/log.txt", "w+");
 		if (logFile == NULL)
 			exit(EXIT_FAILURE);
 		fprintf(logFile, "Start of session : %s\n\n", ctime(&t1));
 	};
-
 	if (mainInit(2, 2) < 0)	//set le nombre d'équipe et le nombre de worms par équipe
 	{
 		fprintf(logFile, "mainInit : FAILURE.\n");

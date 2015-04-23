@@ -334,8 +334,6 @@ void cleanSprites(void)
 */
 void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 {
-	SDL_FreeCursor((*p_pInput)->cursor.cursor1);
-	SDL_FreeCursor((*p_pInput)->cursor.cursor2);
 	if ((*p_pInput) != NULL)
 	{
 		free(*p_pInput);
