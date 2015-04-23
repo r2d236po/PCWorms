@@ -39,7 +39,6 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture);
 
 //Fonctions de nettoyage
-
 void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay);	//nettoie et quit la SDL
 void clearRenderer(SDL_Renderer * pRenderer);	//Clear de l'écran
 void cleanSprites(void);

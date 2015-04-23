@@ -133,6 +133,18 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
 				break;
+			case SDLK_k:
+				if (pInput->cursor.currentCursor == 0)
+				{
+					SDL_SetCursor(pInput->cursor.cursor2);
+					pInput->cursor.currentCursor = 1;
+				}
+				else
+				{
+					SDL_SetCursor(pInput->cursor.cursor1);
+					pInput->cursor.currentCursor = 0;
+				}
+				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
@@ -381,6 +393,7 @@ Input* initInput()
 	pInput->screenshot = 0;
 	pInput->camCentrer = 0;
 	pInput->changeWorms = 0;
+	
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
@@ -399,6 +412,18 @@ Cursor initCursor(void)
 	curseur.before.y = 0;
 	curseur.now.x = 0;
 	curseur.now.y = 0;
+	curseur.currentCursor = 0;
+
+	SDL_Surface * sword = loadImage("../assets/pictures/cursor.png");
+	SDL_Surface * aim = loadImage("../assets/pictures/aim.png");
+
+	curseur.cursor1 = SDL_CreateColorCursor(sword, 0, 0);
+	curseur.cursor2 = SDL_CreateColorCursor(aim, 0, 0);
+
+	SDL_FreeSurface(sword);
+	SDL_FreeSurface(aim);
+
+	SDL_SetCursor(curseur.cursor1);
 	return curseur;
 }
 

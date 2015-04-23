@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 		return 0;
 	}
 	
-	if (initSprites() < 0)
+	if (initSprites() < 0) // Ouverture des fichiers sprites
 	{
 		fclose(logFile);
 		exit(EXIT_FAILURE);
