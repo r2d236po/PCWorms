@@ -1,0 +1,123 @@
+Start of session : Thu Apr 23 21:00:57 2015
+
+
+mainInit : DONE.
+	nombre d'equipes : 2.
+	nombre de worms par equipe : 2.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/spriteMov.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/Grenade_Sprite.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/Nuke_Sprite.png.
+
+initSprites : SUCCESS.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+creerFenetre : SUCCESS.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/icone.png.
+
+initSWR : SUCCESS.
+
+initInput : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest3.png.
+
+
+initialisationTerrain : SUCCESS.
+
+my_createTextureFromSurface : SUCCESS.
+
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/Bip_explosion.wav.
+
+initCameras : DONE.
+
+initDisplay : DONE.
+
+KaamInitGame : DONE.
+
+initCameras : DONE.
+
+||| END OF THE GAME |||
+destroyMap : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+
+
+End of Session : Thu Apr 23 21:01:08 2015
