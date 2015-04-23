@@ -40,7 +40,7 @@ void KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	srand((int)time(NULL));
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
 	{
-		wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(0, (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
+		wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0,pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
 		wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
 		wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y = 0;
 		resetAbsoluteCoordinates(wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.x, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.y);
