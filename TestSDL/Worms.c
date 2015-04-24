@@ -29,10 +29,6 @@
 Worms* createWorms(char* name)
 {
 	Worms* worms = NULL;
-	SDL_Surface* wormsSurfaceLeft = NULL;
-	SDL_Surface* wormsSurfaceRight = NULL;
-	SDL_Surface* texteSurface = NULL;
-	SDL_Surface* tombeSurface = NULL;
 	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
 	fprintf(logFile, "createWorms : START :\n\n");
 	worms = (Worms*)malloc(sizeof(Worms));
@@ -41,69 +37,56 @@ Worms* createWorms(char* name)
 		fprintf(logFile, "createWorms : FAILURE, allocating memory to worms.\n\n");
 		return NULL;
 	}
-	worms->wormsSurfaceLeft = NULL;
-	worms->wormsSurfaceRight = NULL;
-	worms->texteSurface = NULL;
-	wormsSurfaceLeft = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
-	wormsSurfaceRight = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
+	worms->wormsSurfaceTomb = loadImage("../assets/pictures/Tombe2_SD.png");
+	worms->wormsSurfaceLeft = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
+	worms->wormsSurfaceRight = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
 	//wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
-	tombeSurface = loadImage("../assets/pictures/Tombe2_SD.png");
-	if (tombeSurface == NULL)
+	if (worms->wormsSurfaceTomb == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
-	if (wormsSurfaceLeft == NULL || wormsSurfaceRight == NULL)
+	if (worms->wormsSurfaceLeft == NULL || worms->wormsSurfaceRight == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
-	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceLeft, NULL);
+	SDL_BlitSurface(spriteDeplacement, &clip, worms->wormsSurfaceLeft, NULL);
 	clip.x = 24;
 	clip.y = 84;
-	SDL_BlitSurface(spriteDeplacement, &clip, wormsSurfaceRight, NULL);
+	SDL_BlitSurface(spriteDeplacement, &clip, worms->wormsSurfaceRight, NULL);
 
 	//initialisation des variables autres
 	worms->vie = 100;
 	strcpy(worms->nom, name);
-	texteSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, globalVar.couleurBleu);
-	if (texteSurface == NULL)
+	worms->texteSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, globalVar.couleurBleu);
+	if (worms->texteSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
 
-	worms->texteSurface = texteSurface;
-	worms->wormsSurfaceLeft = wormsSurfaceLeft;
-	worms->wormsSurfaceRight = wormsSurfaceRight;
-	worms->wormsSurfaceTomb = tombeSurface;
-
 	//Initialisations liees a l'image du worms
 	clip.x = 300;
 	clip.y = 100;
-	clip.w = wormsSurfaceRight->w;
-	clip.h = wormsSurfaceRight->h;
+	clip.w = worms->wormsSurfaceRight->w;
+	clip.h = worms->wormsSurfaceRight->h;
 	if ((worms->wormsObject = KaamInitObject(clip, 0.0, 0.0, DOWN, 0)) == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, KaamInitObject.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
-	KaamInitSurfaceObject(worms->wormsObject, (Uint32*)wormsSurfaceRight->pixels, wormsSurfaceRight->w * wormsSurfaceRight->h);
+	KaamInitSurfaceObject(worms->wormsObject, (Uint32*)worms->wormsSurfaceRight->pixels, worms->wormsSurfaceRight->w * worms->wormsSurfaceRight->h);
 
 	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->indexAnim = 0;
 	worms->dirSurface = RIGHT;
 	worms->arme = NULL;
 
-	//remise à null des pointeurs temporaires
-	wormsSurfaceLeft = NULL;
-	wormsSurfaceRight = NULL;
-	texteSurface = NULL;
-	tombeSurface = NULL;
 
 	//Enregistrement log
 	fprintf(logFile, "\ncreateWorms : SUCCESS.\n\n");
@@ -300,7 +283,7 @@ void gestionAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
 	if (swap)
 		pWorms->indexAnim = 0;
 	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
-	while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
+	/*while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
 	{
 		if (indexBoucle > 10)
 			correction = -1;
@@ -308,6 +291,11 @@ void gestionAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
 			pWorms->wormsObject->objectSurface->clip_rect.x -= correction;
 		else pWorms->wormsObject->objectSurface->clip_rect.x += correction;
 		indexBoucle++;
+	}*/
+	if (collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
+	{
+		pWorms->indexAnim = 0;
+		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
 	}
 	if (pWorms->indexAnim >= 14)
 		pWorms->indexAnim = 0;
@@ -347,7 +335,27 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 }
 
 
+void effacerSurfaceWorms(Worms* pWorms)
+{
+	Uint32* pixel = (Uint32*)pWorms->wormsObject->objectSurface->pixels;
+	SDL_PixelFormat* format = pWorms->wormsObject->objectSurface->format;
+	Uint32 pixel_Transparent = SDL_MapRGBA(pWorms->wormsObject->objectSurface->format, 255, 255, 255, 0);
+	int x, y;
+	int Wworms = pWorms->wormsObject->objectSurface->w;
+	int Hworms = pWorms->wormsObject->objectSurface->h;
 
+	for (y = 0; y < (Hworms); y++)
+	{
+		for (x = 0; x < (Wworms); x++)
+		{
+			if (!pixelTransparent(pixel[x + y* Wworms], format))
+			{
+				pixel[x + y* Wworms] = pixel_Transparent;
+			}
+		}
+	}
+	updateSurfaceFromSurface(pMainTerrain->globalMapSurface, pMainTerrain->collisionMapSurface, &pWorms->wormsObject->objectSurface->clip_rect);
+}
 
 
 
@@ -395,6 +403,11 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			wormsOverlay(wormsTab);
 			pInput->raffraichissement = 1;
 		}
+		/*else
+		{
+		effacerSurfaceWorms(wormsTab[globalVar.indexWormsTab]);
+		display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface,0);
+		}*/
 	}
 }
 

@@ -297,11 +297,6 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 			}
 		}
 	}
-	else if (pWorms->wormsObject->falling == 1)
-	{
-		pWorms->indexAnim = 0;
-		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
-	}
 }
 
 /**
