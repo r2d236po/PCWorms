@@ -290,7 +290,17 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 				setWormsSpeed(pWorms, UP);
 				pInput->jumpOnGoing = 1;
 			}
+			if (pInput->jumpOnGoing)
+			{
+				pWorms->indexAnim = 0;
+				animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
+			}
 		}
+	}
+	else if (pWorms->wormsObject->falling == 1)
+	{
+		pWorms->indexAnim = 0;
+		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
 	}
 }
 
@@ -433,7 +443,6 @@ Cursor initCursor(void)
 	{
 		fprintf(logFile, "initCursor : FAILURE, loadImage.\n\n");
 		curseur.cursor1 = NULL;
-		curseur.cursor2 = NULL;
 		SDL_FreeSurface(sword);
 		sword = NULL;
 		return curseur;

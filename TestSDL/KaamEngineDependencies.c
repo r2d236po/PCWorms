@@ -284,9 +284,7 @@ int checkDirection(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, int of
 	if (collisionSurfaceWithMap(pSurfaceMap, pSurfaceMotion, &directionTest, 1))
 	{
 		if (directionTest != DOWN)
-		{
 			check = 0;
-		}
 		if (directionTest == DOWN && checkDirection == DOWN)
 			check = 0;
 	}
@@ -457,7 +455,7 @@ int collisionSurfaceWithMap(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotio
 					collision = 0;	//Collision = 0 -> pas de collision
 				else	//Au moins l'un des pixels n'est pas transparent
 				{
-					collision = 1;	//Collision = 0 -> pas de collision
+					collision = 1;	//Collision = 1 -> collision
 					*pDirection = calculDirectionCollision(*pDirection, zone[balayageGen], checkMode);	//Calcul de la direction de la collision pour affiner le traitement
 				}
 			}

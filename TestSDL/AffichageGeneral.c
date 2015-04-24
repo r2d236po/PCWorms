@@ -86,7 +86,7 @@ int mainFenetre(Jeu * jeu)
 				pInput->raffraichissement = 0;
 			}
 
-			updateTextSurfaceWorms(wormsTab);
+			//updateTextSurfaceWorms(wormsTab);
 			updateTeamLife(jeu->equipes);
 			isGameEnd(jeu->equipes);
 
