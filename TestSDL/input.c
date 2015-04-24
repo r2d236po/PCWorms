@@ -373,6 +373,14 @@ Input* initInput()
 		fprintf(logFile, "initInput : FAILURE, allocation memoire de pInput.\n\n");
 		return NULL;
 	}
+	pInput->cursor = initCursor();
+	if (pInput->cursor.cursor1 == NULL || pInput->cursor.cursor2 == NULL)
+	{
+		fprintf(logFile, "initInput : FAILURE, initCursor.\n\n");
+		free(pInput);
+		pInput = NULL;
+		return NULL;
+	}
 	pInput->jump = 0;
 	pInput->jumpOnGoing = 0;
 	pInput->bend = 0;
@@ -388,11 +396,11 @@ Input* initInput()
 	pInput->windowResized = 1;
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
-	pInput->cursor = initCursor();
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
 	pInput->camCentrer = 0;
 	pInput->changeWorms = 0;
+	
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
 }
@@ -414,15 +422,33 @@ Cursor initCursor(void)
 	curseur.currentCursor = 0;
 
 	SDL_Surface * sword = loadImage("../assets/pictures/cursor.png");
+	if (sword == NULL)
+	{
+		fprintf(logFile, "initCursor : FAILURE, loadImage.\n\n");
+		curseur.cursor1 = NULL;
+		return curseur;
+	}
 	SDL_Surface * aim = loadImage("../assets/pictures/aim.png");
+	if (aim == NULL)
+	{
+		fprintf(logFile, "initCursor : FAILURE, loadImage.\n\n");
+		curseur.cursor1 = NULL;
+		curseur.cursor2 = NULL;
+		SDL_FreeSurface(sword);
+		sword = NULL;
+		return curseur;
+	}
 
 	curseur.cursor1 = SDL_CreateColorCursor(sword, 0, 0);
 	curseur.cursor2 = SDL_CreateColorCursor(aim, 0, 0);
 
 	SDL_FreeSurface(sword);
+	sword = NULL;
 	SDL_FreeSurface(aim);
+	aim = NULL;
 
 	SDL_SetCursor(curseur.cursor1);
+	fprintf(logFile, "initCursor : SUCCESS.\n\n");
 	return curseur;
 }
 

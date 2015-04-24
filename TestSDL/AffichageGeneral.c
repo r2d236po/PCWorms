@@ -99,6 +99,8 @@ int mainFenetre(Jeu * jeu)
 				jeu->temps -= 1;
 			}
 		}
+		
+		
 		endDisplay();
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		destroyMap(&jeu->pMapTerrain);
@@ -271,6 +273,7 @@ int initSprites(void)
 	spriteGrenadeExplosion = NULL;
 	spriteDeplacement = NULL;
 	spriteNukeExplosion = NULL;
+
 	spriteDeplacement = loadImage("../assets/sprites/spriteMov.png");
 	if (spriteDeplacement == NULL)
 	{
@@ -331,9 +334,6 @@ void cleanSprites(void)
 */
 void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 {
-	SDL_FreeCursor((*p_pInput)->cursor.cursor1);
-	SDL_FreeCursor((*p_pInput)->cursor.cursor2);
-
 	if ((*p_pInput) != NULL)
 	{
 		free(*p_pInput);
