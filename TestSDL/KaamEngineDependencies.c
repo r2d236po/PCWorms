@@ -79,8 +79,8 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		if (directionTest == DOWN)
 		{
 			pObject->rightOk = 2;
-			if (!checkDirection(pSurfaceMap, pObject->objectSurface, 3, -7, UPRIGHT)
-				|| !checkDirection(pSurfaceMap, pObject->objectSurface, 0, -7, UP))
+			if (!checkDirection(pSurfaceMap, pObject->objectSurface, 2, -5, UPRIGHT)
+				|| !checkDirection(pSurfaceMap, pObject->objectSurface, 0, -5, UP))
 				pObject->rightOk = 0;
 		}
 		else pObject->rightOk = 0;
@@ -93,8 +93,8 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		if (directionTest == DOWN)
 		{
 			pObject->leftOk = 2;
-			if (!checkDirection(pSurfaceMap, pObject->objectSurface, -3, -7, UPLEFT)
-				|| !checkDirection(pSurfaceMap, pObject->objectSurface, 0, -7, UP))
+			if (!checkDirection(pSurfaceMap, pObject->objectSurface, -2, -5, UPLEFT)
+				|| !checkDirection(pSurfaceMap, pObject->objectSurface, 0, -5, UP))
 				pObject->leftOk = 0;
 		}
 		else pObject->leftOk = 0;
@@ -144,7 +144,7 @@ void resetSpeed(float* Xspeed, float* Yspeed)
 }
 
 /**
-* \fn void resetMotionVariables(Input* pInput, KaamObject* pObject, int* relativeTime, int* startMotion)
+* \fn void resetMotionVariables(Input* pInput, KaamObject* pObject)
 * \brief Resets all variable relative to a jump.
 *
 * \param[in] pInput, pointer to the structure of inputs.
@@ -193,6 +193,23 @@ void resetAbsoluteCoordinates(SDL_Surface* pSurface, int* absoluteX, int* absolu
 {
 	*absoluteX = pSurface->clip_rect.x;
 	*absoluteY = pSurface->clip_rect.y;
+}
+
+/**
+* \fn void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+* \brief Reset all non linear motion variables.
+*
+* \param[in] pInput, pointer to the structure of inputs.
+* \param[in] pObject, pointer to the object to move.
+* \param[in] pSurface, pointer to the map's surface.
+* \returns void
+*/
+void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+{
+	pObject->rebound = 0;
+	resetMotionVariables(pInput, pObject);
+	pObject->reactToBomb = 0;
+	setSideMotionPossibility(pObject, pSurfaceMap);
 }
 
 
@@ -248,13 +265,13 @@ int jumpDoability(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DI
 	checkUp = checkDirection(pSurfaceMap, pSurfaceMotion, 0, -7, UP);
 	if (jumpDirection == UPLEFT)
 	{
-		checkUpLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -7, -7, UPLEFT);
-		checkLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -7, 0, LEFT);
+		checkUpLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -3, -7, UPLEFT);
+		checkLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -3, 0, LEFT);
 	}
 	if (jumpDirection == UPRIGHT)
 	{
-		checkUpRight = checkDirection(pSurfaceMap, pSurfaceMotion, 7, -7, UPRIGHT);
-		checkRight = checkDirection(pSurfaceMap, pSurfaceMotion, 7, 0, RIGHT);
+		checkUpRight = checkDirection(pSurfaceMap, pSurfaceMotion, 3, -7, UPRIGHT);
+		checkRight = checkDirection(pSurfaceMap, pSurfaceMotion, 3, 0, RIGHT);
 	}
 	if (jumpDirection == UP)
 	{
@@ -580,7 +597,6 @@ void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* 
 	}
 }
 
-
 /**
 * \fn void calculOrdreBalayage(enum DIRECTION direction, int ordre[4])
 * \brief Calcul l'ordre des zones à balayer.
@@ -658,27 +674,51 @@ void calculOrdreBalayage(enum DIRECTION direction, int ordre[4])
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
-* \fn int dxProcess(KaamObject* pObject)
-* \brief Process the delta on X to apply on the object in motion.
+* \fn int dxBoxProcess(KaamObject* pObject)
+* \brief Process the delta on X relatively to the box.
 *
 * \param[in] pObject, pointer to the object in motion.
 * \returns  value of the absolute delta along x axis
 */
-int dxProcess(KaamObject* pObject)
+int dxBoxProcess(KaamObject* pObject)
 {
 	return pObject->objectSurface->clip_rect.x - pObject->objectBox.x;
 }
 
 /**
-* \fn int dyProcess(KaamObject* pObject)
-* \brief Process the delta on X to apply on the object in motion.
+* \fn int dyBoxProcess(KaamObject* pObject)
+* \brief Process the delta on Y relatively to the box.
 *
 * \param[in] pObject, pointer to the object in motion.
 * \returns  value of the absolute delta along y axis
 */
-int dyProcess(KaamObject* pObject)
+int dyBoxProcess(KaamObject* pObject)
 {
 	return pObject->objectSurface->clip_rect.y - pObject->objectBox.y;
+}
+
+/**
+* \fn int dxPrecProcess(KaamObject* pObject)
+* \brief Process the delta on X relatively to precedent coordinate.
+*
+* \param[in] pObject, pointer to the object in motion.
+* \returns  value of the absolute delta along x axis
+*/
+int dxPrecProcess(KaamObject* pObject)
+{
+	return pObject->objectSurface->clip_rect.x - pObject->precedentCoordinate.x;
+}
+
+/**
+* \fn int dyPrecProcess(KaamObject* pObject)
+* \brief Process the delta on Y relatively to precedent coordinate.
+*
+* \param[in] pObject, pointer to the object in motion.
+* \returns  value of the absolute delta along y axis
+*/
+int dyPrecProcess(KaamObject* pObject)
+{
+	return pObject->objectSurface->clip_rect.y - pObject->precedentCoordinate.y;
 }
 
 /**

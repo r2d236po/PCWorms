@@ -190,7 +190,7 @@ void KaamPhysicManagement(Input* pInput, KaamObject* pObject, SDL_Surface* pSurf
 	else if (pObject->weapon == 1)
 	{
 		KaamNonLinearMotion(pInput, pSurfaceMap, pObject, 1);
-		if (dxProcess(pObject) == 0 && dyProcess(pObject) == 0)
+		if (dxBoxProcess(pObject) == 0 && dyBoxProcess(pObject) == 0)
 			KaamGravityManagement(pSurfaceMap, pObject);
 	}
 	else// /!\ deplacement OK, gravité OK, saut NON OK
@@ -198,7 +198,7 @@ void KaamPhysicManagement(Input* pInput, KaamObject* pObject, SDL_Surface* pSurf
 		KaamGroundMotion(pInput, pObject, pSurfaceMap);
 		KaamGravityManagement(pSurfaceMap, pObject);
 	}
-	pInput->deplacement = (MY_ABS(dxProcess(pObject)) > 0 || MY_ABS(dyProcess(pObject)) > 0);
+	pInput->deplacement = (MY_ABS(dxBoxProcess(pObject)) > 0 || MY_ABS(dyBoxProcess(pObject)) > 0);
 	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->objectBox.x, &pObject->objectBox.y);
 }
 
@@ -221,12 +221,16 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 		setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, 0.0, 0.0);
 		pObject->relativeTime += 7;
 		pObject->falling = 1;
-		if (KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &downDirection))
+		if (dyBoxProcess(pObject) > 0)
 		{
-			pObject->relativeTime = 0;
-			pObject->falling = 0;
-			setSideMotionPossibility(pObject, pSurfaceMap);
-			resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
+			while (!globalMotionPossibility(pObject, pSurfaceMap, downDirection))
+			{
+				pObject->objectSurface->clip_rect.y -= 1;
+				pObject->relativeTime = 0;
+				pObject->falling = 0;
+				setSideMotionPossibility(pObject, pSurfaceMap);
+				resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
+			}
 		}
 	}
 	else
@@ -253,8 +257,8 @@ void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfa
 	if (launchAnim)
 	{
 		if (!pInput->jumpOnGoing)
-			swap = swapManagement(pInput, pWorms);
-		gestionAnimationWorms(pWorms, swap);
+			swap = swapManagement(pInput, pWorms, pSurfaceMap);
+		gestionAnimationWorms(pWorms, swap, pSurfaceMap);
 	}
 	if (!swap)
 		KaamPhysicManagement(pInput, pWorms->wormsObject, pSurfaceMap);
@@ -301,7 +305,7 @@ void KaamGroundCollisionProcess(Input* pInput, KaamObject* pObject, SDL_Surface*
 	enum DIRECTION direction = pInput->direction;
 	int indexBoucle = 0;
 	pObject->objectSurface->clip_rect.x += deplacement;
-	pObject->motionDirection = motionDirectionProcess(dxProcess(pObject), dyProcess(pObject));
+	pObject->motionDirection = motionDirectionProcess(dxBoxProcess(pObject), dyBoxProcess(pObject));
 	if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &direction, 0))
 	{
 		if (direction == DOWN)
@@ -352,7 +356,7 @@ void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceM
 		}
 		KaamGroundMotionReset(pInput, pObject);
 		setSideMotionPossibility(pObject, pSurfaceMap);
-		pObject->motionDirection = motionDirectionProcess(dxProcess(pObject), 0);
+		pObject->motionDirection = motionDirectionProcess(dxBoxProcess(pObject), 0);
 	}
 }
 
@@ -386,19 +390,12 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 			pObject->Yspeed = 0.0;
 		}
 		else setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, pObject->Xspeed, pObject->Yspeed);
-		pObject->motionDirection = motionDirectionProcess((pObject->objectSurface->clip_rect.x - pObject->precedentCoordinate.x), (pObject->objectSurface->clip_rect.y - pObject->precedentCoordinate.y));
+		pObject->motionDirection = motionDirectionProcess(dxPrecProcess(pObject), dyPrecProcess(pObject));
 		directionBeforeCollision = pObject->motionDirection;
 		pObject->relativeTime += 7;
-		if (stopReact || pObject->relativeTime > 7 && KaamCollisionManagement(pSurfaceMap, pObject->objectSurface, &pObject->motionDirection))
-		{
-			if (!KaamCollisionReaction(pObject, directionBeforeCollision, allowRebound))
-			{
-				pObject->rebound = 0;
-				resetMotionVariables(pInput, pObject);
-				pObject->reactToBomb = 0;
-				setSideMotionPossibility(pObject, pSurfaceMap);
-			}
-		}
+		KaamCollisionManagement(pInput, pSurfaceMap, pObject, directionBeforeCollision, allowRebound);
+		if (stopReact)
+			resetNonLinearMotion(pInput, pObject, pSurfaceMap);
 		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
 	}
 	else resetMotionVariables(pInput, pObject);
@@ -418,58 +415,54 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 
+int globalMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap, enum DIRECTION direction)
+{
+	int possible = 1;
+	enum DIRECTION testDirection = direction;
+	if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &testDirection, 1))
+		possible = 0;
+	if (collisionSurfaceWithMapLimits(pSurfaceMap, pObject->objectSurface))
+		possible = 0;
+	return possible;
+}
+
 /**
-* \fn int KaamCollisionManagement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
+* \fn void KaamCollisionManagement(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound)
 * \brief replace le worms en cas de collision.
 *
-* \param[in] pSurfaceMotion, surface en deplacement
-* \param[in] pSurfaceMap, surface de la map
-* \param[in] pDirection, direction du deplacement du worms, peut etre modifie par la fonction
-* \returns int collision, indique s'il y a eu collision
+* \param[in] pInput, pointer to the structure of inputs.
+* \param[in] pSurfaceMap, pointer to the surface's map.
+* \param[in] pObject, pointer to the object in motion.
+* \param[in] directionBeforeCollision, direction of the motion before contact.
+* \param[in] allowRebound, selects if rebound are allowed in the motion.
+* \returns void.
 */
-int KaamCollisionManagement(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection)
+void KaamCollisionManagement(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound)
 {
-	int t = 0;
-	int collision = 0;
-	while (t < 60 && collisionSurfaceWithMap(pSurfaceMap, pSurfaceMotion, pDirection, 0))	//Tant qu'on détecte une collision et que la boucle ne s'est pas effectuée plus de 60 fois (évite des boucles infinies)
+	while (!globalMotionPossibility(pObject, pSurfaceMap, pObject->motionDirection))
 	{
-		switch (*pDirection)	//Switch de la valeur de derriere le pointeur pDirection, indiquant le sens de détection de la collision
+		if (dxBoxProcess(pObject) > 0)
+			pObject->objectSurface->clip_rect.x -= 1;
+		if (dxBoxProcess(pObject) < 0)
+			pObject->objectSurface->clip_rect.x += 1;
+		if (dyBoxProcess(pObject) > 0)
+			pObject->objectSurface->clip_rect.y -= 1;
+		if (dyBoxProcess(pObject) < 0)
+			pObject->objectSurface->clip_rect.y += 1;
+		if (dxBoxProcess(pObject) == 0 && dyBoxProcess(pObject) == 0)
 		{
-		case RIGHT:	//Cas d'une détection à droite
-			pSurfaceMotion->clip_rect.x -= 1;	//Soustraction de la vitesse de déplacement sur l'axe x (0à gauche de l'écran et x à droite de l'écran)
-			break;
-		case LEFT:	//Cas d'une détection à gauche
-			pSurfaceMotion->clip_rect.x += 1;	//Addition de la vitesse de déplacement sur l'axe x
-			break;
-		case DOWN:	//Cas d'une détection en bas
-			pSurfaceMotion->clip_rect.y -= 1;	//Soustraction de la vitesse de déplacement sur l'axe y (0 en haut de l'écran et y en bas de l'écran)
-			break;
-		case UP:	//Cas d'une détection en hauteur
-			pSurfaceMotion->clip_rect.y += 1;	//Addition de la vitesse de déplacement sur l'axe y
-			break;
-		case UPRIGHT:	//Cas d'une détection en diagonale haute droite
-			pSurfaceMotion->clip_rect.x -= 1;	//Soustraction de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y += 1;	//Addition de la vitesse de déplacement sur l'axe y
-			break;
-		case UPLEFT:	//Cas d'une détection en diagonale haute gauche
-			pSurfaceMotion->clip_rect.x += 1;	//Addition de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y += 1;	//Addition de la vitesse de déplacement sur l'axe y
-			break;
-		case DRIGHT:	//Cas d'une détection en diagonale basse droite
-			pSurfaceMotion->clip_rect.x -= 1;	//Soustraction de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y -= 1;	//Soustraction de la vitesse de déplacement sur l'axe y 
-			break;
-		case DLEFT:	//Cas d'une détection en diagonale basse gauche
-			pSurfaceMotion->clip_rect.x += 1;	//Addition de la vitesse de déplacement sur l'axe x
-			pSurfaceMotion->clip_rect.y -= 1;	//Soustraction de la vitesse de déplacement sur l'axe y 
-			break;
-		default:
+			if (directionBeforeCollision == UPLEFT || directionBeforeCollision == UPRIGHT)
+			{
+				pObject->objectSurface->clip_rect.y -= 1;
+				if (!collisionSurfaceWithMapBasic(pSurfaceMap, pObject->objectSurface))
+					pObject->motionDirection = DOWN;
+				pObject->objectSurface->clip_rect.y += 1;
+			}
+			if (!KaamCollisionReaction(pObject, directionBeforeCollision, allowRebound))
+				resetNonLinearMotion(pInput, pObject, pSurfaceMap);
 			break;
 		}
-		t++;	//Incrémentation du limiteur de boucle
-		collision = 1;	//Mise à 1 de l'indicateur de collision
 	}
-	return collision;	//Return l'indice de collision, 0 = pas de collision, 1 = collision
 }
 
 /**
@@ -501,9 +494,7 @@ int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCol
 		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
 		reaction = 1;
 	}
-	else if (allowRebound && pObject->rebound < 1 &&
-		(pObject->motionDirection == DRIGHT
-		|| pObject->motionDirection == DLEFT))
+	else if (allowRebound && pObject->rebound < 1)
 	{
 		resetReboundVariables(pObject, 1.0, 1.0, 2.0, 2.0);
 		reaction = 1;

@@ -22,6 +22,7 @@ void resetSpeed(float* Xspeed, float* Yspeed);
 void resetMotionVariables(Input* pInput, KaamObject* pObject);
 void resetAbsoluteCoordinates(SDL_Surface* pSurface, int* absoluteX, int* absoluteY);
 void resetReboundVariables(KaamObject* pObject, float signX, float signY, float coeffX, float coeffY);
+void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap);
 
 /*Test functions*/
 int getStartMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap);
@@ -39,8 +40,10 @@ void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* 
 void calculOrdreBalayage(enum DIRECTION direction, int ordre[4]);
 
 /*Motion functions*/
-int dyProcess(KaamObject* pObject);
-int dxProcess(KaamObject* pObject);
+int dyBoxProcess(KaamObject* pObject);
+int dxBoxProcess(KaamObject* pObject);
+int dxPrecProcess(KaamObject* pObject);
+int dyPrecProcess(KaamObject* pObject);
 enum DIRECTION motionDirectionProcess(int dx, int dy);
 
 

@@ -149,19 +149,27 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void swapManagement(Input* pInput, Worms* pWorms)
+* \fn void swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 * \brief Manages the swap of a worms and collision if needed.
 *
 * \param[in] pInput, pointer to the Input structure.
 * \param[in] pWorms, pointeur du worms a tester
 * \returns void
 */
-int swapManagement(Input* pInput, Worms* pWorms)
+int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
 	if (swapWorms(pInput, pWorms))
 	{
 		swapWormsSurface(pWorms);
 		pInput->direction = NONE;
+		int indexBoucle = 0;
+		while (indexBoucle < 3 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
+		{
+			if (pWorms->dirSurface == LEFT)
+				pWorms->wormsObject->objectSurface->clip_rect.x += 1;
+			else pWorms->wormsObject->objectSurface->clip_rect.x -= 1;
+			indexBoucle++;
+		}
 		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
 			&pWorms->wormsObject->absoluteCoordinate.x,
 			&pWorms->wormsObject->absoluteCoordinate.y);
@@ -204,8 +212,8 @@ void swapWormsSurface(Worms* pWorms)
 	}
 	else memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceLeft->pixels, w*h*sizeof(Uint32));
 	if (pWorms->dirSurface == RIGHT)
-		pWorms->wormsObject->objectSurface->clip_rect.x += 2;
-	else pWorms->wormsObject->objectSurface->clip_rect.x -= 2;
+		pWorms->wormsObject->objectSurface->clip_rect.x += 3;
+	else pWorms->wormsObject->objectSurface->clip_rect.x -= 3;
 	pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 }
 
@@ -263,18 +271,37 @@ void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void gestionAnimationWorms(Worms* pWorms, int swap)
+* \fn void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 * \brief Manages animation of the worms.
 *
 * \param[in] pWorms, pointer to the worms to swap
 * \param[in] swap, indicates if a swap occured.
 * \returns void
 */
-void gestionAnimationWorms(Worms* pWorms, int swap)
+void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 {
 	if (swap)
 		pWorms->indexAnim = 0;
 	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
+	int indexBoucle = 0;
+	while (indexBoucle < 3 && collisionSurfaceWithMapBasic(pSurfaceMap,pWorms->wormsObject->objectSurface))
+	{
+		indexBoucle++;
+		if (pWorms->dirSurface == LEFT)
+		{
+			if (pWorms->wormsObject->rightOk == 1)
+				pWorms->wormsObject->objectSurface->clip_rect.x += 1;
+			setSideMotionPossibility(pWorms->wormsObject, pSurfaceMap);
+			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
+		}
+		else if (pWorms->dirSurface == RIGHT)
+		{
+			if (pWorms->wormsObject->leftOk == 1)
+				pWorms->wormsObject->objectSurface->clip_rect.x -= 1;
+			setSideMotionPossibility(pWorms->wormsObject, pSurfaceMap);
+			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
+		}
+	}
 	if (pWorms->indexAnim >= 14)
 		pWorms->indexAnim = 0;
 	else pWorms->indexAnim++;
@@ -313,26 +340,20 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 }
 
 
-void effacerSurfaceWorms(Worms* pWorms)
+void effacerSurface(SDL_Surface* pSurface)
 {
-	Uint32* pixel = (Uint32*)pWorms->wormsObject->objectSurface->pixels;
-	SDL_PixelFormat* format = pWorms->wormsObject->objectSurface->format;
-	Uint32 pixel_Transparent = SDL_MapRGBA(pWorms->wormsObject->objectSurface->format, 255, 255, 255, 0);
+	Uint32 pixel_Transparent = SDL_MapRGBA(pSurface->format, 255, 255, 255, 0);
 	int x, y;
-	int Wworms = pWorms->wormsObject->objectSurface->w;
-	int Hworms = pWorms->wormsObject->objectSurface->h;
-
-	for (y = 0; y < (Hworms); y++)
+	int Wsurface = pSurface->w, xSurface = pSurface->clip_rect.x;
+	int Hsurface = pSurface->h, ySurface = pSurface->clip_rect.y;
+	for (y = ySurface; y < (ySurface + Hsurface); y++)
 	{
-		for (x = 0; x < (Wworms); x++)
+		for (x = xSurface; x < (xSurface + Wsurface); x++)
 		{
-			if (!pixelTransparent(pixel[x + y* Wworms], format))
-			{
-				pixel[x + y* Wworms] = pixel_Transparent;
-			}
+			WritePixel(pMainTerrain->globalMapSurface, x, y, pixel_Transparent);
 		}
 	}
-	updateSurfaceFromSurface(pMainTerrain->globalMapSurface, pMainTerrain->collisionMapSurface, &pWorms->wormsObject->objectSurface->clip_rect);
+	updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &pSurface->clip_rect);
 }
 
 
@@ -356,36 +377,34 @@ void effacerSurfaceWorms(Worms* pWorms)
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision)
 {
 	int indexWorms;
-	if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
+	if (!pInput->menu)
 	{
-		callNextWorms();
-	}
-	if (pInput->deplacement)
-		pInput->deplacement = 0;
-	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
-	{
-		if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
-			|| !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
+		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 		{
-			if (wormsTab[indexWorms]->vie > 0
-				|| (wormsTab[indexWorms]->vie == 0 && !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
+			callNextWorms();
+		}
+		if (pInput->deplacement)
+			pInput->deplacement = 0;
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
+		{
+			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
+				|| !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
 			{
-				KaamWormsMotionManagement(pInput, wormsTab[indexWorms], pSurfaceMapCollision);
+				if (wormsTab[indexWorms]->vie > 0
+					|| (wormsTab[indexWorms]->vie == 0 && !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
+				{
+					KaamWormsMotionManagement(pInput, wormsTab[indexWorms], pSurfaceMapCollision);
+				}
+				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
+					resetInputs(pInput);
 			}
-			if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
-				resetInputs(pInput);
+			if (pInput->deplacement || pInput->raffraichissement)
+			{
+				display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
+				wormsOverlay(wormsTab);
+				pInput->raffraichissement = 1;
+			}
 		}
-		if (pInput->deplacement || pInput->raffraichissement)
-		{
-			display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-			wormsOverlay(wormsTab);
-			pInput->raffraichissement = 1;
-		}
-		/*else
-		{
-		effacerSurfaceWorms(wormsTab[globalVar.indexWormsTab]);
-		display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface,0);
-		}*/
 	}
 }
 

@@ -34,18 +34,18 @@ void destroyWorms(Worms** wormsTab, int nbWorms);	//détruit un worms
 void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection);
 
 /*Gestion du retournement*/
-int swapManagement(Input* pInput, Worms* pWorms);
+int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap);
 int swapWorms(Input* pInput, Worms* pWorms);
 void swapWormsSurface(Worms* pWorms);
 
 /*Gestion de l'animation*/
-void gestionAnimationWorms(Worms* pWorms, int swap);
+void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap);
 int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction);
 
 /*Gestion de l'overlay*/
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision);
 void wormsOverlay(Worms** wormsTab);
-void effacerSurfaceWorms(Worms* pWorms);
+void effacerSurface(SDL_Surface* pSurface);
 
 /*Fonctions diverses*/
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);

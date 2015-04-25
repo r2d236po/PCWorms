@@ -355,6 +355,7 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 {
 	int x = 0, y = 0;
 	Uint32 pixel;
+	reajustRect(pRect, pSurfaceDest);
 	for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 	{
 		for (x = pRect->x; x < (pRect->x + pRect->w); x++)

@@ -110,7 +110,9 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				pInput->bend = 1;
 				break;
 			case SDLK_ESCAPE:
+				if (!pInput->menu)
 				pInput->menu = 1;
+				else pInput->menu = 0;
 				break;
 			case SDLK_q:
 				pInput->quit = 1;
