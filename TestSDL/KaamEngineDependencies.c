@@ -72,33 +72,30 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 	pObject->rightOk = 1;
 	pObject->leftOk = 1;
 	pObject->objectSurface->clip_rect.x += Xtest;
-	enum DIRECTION directionTest = pObject->motionDirection;
+	enum DIRECTION directionTest = RIGHT;
 	if (collisionSurfaceWithMapLimits(pSurfaceMap, pObject->objectSurface)
 		|| collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1))
 	{
 		if (directionTest == DOWN)
 		{
-			directionTest = UP;
-			pObject->objectSurface->clip_rect.y -= Ytest;
-			if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1) && directionTest != DOWN)
+			pObject->rightOk = 2;
+			if (!checkDirection(pSurfaceMap, pObject->objectSurface, 3, -7, UPRIGHT)
+				|| !checkDirection(pSurfaceMap, pObject->objectSurface, 0, -7, UP))
 				pObject->rightOk = 0;
-			else pObject->rightOk = 2;
-			pObject->objectSurface->clip_rect.y += Ytest;
 		}
 		else pObject->rightOk = 0;
 	}
 	pObject->objectSurface->clip_rect.x -= 2*Xtest;
+	directionTest = LEFT;
 	if (collisionSurfaceWithMapLimits(pSurfaceMap, pObject->objectSurface)
 		|| collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1))
 	{
 		if (directionTest == DOWN)
 		{
-			directionTest = UP;
-			pObject->objectSurface->clip_rect.y -= Ytest;
-			if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1) && directionTest != DOWN)
+			pObject->leftOk = 2;
+			if (!checkDirection(pSurfaceMap, pObject->objectSurface, -3, -7, UPLEFT)
+				|| !checkDirection(pSurfaceMap, pObject->objectSurface, 0, -7, UP))
 				pObject->leftOk = 0;
-			else pObject->leftOk = 2;
-			pObject->objectSurface->clip_rect.y += Ytest;
 		}
 		else pObject->leftOk = 0;
 	}
@@ -249,15 +246,20 @@ int jumpDoability(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DI
 	int doAble = 1;
 
 	checkUp = checkDirection(pSurfaceMap, pSurfaceMotion, 0, -7, UP);
-	if (jumpDirection == UP || jumpDirection == UPLEFT)
+	if (jumpDirection == UPLEFT)
 	{
 		checkUpLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -7, -7, UPLEFT);
 		checkLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -7, 0, LEFT);
 	}
-	if (jumpDirection == UP || jumpDirection == UPRIGHT)
+	if (jumpDirection == UPRIGHT)
 	{
 		checkUpRight = checkDirection(pSurfaceMap, pSurfaceMotion, 7, -7, UPRIGHT);
 		checkRight = checkDirection(pSurfaceMap, pSurfaceMotion, 7, 0, RIGHT);
+	}
+	if (jumpDirection == UP)
+	{
+		checkUpRight = checkDirection(pSurfaceMap, pSurfaceMotion, 2, -7, UPRIGHT);
+		checkUpLeft = checkDirection(pSurfaceMap, pSurfaceMotion, -2, -7, UPLEFT);
 	}
 	doAble = processCheck(checkLeft, checkRight, checkUp, checkUpLeft, checkUpRight, jumpDirection);
 	return doAble;
@@ -314,7 +316,7 @@ int processCheck(int checkLeft, int checkRight, int checkUp, int checkUpLeft, in
 		switch (jumpDirection)
 		{
 		case UP:
-			if ((!checkRight && !checkUpRight) || (!checkLeft && !checkUpLeft))
+			if ((!checkUpRight) || (!checkUpLeft) || !checkUp)
 				generalCheck = 0;
 			break;
 		case UPLEFT:

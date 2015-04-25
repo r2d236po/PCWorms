@@ -40,7 +40,7 @@ void KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	srand((int)time(NULL));
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
 	{
-		wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0,pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
+		wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0, pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
 		wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
 		wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y = 0;
 		resetAbsoluteCoordinates(wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.x, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.y);
@@ -253,10 +253,11 @@ void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfa
 	if (launchAnim)
 	{
 		if (!pInput->jumpOnGoing)
-			swap = swapManagement(pInput, pWorms, pSurfaceMap);
-		gestionAnimationWorms(pWorms, pSurfaceMap, swap);
+			swap = swapManagement(pInput, pWorms);
+		gestionAnimationWorms(pWorms, swap);
 	}
-	KaamPhysicManagement(pInput, pWorms->wormsObject, pSurfaceMap);
+	if (!swap)
+		KaamPhysicManagement(pInput, pWorms->wormsObject, pSurfaceMap);
 }
 
 
@@ -339,14 +340,16 @@ void KaamGroundMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceM
 		case RIGHT:
 			if (pObject->rightOk)
 				pObject->objectSurface->clip_rect.x += groundSpeed;
+			if (pObject->rightOk > 1)
+				pObject->objectSurface->clip_rect.y -= 1;
 			break;
 		case LEFT:
 			if (pObject->leftOk)
 				pObject->objectSurface->clip_rect.x -= groundSpeed;
+			if (pObject->leftOk > 1)
+				pObject->objectSurface->clip_rect.y -= 1;
 			break;
 		}
-		if (pObject->rightOk > 1 || pObject->leftOk > 1)
-			pObject->objectSurface->clip_rect.y -= 1;
 		KaamGroundMotionReset(pInput, pObject);
 		setSideMotionPossibility(pObject, pSurfaceMap);
 		pObject->motionDirection = motionDirectionProcess(dxProcess(pObject), 0);

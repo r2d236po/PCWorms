@@ -149,29 +149,19 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+* \fn void swapManagement(Input* pInput, Worms* pWorms)
 * \brief Manages the swap of a worms and collision if needed.
 *
 * \param[in] pInput, pointer to the Input structure.
 * \param[in] pWorms, pointeur du worms a tester
 * \returns void
 */
-int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+int swapManagement(Input* pInput, Worms* pWorms)
 {
-	int indexBoucle = 0, correction = 1;
 	if (swapWorms(pInput, pWorms))
 	{
 		swapWormsSurface(pWorms);
 		pInput->direction = NONE;
-		while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
-		{
-			if (indexBoucle > 10)
-				correction = -1;
-			if (pWorms->dirSurface == RIGHT)
-				pWorms->wormsObject->objectSurface->clip_rect.x -= correction;
-			else pWorms->wormsObject->objectSurface->clip_rect.x += correction;
-			indexBoucle++;
-		}
 		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
 			&pWorms->wormsObject->absoluteCoordinate.x,
 			&pWorms->wormsObject->absoluteCoordinate.y);
@@ -213,6 +203,10 @@ void swapWormsSurface(Worms* pWorms)
 		memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceRight->pixels, w*h*sizeof(Uint32));
 	}
 	else memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceLeft->pixels, w*h*sizeof(Uint32));
+	if (pWorms->dirSurface == RIGHT)
+		pWorms->wormsObject->objectSurface->clip_rect.x += 2;
+	else pWorms->wormsObject->objectSurface->clip_rect.x -= 2;
+	pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 }
 
 
@@ -273,30 +267,14 @@ void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection)
 * \brief Manages animation of the worms.
 *
 * \param[in] pWorms, pointer to the worms to swap
-* \param[in] pSurfaceMap, pointer to the map surface
 * \param[in] swap, indicates if a swap occured.
 * \returns void
 */
-void gestionAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap, int swap)
+void gestionAnimationWorms(Worms* pWorms, int swap)
 {
-	int indexBoucle = 0, correction = 1;
 	if (swap)
 		pWorms->indexAnim = 0;
 	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
-	/*while (indexBoucle < 60 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
-	{
-		if (indexBoucle > 10)
-			correction = -1;
-		if (pWorms->dirSurface == RIGHT)
-			pWorms->wormsObject->objectSurface->clip_rect.x -= correction;
-		else pWorms->wormsObject->objectSurface->clip_rect.x += correction;
-		indexBoucle++;
-	}*/
-	if (collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
-	{
-		pWorms->indexAnim = 0;
-		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
-	}
 	if (pWorms->indexAnim >= 14)
 		pWorms->indexAnim = 0;
 	else pWorms->indexAnim++;
