@@ -746,7 +746,7 @@ int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* 
 			notCentered = 1;
 		}
 		if (notCentered){
-			if ((diffX > -sizeX && diffX < sizeX) && (diffY > -sizeY && diffY < sizeY) || (camera->x + camera->w + coefDeplaX > wM) && diffX > -sizeBoxX || (camera->y + camera->h + coefDeplaY > hM) && diffY > -sizeBoxY){
+			if ((diffX > -sizeX && diffX < sizeX) && (diffY > -sizeY && diffY < sizeY) || (camera->x + camera->w + coefDeplaX > wM) && diffX > -sizeBoxX && (camera->y + camera->h + coefDeplaY > hM) && diffY > -sizeBoxY){
 				notCentered = 0;
 			}
 			else{
