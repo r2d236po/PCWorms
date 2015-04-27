@@ -98,7 +98,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 
 	for (int i = 0; i < nbWorms; i++)
 	{
-		team->worms[i] = createWorms("Gerard");
+		team->worms[i] = createWorms("Jean-Neige");
 		if (team->worms[i] == NULL)
 		{
 			fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");

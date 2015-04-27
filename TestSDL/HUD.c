@@ -26,20 +26,19 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 */
 void updateTextSurfaceWorms(Worms** wormsTab)
 {
-	static char str[10];
+	char * str[10];
 	int i;
-	SDL_Surface * txtSurface = NULL;
+	SDL_Surface * txtLifeSurface = NULL;
 
-	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe; i++)
+	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe ; i++)
 	{
 		sprintf(str, "%d", wormsTab[i]->vie);
 
-		txtSurface = TTF_RenderText_Blended(globalVar.FontName, str, globalVar.couleurBleu);
-
-		SDL_FreeSurface(wormsTab[i]->texteSurface);
-		wormsTab[i]->texteSurface = txtSurface;
+		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, globalVar.couleurBleu);
+		SDL_FreeSurface(wormsTab[i]->texteLifeSurface);
+		wormsTab[i]->texteLifeSurface = txtLifeSurface;
 	}
-	txtSurface = NULL;
+	txtLifeSurface = NULL;
 
 	updateTextSurfacePosition(wormsTab);
 }
@@ -56,13 +55,18 @@ void updateTextSurfacePosition(Worms** wormsTab)
 
 	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe; i++)
 	{
-		t_x = wormsTab[i]->wormsObject->absoluteCoordinate.x + 15 - (wormsTab[i]->texteSurface->clip_rect.w / 2);
-		t_y = wormsTab[i]->wormsObject->absoluteCoordinate.y - 20;
+		//Affichage du Nom
+		t_x = wormsTab[i]->wormsObject->absoluteCoordinate.x + 15 - (wormsTab[i]->texteNameSurface->clip_rect.w / 2);
+		t_y = wormsTab[i]->wormsObject->absoluteCoordinate.y - 40;
 
-		if (t_x >= 0){ wormsTab[i]->texteSurface->clip_rect.x = t_x; }
-		else { wormsTab[i]->texteSurface->clip_rect.x = wormsTab[i]->wormsObject->absoluteCoordinate.x; }
+		if (t_x >= 0){ wormsTab[i]->texteNameSurface->clip_rect.x = t_x; }
+		else { wormsTab[i]->texteNameSurface->clip_rect.x = wormsTab[i]->wormsObject->absoluteCoordinate.x; }
 
-		if (t_y >= 0) { wormsTab[i]->texteSurface->clip_rect.y = t_y; }
-		else { wormsTab[i]->texteSurface->clip_rect.y = wormsTab[i]->wormsObject->absoluteCoordinate.y; }
+		if (t_y >= 0) { wormsTab[i]->texteNameSurface->clip_rect.y = t_y; }
+		else { wormsTab[i]->texteNameSurface->clip_rect.y = wormsTab[i]->wormsObject->absoluteCoordinate.y; }
+
+		//Affichage de la Vie
+		wormsTab[i]->texteLifeSurface->clip_rect.x = wormsTab[i]->texteNameSurface->clip_rect.x + (wormsTab[i]->texteNameSurface->clip_rect.w / 2) - (wormsTab[i]->texteLifeSurface->clip_rect.w /2);
+		wormsTab[i]->texteLifeSurface->clip_rect.y = wormsTab[i]->texteNameSurface->clip_rect.y + wormsTab[i]->texteNameSurface->clip_rect.h;
 	}
 }

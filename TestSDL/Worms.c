@@ -30,6 +30,7 @@ Worms* createWorms(char* name)
 {
 	Worms* worms = NULL;
 	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
+	char strVie[10];
 	fprintf(logFile, "createWorms : START :\n\n");
 	worms = (Worms*)malloc(sizeof(Worms));
 	if (worms == NULL)
@@ -60,9 +61,11 @@ Worms* createWorms(char* name)
 
 	//initialisation des variables autres
 	worms->vie = 100;
+	sprintf(strVie, "%d", worms->vie);
 	strcpy(worms->nom, name);
-	worms->texteSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, globalVar.couleurBleu);
-	if (worms->texteSurface == NULL)
+	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, globalVar.couleurBleu);
+	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, globalVar.couleurBleu);
+	if (worms->texteLifeSurface == NULL || worms->texteNameSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
 		destroyWorms(&worms, 1);
@@ -120,10 +123,15 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 			SDL_FreeSurface((wormsTab[i])->wormsSurfaceTomb);
 			(wormsTab[i])->wormsSurfaceTomb = NULL;
 		}
-		if ((wormsTab[i])->texteSurface != NULL)
+		if ((wormsTab[i])->texteLifeSurface != NULL)
 		{
-			SDL_FreeSurface((wormsTab[i])->texteSurface);
-			(wormsTab[i])->texteSurface = NULL;
+			SDL_FreeSurface((wormsTab[i])->texteLifeSurface);
+			(wormsTab[i])->texteLifeSurface = NULL;
+		}
+		if ((wormsTab[i])->texteNameSurface != NULL)
+		{
+			SDL_FreeSurface((wormsTab[i])->texteNameSurface);
+			(wormsTab[i])->texteNameSurface = NULL;
 		}
 		KaamDestroyObject(&wormsTab[i]->wormsObject);
 		free(wormsTab[i]);
@@ -383,8 +391,10 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 		{
 			callNextWorms();
 		}
-		if (pInput->deplacement)
-			pInput->deplacement = 0;
+
+		pInput->deplacement = 0;
+		updateTextSurfaceWorms(wormsTab);
+
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 		{
 			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
@@ -402,6 +412,10 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			{
 				display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				wormsOverlay(wormsTab);
+
+				display(wormsTab[indexWorms]->texteLifeSurface, 1);
+				display(wormsTab[indexWorms]->texteNameSurface, 1);
+
 				pInput->raffraichissement = 1;
 			}
 		}

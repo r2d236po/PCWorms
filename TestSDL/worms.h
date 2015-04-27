@@ -20,7 +20,8 @@ typedef struct {		//Structure worms
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
 	SDL_Surface* wormsSurfaceTomb;
-	SDL_Surface* texteSurface;
+	SDL_Surface* texteLifeSurface;
+	SDL_Surface* texteNameSurface;
 	KaamObject* wormsObject;
 	int indexAnim;
 	//son?
