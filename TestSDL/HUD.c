@@ -63,7 +63,7 @@ void updateTextSurfacePosition(Worms** wormsTab)
 		else { wormsTab[i]->texteNameSurface->clip_rect.x = wormsTab[i]->wormsObject->absoluteCoordinate.x; }
 
 		if (t_y >= 0) { wormsTab[i]->texteNameSurface->clip_rect.y = t_y; }
-		else { wormsTab[i]->texteNameSurface->clip_rect.y = wormsTab[i]->wormsObject->absoluteCoordinate.y; }
+		else { wormsTab[i]->texteNameSurface->clip_rect.y = wormsTab[i]->wormsObject->absoluteCoordinate.y + 40; }
 
 		//Affichage de la Vie
 		wormsTab[i]->texteLifeSurface->clip_rect.x = wormsTab[i]->texteNameSurface->clip_rect.x + (wormsTab[i]->texteNameSurface->clip_rect.w / 2) - (wormsTab[i]->texteLifeSurface->clip_rect.w /2);

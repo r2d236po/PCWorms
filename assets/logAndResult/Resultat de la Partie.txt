@@ -1,6 +1,6 @@
 Resultat de la partie : 
 
-	Temps de jeu : 10 secondes.
+	Temps de jeu : 83 secondes.
 	Map jouée : ../assets/pictures/maptestCam.png.
 	Nombre d'equipes : 2.
 	Nombre de worms par equipe : 2.
