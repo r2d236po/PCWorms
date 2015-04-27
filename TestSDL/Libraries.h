@@ -34,6 +34,7 @@
 #define cMAP_TEST2	"../assets/pictures/maptest2.png"
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"
 #define cMAP_TEST4	"../assets/pictures/maptest4.png"
+#define cMAP_CAM	"../assets/pictures/maptestCam.png"
 #define ICONE "../assets/pictures/icone.png"
 
 /*Structures globales*/
