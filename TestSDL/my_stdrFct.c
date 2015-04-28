@@ -259,6 +259,7 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
 	if (pSurfaceMain != pSurfaceSecond)
 	{
+		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
 		Uint32* pixelWrite = NULL;
 		Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
 		int x, y, offsety;
@@ -524,7 +525,7 @@ int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 *
 * \param[in] pSurfaceMap, pointer to the map's surface
 * \param[in] pSurfaceMotion, pointer to the motion object's surface.
-* \return rect, une structure SDL_Rect initialisee aux dimensions et coordonnées combinees des deux rect.
+* \return void.
 */
 void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
@@ -556,11 +557,11 @@ int rand_a_b(int a, int b)
 
 /**
 * \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
-* \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
+* \brief Reajust rectangle dimensions of a rect which is a bit out of map.
 *
-* \param[in] pRect, rectangle a evaluer, peut etre modifie par la fonction
-* \param[in] pSurfaceMap, surface de la map
-* \return 1 si il y a eu modification, 0 sinon
+* \param[in] pRect, rectangle to test, its dimension can be modified by the function.
+* \param[in] pSurfaceMap, pointer to the map's surface.
+* \return 1 = there was modifications, 0 = no modifications
 */
 int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 {

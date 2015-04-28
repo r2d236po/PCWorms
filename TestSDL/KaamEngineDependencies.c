@@ -405,10 +405,7 @@ int collisionSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfac
 	int x = pSurfaceMotion->clip_rect.x, y = pSurfaceMotion->clip_rect.y;
 	int w = pSurfaceMotion->w, h = pSurfaceMotion->h;
 
-	if (x < 0
-		|| y < 0
-		|| x + w > xMax
-		|| y + h > yMax)
+	if (x < 0 || y < 0 || (x + w) > xMax || (y + h) > yMax)
 	{
 		reajustSurfaceWithMapLimits(pSurfaceMap, pSurfaceMotion);
 		return 1;
