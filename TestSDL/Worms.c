@@ -42,7 +42,6 @@ Worms* createWorms(char* name, SDL_Color* couleur)
 	worms->wormsSurfaceTomb = loadImage("../assets/pictures/Tombe2_SD.png");
 	worms->wormsSurfaceLeft = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
 	worms->wormsSurfaceRight = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
-	//wormsSurfaceRight = loadImage("../assets/pictures/wormsd.png");
 	if (worms->wormsSurfaceTomb == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
@@ -62,11 +61,11 @@ Worms* createWorms(char* name, SDL_Color* couleur)
 
 	//initialisation des variables autres
 	worms->vie = 100;
-	sprintf(strVie, "%d", worms->vie);
+	sprintf(strVie, " %d ", worms->vie);
 	worms->color = couleur;
 	strcpy(worms->nom, name);
-	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, *worms->color);
-	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, *worms->color);
+	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, *(worms->color));
+	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, *(worms->color));
 	if (worms->texteLifeSurface == NULL || worms->texteNameSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");

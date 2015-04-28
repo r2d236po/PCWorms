@@ -33,7 +33,6 @@ void updateTextSurfaceWorms(Worms** wormsTab)
 	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe ; i++)
 	{
 		sprintf(str, " %d ", wormsTab[i]->vie);
-
 		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(wormsTab[i]->color));
 		copySurfacePixels(txtLifeSurface, NULL, wormsTab[i]->texteLifeSurface, NULL);
 	}

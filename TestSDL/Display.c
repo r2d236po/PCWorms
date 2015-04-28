@@ -63,9 +63,9 @@ int display(SDL_Surface* pSurface, int mode)
 		}
 		if (surfaceTab[index]->flags != 0 || surfaceTab[index]->format == NULL)
 		{
-			cleanTab(nbSurface, index, 0, surfaceTab);
-			cleanTab(nbSurface, index, 1, xTab);
-			cleanTab(nbSurface, index, 1, yTab);
+			reindexTab(nbSurface, index, 0, surfaceTab);
+			reindexTab(nbSurface, index, 1, xTab);
+			reindexTab(nbSurface, index, 1, yTab);
 			nbSurface--;
 			index = 0;
 		}
@@ -87,22 +87,46 @@ int display(SDL_Surface* pSurface, int mode)
 	return 0;
 }
 
-
-void cleanTab(int size, int startPosition, ...)
+/**
+* \fn void reindexTab(int size, int startPosition, int type, ...)
+* \brief Redo the indexation of a tab in case of delete line.
+*
+* \param[in] size, size of the tab.
+* \param[in] startPosition, the position to start the reindex.
+* \param[in] type, type of the tab, 0 = array of SDL_Surface*, 1 = array of int, 2 = array of char.
+* \returns void
+*/
+void reindexTab(int size, int startPosition, int type, void* tab)
 {
 	int index;
-	int* tab = NULL;
-	SDL_Surface** tab2 = NULL;
+	int* intTab = NULL;
+	char* charTab = NULL;
+	SDL_Surface** pSurfaceTab = NULL;
 	va_list list;
-	va_start(list, startPosition);
-	if (va_arg(list, int) == 0)
-		tab2 = va_arg(list, SDL_Surface**);
-	else tab = va_arg(list, int*);
-	for (index = startPosition; index < size; index++)
+	va_start(list, type);
+	switch (type)
 	{
-		if (tab != NULL)
-			tab[index] = tab[index + 1];
-		else tab2[index] = tab2[index + 1];
+	case 0 :
+		//pSurfaceTab = va_arg(list, SDL_Surface**);
+		pSurfaceTab = tab;
+		break;
+	case 1 :
+		//intTab = va_arg(list, int*);
+		intTab = tab;
+		break;
+	case 2:
+		//charTab = va_arg(list, char*);
+		charTab = tab;
+		break;
+	}
+	for (index = startPosition; index < (size - 1); index++)
+	{
+		if (intTab != NULL)
+			intTab[index] = intTab[index + 1];
+		else if (charTab != NULL)
+			charTab[index] = charTab[index + 1];
+		else if (pSurfaceTab != NULL)
+			pSurfaceTab[index] = pSurfaceTab[index + 1];
 	}
 	va_end(list);
 }
