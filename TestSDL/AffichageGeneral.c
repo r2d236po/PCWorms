@@ -649,37 +649,6 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 }
 
 /**
-* \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
-* \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
-*
-* \param[in] pRect, rectangle a evaluer, peut etre modifie par la fonction
-* \param[in] pSurfaceMap, surface de la map
-* \return 1 si il y a eu modification, 0 sinon
-*/
-int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
-{
-	int modif = 0;
-	if (pRect->x < 0) {
-		pRect->w -= pRect->x;
-		pRect->x = 0;
-		modif = 1;
-	}
-	if (pRect->y < 0) {
-		pRect->h -= pRect->y;
-		pRect->y = 0;
-		modif = 1;
-	}
-	if (pRect->x + pRect->w >= pSurfaceMap->clip_rect.w){
-		pRect->w -= pRect->x + pRect->w - pSurfaceMap->clip_rect.w;
-		modif = 1;
-	}
-	if (pRect->y + pRect->h >= pSurfaceMap->clip_rect.h){
-		pRect->h -= pRect->y + pRect->h - pSurfaceMap->clip_rect.h;
-		modif = 1;
-	}
-	return modif;
-}
-/**
 * \fn void screenshot(SDL_Renderer* pRenderer)
 * \brief Make a screenshot of the screen
 *

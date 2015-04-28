@@ -1,4 +1,4 @@
-Start of session : Tue Apr 28 13:58:00 2015
+Start of session : Tue Apr 28 15:55:56 2015
 
 
 mainInit : DONE.
@@ -89,7 +89,7 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/maptestCam.png.
+	nom du fichier : ../assets/pictures/maptest3.png.
 
 
 initialisationTerrain : SUCCESS.
@@ -128,4 +128,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Tue Apr 28 13:58:17 2015
+End of Session : Tue Apr 28 15:56:27 2015

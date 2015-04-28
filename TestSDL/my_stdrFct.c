@@ -16,7 +16,7 @@
 * \param[in] windowName, name of the window.
 * \returns pointer to the created window, NULL if error.
 */
-SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const char * windowName){
+SDL_Window* creerFenetre(const int windowWidth, const int windowHight, const char * windowName){
 	SDL_Window * pWindow = NULL;
 	pWindow = SDL_CreateWindow(windowName,	//nom de la fenêtre
 		SDL_WINDOWPOS_CENTERED, //position en x de la fenêtre
@@ -54,7 +54,7 @@ SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const ch
 * \param[in] file, name of the image to load (with the entire path if necessary).
 * \returns pointer to the created surface, NULL if error.
 */
-SDL_Surface * loadImage(const char * file){
+SDL_Surface* loadImage(const char * file){
 	SDL_Surface* image = IMG_Load(file);
 	if (image == NULL)
 	{
@@ -74,7 +74,7 @@ SDL_Surface * loadImage(const char * file){
 * \param[in] file, name of the image to load (with the entire path if necessary).
 * \returns pointer to the created texture, NULL if error
 */
-SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
+SDL_Texture* loadTexture(SDL_Renderer * pRenderer, const char * file)
 {
 
 	SDL_Texture * texture = IMG_LoadTexture(pRenderer, file);
@@ -553,6 +553,105 @@ int rand_a_b(int a, int b)
 	else return a;
 }
 
+
+/**
+* \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
+* \brief Réajuste les dimensions d'un rectangle qui depasserai de la map
+*
+* \param[in] pRect, rectangle a evaluer, peut etre modifie par la fonction
+* \param[in] pSurfaceMap, surface de la map
+* \return 1 si il y a eu modification, 0 sinon
+*/
+int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
+{
+	int modif = 0;
+	if (pRect->x < 0) {
+		pRect->w -= pRect->x;
+		pRect->x = 0;
+		modif = 1;
+	}
+	if (pRect->y < 0) {
+		pRect->h -= pRect->y;
+		pRect->y = 0;
+		modif = 1;
+	}
+	if (pRect->x + pRect->w >= pSurfaceMap->clip_rect.w){
+		pRect->w -= pRect->x + pRect->w - pSurfaceMap->clip_rect.w;
+		modif = 1;
+	}
+	if (pRect->y + pRect->h >= pSurfaceMap->clip_rect.h){
+		pRect->h -= pRect->y + pRect->h - pSurfaceMap->clip_rect.h;
+		modif = 1;
+	}
+	return modif;
+}
+
+
+/**
+* \fn SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab)
+* \brief Create a rectangle that contains all rectangles of the array.
+* ____         _______
+*|   _|__     |       |
+*|__|_|  | => |       |
+*   |____|    |_______|
+*
+* \param[in] nbRect, nomber of rectangles
+* \param[in] rectTab, array of pointer to the rectangles.
+* \return the rectangle created, a null rectangle if error
+*/
+SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect** rectTab)
+{
+	int indexRect, xMin = 0, yMin = 0, wMax = 0, hMax = 0;
+	int x2 = 0, y2 = 0, w2 = 0, h2 = 0;
+
+	/*Check the number of surfaces*/
+	if (nbRect > 20)
+	{
+		fprintf(logFile, "multipleRectOverlay : FAILURE, too much rect, OVER 9000 !!!\n\n.");
+		return initRect(0, 0, 0, 0);
+	}
+
+	xMin = rectTab[0]->x;
+	yMin = rectTab[0]->y;
+	wMax = rectTab[0]->w;
+	hMax = rectTab[0]->h;
+	for (indexRect = 1; indexRect < nbRect; indexRect++)
+	{
+		x2 = rectTab[indexRect]->x;
+		y2 = rectTab[indexRect]->y;
+		w2 = rectTab[indexRect]->w;
+		h2 = rectTab[indexRect]->h;
+		if (x2 < xMin && x2 >= 0)
+			xMin = x2;
+		if (y2 < yMin && y2 >= 0)
+			yMin = y2;
+		if ((xMin + wMax) < (x2 + w2))
+			wMax =x2 + w2 - xMin;
+		if ((yMin + hMax) < (y2 + h2))
+			hMax = y2 + h2 - yMin;
+	}
+	return initRect(xMin, yMin, wMax, hMax);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
 * \fn int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab)
 * \brief Detect the shape of a surface and store it in an SDL_Point array.
@@ -765,63 +864,4 @@ indexShape++;
 
 
 
-/**
-* \fn SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20])
-* \brief Create a rectangle that contains all rectangles of the array.
-* ____         _______
-*|   _|__     |       |
-*|__|_|  | => |       |
-*   |____|    |_______|
-*
-* \param[in] nbRect, nomber of rectangles
-* \param[in] rectTab, array of pointer to the rectangles.
-* \return the rectangle created, a null rectangle if error
-*/
-SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab[20])
-{
-	int indexRect, xMin = 0, yMin = 0, wMax = 0, hMax = 0;
-	int indexTabWmax = 0, indexTabHmax = 0, d1 = 0, d2 = 0, d3 = 0, dy = 0, dx = 0;
-
-	/*Check the number of surfaces*/
-	if (nbRect > 20)
-	{
-		fprintf(logFile, "multipleRectOverlay : FAILURE, too much rect, OVER 9000 !!!\n\n.");
-		return initRect(0, 0, 0, 0);
-	}
-
-	xMin = rectTab[0]->x;
-	yMin = rectTab[0]->y;
-	wMax = rectTab[0]->w;
-	hMax = rectTab[0]->h;
-	for (indexRect = 1; indexRect < nbRect; indexRect++)
-	{
-		dy = (rectTab[indexRect]->y - rectTab[indexTabHmax]->y);
-		dx = (rectTab[indexRect]->x - rectTab[indexTabWmax]->x);
-		if (rectTab[indexRect]->x < xMin && rectTab[indexRect]->x >= 0)
-			xMin = rectTab[indexRect]->x;
-		if (rectTab[indexRect]->y < yMin && rectTab[indexRect]->y >= 0)
-			yMin = rectTab[indexRect]->y;
-		if (rectTab[indexRect]->x < rectTab[indexTabWmax]->x)
-			d1 = dx + rectTab[indexRect]->w;
-		else d1 = wMax - dx;
-		d2 = rectTab[indexRect]->w;
-		d3 = wMax + d2 - d1;
-		if (d3 > wMax)
-		{
-			wMax = d3;
-			indexTabWmax = indexRect;
-		}
-		if (rectTab[indexRect]->y < rectTab[indexTabHmax]->y)
-			d1 = dy + rectTab[indexRect]->h;
-		else d1 = hMax - dy;
-		d2 = rectTab[indexRect]->h;
-		d3 = hMax + d2 - d1;
-		if (d3 > hMax)
-		{
-			hMax = d3;
-			indexTabHmax = indexRect;
-		}
-	}
-	return initRect(xMin, yMin, wMax, hMax);
-}
 

@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 		fclose(logFile);
 		exit(EXIT_FAILURE);
 	}
-	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_CAM);
+	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3);
 	if (mainFenetre(game) < 0)
 	{
 		fprintf(logFile, "mainFenetre : FAILURE.\n");

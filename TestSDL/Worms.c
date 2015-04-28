@@ -413,11 +413,9 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			if (pInput->deplacement || pInput->raffraichissement)
 			{
 				display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-				wormsOverlay(wormsTab);
-
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
 				display(wormsTab[indexWorms]->texteLifeSurface, 1);
-
+				wormsOverlay(wormsTab);
 				pInput->raffraichissement = 1;
 			}
 		}
@@ -438,13 +436,23 @@ void wormsOverlay(Worms** wormsTab)
 	{
 		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
 		{
-			SDL_Rect boxOverlay = initRect(wormsTab[j]->wormsObject->objectSurface->clip_rect.x - wormsTab[j]->wormsObject->objectSurface->w / 2,
-				wormsTab[j]->wormsObject->objectSurface->clip_rect.y - wormsTab[j]->wormsObject->objectSurface->h / 2,
-				2 * wormsTab[j]->wormsObject->objectSurface->w, 2 * wormsTab[j]->wormsObject->objectSurface->h);
-			if (collisionRectWithRect(&wormsTab[i]->wormsObject->objectSurface->clip_rect, &boxOverlay))
+			SDL_Rect* rectTab[3];
+			rectTab[0] = &wormsTab[i]->wormsObject->objectSurface->clip_rect;
+			rectTab[1] = &wormsTab[i]->texteLifeSurface->clip_rect;
+			rectTab[2] = &wormsTab[i]->texteNameSurface->clip_rect;
+			SDL_Rect boxWorms1 = multipleRectOverlay(3, rectTab);
+			rectTab[0] = &wormsTab[j]->wormsObject->objectSurface->clip_rect;
+			rectTab[1] = &wormsTab[j]->texteLifeSurface->clip_rect;
+			rectTab[2] = &wormsTab[j]->texteNameSurface->clip_rect;
+			SDL_Rect boxWorms2 = multipleRectOverlay(3, rectTab);
+			if (collisionRectWithRect(&boxWorms1, &boxWorms2))
 			{
 				display(wormsTab[i]->wormsObject->objectSurface, 0);
 				display(wormsTab[j]->wormsObject->objectSurface, 0);
+				display(wormsTab[i]->texteNameSurface, 0);
+				display(wormsTab[i]->texteLifeSurface, 0);
+				display(wormsTab[j]->texteNameSurface, 0);
+				display(wormsTab[j]->texteLifeSurface, 0);
 			}
 		}
 	}

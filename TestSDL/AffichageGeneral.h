@@ -27,7 +27,6 @@ Worms** initWormsTab(Equipe** equipes);
 void afficherPoint(SDL_Renderer * r);	//affiche un point 
 void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2);	//affiche une ligne
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace un rectangle en fonction de la souris
-int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap);	//réajuste un rectangle pour pas dépasser de la map
 void frameRate(unsigned int fM);	//gère le framerate
 void screenshot(SDL_Renderer* pRenderer);
 
