@@ -1,5 +1,5 @@
 #include "HUD.h"
-
+#include "my_stdrFct.h"
 /**
 * \fn void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 * \brief Initializes an SDL_Color structure.
@@ -34,10 +34,10 @@ void updateTextSurfaceWorms(Worms** wormsTab)
 	{
 		sprintf(&str, " %d ", wormsTab[i]->vie);
 
-		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *wormsTab[i]->color);
-		SDL_FreeSurface(wormsTab[i]->texteLifeSurface);
-		wormsTab[i]->texteLifeSurface = txtLifeSurface;
+		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(wormsTab[i]->color));
+		copySurfacePixels(txtLifeSurface, NULL, wormsTab[i]->texteLifeSurface, NULL);
 	}
+	SDL_FreeSurface(txtLifeSurface);
 	txtLifeSurface = NULL;
 
 	updateTextSurfacePosition(wormsTab);

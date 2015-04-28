@@ -415,8 +415,8 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				wormsOverlay(wormsTab);
 
-				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
+				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 
 				pInput->raffraichissement = 1;
 			}

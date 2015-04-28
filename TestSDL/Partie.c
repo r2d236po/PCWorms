@@ -14,8 +14,12 @@
 */
 Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
-	SDL_Color colorTab[4] = {globalVar.couleurBleu, globalVar.couleurRouge, globalVar.couleurVert, globalVar.couleurJaune};
-	Jeu * jeu = NULL;
+	SDL_Color colorTab[4];
+	colorTab[0] = globalVar.couleurBleu;
+	colorTab[1] = globalVar.couleurRouge;
+	colorTab[2] = globalVar.couleurVert;
+	colorTab[3] = globalVar.couleurJaune;
+	Jeu * jeu = NULL;	
 	if (logFile != NULL)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
 	jeu = (Jeu*)malloc(sizeof(Jeu));
