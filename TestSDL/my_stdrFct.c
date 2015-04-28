@@ -588,7 +588,7 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 
 
 /**
-* \fn SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect* rectTab)
+* \fn SDL_Rect createGlobalRect(int nbRect, SDL_Rect* rectTab)
 * \brief Create a rectangle that contains all rectangles of the array.
 * ____         _______
 *|   _|__     |       |
@@ -597,19 +597,12 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 *
 * \param[in] nbRect, nomber of rectangles
 * \param[in] rectTab, array of pointer to the rectangles.
-* \return the rectangle created, a null rectangle if error
+* \return the rectangle created
 */
-SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect** rectTab)
+SDL_Rect createGlobalRect(int nbRect, SDL_Rect** rectTab)
 {
 	int indexRect, xMin = 0, yMin = 0, wMax = 0, hMax = 0;
 	int x2 = 0, y2 = 0, w2 = 0, h2 = 0;
-
-	/*Check the number of surfaces*/
-	if (nbRect > 20)
-	{
-		fprintf(logFile, "multipleRectOverlay : FAILURE, too much rect, OVER 9000 !!!\n\n.");
-		return initRect(0, 0, 0, 0);
-	}
 
 	xMin = rectTab[0]->x;
 	yMin = rectTab[0]->y;

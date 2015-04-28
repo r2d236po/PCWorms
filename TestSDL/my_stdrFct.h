@@ -28,7 +28,7 @@ int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By);
 
 /*Fonctions diverse*/
 SDL_Rect initRect(int x, int y, int w, int h);	//Initialise un SDL_Rect
-SDL_Rect multipleRectOverlay(int nbRect, SDL_Rect** rectTab);
+SDL_Rect createGlobalRect(int nbRect, SDL_Rect** rectTab);
 void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
 int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap);	//réajuste un rectangle pour pas dépasser de la map
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);

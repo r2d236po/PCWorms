@@ -440,11 +440,11 @@ void wormsOverlay(Worms** wormsTab)
 			rectTab[0] = &wormsTab[i]->wormsObject->objectSurface->clip_rect;
 			rectTab[1] = &wormsTab[i]->texteLifeSurface->clip_rect;
 			rectTab[2] = &wormsTab[i]->texteNameSurface->clip_rect;
-			SDL_Rect boxWorms1 = multipleRectOverlay(3, rectTab);
+			SDL_Rect boxWorms1 = createGlobalRect(3, rectTab);
 			rectTab[0] = &wormsTab[j]->wormsObject->objectSurface->clip_rect;
 			rectTab[1] = &wormsTab[j]->texteLifeSurface->clip_rect;
 			rectTab[2] = &wormsTab[j]->texteNameSurface->clip_rect;
-			SDL_Rect boxWorms2 = multipleRectOverlay(3, rectTab);
+			SDL_Rect boxWorms2 = createGlobalRect(3, rectTab);
 			if (collisionRectWithRect(&boxWorms1, &boxWorms2))
 			{
 				display(wormsTab[i]->wormsObject->objectSurface, 0);
