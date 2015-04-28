@@ -87,6 +87,7 @@ typedef struct{
 	char screenshot;
 	char camCentrer;
 	char changeWorms;
+	char arme;
 	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
 
@@ -135,4 +136,5 @@ FILE* logFile;
 SDL_Surface* spriteDeplacement;
 SDL_Surface* spriteGrenadeExplosion;
 SDL_Surface* spriteNukeExplosion;
+SDL_Surface* arme1;
 #endif

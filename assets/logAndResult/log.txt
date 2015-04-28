@@ -1,4 +1,4 @@
-Start of session : Tue Apr 28 15:55:56 2015
+Start of session : Wed Apr 29 01:03:14 2015
 
 
 mainInit : DONE.
@@ -13,6 +13,9 @@ loadImage : SUCCESS.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/Nuke_Sprite.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/arme1.png.
 
 initSprites : SUCCESS.
 
@@ -128,4 +131,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Tue Apr 28 15:56:27 2015
+End of Session : Wed Apr 29 01:03:44 2015

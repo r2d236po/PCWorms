@@ -352,20 +352,33 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 *          It will only take the transparent pixel of the source surface to copy them in the destination surface.
 *          IMPORTANT : This function does not handle different size of surface, they have to be the same size.
 */
-void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect)
+void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect, char mode)
 {
 	int x = 0, y = 0;
 	Uint32 pixel;
+	int index;
 	reajustRect(pRect, pSurfaceDest);
-	for (y = pRect->y; y < (pRect->y + pRect->h); y++)
+	if (mode == 0)
 	{
-		for (x = pRect->x; x < (pRect->x + pRect->w); x++)
+		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 		{
-			pixel = ReadPixel(pSurfaceSrc, x, y);
-			if (pixelTransparent(pixel, pSurfaceSrc->format))
-				WritePixel(pSurfaceDest, x, y, pixel);
+			for (x = pRect->x; x < (pRect->x + pRect->w); x++)
+			{
+				pixel = ReadPixel(pSurfaceSrc, x, y);
+				if (pixelTransparent(pixel, pSurfaceSrc->format))
+					WritePixel(pSurfaceDest, x, y, pixel);
+			}
 		}
 	}
+	else
+	{
+		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
+		{
+			index = pRect->x + y * pSurfaceDest->w;
+			memcpy((Uint32*)pSurfaceDest->pixels + index, (Uint32*)pSurfaceSrc->pixels + index, pRect->w*sizeof(Uint32));
+		}
+	}
+
 }
 
 

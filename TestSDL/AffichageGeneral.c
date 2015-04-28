@@ -293,6 +293,13 @@ int initSprites(void)
 		cleanSprites();
 		return -1;
 	}
+	arme1 = loadImage("../assets/sprites/arme1.png");
+	if (arme1 == NULL)
+	{
+		fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+		cleanSprites();
+		return -1;
+	}
 	fprintf(logFile, "initSprites : SUCCESS.\n\n");
 	return 0;
 }

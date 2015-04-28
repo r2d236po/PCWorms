@@ -147,6 +147,10 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 					pInput->cursor.currentCursor = 0;
 				}
 				break;
+			case SDLK_a:
+				if (pInput->arme == 0) { pInput->arme = 1; }
+				else pInput->arme = 0;
+				break;
 			}
 			pInput->raffraichissement = 1;
 			break;
@@ -352,7 +356,7 @@ void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamer
 		explosion(x, y, radius, pMapTerrain->globalMapSurface, pTextureDisplay);
 		bombReactionManagement(pInput, wormsTab, &rect, x, y, radius);
 		//Update of the collision surface
-		updateSurfaceFromSurface(pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface, &rect);
+		updateSurfaceFromSurface(pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface, &rect, 0);
 		pInput->raffraichissement = 1;
 	}
 }
@@ -407,6 +411,7 @@ Input* initInput()
 	pInput->screenshot = 0;
 	pInput->camCentrer = 0;
 	pInput->changeWorms = 0;
+	pInput->arme = 0;
 	
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
