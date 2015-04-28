@@ -19,14 +19,15 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn Worms* createWorms(const char *file)
+* \fn Worms* createWorms(const char *file, SDL_Color* couleur)
 * \brief Créé et initialise une structure worms.
 *
-* \param[in] file, chaine de caractères correspondant au nom du fichier image du worms.
+* \param[in] name, chaine de caractères correspondant au nom du worms
+* \param[in] couleur, couleur de l'équipe du worms
 *
 * \returns pointeur vers la structure worms créée, NULL si echec
 */
-Worms* createWorms(char* name)
+Worms* createWorms(char* name, SDL_Color* couleur)
 {
 	Worms* worms = NULL;
 	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
@@ -62,9 +63,10 @@ Worms* createWorms(char* name)
 	//initialisation des variables autres
 	worms->vie = 100;
 	sprintf(strVie, "%d", worms->vie);
+	worms->color = couleur;
 	strcpy(worms->nom, name);
-	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, globalVar.couleurBleu);
-	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, globalVar.couleurBleu);
+	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, *worms->color);
+	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, *worms->color);
 	if (worms->texteLifeSurface == NULL || worms->texteNameSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
@@ -393,7 +395,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 		}
 
 		pInput->deplacement = 0;
-		updateTextSurfaceWorms(wormsTab);
+		updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie
 
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 		{

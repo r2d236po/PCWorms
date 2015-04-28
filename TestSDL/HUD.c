@@ -26,15 +26,15 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 */
 void updateTextSurfaceWorms(Worms** wormsTab)
 {
-	char * str[10];
+	char *str[10];
 	int i;
-	SDL_Surface * txtLifeSurface = NULL;
+	SDL_Surface *txtLifeSurface = NULL;
 
 	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe ; i++)
 	{
-		sprintf(str, "%d", wormsTab[i]->vie);
+		sprintf(&str, " %d ", wormsTab[i]->vie);
 
-		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, globalVar.couleurBleu);
+		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *wormsTab[i]->color);
 		SDL_FreeSurface(wormsTab[i]->texteLifeSurface);
 		wormsTab[i]->texteLifeSurface = txtLifeSurface;
 	}

@@ -14,6 +14,7 @@
 */
 Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
+	SDL_Color colorTab[4] = {globalVar.couleurBleu, globalVar.couleurRouge, globalVar.couleurVert, globalVar.couleurJaune};
 	Jeu * jeu = NULL;
 	if (logFile != NULL)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
@@ -37,7 +38,7 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 	}
 	for (int i = 0; i < nbE; i++)
 	{
-		jeu->equipes[i] = nouvelleEquipe("Equipe", globalVar.couleurBleu, nbW);
+		jeu->equipes[i] = nouvelleEquipe("Equipe", colorTab[i], nbW);
 		if (jeu->equipes[i] == NULL)
 		{
 			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
@@ -98,7 +99,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 
 	for (int i = 0; i < nbWorms; i++)
 	{
-		team->worms[i] = createWorms("Jean-Neige");
+		team->worms[i] = createWorms("Jean-Neige", &team->color);
 		if (team->worms[i] == NULL)
 		{
 			fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");

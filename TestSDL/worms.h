@@ -11,11 +11,11 @@
 #define widthSpriteMov 31
 #define hightSpriteMov 30
 
-typedef struct {		//Structure worms
-	int vie;				//Point de vie
+typedef struct {			//Structure worms
+	int vie;					//Point de vie
 	char nom[20];				//Nom du joueur
-	char* arme;				//Arme en cours d'utilisation
-	Arme* invent[TAILLEINV];//Inventaire des armes et objets disponibles
+	char* arme;					//Arme en cours d'utilisation
+	Arme* invent[TAILLEINV];	//Inventaire des armes et objets disponibles
 	enum DIRECTION dirSurface;
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
@@ -23,12 +23,13 @@ typedef struct {		//Structure worms
 	SDL_Surface* texteLifeSurface;
 	SDL_Surface* texteNameSurface;
 	KaamObject* wormsObject;
+	SDL_Color* color;
 	int indexAnim;
 	//son?
 } Worms;
 
 /*Initialisation / Destruction*/
-Worms* createWorms(char* name);	//Créé un worms à partir d'une image
+Worms* createWorms(char* name, SDL_Color* couleur);	//Créé un worms 
 void destroyWorms(Worms** wormsTab, int nbWorms);	//détruit un worms
 
 /*Deplacement d'un worms*/
