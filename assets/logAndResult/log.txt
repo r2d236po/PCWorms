@@ -1,4 +1,4 @@
-Start of session : Wed Apr 29 01:03:14 2015
+Start of session : Wed Apr 29 10:13:56 2015
 
 
 mainInit : DONE.
@@ -110,6 +110,8 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
+initCameras : DONE.
+
 ||| END OF THE GAME |||
 destroyMap : DONE.
 cleanSprites : DONE.
@@ -131,4 +133,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Wed Apr 29 01:03:44 2015
+End of Session : Wed Apr 29 10:14:51 2015

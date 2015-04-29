@@ -386,7 +386,7 @@ void effacerSurface(SDL_Surface* pSurface)
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision)
 {
 	int indexWorms;
-	char armePrec = 0;
+	static char armePrec = 0;
 	if (!pInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
@@ -412,14 +412,15 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			}
 			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec == 1)
 			{
-				display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme && indexWorms == globalVar.indexWormsTab)
 				{
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 20;
 					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 15;
-					display(arme1, 0);
-
+					display(arme1, 1);
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
+				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme == 0 && armePrec == 1)
 				{
 					armePrec = 0;
@@ -427,6 +428,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &arme1->clip_rect);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				}
+				
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
 				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 				wormsOverlay(wormsTab);
@@ -434,6 +436,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			}
 		}
 	}
+	armePrec = pInput->arme;
 }
 
 /**
