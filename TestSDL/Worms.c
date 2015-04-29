@@ -359,10 +359,9 @@ void effacerSurface(SDL_Surface* pSurface)
 	{
 		for (x = xSurface; x < (xSurface + Wsurface); x++)
 		{
-			WritePixel(pMainTerrain->globalMapSurface, x, y, pixel_Transparent);
+			WritePixel(pSurface, x - xSurface, y - ySurface, pixel_Transparent);
 		}
 	}
-	updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &pSurface->clip_rect);
 }
 
 

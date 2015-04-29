@@ -8,7 +8,7 @@
 void KaamEngine();
 
 /*Inits*/
-void KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap);
+int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap);
 KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon);
 void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels);
 void KaamDestroyObject(KaamObject** p_pObject);

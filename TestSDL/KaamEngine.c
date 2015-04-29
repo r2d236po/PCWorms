@@ -26,7 +26,7 @@ void KaamEngine()
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
-* \fn void KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
+* \fn int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 * \brief Init worms positions and put them to the ground.
 *
 * \param[in] wormsTab, array of worms.
@@ -34,18 +34,42 @@ void KaamEngine()
 * \returns void
 * \remarks A refaire pour chaque equipe
 */
-void KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
+int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 {
-	int indexWorms = 0;
+	int indexWorms = 0, initEnd = 0;
 	srand((int)time(NULL));
-	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
+	static int initStart = 0;
+	if (initStart == 0)
 	{
-		wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0, pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
-		wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
-		wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y = 0;
-		resetAbsoluteCoordinates(wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.x, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.y);
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
+		{
+			wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0, pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
+			wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
+			wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y = 0;
+			resetAbsoluteCoordinates(wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.x, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.y);
+			initStart = 1;
+		}
 	}
-	fprintf(logFile, "KaamInitGame : DONE.\n\n");
+	else
+	{
+		updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie	
+		initEnd = testGround(pSurfaceMap, wormsTab[0]->wormsObject->objectSurface, 1);
+		KaamGravityManagement(pSurfaceMap, wormsTab[0]->wormsObject);
+		display(wormsTab[0]->wormsObject->objectSurface, 1);
+		display(wormsTab[0]->texteNameSurface, 1);
+		display(wormsTab[0]->texteLifeSurface, 1);
+		for (indexWorms = 1; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
+		{
+			initEnd &= testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1);
+			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
+			display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
+			display(wormsTab[indexWorms]->texteNameSurface, 1);
+			display(wormsTab[indexWorms]->texteLifeSurface, 1);
+		}
+	}
+	if (initEnd)
+	 fprintf(logFile, "KaamInitGame : DONE.\n\n");
+	return initEnd;
 }
 
 /**

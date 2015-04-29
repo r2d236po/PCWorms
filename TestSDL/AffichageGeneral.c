@@ -66,8 +66,8 @@ int mainFenetre(Jeu * jeu)
 		initDisplay(jeu->pMapTerrain, pTextureDisplay);
 
 		//Initialisation des worms
-		KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface);
-
+		while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
+			renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs

@@ -10,7 +10,7 @@
 #define TAILLEINV 5 
 #define widthSpriteMov 31
 #define hightSpriteMov 30
-#define DAMAGEFALL 0.75
+#define DAMAGEFALL 0.33
 
 typedef struct {			//Structure worms
 	int vie;					//Point de vie

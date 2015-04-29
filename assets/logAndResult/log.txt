@@ -1,4 +1,4 @@
-Start of session : Wed Apr 29 19:50:59 2015
+Start of session : Wed Apr 29 20:05:47 2015
 
 
 mainInit : DONE.
@@ -131,4 +131,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Wed Apr 29 19:51:06 2015
+End of Session : Wed Apr 29 20:05:50 2015
