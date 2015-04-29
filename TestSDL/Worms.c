@@ -392,9 +392,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 		{
 			callNextWorms();
 		}
-
 		pInput->deplacement = 0;
-
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 		{
 			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
@@ -414,15 +412,14 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				{
 					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 20;
 					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 15;
+					display(arme1, 1);
+				}
+				if (pInput->arme == 1 && armePrec == 1) // On fait tourner l'arme en fonction de la souris
+				{
 					display(arme1, 0);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-				if (pInput->arme = 1 && armePrec == 1) // On fait tourner l'arme en fonction de la souris
-				{
-
-				}
-
 				if (pInput->arme == 0 && armePrec == 1) // On efface l'arme
 				{
 					updateSurfaceFromSurface(pMainTerrain->globalMapSurface, pMainTerrain->collisionMapSurface, &arme1->clip_rect, 1);
