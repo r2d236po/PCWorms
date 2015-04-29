@@ -410,15 +410,14 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			}
 			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec == 1)
 			{
-					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme && indexWorms == globalVar.indexWormsTab && armePrec == 0) // On affiche l'arme la première fois
 				{
 					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 20;
 					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 15;
 					display(arme1, 0);
-					armePrec = 1;
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
-
+				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme = 1 && armePrec == 1) // On fait tourner l'arme en fonction de la souris
 				{
 
