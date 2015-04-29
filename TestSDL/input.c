@@ -223,6 +223,10 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		pInput->changeWorms = 0;
 	}
 	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
+	if (pInput->direction == DOWN)
+	{
+		teleportWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface, pCamera);
+	}
 	updateGameWorms(pInput, wormsTab, pMapTerrain->collisionMapSurface);
 
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay

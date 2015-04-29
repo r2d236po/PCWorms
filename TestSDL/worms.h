@@ -10,6 +10,7 @@
 #define TAILLEINV 5 
 #define widthSpriteMov 31
 #define hightSpriteMov 30
+#define DAMAGEFALL 0.75
 
 typedef struct {			//Structure worms
 	int vie;					//Point de vie
@@ -52,8 +53,12 @@ void effacerSurface(SDL_Surface* pSurface);
 /*Fonctions diverses*/
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);
 void wormsDead(Worms* pWorms, int limitMap);
+void wormsFallDamages(Worms* pWorms);
 void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius);
 void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius);
+
+void teleportWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_Rect* pCamera);
+int testTeleportPossibility(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion);
 
 #endif // !1
 

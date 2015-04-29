@@ -82,8 +82,10 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 	objectTemp->objectSurface->clip_rect.y = rectSurface.y;
 
 	/*Init absolute coordinate*/
-	objectTemp->absoluteCoordinate.x = objectTemp->objectSurface->clip_rect.x;
-	objectTemp->absoluteCoordinate.y = objectTemp->objectSurface->clip_rect.y;
+	resetAbsoluteCoordinates(objectTemp->objectSurface, &objectTemp->absoluteCoordinate.x, &objectTemp->absoluteCoordinate.y);
+
+	/*Init precedent coordinate*/
+	resetAbsoluteCoordinates(objectTemp->objectSurface, &objectTemp->precedentCoordinate.x, &objectTemp->precedentCoordinate.y);
 
 	/*Init motion direction*/
 	objectTemp->motionDirection = initDirection;
@@ -238,6 +240,7 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 		pObject->relativeTime = 0;
 		pObject->falling = 0;
+		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
 	}
 }
 
@@ -260,8 +263,11 @@ void KaamWormsMotionManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfa
 			swap = swapManagement(pInput, pWorms, pSurfaceMap);
 		gestionAnimationWorms(pWorms, swap, pSurfaceMap);
 	}
+	int motion = pWorms->wormsObject->startMotion || pWorms->wormsObject->falling;
 	if (!swap)
 		KaamPhysicManagement(pInput, pWorms->wormsObject, pSurfaceMap);
+	if (motion == 1 && pWorms->wormsObject->startMotion == 0 && pWorms->wormsObject->falling == 0)
+		wormsFallDamages(pWorms);
 }
 
 
@@ -379,6 +385,8 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
 		if ((pObject->startMotion = getStartMotion(pInput, pObject, pSurfaceMap)) == 0)
 			pObject->reactToBomb = 0;
+		if (pObject->startMotion)
+			resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
 	}
 	if (pObject->startMotion)
 	{
@@ -390,13 +398,12 @@ void KaamNonLinearMotion(Input* pInput, SDL_Surface* pSurfaceMap, KaamObject* pO
 			pObject->Yspeed = 0.0;
 		}
 		else setSurfaceRelativeCoordinates(pObject->objectSurface, pObject->relativeTime, pObject->Xspeed, pObject->Yspeed);
-		pObject->motionDirection = motionDirectionProcess(dxPrecProcess(pObject), dyPrecProcess(pObject));
+		pObject->motionDirection = motionDirectionProcess(dxBoxProcess(pObject), dyBoxProcess(pObject));
 		directionBeforeCollision = pObject->motionDirection;
 		pObject->relativeTime += 7;
 		KaamCollisionManagement(pInput, pSurfaceMap, pObject, directionBeforeCollision, allowRebound);
 		if (stopReact)
 			resetNonLinearMotion(pInput, pObject, pSurfaceMap);
-		resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
 	}
 	else resetMotionVariables(pInput, pObject);
 }

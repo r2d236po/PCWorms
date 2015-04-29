@@ -395,7 +395,6 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 		}
 
 		pInput->deplacement = 0;
-		updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie
 
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
 		{
@@ -423,12 +422,11 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme == 0 && armePrec == 1)
 				{
-					armePrec = 0;
 					updateSurfaceFromSurface(pMainTerrain->globalMapSurface, pMainTerrain->collisionMapSurface, &arme1->clip_rect, 1);
 					updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &arme1->clip_rect);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				}
-				
+				updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie				
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
 				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 				wormsOverlay(wormsTab);
@@ -528,6 +526,24 @@ void wormsDead(Worms* pWorms, int limitMap)
 }
 
 /**
+* \fn void wormsFallDamages(Worms* pWorms)
+* \brief Calculate worms damage.
+*
+* \param[in] pWorms, pointer to the worms.
+* \returns void
+*/
+void wormsFallDamages(Worms* pWorms)
+{
+	int dy = dyPrecProcess(pWorms->wormsObject);
+	if ( dy > 2 * pWorms->wormsObject->objectBox.h)
+	{
+		pWorms->vie -= (int)((float)dy*DAMAGEFALL);
+	}
+	wormsDead(pWorms, 0);
+	resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface, &pWorms->wormsObject->precedentCoordinate.x, &pWorms->wormsObject->precedentCoordinate.y);
+}
+
+/**
 * \fn void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
 * \brief Detects if a worms is within the range of a weapon and applies dammage if so.
 *
@@ -614,16 +630,43 @@ void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius)
 	{
 		pWorms->wormsObject->Xspeed = (float)(vitesseX * BombFactor * signeX*1.0 / 0.35);
 		pWorms->wormsObject->Yspeed = (float)(vitesseY * BombFactor * signeY*1.0 / 0.35);
-		pWorms->vie -= (int)(MAXDAMMAGE * 1.0 / 0.35);
+		pWorms->vie -= (int)(MAXDAMAGE * 1.0 / 0.35);
 	}
 	else
 	{
 		pWorms->wormsObject->Xspeed = (float)(vitesseX * BombFactor * signeX * 1.0 / decrease);
 		pWorms->wormsObject->Yspeed = (float)(vitesseY * BombFactor * signeY * 1.0 / decrease);
-		pWorms->vie -= (int)(MAXDAMMAGE * 1.0 / decrease);
+		pWorms->vie -= (int)(MAXDAMAGE * 1.0 / decrease);
 	}
 	wormsDead(pWorms, 0);
 }
 
 
 
+void teleportWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_Rect* pCamera)
+{
+	int x, y;
+	int wWorms = pWorms->wormsObject->objectSurface->w, xWorms = pWorms->wormsObject->objectSurface->clip_rect.x;
+	int hWorms = pWorms->wormsObject->objectSurface->h, yWorms = pWorms->wormsObject->objectSurface->clip_rect.y;
+
+	x = pInput->cursor.now.x + pCamera->x - wWorms / 2;
+	y = pInput->cursor.now.y - hWorms / 2;
+	if (x < 0 || y < 0)
+		return;
+	pWorms->wormsObject->objectSurface->clip_rect.x = x;
+	pWorms->wormsObject->objectSurface->clip_rect.y = y;
+	if (!testTeleportPossibility(pSurfaceMap, pWorms->wormsObject->objectSurface))
+	{
+		pWorms->wormsObject->objectSurface->clip_rect.x = xWorms;
+		pWorms->wormsObject->objectSurface->clip_rect.y = yWorms;
+	}
+	display(pWorms->wormsObject->objectSurface, 1);
+	resetMotionVariables(pInput, pWorms->wormsObject);
+	resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface, &pWorms->wormsObject->objectBox.x, &pWorms->wormsObject->objectBox.y);
+}
+
+
+int testTeleportPossibility(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
+{
+	return !collisionSurfaceWithMapBasic(pSurfaceMap, pSurfaceMotion);
+}

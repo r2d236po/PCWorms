@@ -4,7 +4,7 @@
 #include "Libraries.h" //Inclus toutes les librairies
 
 #define BombFactor 0.5
-#define MAXDAMMAGE 20
+#define MAXDAMAGE 20
 /* Déclaration des structures concernant les armes */
 
 typedef struct{		/* Structure munition */

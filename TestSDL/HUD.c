@@ -55,14 +55,14 @@ void updateTextSurfacePosition(Worms** wormsTab)
 	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe; i++)
 	{
 		//Affichage du Nom
-		t_x = wormsTab[i]->wormsObject->absoluteCoordinate.x + 15 - (wormsTab[i]->texteNameSurface->clip_rect.w / 2);
-		t_y = wormsTab[i]->wormsObject->absoluteCoordinate.y - 40;
+		t_x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x + 15 - (wormsTab[i]->texteNameSurface->clip_rect.w / 2);
+		t_y = wormsTab[i]->wormsObject->objectSurface->clip_rect.y - 40;
 
 		if (t_x >= 0){ wormsTab[i]->texteNameSurface->clip_rect.x = t_x; }
-		else { wormsTab[i]->texteNameSurface->clip_rect.x = wormsTab[i]->wormsObject->absoluteCoordinate.x; }
+		else { wormsTab[i]->texteNameSurface->clip_rect.x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x; }
 
 		if (t_y >= 0) { wormsTab[i]->texteNameSurface->clip_rect.y = t_y; }
-		else { wormsTab[i]->texteNameSurface->clip_rect.y = wormsTab[i]->wormsObject->absoluteCoordinate.y + 40; }
+		else { wormsTab[i]->texteNameSurface->clip_rect.y = wormsTab[i]->wormsObject->objectSurface->clip_rect.y + 40; }
 
 		//Affichage de la Vie
 		wormsTab[i]->texteLifeSurface->clip_rect.x = wormsTab[i]->texteNameSurface->clip_rect.x + (wormsTab[i]->texteNameSurface->clip_rect.w / 2) - (wormsTab[i]->texteLifeSurface->clip_rect.w /2);
