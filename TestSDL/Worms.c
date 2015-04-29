@@ -386,7 +386,8 @@ void effacerSurface(SDL_Surface* pSurface)
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision)
 {
 	int indexWorms;
-	char armePrec = 0;
+	static char armePrec = 0;
+	if (pInput->arme) armePrec = 1;
 	if (!pInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)

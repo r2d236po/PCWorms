@@ -88,22 +88,28 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_LEFT:
-				pInput->direction = LEFT;
-				SDL_Delay(10);
+				if (!pInput->arme){
+					pInput->direction = LEFT;
+					SDL_Delay(10);
+				}
 				break;
 			case SDLK_RIGHT:
-				pInput->direction = RIGHT;
-				SDL_Delay(10);
+				if (!pInput->arme){
+					pInput->direction = RIGHT;
+					SDL_Delay(10);
+				}
 				break;
 			case SDLK_UP:
-				if (!pInput->jumpOnGoing)
+				if (!pInput->jumpOnGoing && !pInput->arme)
 					pInput->direction = UP;
 				break;
 			case SDLK_DOWN:
-				pInput->direction = DOWN;
+				if (!pInput->arme){
+					pInput->direction = DOWN;
+				}
 				break;
 			case SDLK_SPACE:
-				if (!pInput->jumpOnGoing)
+				if (!pInput->jumpOnGoing && !pInput->arme)
 					pInput->jump = 1;
 				break;
 			case SDLK_LCTRL:
@@ -111,7 +117,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				break;
 			case SDLK_ESCAPE:
 				if (!pInput->menu)
-				pInput->menu = 1;
+					pInput->menu = 1;
 				else pInput->menu = 0;
 				break;
 			case SDLK_q:
@@ -130,7 +136,9 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				else pInput->camCentrer = 1;
 				break;
 			case SDLK_c:
-				pInput->changeWorms = 1;
+				if (!pInput->arme){
+					pInput->changeWorms = 1;
+				}
 				break;
 			case SDLK_PRINTSCREEN:
 				pInput->screenshot = 1;
