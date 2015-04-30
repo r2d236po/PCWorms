@@ -111,96 +111,6 @@ int mainFenetre(Jeu * jeu)
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	return 0;
 }
-int sandboxRenderer()
-{
-	int closeWindow = 0;
-	Point p1, p2;
-	int click = 0;
-	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	SDL_Event event;
-	SDL_Renderer* renderer2 = NULL; //déclaration du renderer
-	SDL_Window* pWindow2 = NULL;
-
-	/* Initialisation simple */
-	if (SDL_VideoInit(NULL) < 0)
-	{
-		fprintf(logFile, "Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
-		return -1;
-	}
-
-	/* Création de la fenêtre */
-	pWindow2 = creerFenetre(1080, 600, "KaamWorms");
-	if (pWindow2 == NULL)
-	{
-		SDL_Quit();
-		return -1;
-	}
-
-	/* Création du renderer */
-	renderer2 = SDL_CreateRenderer(pWindow2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (renderer2 == NULL)//gestion des erreurs
-	{
-		fprintf(logFile, "Erreur lors de la creation d'un renderer : %s", SDL_GetError());
-		return -1;
-	}
-
-	SDL_SetRenderDrawColor(renderer2, 210, 50, 60, 255);
-	SDL_RenderPresent(renderer2);
-
-	while (!closeWindow)
-	{
-
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				closeWindow = 1;
-				break;
-
-			case SDL_MOUSEBUTTONDOWN:
-				click = 1;/*Booleen de mémorisation du click*/
-				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
-					SDL_SetRenderDrawColor(renderer2, 210, 50, 60, 255);
-				else if (event.button.button == SDL_BUTTON_RIGHT)
-					SDL_SetRenderDrawColor(renderer2, 50, 210, 60, 255);
-				else if (event.button.button == SDL_BUTTON_MIDDLE)
-					SDL_SetRenderDrawColor(renderer2, 50, 60, 210, 255);
-				SDL_GetMouseState(&p2.x, &p2.y); //Initialisationn pour affichage ligne
-				afficherPoint(renderer2);
-				break;
-
-			case SDL_MOUSEBUTTONUP:
-				click = 0;/*Booleen de démémorisation du click*/
-				break;
-
-			case SDL_MOUSEMOTION:
-				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
-				{
-					afficherLigne(renderer2, &p1, &p2);
-				}
-				break;
-
-			case SDL_KEYUP:
-				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
-				{
-					clearRenderer(renderer2);
-				}
-				break;
-
-			default:
-				break;
-			}
-		}
-		frameRate(frame_max);
-		frame_max = SDL_GetTicks() + FRAME_RATE;
-	} //comment
-
-	SDL_DestroyRenderer(renderer2);
-	SDL_DestroyWindow(pWindow2);
-	//SDL_Quit();
-	return 0;
-}
 
 /**
 * \fn int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
@@ -515,7 +425,8 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 		h = pMapTerrain->collisionMapSurface->h;
 		pCamera->x = 0;
 		pCamera->y = 0;
-		if (h > hW || w > wW){
+		if (h > hW || w > wW || hW > h || wW > w)
+		{
 			pCamera->h = h;
 			pCamera->w = (int)(pCamera->h * ((float)wW / (float)hW));
 		}
@@ -530,6 +441,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 	}
 	fprintf(logFile, "initCameras : DONE.\n\n");
 }
+
 /**
 * \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput,...)
 * \brief Déplace la camera suivant la souris.
