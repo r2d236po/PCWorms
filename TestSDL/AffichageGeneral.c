@@ -59,50 +59,50 @@ int mainFenetre()
 			}
 
 			/*Init map*/
-			if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
-			{
-				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-				return -1;
-			}
+		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
+		{
+			fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			return -1;
+		}
 
 			/*Init global texture*/
-			pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface, pRenderer);
-			if (pTextureDisplay == NULL)
-			{
-				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
-				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-				return -1;
-			}
+		pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface, pRenderer);
+		if (pTextureDisplay == NULL)
+		{
+			fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
+			destroyMap(&jeu->pMapTerrain);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			return -1;
+		}
 
 			/*Init sounds*/
-			if (loadSounds(BipExplo, 0) < 0)
-			{
-				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-				return -1;
-			}
+		if (loadSounds(BipExplo, 0) < 0)
+		{
+			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			return -1;
+		}
 
 			/*Init camera*/
-			initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
+		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
 
-			/*Initialisation du tableau global de worms*/
-			wormsTab = initWormsTab(jeu->equipes);
-			if (wormsTab == NULL)
-			{
-				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-				fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
-				return -1;
-			}
+		/*Initialisation du tableau global de worms*/
+		wormsTab = initWormsTab(jeu->equipes);
+		if (wormsTab == NULL)
+		{
+			destroyMap(&jeu->pMapTerrain);
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
+			return -1;
+		}
 
 			/*Init Display*/
-			initDisplay(jeu->pMapTerrain, pTextureDisplay);
+		initDisplay(jeu->pMapTerrain, pTextureDisplay);
 
 			/*Initialisation des worms*/
-			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
-				renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
+		while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
+			renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
 		while (!(pInput->quit))
 		{
@@ -134,15 +134,15 @@ int mainFenetre()
 				jeu->temps -= 1;
 			}
 		}
-
-
+		
+		
 		endDisplay();
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		if (jeu != NULL)
-			destroyMap(&jeu->pMapTerrain);
+		destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
 		if (wormsTab != NULL)
-			free(wormsTab);
+		free(wormsTab);
 		wormsTab = NULL;
 	}
 	cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
@@ -499,6 +499,7 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 	}
 	fprintf(logFile, "initCameras : DONE.\n\n");
 }
+
 /**
 * \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput,...)
 * \brief Déplace la camera suivant la souris.

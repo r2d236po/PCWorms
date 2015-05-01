@@ -426,7 +426,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &arme1->clip_rect);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				}
-				updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie	
+				updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie				
 				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
 				wormsOverlay(wormsTab);

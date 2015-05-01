@@ -1,5 +1,9 @@
-Start of session : Fri May 01 21:09:00 2015
+Start of session : Thu Apr 30 21:32:16 2015
 
+
+mainInit : DONE.
+	nombre d'equipes : 2.
+	nombre de worms par equipe : 2.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/spriteMov.png.
@@ -14,6 +18,58 @@ loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/arme1.png.
 
 initSprites : SUCCESS.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
 
 creerFenetre : SUCCESS.
 loadImage : SUCCESS.
@@ -31,503 +87,12 @@ initCursor : SUCCESS.
 
 initInput : SUCCESS.
 
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/yes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/defaut.png.
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-mainInit : DONE.
-	nombre d'equipes : 1.
-	nombre de worms par equipe : 1.
-
-nouveauJeu : START :
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
-
-nouveauJeu : SUCCESS.
-
 initialisationTerrain : START :
 
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
+	nom du fichier : ../assets/pictures/maptest3.png.
 
 
 initialisationTerrain : SUCCESS.
@@ -554,9 +119,16 @@ mainFenetre : SUCCESS.
 saveGame : SUCCESS.
 KaamDestroyObject : DONE. 
 
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Fri May 01 21:09:25 2015
+End of Session : Thu Apr 30 21:32:35 2015
