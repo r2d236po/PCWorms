@@ -15,6 +15,7 @@ void callNextWorms();
 
 /*Initialisations*/
 Input* initInput();		//Initialise les Input
+void resetStructInput(Input* pInput);
 Cursor initCursor(void);	//initialise la structure  cursor
 
 #endif

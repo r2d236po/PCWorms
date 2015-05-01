@@ -13,8 +13,7 @@
 
 
 
-int mainFenetre(Jeu * jeu);
-int sandboxRenderer();
+int mainFenetre();
 
 
 //Fonctions d'initialisation

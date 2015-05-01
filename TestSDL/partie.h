@@ -4,6 +4,7 @@
 #include "worms.h"
 #include "carte.h"
 
+#define DEFAULTPATH "../assets/logAndResult/Resultat de la Partie.txt"
 
 /* Structures et constantes relatives à la gestion d'une partie */
 
@@ -27,7 +28,7 @@ typedef struct {				//Structure d'une partie
 
 Jeu * nouveauJeu(int nbE, int nbW, char * map);
 void destroyJeu(Jeu ** game);
-Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms);
+Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTeam);
 void destroyEquipe(Equipe** team, int nbE);
 int getLifeTeam(Equipe* team);
 void updateTeamLife(Equipe** equipeTab);

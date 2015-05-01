@@ -10,6 +10,7 @@
 
 /*Bibliothèques supplémentaires*/
 #include <SDL/SDL.h>
+#include <SDL/SDL_syswm.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_mixer.h>
@@ -36,6 +37,7 @@
 #define cMAP_TEST3	"../assets/pictures/maptest3.png"
 #define cMAP_TEST4	"../assets/pictures/maptest4.png"
 #define cMAP_CAM	"../assets/pictures/maptestCam.png"
+#define NUMBERMAP 7
 #define ICONE "../assets/pictures/icone.png"
 
 /*Structures globales*/
@@ -89,6 +91,10 @@ typedef struct{
 	char camCentrer;
 	char changeWorms;
 	char arme;
+	char soundAllowed;
+	char musicAllowed;
+	char textInput[100];
+	unsigned char textCounter;
 	Cursor cursor; //cursor avec position actuelle et précédente de la souris
 }Input;
 
@@ -115,11 +121,7 @@ typedef struct{
 
 typedef struct{		//structure gérant les polices
 	TTF_Font * FontName;
-
-	SDL_Color couleurBleu;
-	SDL_Color couleurRouge;
-	SDL_Color couleurVert;
-	SDL_Color couleurJaune;
+	SDL_Color colorTab[4];
 
 	int nbEquipe;
 	int nbWormsEquipe;
@@ -128,6 +130,10 @@ typedef struct{		//structure gérant les polices
 	int teamPlaying;
 	int wormsPlaying;
 	int indexWormsTab;
+
+	char savePath[100];
+	char teamNames[4][50];
+	char wormsNames[16][50];
 
 }GlobalVariable;
 

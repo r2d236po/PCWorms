@@ -1,6 +1,7 @@
 #include "KaamEngine.h"
 #include "AffichageGeneral.h"
 #include "input.h"
+#include "display.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
@@ -53,14 +54,14 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	else
 	{
 		updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie	
-		initEnd = testGround(pSurfaceMap, wormsTab[0]->wormsObject->objectSurface, 1);
+		initEnd = testGround(pSurfaceMap, wormsTab[0]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[0], pSurfaceMap);
 		KaamGravityManagement(pSurfaceMap, wormsTab[0]->wormsObject);
 		display(wormsTab[0]->wormsObject->objectSurface, 1);
 		display(wormsTab[0]->texteNameSurface, 1);
 		display(wormsTab[0]->texteLifeSurface, 1);
 		for (indexWorms = 1; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
 		{
-			initEnd &= testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1);
+			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms],pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
 			display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 			display(wormsTab[indexWorms]->texteNameSurface, 1);

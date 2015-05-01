@@ -159,20 +159,50 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				if (pInput->arme == 0) { pInput->arme = 1; }
 				else pInput->arme = 0;
 				break;
+			case SDLK_RETURN:
+				SDL_StopTextInput();
+				pInput->textInput[pInput->textCounter] = '\0';
+				strcpy(globalVar.savePath, pInput->textInput);
+				break;
+			case SDLK_BACKSPACE:
+				pInput->textCounter--;
+				pInput->textInput[pInput->textCounter] = '\0';
+				break;
+
+			}
+			if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
+			{
+				strcpy(pInput->textInput, SDL_GetClipboardText());
+				pInput->textCounter += (char)strlen(SDL_GetClipboardText());
 			}
 			pInput->raffraichissement = 1;
+			break;
+		case SDL_TEXTINPUT:
+			pInput->textInput[pInput->textCounter] = event.text.text[0];
+			pInput->textCounter++;
+			if (pInput->textCounter == 100)
+				pInput->textCounter = 0;
+			pInput->textInput[pInput->textCounter] = '\0';
+			pInput->raffraichissement = 1;
+			if (event.text.text[0] == 'q')
+				pInput->quit = 0;
 			break;
 		default:
 			break;
 		}
 	}
 	//Gestion du plein écran
-	if (keystate[SDL_SCANCODE_RETURN] && (keystate[SDL_SCANCODE_RCTRL] || keystate[SDL_SCANCODE_LCTRL]))
+	if (keystate[SDL_SCANCODE_RETURN] && SDL_GetModState() & KMOD_CTRL)
 	{
 		if (SDL_SetWindowFullscreen(pWindow, flags) < 0)
 			printf("ERROR lors du passage en mode fenetre : %s", SDL_GetError());
 		SDL_Delay(50);
 		pInput->raffraichissement = 1;
+	}
+	if (pInput->cursor.motion){
+		pInput->cursor.before = pInput->cursor.now;
+		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
+		pInput->cursor.motion = 0;
 	}
 }
 
@@ -253,16 +283,11 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 */
 void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, SDL_Renderer * pRenderer, Worms * pWorms)
 {
-	
+
 	if (pInput->rclick)
 	{
 		moveCam(pTextureDisplay, pCamera, pInput); //gestion du scrolling de caméra
 		pInput->cursor.before = pInput->cursor.now;
-	}
-	if (pInput->cursor.motion){
-		pInput->cursor.before = pInput->cursor.now;
-		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
-		pInput->cursor.motion = 0;
 	}
 	if (pInput->camCentrer)
 	{
@@ -278,8 +303,8 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 		pInput->wheelDown = 0;
 		pInput->raffraichissement = 1;
 	}
-	
-	
+
+
 }
 
 
@@ -424,9 +449,42 @@ Input* initInput()
 	pInput->camCentrer = 0;
 	pInput->changeWorms = 0;
 	pInput->arme = 0;
-	
+	pInput->soundAllowed = 1;
+	pInput->musicAllowed = 1;
+	strcpy(pInput->textInput, "");
+	pInput->textCounter = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
 	return pInput;
+}
+
+/**
+* \fn void resetStructInput(Input* pInput)
+* \brief Reset all inputs of a Input struct.
+*
+* \param[in] pInput, pointer to the inputs structure.
+* \returns void
+*/
+void resetStructInput(Input* pInput)
+{
+	pInput->jump = 0;
+	pInput->jumpOnGoing = 0;
+	pInput->bend = 0;
+	pInput->menu = 0;
+	pInput->direction = NONE;
+	pInput->lclick = 0;
+	pInput->rclick = 0;
+	pInput->weaponTab = 0;
+	pInput->wheelUp = 0;
+	pInput->wheelDown = 0;
+	pInput->raffraichissement = 1;
+	pInput->windowResized = 1;
+	pInput->acceleration = 1;
+	pInput->bombe = 0;
+	pInput->deplacement = 0;
+	pInput->screenshot = 0;
+	pInput->camCentrer = 0;
+	pInput->changeWorms = 0;
+	pInput->arme = 0;
 }
 
 /**

@@ -14,14 +14,12 @@
 */
 Jeu * nouveauJeu(int nbE, int nbW, char * map)
 {
-	SDL_Color colorTab[4];
-	colorTab[0] = globalVar.couleurBleu;
-	colorTab[1] = globalVar.couleurRouge;
-	colorTab[2] = globalVar.couleurVert;
-	colorTab[3] = globalVar.couleurJaune;
-	Jeu * jeu = NULL;	
+	Jeu * jeu = NULL;
+	int i = 0;
 	if (logFile != NULL)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
+	if (nbE > 6)
+		return NULL;
 	jeu = (Jeu*)malloc(sizeof(Jeu));
 	if (jeu == NULL)
 	{
@@ -40,9 +38,9 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 		destroyJeu(&jeu);
 		return NULL;
 	}
-	for (int i = 0; i < nbE; i++)
+	for (i = 0; i < nbE; i++)
 	{
-		jeu->equipes[i] = nouvelleEquipe("Equipe", colorTab[i], nbW);
+		jeu->equipes[i] = nouvelleEquipe(globalVar.teamNames[i], globalVar.colorTab[i], nbW, i);
 		if (jeu->equipes[i] == NULL)
 		{
 			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
@@ -69,7 +67,7 @@ void destroyJeu(Jeu ** game)
 }
 
 /**
-* \fn Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
+* \fn Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTeam)
 * \brief
 *
 * \param[in] nomE, nom de l'equipe
@@ -77,7 +75,7 @@ void destroyJeu(Jeu ** game)
 * \param[in] nbWorms, nombre de worms dans l'equipe
 * \returns equipe, pointeur vers l'equipe cree
 */
-Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
+Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTeam)
 {
 	Equipe * team = NULL;
 	fprintf(logFile, "nouvelleEquipe : START :\n\n");
@@ -103,7 +101,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms)
 
 	for (int i = 0; i < nbWorms; i++)
 	{
-		team->worms[i] = createWorms("Jean-Neige", &team->color);
+		team->worms[i] = createWorms(globalVar.wormsNames[i + indexTeam * 4], &team->color);
 		if (team->worms[i] == NULL)
 		{
 			fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");
@@ -179,20 +177,8 @@ void updateTeamLife(Equipe** equipeTab)
 */
 int mainInit(int nbE, int nbWpE)
 {
-	/*Initialisation SDL_TTF*/
-	if (TTF_Init() == -1)
-	{
-		fprintf(logFile, "initSWR : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
-		return -1;
-	}
-
-	setSDLColor(&globalVar.couleurBleu, 238, 131, 127);
-	setSDLColor(&globalVar.couleurRouge, 130, 125, 255);
-	setSDLColor(&globalVar.couleurVert, 119, 250, 123);
-	setSDLColor(&globalVar.couleurJaune, 120, 255, 255);
-
 	globalVar.FontName = NULL;
-	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 16);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
+	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 12);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
 	if (globalVar.FontName == NULL)
 	{
 		fprintf(logFile, "Font loading : FAILURE.\n");
@@ -232,7 +218,7 @@ void destroyPolice()
 */
 int saveGame(Jeu* jeu)
 {
-	FILE* file = fopen("../assets/logAndResult/Resultat de la Partie.txt", "w+");
+	FILE* file = fopen(globalVar.savePath, "w+");
 	int indexEquipe = 0, indexWorms = 0;
 	if (file == NULL)
 	{
@@ -246,7 +232,7 @@ int saveGame(Jeu* jeu)
 	fprintf(file, "\tNombre de worms par equipe : %d.\n\n", globalVar.nbWormsEquipe);
 	for (indexEquipe = 0; indexEquipe < jeu->nbEquipe; indexEquipe++)
 	{
-		fprintf(file, "Bravo à l'équipe %d composée des braves : \n", indexEquipe + 1);
+		fprintf(file, "Bravo à l'équipe %d surnommée les \"%s\" composée des braves : \n", indexEquipe + 1, globalVar.teamNames[indexEquipe]);
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
 		{
 			fprintf(file, "\t%s,", jeu->equipes[indexEquipe]->worms[indexWorms]->nom);

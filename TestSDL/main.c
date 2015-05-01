@@ -14,28 +14,15 @@ int main(int argc, char** argv)
 			exit(EXIT_FAILURE);
 		fprintf(logFile, "Start of session : %s\n\n", ctime(&t1));
 	};
-	if (mainInit(2, 2) < 0)	//set le nombre d'équipe et le nombre de worms par équipe
-	{
-		fprintf(logFile, "mainInit : FAILURE.\n");
-		return 0;
-	}
-	
 	if (initSprites() < 0) // Ouverture des fichiers sprites
 	{
 		fclose(logFile);
 		exit(EXIT_FAILURE);
 	}
-	Jeu * game = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, cMAP_TEST3);
-	if (mainFenetre(game) < 0)
+	strcpy(globalVar.savePath, DEFAULTPATH);
+	if (mainFenetre() < 0)
 	{
 		fprintf(logFile, "mainFenetre : FAILURE.\n");
 	}
-	saveGame(game);
-	destroyJeu(&game);
-	{
-		time_t t1 = time(NULL);
-		fprintf(logFile, "\n\nEnd of Session : %s", ctime(&t1));
-		fclose(logFile);
-	};
 	return 0;
 }

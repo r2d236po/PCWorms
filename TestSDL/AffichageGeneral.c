@@ -4,9 +4,9 @@
 #include "my_stdrFct.h"
 #include "KaamEngine.h"
 #include "display.h"
+#include "MainMenu.h"
 
-
-int mainFenetre(Jeu * jeu)
+int mainFenetre()
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE, temps = 0;
 	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
@@ -15,6 +15,9 @@ int mainFenetre(Jeu * jeu)
 	SDL_Texture * pTextureDisplay = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 	Worms** wormsTab = NULL;
+	char mapName[100];
+	int nbTeam = 1, nbWorms = 1;
+	Jeu* jeu = NULL;
 
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
@@ -27,47 +30,80 @@ int mainFenetre(Jeu * jeu)
 			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
-		//Initialisation du terrain
-		if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
+		strcpy(mapName, cMAP);
+		/*Initialisation SDL_TTF*/
+		if (TTF_Init() == -1)
 		{
-			fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
+			fprintf(logFile, "mainFenetre : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
 			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
 
-		//Initialisation de l'affichage
-		pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface, pRenderer);
-		if (pTextureDisplay == NULL)
+		mainMenu(pWindow, pRenderer, pInput, mapName, &nbTeam, &nbWorms);
+		if (!pInput->quit)
 		{
-			fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
-			destroyMap(&jeu->pMapTerrain);
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-			return -1;
-		}
-		if (loadSounds(BipExplo, 0) < 0)
-		{
-			fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-			return -1;
-		}
+			if (mainInit(nbTeam, nbWorms) < 0)	//set le nombre d'équipe et le nombre de worms par équipe
+			{
+				fprintf(logFile, "mainInit : FAILURE.\n");
+				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				return -1;
+			}
 
-		//Initialisation de la caméra
-		initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
+			/*Init game*/
+			jeu = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, mapName);
+			if (jeu == NULL)
+			{
+				fprintf(logFile, "nouveauJeu : FAILURE.\n");
+				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				return -1;
+			}
 
-		/*Initialisation du tableau global de worms*/
-		wormsTab = initWormsTab(jeu->equipes);
-		if (wormsTab == NULL)
-		{
-			destroyMap(&jeu->pMapTerrain);
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-			fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
-			return -1;
+			/*Init map*/
+			if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
+			{
+				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
+				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				return -1;
+			}
+
+			/*Init global texture*/
+			pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface, pRenderer);
+			if (pTextureDisplay == NULL)
+			{
+				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
+				destroyMap(&jeu->pMapTerrain);
+				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				return -1;
+			}
+
+			/*Init sounds*/
+			if (loadSounds(BipExplo, 0) < 0)
+			{
+				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				return -1;
+			}
+
+			/*Init camera*/
+			initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
+
+			/*Initialisation du tableau global de worms*/
+			wormsTab = initWormsTab(jeu->equipes);
+			if (wormsTab == NULL)
+			{
+				destroyMap(&jeu->pMapTerrain);
+				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
+				return -1;
+			}
+
+			/*Init Display*/
+			initDisplay(jeu->pMapTerrain, pTextureDisplay);
+
+			/*Initialisation des worms*/
+			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
+				renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
-		initDisplay(jeu->pMapTerrain, pTextureDisplay);
-
-		//Initialisation des worms
-		while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
-			renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
@@ -98,107 +134,29 @@ int mainFenetre(Jeu * jeu)
 				jeu->temps -= 1;
 			}
 		}
-		
-		
+
+
 		endDisplay();
 		fprintf(logFile, "||| END OF THE GAME |||\n");
-		destroyMap(&jeu->pMapTerrain);
+		if (jeu != NULL)
+			destroyMap(&jeu->pMapTerrain);
 		destroyPolice();
-		free(wormsTab);
+		if (wormsTab != NULL)
+			free(wormsTab);
 		wormsTab = NULL;
 	}
 	cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
-	return 0;
-}
-int sandboxRenderer()
-{
-	int closeWindow = 0;
-	Point p1, p2;
-	int click = 0;
-	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	SDL_Event event;
-	SDL_Renderer* renderer2 = NULL; //déclaration du renderer
-	SDL_Window* pWindow2 = NULL;
-
-	/* Initialisation simple */
-	if (SDL_VideoInit(NULL) < 0)
+	if (jeu != NULL)
 	{
-		fprintf(logFile, "Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
-		return -1;
+		saveGame(jeu);
+		destroyJeu(&jeu);
 	}
-
-	/* Création de la fenêtre */
-	pWindow2 = creerFenetre(1080, 600, "KaamWorms");
-	if (pWindow2 == NULL)
 	{
-		SDL_Quit();
-		return -1;
-	}
-
-	/* Création du renderer */
-	renderer2 = SDL_CreateRenderer(pWindow2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (renderer2 == NULL)//gestion des erreurs
-	{
-		fprintf(logFile, "Erreur lors de la creation d'un renderer : %s", SDL_GetError());
-		return -1;
-	}
-
-	SDL_SetRenderDrawColor(renderer2, 210, 50, 60, 255);
-	SDL_RenderPresent(renderer2);
-
-	while (!closeWindow)
-	{
-
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				closeWindow = 1;
-				break;
-
-			case SDL_MOUSEBUTTONDOWN:
-				click = 1;/*Booleen de mémorisation du click*/
-				if (event.button.button == SDL_BUTTON_LEFT)/*Test du bouton de la souris*/
-					SDL_SetRenderDrawColor(renderer2, 210, 50, 60, 255);
-				else if (event.button.button == SDL_BUTTON_RIGHT)
-					SDL_SetRenderDrawColor(renderer2, 50, 210, 60, 255);
-				else if (event.button.button == SDL_BUTTON_MIDDLE)
-					SDL_SetRenderDrawColor(renderer2, 50, 60, 210, 255);
-				SDL_GetMouseState(&p2.x, &p2.y); //Initialisationn pour affichage ligne
-				afficherPoint(renderer2);
-				break;
-
-			case SDL_MOUSEBUTTONUP:
-				click = 0;/*Booleen de démémorisation du click*/
-				break;
-
-			case SDL_MOUSEMOTION:
-				if (click)/*Trace les points en suivant la souris, ne pas aller trop vite*/
-				{
-					afficherLigne(renderer2, &p1, &p2);
-				}
-				break;
-
-			case SDL_KEYUP:
-				if (event.key.keysym.sym == SDLK_c) /*Clear de la fenêtre*/
-				{
-					clearRenderer(renderer2);
-				}
-				break;
-
-			default:
-				break;
-			}
-		}
-		frameRate(frame_max);
-		frame_max = SDL_GetTicks() + FRAME_RATE;
-	} //comment
-
-	SDL_DestroyRenderer(renderer2);
-	SDL_DestroyWindow(pWindow2);
-	//SDL_Quit();
+		time_t t1 = time(NULL);
+		fprintf(logFile, "\n\nEnd of Session : %s", ctime(&t1));
+		fclose(logFile);
+	};
 	return 0;
 }
 
@@ -342,6 +300,16 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 {
 	if ((*p_pInput) != NULL)
 	{
+		if ((*p_pInput)->cursor.cursor1 != NULL)
+		{
+			SDL_FreeCursor((*p_pInput)->cursor.cursor1);
+			(*p_pInput)->cursor.cursor1 = NULL;
+		}
+		if ((*p_pInput)->cursor.cursor2 != NULL)
+		{
+			SDL_FreeCursor((*p_pInput)->cursor.cursor2);
+			(*p_pInput)->cursor.cursor2 = NULL;
+		}
 		free(*p_pInput);
 		(*p_pInput) = NULL;
 	}
@@ -515,7 +483,8 @@ void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCa
 		h = pMapTerrain->collisionMapSurface->h;
 		pCamera->x = 0;
 		pCamera->y = 0;
-		if (h > hW || w > wW){
+		if (h > hW || w > wW || hW > h || wW > w)
+		{
 			pCamera->h = h;
 			pCamera->w = (int)(pCamera->h * ((float)wW / (float)hW));
 		}
