@@ -20,6 +20,7 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRectPrec);
 int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect);
 
+
 /*Basics collisions*/
 int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2);
 int collisionPointWithCercle(Point P, int centerX, int centerY, int radius);

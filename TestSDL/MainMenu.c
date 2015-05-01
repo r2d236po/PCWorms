@@ -110,6 +110,7 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 	SDL_StopTextInput();
 	resetStructInput(pInput);
 	destroyTextureTab(menuTexture);
+	setColorForGame();
 	return 0;
 }
 
@@ -371,26 +372,32 @@ void setColorTeam(SDL_Renderer* pRenderer, Input* pInput)
 	{
 	case 0:
 		setSDLColor(&rouge, 134, 0, 0);
+		rouge.a = 255;
 		globalVar.colorTab[indexTeam - 1] = rouge;
 		break;
 	case 1:
 		setSDLColor(&vert, 0, 176, 80);
+		vert.a = 255;
 		globalVar.colorTab[indexTeam - 1] = vert;
 		break;
 	case 2:
 		setSDLColor(&jaune, 255, 192, 0);
+		jaune.a = 255;
 		globalVar.colorTab[indexTeam - 1] = jaune;
 		break;
 	case 3:
 		setSDLColor(&violet, 112, 48, 160);
+		violet.a = 255;
 		globalVar.colorTab[indexTeam - 1] = violet;
 		break;
 	case 4:
 		setSDLColor(&bleu, 0, 32, 96);
+		bleu.a = 255;
 		globalVar.colorTab[indexTeam - 1] = bleu;
 		break;
 	case 5:
 		setSDLColor(&beige, 237, 125, 49);
+		beige.a = 255;
 		globalVar.colorTab[indexTeam - 1] = beige;
 		break;
 	}
@@ -1307,7 +1314,7 @@ SDL_Texture* loadFromRenderedText(SDL_Renderer* pRenderer, char* textureText, SD
 	SDL_GetRendererOutputSize(pRenderer, NULL, &hRender);
 	sizeFont = (int)((float)(sizeFont / 600.0) * hRender);
 	TTF_Font* font = TTF_OpenFont("../assets/fonts/Roboto-Regular.ttf", sizeFont);
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, textureText, textColor);
+	SDL_Surface* textSurface = TTF_RenderText_Blended(font, textureText, textColor);
 	if (textSurface == NULL)
 	{
 		fprintf(logFile, "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
@@ -1320,8 +1327,10 @@ SDL_Texture* loadFromRenderedText(SDL_Renderer* pRenderer, char* textureText, SD
 		{
 			fprintf(logFile, "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 		}
-		*w = textSurface->w;
-		*h = textSurface->h;
+		if (w != NULL)
+			*w = textSurface->w;
+		if (h != NULL)
+			*h = textSurface->h;
 		//Get rid of old surface
 		SDL_FreeSurface(textSurface);
 	}
@@ -1384,4 +1393,12 @@ void getSizeWindow(int *w, int *h, char* str)
 		*w = strtol(wString, (char **)NULL, 10);
 		*h = strtol(hString, (char **)NULL, 10);
 	}
+}
+
+
+void setColorForGame()
+{
+	int i;
+	for (i = 0; i < 4; i++)
+		SWAP(globalVar.colorTab[i].b, globalVar.colorTab[i].r);
 }

@@ -87,6 +87,8 @@ int display(SDL_Surface* pSurface, int mode)
 	return 0;
 }
 
+
+
 /**
 * \fn void reindexTab(int size, int startPosition, int type, ...)
 * \brief Redo the indexation of a tab in case of delete line.

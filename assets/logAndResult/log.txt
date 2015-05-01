@@ -1,9 +1,5 @@
-Start of session : Thu Apr 30 21:32:16 2015
+Start of session : Sat May 02 01:02:28 2015
 
-
-mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 2.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/spriteMov.png.
@@ -18,58 +14,6 @@ loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/arme1.png.
 
 initSprites : SUCCESS.
-
-nouveauJeu : START :
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
-
-nouveauJeu : SUCCESS.
 
 creerFenetre : SUCCESS.
 loadImage : SUCCESS.
@@ -87,48 +31,267 @@ initCursor : SUCCESS.
 
 initInput : SUCCESS.
 
-initialisationTerrain : START :
-
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/FondMap1.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest3.png.
-
-
-initialisationTerrain : SUCCESS.
-
-my_createTextureFromSurface : SUCCESS.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/Bip_explosion.wav.
-
-initCameras : DONE.
-
-initDisplay : DONE.
-
-KaamInitGame : DONE.
-
-initCameras : DONE.
-
+	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
 ||| END OF THE GAME |||
-destroyMap : DONE.
 cleanSprites : DONE.
 cleanSounds : DONE.
 cleanUp : DONE.
 mainFenetre : SUCCESS.
-saveGame : SUCCESS.
-KaamDestroyObject : DONE. 
-
-KaamDestroyObject : DONE. 
-
-destroyWorms : DONE.
-KaamDestroyObject : DONE. 
-
-KaamDestroyObject : DONE. 
-
-destroyWorms : DONE.
-destroyEquipe : DONE.
-destroyJeu : DONE.
 
 
-End of Session : Thu Apr 30 21:32:35 2015
+End of Session : Sat May 02 01:02:53 2015

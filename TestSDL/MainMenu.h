@@ -66,4 +66,5 @@ int testEndInput(char* text, int size);
 void getSizeWindow(int *w, int *h, char* str);
 
 int indiceTexture(enum MENU menu);
+void setColorForGame();
 #endif // !MAINMENU_H
