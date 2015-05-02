@@ -448,7 +448,7 @@ void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 
 	indexPrec = indexWorms;
 	indexWorms = getWormsIndexText(pRenderer, pInput);
-	if (indexWorms != 0)
+	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam -1], "") != 0)
 	{
 		indexWorms = indexWorms + (indexTeam - 1) * 4;
 		setTextInput(pInput, globalVar.wormsNames[indexWorms - 1], indexPrec, indexWorms);
