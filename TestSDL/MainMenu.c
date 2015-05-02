@@ -91,25 +91,34 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 		if (quitMenu == 0)
 			quitMenu = pInput->quit;
+		if (quitMenu == 1 && !pInput->quit)
+		{
+			/*Calcul du nombre d'équipe et du nombre de worms par équipe*/
+			*pNbWorms = 0;
+			*pNbTeam = 0;
+			for (i = 0; i < 4; i++)
+			{
+				if (strcmp(globalVar.teamNames[i], "") != 0)
+					*pNbTeam += 1;
+			}
+			for (i = 0; i < 16; i++)
+			{
+				if (strcmp(globalVar.wormsNames[i], "") != 0)
+					*pNbWorms += 1;
+			}
+			if ((*pNbTeam) == 0 || (*pNbWorms) == 0)
+			{
+				quitMenu = 0;
+				menuIn = MAIN;
+				indexTeam = 1;
+			}
+			if (*pNbWorms != 0)
+				*pNbWorms = (*pNbWorms) / (*pNbTeam);
+				
+		}
 	}
 
-	/*Calcul du nombre d'équipe et du nombre de worms par équipe*/
-	*pNbWorms = 0;
-	*pNbTeam = 0;
-	for (i = 0; i < 4; i++)
-	{
-		if (strcmp(globalVar.teamNames[i], "") != 0)
-			*pNbTeam += 1;
-	}
-	for (i = 0; i < 16; i++)
-	{
-		if (strcmp(globalVar.wormsNames[i], "") != 0)
-			*pNbWorms += 1;
-	}
-	if ((*pNbTeam) == 0 || (*pNbWorms) == 0)
-		pInput->quit = 1;
-	if (*pNbWorms != 0)
-		*pNbWorms = (*pNbWorms) / (*pNbTeam);
+	
 	SDL_StopTextInput();
 	resetStructInput(pInput);
 	destroyTextureTab(menuTexture);
