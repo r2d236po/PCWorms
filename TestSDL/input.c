@@ -159,13 +159,9 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 				if (pInput->arme == 0) { pInput->arme = 1; }
 				else pInput->arme = 0;
 				break;
-			case SDLK_RETURN:
-				SDL_StopTextInput();
-				pInput->textInput[pInput->textCounter] = '\0';
-				strcpy(globalVar.savePath, pInput->textInput);
-				break;
 			case SDLK_BACKSPACE:
 				pInput->textCounter--;
+				secuTextInput(pInput);
 				pInput->textInput[pInput->textCounter] = '\0';
 				break;
 
@@ -182,6 +178,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 			pInput->textCounter++;
 			if (pInput->textCounter == 100)
 				pInput->textCounter = 0;
+			secuTextInput(pInput);
 			pInput->textInput[pInput->textCounter] = '\0';
 			pInput->raffraichissement = 1;
 			if (event.text.text[0] == 'q')
@@ -476,7 +473,7 @@ void resetStructInput(Input* pInput)
 	pInput->weaponTab = 0;
 	pInput->wheelUp = 0;
 	pInput->wheelDown = 0;
-	pInput->raffraichissement = 1;
+	pInput->raffraichissement = 0;
 	pInput->windowResized = 1;
 	pInput->acceleration = 1;
 	pInput->bombe = 0;
@@ -533,4 +530,18 @@ Cursor initCursor(void)
 	return curseur;
 }
 
+/**
+* \fn void secuTextInput(Input* pInput)
+* \brief Test if the textCounter is out of limit.
+*
+* \param[in] pInput, pointer to the inputs structure.
+* \returns void
+*/
+void secuTextInput(Input* pInput)
+{
+	if (pInput->textCounter >= 49)
+		pInput->textCounter = 49;
+	if (pInput->textCounter < 0)
+		pInput->textCounter = 0;
+}
 

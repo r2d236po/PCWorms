@@ -22,6 +22,8 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 	for (i = 0; i < 16; i++)
 		strcpy(globalVar.wormsNames[i], "");
 
+	SDL_StartTextInput();
+
 	while (!quitMenu)
 	{
 		getInput(pInput, pWindow);
@@ -58,9 +60,10 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 		if (pInput->raffraichissement == 1)
 		{
 			SDL_RenderCopy(pRenderer, menuTexture[indiceTexture(menuIn)], NULL, NULL);
-			if (menuIn == MAP || menuIn == MAPmain || menuIn == MAPchoose || menuIn == MAPrepertory)
+			if (menuIn == MAP || menuIn == MAPmain || menuIn == MAPchoose || menuIn == MAPrepertory
+				|| menuIn == MAIN && nextPrev == CLICK)
 			{
-				strcpy(mapName, mapSketch(pRenderer, nextPrev));
+				mapSketch(pRenderer, nextPrev, mapName);
 				nextPrev = NEITHER;
 			}
 			if (menuIn == OPTIONS || menuIn == OPTIONSm)
@@ -125,22 +128,13 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 enum MENU menu(SDL_Renderer* pRenderer, Input* pInput)
 {
 	SDL_Rect versusRect, optionRect, mapRect;
-	int wRender = 0, hRender = 0, xVersus = 33, xMap = 758, xOption = 1479;
-	int y = 893, wBox = 470, hBox = 158, testChange = 0;
+	int testChange = 0;
 	static int alreadyChange = 0;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-	hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-	y = (int)((float)(y / hightMenuTexture) * hRender);
+	versusRect = initButtonBox(pRenderer, 33, 893, 470, 158);
+	mapRect = initButtonBox(pRenderer, 758, 893, 470, 158);
+	optionRect = initButtonBox(pRenderer, 1479, 893, 470, 158);
 
-	xVersus = (int)((float)(xVersus / widthMenuTexture) * wRender);
-	xMap = (int)((float)(xMap / widthMenuTexture) * wRender);
-	xOption = (int)((float)(xOption / widthMenuTexture) * wRender);
-
-	versusRect = initRect(xVersus, y, wBox, hBox);
-	mapRect = initRect(xMap, y, wBox, hBox);
-	optionRect = initRect(xOption, y, wBox, hBox);
 	if (collisionPointWithRect(pInput->cursor.now, &versusRect))
 	{
 		if (pInput->lclick)
@@ -220,28 +214,13 @@ enum MENU menu(SDL_Renderer* pRenderer, Input* pInput)
 enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam)
 {
 	SDL_Rect nextRect, mainRect, startRect;
-	int wRender = 0, hRender = 0, xNext = 1625, xMain = 48, xStart = 1450, testChange = 0;
-	int yNext = 929, yMain = 965, yStart = 917, wBox = 328, hBox = 198;
+	int testChange = 0;
 	static int alreadyChange = 0;
-
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
 
 	if (menuPrec != VERSUSstart && menuPrec != VERSUSstartS)
 	{
-		wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-		hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-		xNext = (int)((float)(xNext / widthMenuTexture) * wRender);
-		yNext = (int)((float)(yNext / hightMenuTexture) * hRender);
-		nextRect = initRect(xNext, yNext, wBox, hBox);
-
-		wBox = 324;
-		hBox = 121;
-		wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-		hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-		xMain = (int)((float)(xMain / widthMenuTexture) * wRender);
-		yMain = (int)((float)(yMain / hightMenuTexture) * hRender);
-		mainRect = initRect(xMain, yMain, wBox, hBox);
-
+		mainRect = initButtonBox(pRenderer, 48, 965, 324, 121);
+		nextRect = initButtonBox(pRenderer, 1625, 929, 328, 198);
 		if (collisionPointWithRect(pInput->cursor.now, &nextRect))
 		{
 			if (pInput->lclick)
@@ -297,13 +276,7 @@ enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MEN
 	}
 	else
 	{
-		wBox = 470;
-		hBox = 158;
-		wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-		hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-		xStart = (int)((float)(xStart / widthMenuTexture) * wRender);
-		yStart = (int)((float)(yStart / hightMenuTexture) * hRender);
-		startRect = initRect(xStart, yStart, wBox, hBox);
+		startRect = initButtonBox(pRenderer, 1450, 917, 470, 158);
 		if (collisionPointWithRect(pInput->cursor.now, &startRect))
 		{
 			if (pInput->lclick)
@@ -321,7 +294,6 @@ enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MEN
 			return VERSUSstartS;
 		}
 	}
-
 	*quit = 0;
 	testChange = alreadyChange;
 	alreadyChange = 0;
@@ -347,60 +319,43 @@ enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MEN
 */
 void setColorTeam(SDL_Renderer* pRenderer, Input* pInput)
 {
-	SDL_Color rouge, vert, jaune, violet, bleu, beige;
-	int indexColor = 0, indexTeam = 1;
-	indexColor = getIndexColor(pRenderer, pInput);
-	if (indexColor >= 0 && indexColor <= 5)
-		indexTeam = 1;
-	else if (indexColor >= 6 && indexColor <= 11)
+	int indexColor = 0, indexTeam = 0, indexGlobal = 0;
+	static SDL_Color colorTab[6];
+	static int init = 0;
+
+	if (!init)
 	{
-		indexTeam = 2;
-		indexColor -= 6;
-	}
-	else if (indexColor >= 12 && indexColor <= 17)
-	{
-		indexTeam = 3;
-		indexColor -= 12;
-	}
-	else if (indexColor >= 18 && indexColor <= 23)
-	{
-		indexTeam = 4;
-		indexColor -= 18;
+		init = 1;
+		initColorTab(colorTab);
 	}
 
-	switch (indexColor)
-	{
-	case 0:
-		setSDLColor(&rouge, 134, 0, 0);
-		rouge.a = 255;
-		globalVar.colorTab[indexTeam - 1] = rouge;
-		break;
-	case 1:
-		setSDLColor(&vert, 0, 176, 80);
-		vert.a = 255;
-		globalVar.colorTab[indexTeam - 1] = vert;
-		break;
-	case 2:
-		setSDLColor(&jaune, 255, 192, 0);
-		jaune.a = 255;
-		globalVar.colorTab[indexTeam - 1] = jaune;
-		break;
-	case 3:
-		setSDLColor(&violet, 112, 48, 160);
-		violet.a = 255;
-		globalVar.colorTab[indexTeam - 1] = violet;
-		break;
-	case 4:
-		setSDLColor(&bleu, 0, 32, 96);
-		bleu.a = 255;
-		globalVar.colorTab[indexTeam - 1] = bleu;
-		break;
-	case 5:
-		setSDLColor(&beige, 237, 125, 49);
-		beige.a = 255;
-		globalVar.colorTab[indexTeam - 1] = beige;
-		break;
-	}
+	indexGlobal = getIndexColor(pRenderer, pInput);
+	indexTeam = indexGlobal / 6;
+	indexColor = indexGlobal % 6;
+	globalVar.colorTab[indexTeam] = colorTab[indexColor];
+}
+
+/**
+* \fn void initColorTab(SDL_Color colorArray[6])
+* \brief Init the array of color.
+*
+* \param[in] colorArray, array of color.
+* \returns void.
+*/
+void initColorTab(SDL_Color colorArray[6])
+{
+	setSDLColor(&colorArray[0], 134, 0, 0);
+	colorArray[0].a = 255;
+	setSDLColor(&colorArray[1], 0, 176, 80);
+	colorArray[1].a = 255;
+	setSDLColor(&colorArray[2], 255, 192, 0);
+	colorArray[2].a = 255;
+	setSDLColor(&colorArray[3], 112, 48, 160);
+	colorArray[3].a = 255;
+	setSDLColor(&colorArray[4], 0, 32, 96);
+	colorArray[4].a = 255;
+	setSDLColor(&colorArray[5], 237, 125, 49);
+	colorArray[5].a = 255;
 }
 
 /**
@@ -420,17 +375,17 @@ int getIndexColor(SDL_Renderer* pRenderer, Input* pInput)
 	SDL_Rect colorRect;
 
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-	hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
+	wBox = (int)((float)(wBox / WIDTHMENUTEXTURE) * wRender);
+	hBox = (int)((float)(hBox / HIGHTMENUTEXTURE) * hRender);
 
 	for (indexTeam = 1; indexTeam <= 4; indexTeam++)
 	{
 		yBox = yNom + (indexTeam - 1) * 164;
-		yBox = (int)((float)(yBox / hightMenuTexture) * hRender);
+		yBox = (int)((float)(yBox / HIGHTMENUTEXTURE) * hRender);
 		for (indexColor = 0; indexColor < 6; indexColor++)
 		{
 			xBox = xNom + indexColor * 130;
-			xBox = (int)((float)(xBox / widthMenuTexture) * wRender);
+			xBox = (int)((float)(xBox / WIDTHMENUTEXTURE) * wRender);
 			colorRect = initRect(xBox, yBox, wBox, hBox);
 			if (collisionPointWithRect(pInput->cursor.now, &colorRect))
 			{
@@ -456,53 +411,18 @@ int getIndexColor(SDL_Renderer* pRenderer, Input* pInput)
 */
 void setTeamName(SDL_Renderer* pRenderer, Input* pInput)
 {
-	int indexPrec = 0;
+	int indexPrec = 0, i, y = 0;
 	static int indexTeam = 0;
+
 	indexPrec = indexTeam;
 	indexTeam = getTeamIndexText(pRenderer, pInput);
-	if (indexTeam == 0)
-		return;
-	else
+	if (indexTeam != 0)
+		setTextInput(pInput, globalVar.teamNames[indexTeam - 1], indexPrec, indexTeam);
+	for (i = 0; i < 4; i++)
 	{
-		if (indexPrec != indexTeam || strcmp(pInput->textInput, "") == 0)
-		{
-			strcpy(pInput->textInput, globalVar.teamNames[indexTeam - 1]);
-			pInput->textCounter = (char)strlen(globalVar.teamNames[indexTeam - 1]);
-		}
-		if (pInput->textCounter >= 49)
-			pInput->textCounter = 49;
-		strcpy(globalVar.teamNames[indexTeam - 1], pInput->textInput);
-		int xText = 647, y = 0, wRender, hRender, wText, hText = 87, i;
-		SDL_Rect rect;
-
-		SDL_StartTextInput();
-		SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-		xText = (int)((float)(xText / widthMenuTexture) * wRender);
-		for (i = 0; i < 4; i++)
-		{
-			y = 225 + i * 163;
-			y = (int)((float)(y / hightMenuTexture) * hRender) + (int)((float)(0.3 * hText / hightMenuTexture) * hRender);
-			SDL_Texture* text = loadFromRenderedText(pRenderer, globalVar.teamNames[i], globalVar.colorTab[i], &wText, &hText, 16);
-			rect = initRect(xText, y, wText, hText);
-			SDL_RenderCopy(pRenderer, text, NULL, &rect);
-			SDL_DestroyTexture(text);
-			hText = 87;
-		}
-
+		y = 225 + i * 163;
+		renderText(pRenderer, globalVar.teamNames[i], 647, y, 16, globalVar.colorTab[i]);
 	}
-}
-
-/**
-* \fn int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
-* \brief Determine what team to write to.
-*
-* \param[in] pRenderer, pointer to the renderer of the window.
-* \param[in] pInput, pointer to the input structure.
-* \returns index of the team.
-*/
-int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
-{
-	return getIndexText(pRenderer, pInput, 647);
 }
 
 /**
@@ -516,56 +436,67 @@ int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
 */
 void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 {
-	int indexPrec = 0;
+	int indexPrec = 0, i, y = 0;
 	static int indexWorms = 0;
-	int xTitre = 470, yTitre = 32, wTitre, hTitre, wRender, hRender;
 	char strTitre[45];
 	SDL_Color color;
+	setSDLColor(&color, 0, 0, 0);
 	color.a = 255;
-	color.b = 0;
-	color.r = color.g = 0;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
 	sprintf(strTitre, "Choix des noms des joueurs de l'équipe %d :", indexTeam);
-	xTitre = (int)((float)(xTitre / widthMenuTexture) * wRender);
-	yTitre = (int)((float)(yTitre / hightMenuTexture) * hRender);
-	SDL_Texture* text = loadFromRenderedText(pRenderer, strTitre, color, &wTitre, &hTitre, 32);
-	SDL_Rect rectTitre = initRect(xTitre, yTitre, wTitre, hTitre);
-	SDL_RenderCopy(pRenderer, text, NULL, &rectTitre);
-
+	renderText(pRenderer, strTitre, 470, 32, 32, color);
 
 	indexPrec = indexWorms;
 	indexWorms = getWormsIndexText(pRenderer, pInput);
-	if (indexWorms == 0)
-		return;
-	else
+	if (indexWorms != 0)
 	{
 		indexWorms = indexWorms + (indexTeam - 1) * 4;
-		if (indexPrec != indexWorms || strcmp(pInput->textInput, "") == 0)
-		{
-			strcpy(pInput->textInput, globalVar.wormsNames[indexWorms - 1]);
-			pInput->textCounter = (char)strlen(globalVar.wormsNames[indexWorms - 1]);
-		}
-		if (pInput->textCounter >= 49)
-			pInput->textCounter = 49;
-		strcpy(globalVar.wormsNames[indexWorms - 1], pInput->textInput);
-		int xText = 920, y = 0, wText, hText = 87, i;
-		SDL_Rect rect;
-
-		SDL_StartTextInput();
-		xText = (int)((float)(xText / widthMenuTexture) * wRender);
-		for (i = 0; i < 4; i++)
-		{
-			y = 225 + i * 163;
-			y = (int)((float)(y / hightMenuTexture) * hRender) + (int)((float)(0.3 * hText / hightMenuTexture) * hRender);
-			SDL_Texture* text = loadFromRenderedText(pRenderer, globalVar.wormsNames[i + (indexTeam - 1) * 4], globalVar.colorTab[(indexTeam - 1)], &wText, &hText, 16);
-			rect = initRect(xText, y, wText, hText);
-			SDL_RenderCopy(pRenderer, text, NULL, &rect);
-			SDL_DestroyTexture(text);
-			hText = 87;
-		}
-
+		setTextInput(pInput, globalVar.wormsNames[indexWorms - 1], indexPrec, indexWorms);
 	}
+	for (i = 0; i < 4; i++)
+	{
+		y = 225 + i * 163;
+		renderText(pRenderer, globalVar.wormsNames[i + (indexTeam - 1) * 4], 920, y, 16, globalVar.colorTab[(indexTeam - 1)]);
+	}
+}
+
+/**
+* \fn void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow)
+* \brief Text input function. Manages the precdent writing, deleting, etc.
+*
+* \param[in] pInput, pointer to the input structure.
+* \param[in] str, the string to write in.
+* \param[in] indexPrec, precedent index.
+* \param[in] indexNow, index now.
+* \returns void.
+*/
+void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow)
+{
+	if (indexPrec == indexNow && strcmp(pInput->textInput, "") == 0 && strlen(str) == 1)
+	{
+		strcpy(str, pInput->textInput);
+		pInput->textCounter = 0;
+	}
+	else if (indexPrec != indexNow || strcmp(pInput->textInput, "") == 0)
+	{
+		strcpy(pInput->textInput, str);
+		pInput->textCounter = (char)strlen(str);
+	}
+	secuTextInput(pInput);
+	strcpy(str, pInput->textInput);
+}
+
+/**
+* \fn int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
+* \brief Determine what team to write to.
+*
+* \param[in] pRenderer, pointer to the renderer of the window.
+* \param[in] pInput, pointer to the input structure.
+* \returns index of the team.
+*/
+int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
+{
+	return getIndexText(pRenderer, pInput, 647);
 }
 
 /**
@@ -598,13 +529,13 @@ int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
 	SDL_Rect textRect;
 
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	wText = (int)((float)(wText / widthMenuTexture) * wRender);
-	hText = (int)((float)(hText / hightMenuTexture) * hRender);
-	xText = (int)((float)(xText / widthMenuTexture) * wRender);
+	wText = (int)((float)(wText / WIDTHMENUTEXTURE) * wRender);
+	hText = (int)((float)(hText / HIGHTMENUTEXTURE) * hRender);
+	xText = (int)((float)(xText / WIDTHMENUTEXTURE) * wRender);
 
 	for (index = 1; index <= 4; index++)
 	{
-		yText = (int)((float)(yText / hightMenuTexture) * hRender);
+		yText = (int)((float)(yText / HIGHTMENUTEXTURE) * hRender);
 		textRect = initRect(xText, yText, wText, hText);
 		if (collisionPointWithRect(pInput->cursor.now, &textRect))
 		{
@@ -625,8 +556,6 @@ int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
 	}
 	return indexPrec;
 }
-
-
 
 
 
@@ -659,35 +588,14 @@ int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
 enum MENU mapMenu(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *nextPrev)
 {
 	SDL_Rect mainMenuRect, nextRect, previousRect, chooseRect, repertoryRect;
-	int wRender = 0, hRender = 0, xMain = 48, xNext = 1245, xPrevious = 545, xChoose = 845, xRepertory = 1629;
-	int y = 966, wBox = 324, hBox = 121, testChange = 0;
+	int testChange = 0;
 	static int alreadyChange = 0;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	y = (int)((float)(y / hightMenuTexture) * hRender);
-	wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-	hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-	xMain = (int)((float)(xMain / widthMenuTexture) * wRender);
-	mainMenuRect = initRect(xMain, y, wBox, hBox);
-
-	xRepertory = (int)((float)(xRepertory / widthMenuTexture) * wRender);
-	repertoryRect = initRect(xRepertory, y, wBox, hBox);
-
-	y = 927;
-	y = (int)((float)(y / hightMenuTexture) * hRender);
-	xChoose = (int)((float)(xChoose / widthMenuTexture) * wRender);
-	chooseRect = initRect(xChoose, y, wBox, hBox);
-
-	y = 892;
-	y = (int)((float)(y / hightMenuTexture) * hRender);
-	xNext = (int)((float)(xNext / widthMenuTexture) * wRender);
-	wBox = (int)((float)(211 / widthMenuTexture) * wRender);
-	hBox = (int)((float)(194 / hightMenuTexture) * hRender);
-	nextRect = initRect(xNext, y, wBox, hBox);
-
-	xPrevious = (int)((float)(xPrevious / widthMenuTexture) * wRender);
-	previousRect = initRect(xPrevious, y, wBox, hBox);
-
+	mainMenuRect = initButtonBox(pRenderer, 48, 966, 324, 121);
+	repertoryRect = initButtonBox(pRenderer, 1629, 966, 324, 121);
+	chooseRect = initButtonBox(pRenderer, 845, 927, 324, 121);
+	nextRect = initButtonBox(pRenderer, 1245, 892, 211, 194);
+	previousRect = initButtonBox(pRenderer, 545, 892, 211, 194);
 
 	if (collisionPointWithRect(pInput->cursor.now, &mainMenuRect))
 	{
@@ -732,6 +640,7 @@ enum MENU mapMenu(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *nextPrev)
 			pInput->lclick = 0;
 			alreadyChange = 0;
 			pInput->raffraichissement = 1;
+			*nextPrev = CLICK;
 			return MAIN;
 		}
 		else if (!alreadyChange)
@@ -768,20 +677,20 @@ enum MENU mapMenu(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *nextPrev)
 }
 
 /**
-* \fn char* mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev)
+* \fn void  mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev, char* mapName)
 * \brief Displays a sketch of the selected map.
 *
 * \param[in] pRenderer, pointer to the renderer of the window.
 * \param[in] nextPrev, choice structure to be filled with NEXT or PREVIOUS or NEITHER command.
 * \returns string of the selected map path.
 */
-char* mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev)
+void mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev, char* mapName)
 {
 	SDL_Rect sketchRect;
 	SDL_Texture* sketchTexture = NULL;
 	static int counter = 0;
 	int x = 182, y = 57, w = 1638, h = 740, wRender = 0, hRender = 0;
-	float coeffX = (float)(x / widthMenuTexture), coeffY = (float)(y / hightMenuTexture), coeffW = (float)(w / widthMenuTexture), coeffH = (float)(h / hightMenuTexture);
+	float coeffX = (float)(x / WIDTHMENUTEXTURE), coeffY = (float)(y / HIGHTMENUTEXTURE), coeffW = (float)(w / WIDTHMENUTEXTURE), coeffH = (float)(h / HIGHTMENUTEXTURE);
 	static char *mapString[NUMBERMAP] = { cMAP, cMAP_HD, cMAP_TEST, cMAP_TEST2, cMAP_TEST3, cMAP_TEST4, cMAP_CAM };
 
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
@@ -805,11 +714,12 @@ char* mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev)
 	{
 		fprintf(logFile, "mapSketch : FAILURE, loadTexture sketchTexture.\n\n");
 		nextPrev = NEITHER;
-		return NULL;
+		return;
 	}
 	SDL_RenderCopy(pRenderer, sketchTexture, NULL, &sketchRect);
 	SDL_DestroyTexture(sketchTexture);
-	return mapString[counter];
+	if (nextPrev == CLICK)
+		strcpy(mapName, mapString[counter]);
 }
 
 /**
@@ -937,17 +847,10 @@ void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE])
 enum MENU optionMenu(SDL_Renderer* pRenderer, Input* pInput)
 {
 	SDL_Rect mainMenuRect;
-	int wRender = 0, hRender = 0, xMain = 44;
-	int y = 965, wBox = 324, hBox = 121, testChange = 0;
+	int testChange = 0;
 	static int alreadyChange = 0;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	xMain = (int)((float)(xMain / widthMenuTexture) * wRender);
-	wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-	hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-	y = (int)((float)(y / hightMenuTexture) * hRender);
-	mainMenuRect = initRect(xMain, y, wBox, hBox);
-
+	mainMenuRect = initButtonBox(pRenderer, 44, 965, 324, 121);
 
 	if (collisionPointWithRect(pInput->cursor.now, &mainMenuRect))
 	{
@@ -1040,17 +943,14 @@ void setSoundOption(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice
 */
 void setSizeOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice)
 {
-	int xYes = 1197, y = 292, xText = 1493, wText = 386, hText = 88, wRender = 0, hRender = 0;
-	static int textStart = 0, wWindow, hWindow;
-	SDL_Rect rect;
-	enum CHOICE testChange = *pChoice;
+	static int wWindow, hWindow;
 	static char strSize[21] = "1080*600";
+	int xYes = 1197, y = 292;
+	enum CHOICE testChange = *pChoice;
 	SDL_Color color;
+	setSDLColor(&color, 0, 0, 0);
 	color.a = 255;
-	color.b = 0;
-	color.r = color.g = 0;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
 	toggleOptions(pRenderer, pInput, pChoice, xYes, y);
 	if (testChange != *pChoice)
 	{
@@ -1059,21 +959,12 @@ void setSizeOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, 
 	}
 	if (*pChoice == TEXT)
 	{
-		if (!textStart)
+		if (strcmp(pInput->textInput, "") == 0 && strlen(strSize) > 1)
 		{
-			textStart = 1;
-			SDL_StartTextInput();
+			strcpy(pInput->textInput, strSize);
+			pInput->textCounter = (char)strlen(strSize);
 		}
-		if (textStart)
-		{
-			textStart = !testEndInput(pInput->textInput, 100);
-			if (strcmp(pInput->textInput, "") == 0 && strlen(strSize) > 1)
-			{
-				strcpy(pInput->textInput, strSize);
-				pInput->textCounter = (char)strlen(strSize);
-			}
-			strcpy(strSize, pInput->textInput);
-		}
+		strcpy(strSize, pInput->textInput);
 	}
 	else if (*pChoice == SET)
 	{
@@ -1091,12 +982,12 @@ void setSizeOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, 
 		strcpy(strSize, "1080*600");
 		SDL_SetWindowSize(pWindow, wWindow, hWindow);
 	}
-	xText = (int)((float)(xText / widthMenuTexture) * wRender);
-	y = (int)((float)(y / hightMenuTexture) * hRender) + (int)((float)(0.3 * hText / hightMenuTexture) * hRender);
-	SDL_Texture* text = loadFromRenderedText(pRenderer, strSize, color, &wText, &hText, 16);
-	rect = initRect(xText, y, wText, hText);
-	SDL_RenderCopy(pRenderer, text, NULL, &rect);
-	SDL_DestroyTexture(text);
+	else
+	{
+		SDL_GetWindowSize(pWindow, &wWindow, &hWindow);
+		sprintf(strSize, "%d*%d", wWindow, hWindow);
+	}
+	renderText(pRenderer, strSize, 1493, 292, 16, color);
 }
 
 /**
@@ -1110,17 +1001,13 @@ void setSizeOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, 
 */
 void setSavePathOption(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSize)
 {
-	int xYes = 1197, y = 719, xText = 1493, wText = 386, hText = 88, wRender = 0, hRender = 0;
-	static int textStart = 0;
-	SDL_Rect rect;
+	int xYes = 1197, y = 719;
 	static char strPath[100] = "";
 	enum CHOICE testChange = *pChoice;
 	SDL_Color color;
+	setSDLColor(&color, 0, 0, 0);
 	color.a = 255;
-	color.b = 0;
-	color.r = color.g = 0;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
 	toggleOptions(pRenderer, pInput, pChoice, xYes, y);
 	if (testChange != *pChoice)
 	{
@@ -1135,28 +1022,15 @@ void setSavePathOption(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pCho
 	}
 	else if (*pChoice == TEXT && windowSize != TEXT)
 	{
-		if (!textStart)
+		if (strcmp(pInput->textInput, "") == 0 && strlen(strPath) > 1)
 		{
-			textStart = 1;
-			SDL_StartTextInput();
+			strcpy(pInput->textInput, strPath);
+			pInput->textCounter = (char)strlen(strPath);
 		}
-		if (textStart)
-		{
-			textStart = !testEndInput(pInput->textInput, 100);
-			if (strcmp(pInput->textInput, "") == 0 && strlen(strPath) > 1)
-			{
-				strcpy(pInput->textInput, strPath);
-				pInput->textCounter = (char)strlen(strPath);
-			}
-			strcpy(strPath, pInput->textInput);
-		}
+		strcpy(strPath, pInput->textInput);
+		strcpy(globalVar.savePath, pInput->textInput);
 	}
-	xText = (int)((float)(xText / widthMenuTexture) * wRender);
-	y = (int)((float)(y / hightMenuTexture) * hRender) + (int)((float)(0.3 * hText / hightMenuTexture) * hRender);
-	SDL_Texture* text = loadFromRenderedText(pRenderer, strPath, color, &wText, &hText, 16);
-	rect = initRect(xText, y, wText, hText);
-	SDL_RenderCopy(pRenderer, text, NULL, &rect);
-	SDL_DestroyTexture(text);
+	renderText(pRenderer, strPath, 1493, 719, 16, color);
 }
 
 /**
@@ -1174,23 +1048,11 @@ void toggleOptions(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice,
 {
 	SDL_Texture* textureChoice = NULL;
 	SDL_Rect yesRect, noRect, textRect, setRect;
-	int xYes = x, xNo = 1493, yBox = y, xSet = 1846;
-	int wRender = 0, hRender = 0, wBox = 172, hBox = 88, wText = 386, wSet = 107;
 
-	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	wBox = (int)((float)(wBox / widthMenuTexture) * wRender);
-	wText = (int)((float)(wText / widthMenuTexture) * wRender);
-	wSet = (int)((float)(wSet / widthMenuTexture) * wRender);
-	hBox = (int)((float)(hBox / hightMenuTexture) * hRender);
-	xYes = (int)((float)(xYes / widthMenuTexture) * wRender);
-	xSet = (int)((float)(xSet / widthMenuTexture) * wRender);
-	xNo = (int)((float)(xNo / widthMenuTexture) * wRender);
-	yBox = (int)((float)(yBox / hightMenuTexture) * hRender);
-
-	yesRect = initRect(xYes, yBox, wBox, hBox);
-	noRect = initRect(xNo, yBox, wBox, hBox);
-	textRect = initRect(xNo, yBox, wText, hBox);
-	setRect = initRect(xSet, yBox, wSet, hBox);
+	yesRect = initButtonBox(pRenderer, x, y, 172, 88);
+	noRect = initButtonBox(pRenderer, 1493, y, 172, 88);
+	textRect = initButtonBox(pRenderer, 1493, y, 386, 88);
+	setRect = initButtonBox(pRenderer, 1846, y, 107, 88);
 
 	if (collisionPointWithRect(pInput->cursor.now, &yesRect))
 	{
@@ -1304,6 +1166,7 @@ void SDL_SetWindowResizable(SDL_Window *pWindow, SDL_bool resizable)
 * \param[in] textColor, color to apply to the text.
 * \param[in] w, pointer to the width to be filled with the width of the text.
 * \param[in] h, pointer to the hight to be filled with the hight of the text.
+* \param[in] size, size of the font.
 * \returns void.
 */
 SDL_Texture* loadFromRenderedText(SDL_Renderer* pRenderer, char* textureText, SDL_Color textColor, int *w, int *h, int size)
@@ -1395,10 +1258,64 @@ void getSizeWindow(int *w, int *h, char* str)
 	}
 }
 
-
+/**
+* \fn void setColorForGame()
+* \brief Swap blue and red component for the game.
+*
+* \returns void.
+*/
 void setColorForGame()
 {
 	int i;
 	for (i = 0; i < 4; i++)
 		SWAP(globalVar.colorTab[i].b, globalVar.colorTab[i].r);
+}
+
+/**
+* \fn void renderText(SDL_Renderer* pRenderer, char* str, int x, int y, int sizeFont, SDL_Color color)
+* \brief Render a text from a screen and paste it to the renderer.
+*
+* \param[in] pRenderer, pointer to the renderer of the window.
+* \param[in] str, string.
+* \param[in] x, x position of the text in the renderer.
+* \param[in] y, y position of the text in the renderer.
+* \param[in] sizeFont, size of the font.
+* \param[in] color, color to apply to the text.
+* \returns void.
+*/
+void renderText(SDL_Renderer* pRenderer, char* str, int x, int y, int sizeFont, SDL_Color color)
+{
+	int hText = 87, wRender, hRender, wText = 0;
+	SDL_Rect rect;
+
+	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
+	x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
+	y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender) + (int)((float)(0.3 * hText / HIGHTMENUTEXTURE) * hRender);
+	SDL_Texture* text = loadFromRenderedText(pRenderer, str, color, &wText, &hText, sizeFont);
+	rect = initRect(x, y, wText, hText);
+	SDL_RenderCopy(pRenderer, text, NULL, &rect);
+	SDL_DestroyTexture(text);
+}
+
+/**
+* \fn SDL_Rect initButtonBox(SDL_Renderer* pRenderer, int x, int y, int w, int h)
+* \brief Initialize a button box from the standard dimensions in the image to the relative dimensions in the renderer.
+*
+* \param[in] pRenderer, pointer to the renderer of the window.
+* \param[in] x, x position of the original box.
+* \param[in] y, y position of the original box.
+* \param[in] w, width of the original box.
+* \param[in] h, hight of the original box.
+* \returns void.
+*/
+SDL_Rect initButtonBox(SDL_Renderer* pRenderer, int x, int y, int w, int h)
+{
+	int wRender, hRender;
+
+	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
+	y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender);
+	w = (int)((float)(w / WIDTHMENUTEXTURE) * wRender);
+	h = (int)((float)(h / HIGHTMENUTEXTURE) * hRender);
+	x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
+	return initRect(x, y, w, h);
 }

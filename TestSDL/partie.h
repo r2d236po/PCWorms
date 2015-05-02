@@ -4,7 +4,7 @@
 #include "worms.h"
 #include "carte.h"
 
-#define DEFAULTPATH "../assets/logAndResult/Resultat de la Partie.txt"
+#define DEFAULTPATH "../assets/logAndResult/ResultGame.txt"
 
 /* Structures et constantes relatives à la gestion d'une partie */
 

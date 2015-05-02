@@ -29,10 +29,10 @@
 #define SETTEXTURE "../assets/pictures/Interface/set.png"
 
 #define NBTEXTURE 18
-#define widthMenuTexture 2000.0
-#define hightMenuTexture 1125.0
+#define WIDTHMENUTEXTURE 2000.0
+#define HIGHTMENUTEXTURE 1125.0
 enum MENU { MAIN, MAINversus, MAINmap, MAINoption, VERSUS,VERSUSn, VERSUSm,VERSUSname, VERSUSnameN, VERSUSnameM, VERSUSstart, VERSUSstartS, MAP, MAPmain, MAPchoose, MAPrepertory, OPTIONS,OPTIONSm };
-enum CHOICE{ NEXT, PREVIOUS, NEITHER, YES, NO, DEFAULT, SET, TEXT};
+enum CHOICE{ NEXT, PREVIOUS, NEITHER, YES, NO, DEFAULT, SET, TEXT, CLICK};
 
 int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100], int *pNbTeam, int *pNbWorms);
 int initTabTextureMenu(SDL_Renderer* pRenderer, SDL_Texture* menuTexture[NBTEXTURE], ...);
@@ -43,15 +43,17 @@ enum MENU menu(SDL_Renderer* pRenderer, Input* pInput);
 
 enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam);
 void setTeamName(SDL_Renderer* pRenderer, Input* pInput);
-int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput);
 void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam);
+void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow);
+int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput);
 int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput);
 int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox);
 void setColorTeam(SDL_Renderer* pRenderer, Input* pInput);
 int getIndexColor(SDL_Renderer* pRenderer, Input* pInput);
+void initColorTab(SDL_Color colorArray[6]);
 
 enum MENU mapMenu(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *nextPrev);
-char* mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev);
+void  mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev, char* mapName);
 
 enum MENU optionMenu(SDL_Renderer* pRenderer, Input* pInput);
 void setResizableOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice);
@@ -67,4 +69,6 @@ void getSizeWindow(int *w, int *h, char* str);
 
 int indiceTexture(enum MENU menu);
 void setColorForGame();
+void renderText(SDL_Renderer* pRenderer, char* str, int x, int y, int sizeFont, SDL_Color color);
+SDL_Rect initButtonBox(SDL_Renderer* pRenderer, int x, int y, int w, int h);
 #endif // !MAINMENU_H
