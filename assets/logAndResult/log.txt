@@ -1,4 +1,4 @@
-Start of session : Sat May 02 10:42:00 2015
+Start of session : Sat May 02 13:20:17 2015
 
 
 loadImage : SUCCESS.
@@ -74,16 +74,6 @@ loadTexture : SUCCESS.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/map.png.
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/mapHD2.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/mapHD2.png.
@@ -107,36 +97,6 @@ loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptest3.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptest3.png.
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
@@ -279,4 +239,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Sat May 02 10:42:39 2015
+End of Session : Sat May 02 13:21:08 2015

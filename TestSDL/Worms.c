@@ -293,20 +293,29 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 		pWorms->indexAnim = 0;
 	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
 	int indexBoucle = 0;
-	while (indexBoucle < 3 && collisionSurfaceWithMapBasic(pSurfaceMap,pWorms->wormsObject->objectSurface))
+	enum DIRECTION dirTest = pWorms->dirSurface;
+	while (indexBoucle < 3 && collisionSurfaceWithMap(pSurfaceMap, pWorms->wormsObject->objectSurface, &dirTest, 1))
 	{
 		indexBoucle++;
 		if (pWorms->dirSurface == LEFT)
 		{
 			if (pWorms->wormsObject->rightOk == 1)
+			{
 				pWorms->wormsObject->objectSurface->clip_rect.x += 1;
+				if (dirTest == DOWN)
+					pWorms->wormsObject->objectSurface->clip_rect.y -= 1;
+			}
 			setSideMotionPossibility(pWorms->wormsObject, pSurfaceMap);
 			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 		}
 		else if (pWorms->dirSurface == RIGHT)
 		{
 			if (pWorms->wormsObject->leftOk == 1)
+			{
 				pWorms->wormsObject->objectSurface->clip_rect.x -= 1;
+				if (dirTest == DOWN)
+					pWorms->wormsObject->objectSurface->clip_rect.y -= 1;
+			}
 			setSideMotionPossibility(pWorms->wormsObject, pSurfaceMap);
 			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 		}
@@ -535,7 +544,7 @@ void wormsDead(Worms* pWorms, int limitMap)
 void wormsFallDamages(Worms* pWorms)
 {
 	int dy = dyPrecProcess(pWorms->wormsObject);
-	if ( dy > 2 * pWorms->wormsObject->objectBox.h)
+	if (dy > 2 * pWorms->wormsObject->objectBox.h)
 	{
 		pWorms->vie -= (int)((float)dy*DAMAGEFALL);
 	}
