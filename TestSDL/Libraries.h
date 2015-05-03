@@ -16,6 +16,8 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL2_rotozoom.h>
 
+#include "Struct.h"
+
 /*Macros*/
 #define MY_ABS(a) ((a) < 0 ? (-a) : (a))
 #define SWAP(x,y) ((x ^= y), (y ^= x), (x ^= y))
@@ -46,105 +48,6 @@
 /*Variables Globales importantes*/
 SDL_Window *globalWindow;
 SDL_Renderer *globalRenderer;
-
-
-/*Structures globales*/
-typedef struct{		//structure Point
-	int x;
-	int y;
-}Point;
-
-typedef struct{
-	float x;
-	float y;
-	float rayon;
-}Cercle;
-
-typedef struct{
-	float x;
-	float y;
-	double norm;
-}Vector;
-
-typedef struct{ //structure Curseur
-	Point before;
-	Point now;
-	int motion;
-	char currentCursor;
-	SDL_Cursor * cursor1;
-	SDL_Cursor * cursor2;
-}Cursor;
-
-enum DIRECTION { RIGHT = 0, LEFT = 1, DOWN = 2, UP = 3, UPLEFT = 4, UPRIGHT = 5, DLEFT = 6, DRIGHT = 7, NONE = 8 };
-
-/*Structure gérant les différentes inputs*/
-typedef struct{		
-	char jump;	//touche de saut
-	char jumpOnGoing;	//indique qu'un saut est en cours et désactive les touches de direction
-	char bend;	//touche pour s'accroupir
-	char menu;	//touche de menu principal
-	enum DIRECTION direction;	//stocke la direction du déplacement du worms
-	char rclick;		//click droite de la souris
-	char lclick;	//click gauche de la souris
-	char quit;	//quitte le programme
-	char weaponTab;
-	char wheelUp; //zoomIn
-	char wheelDown; //zoomOut
-	char raffraichissement;
-	char windowResized;
-	char acceleration;
-	char bombe;
-	char deplacement;
-	char screenshot;
-	char camCentrer;
-	char changeWorms;
-	char arme;
-	char soundAllowed;
-	char musicAllowed;
-	char textInput[100];
-	unsigned char textCounter;
-	Cursor cursor; //cursor avec position actuelle et précédente de la souris
-}Input;
-
-
-/*Structure objet KaamEngine*/
-typedef struct{
-	SDL_Rect objectBox;
-	Point absoluteCoordinate;
-	Point precedentCoordinate;
-	enum DIRECTION motionDirection;
-	float Xspeed;
-	float Yspeed;
-	int weapon;
-	int reactToBomb;
-	int rightOk;
-	int leftOk;
-	int falling;
-	int rebound;
-	int startMotion;
-	int relativeTime;
-	SDL_Surface* objectSurface;
-}KaamObject;
-
-
-typedef struct{		//structure gérant les polices
-	TTF_Font * FontName;
-	SDL_Color colorTab[4];
-
-	int nbEquipe;
-	int nbWormsEquipe[4];
-	int nbWormsTotal;
-	int gameEnd;
-
-	int teamPlaying;
-	int wormsPlaying[4];
-	int indexWormsTab;
-
-	char savePath[100];
-	char teamNames[4][50];
-	char wormsNames[16][50];
-
-}GlobalVariable;
 
 GlobalVariable globalVar;
 FILE* logFile;

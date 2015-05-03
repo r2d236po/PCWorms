@@ -1,6 +1,7 @@
 #ifndef SOUND_H
 #define SOUND_H
 
+#include "Libraries.h"
 
 /*Chemins vers les sons des bombes*/
 #define ExploMed "../assets/sounds/Explosion_medium.wav"
