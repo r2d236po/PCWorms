@@ -4,11 +4,11 @@
 #include "AffichageGeneral.h"
 #include "Sounds.h"
 
-int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100], int *pNbTeam, int *pNbWorms)
+int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100])
 {
 	SDL_Texture *menuTexture[NBTEXTURE];
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	enum MENU menuIn = MAIN;
+	enum MENU menuIn = MAIN, menuPrec = MAIN;
 	int quitMenu = 0, indexTeam = 1;
 	enum CHOICE nextPrev = NEITHER;
 	enum CHOICE resizable = YES, windowSize = DEFAULT, music = YES, sound = YES, savePath = DEFAULT;
@@ -68,6 +68,8 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 			menuIn = versusMenu(pRenderer, pInput, &quitMenu, menuIn, &indexTeam);
 			break;
 		}
+		if (menuIn == MAIN)
+			indexTeam = 1;
 		if (pInput->raffraichissement == 1)
 		{
 			SDL_RenderCopy(pRenderer, menuTexture[indiceTexture(menuIn)], NULL, NULL);
@@ -98,29 +100,45 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 			SDL_RenderPresent(pRenderer);
 			pInput->raffraichissement = 0;
 		}
+		menuPrec = menuIn;
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 		if (quitMenu == 0)
 			quitMenu = pInput->quit;
+		if (quitMenu == 1 && !pInput->quit)
+		{
+			/*Calcul du nombre d'équipe et du nombre de worms par équipe*/
+			for (i = 0; i < 4; i++)
+			{
+				globalVar.nbWormsEquipe[i] = 0;
+			}
+			globalVar.nbEquipe = 0;
+			globalVar.nbWormsTotal = 0;
+
+			for (i = 0; i < 4; i++)
+			{
+				if (strcmp(globalVar.teamNames[i], "") != 0)
+					globalVar.nbEquipe += 1;
+			}
+			for (i = 0; i < 16; i++)
+			{
+				if (strcmp(globalVar.wormsNames[i], "") != 0 && strcmp(globalVar.teamNames[(int)(i / 4)], "") != 0)
+					globalVar.nbWormsEquipe[(int)(i / 4)] += 1;
+			}
+			for (i = 0; i < 4; i++)
+			{
+				globalVar.nbWormsTotal += globalVar.nbWormsEquipe[i];
+			}
+			if (globalVar.nbWormsTotal == 0 || globalVar.nbEquipe == 0)
+			{
+				quitMenu = 0;
+				menuIn = MAIN;
+				indexTeam = 1;
+			}
+		}
 	}
 
-	/*Calcul du nombre d'équipe et du nombre de worms par équipe*/
-	*pNbWorms = 0;
-	*pNbTeam = 0;
-	for (i = 0; i < 4; i++)
-	{
-		if (strcmp(globalVar.teamNames[i], "") != 0)
-			*pNbTeam += 1;
-	}
-	for (i = 0; i < 16; i++)
-	{
-		if (strcmp(globalVar.wormsNames[i], "") != 0)
-			*pNbWorms += 1;
-	}
-	if ((*pNbTeam) == 0 || (*pNbWorms) == 0)
-		pInput->quit = 1;
-	if (*pNbWorms != 0)
-		*pNbWorms = (*pNbWorms) / (*pNbTeam);
+
 	SDL_StopTextInput();
 	resetStructInput(pInput);
 	destroyTextureTab(menuTexture);
@@ -225,8 +243,11 @@ enum MENU menu(SDL_Renderer* pRenderer, Input* pInput)
 enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam)
 {
 	SDL_Rect nextRect, mainRect, startRect;
-	int testChange = 0;
+	int testChange = 0, start = 0, next = 0;
 	static int alreadyChange = 0;
+
+	start = !strcmp(globalVar.teamNames[*pIndexTeam - 1], "");
+	next = strcmp(globalVar.teamNames[*pIndexTeam], "");
 
 	if (menuPrec != VERSUSstart && menuPrec != VERSUSstartS)
 	{
@@ -240,18 +261,22 @@ enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MEN
 				pInput->raffraichissement = 1;
 				alreadyChange = 0;
 				strcpy(pInput->textInput, "");
-				if (menuPrec == VERSUSn || menuPrec == VERSUS)
+				if (!start && next && (menuPrec == VERSUSn || menuPrec == VERSUS))
 				{
 					return VERSUSname;
 				}
-				else if ((menuPrec == VERSUSnameN || menuPrec == VERSUSname) && (*pIndexTeam) < 3)
+				else if (next && (menuPrec == VERSUSnameN || menuPrec == VERSUSname) && (*pIndexTeam) < 3)
 				{
 					*pIndexTeam += 1;
-					return VERSUSname;
+					next = strcmp(globalVar.teamNames[*pIndexTeam], "");
+					if (next)
+						return VERSUSname;
+					else return VERSUSstart;
 				}
-				else if (menuPrec == VERSUSnameN || menuPrec == VERSUSname)
+				else if (menuPrec == VERSUSnameN || menuPrec == VERSUSname || (menuPrec == VERSUSn || menuPrec == VERSUS) && !start)
 				{
-					*pIndexTeam += 1;
+					if (next)
+						*pIndexTeam += 1;
 					return VERSUSstart;
 				}
 			}
@@ -447,8 +472,8 @@ void setTeamName(SDL_Renderer* pRenderer, Input* pInput)
 */
 void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 {
-	int indexPrec = 0, i, y = 0;
-	static int indexWorms = 0;
+	int indexPrec = 0, i, y = 0, init = 0;
+	static int indexWorms = 0, team = 1;
 	char strTitre[45];
 	SDL_Color color;
 	setSDLColor(&color, 0, 0, 0);
@@ -456,10 +481,12 @@ void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 
 	sprintf(strTitre, "Choix des noms des joueurs de l'équipe %d :", indexTeam);
 	renderText(pRenderer, strTitre, 470, 32, 32, color);
-
+	if (team != indexTeam)
+		init = 1;
+	else init = 0;
 	indexPrec = indexWorms;
-	indexWorms = getWormsIndexText(pRenderer, pInput);
-	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam -1], "") != 0)
+	indexWorms = getWormsIndexText(pRenderer, pInput, init);
+	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam - 1], "") != 0)
 	{
 		indexWorms = indexWorms + (indexTeam - 1) * 4;
 		setTextInput(pInput, globalVar.wormsNames[indexWorms - 1], indexPrec, indexWorms);
@@ -469,6 +496,7 @@ void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 		y = 225 + i * 163;
 		renderText(pRenderer, globalVar.wormsNames[i + (indexTeam - 1) * 4], 920, y, 16, globalVar.colorTab[(indexTeam - 1)]);
 	}
+	team = indexTeam;
 }
 
 /**
@@ -507,24 +535,24 @@ void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow)
 */
 int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
 {
-	return getIndexText(pRenderer, pInput, 647);
+	return getIndexText(pRenderer, pInput, 647, 0);
 }
 
 /**
-* \fn int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput)
+* \fn int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput, int init)
 * \brief Determine what team to write to.
 *
 * \param[in] pRenderer, pointer to the renderer of the window.
 * \param[in] pInput, pointer to the input structure.
 * \returns index of the worms.
 */
-int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput)
+int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput, int init)
 {
-	return getIndexText(pRenderer, pInput, 920);
+	return getIndexText(pRenderer, pInput, 920, init);
 }
 
 /**
-* \fn int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
+* \fn int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox, int init)
 * \brief Determine what team to write to.
 *
 * \param[in] pRenderer, pointer to the renderer of the window.
@@ -532,13 +560,14 @@ int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput)
 * \param[in] xBox, origin of the text.
 * \returns index of the box text.
 */
-int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
+int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox, int init)
 {
 	int xText = xBox, yText = 225, wText = 533, hText = 87, yNom = 225;
 	int wRender, hRender, index;
 	static int indexPrec = 0;
 	SDL_Rect textRect;
-
+	if (init)
+		indexPrec = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
 	wText = (int)((float)(wText / WIDTHMENUTEXTURE) * wRender);
 	hText = (int)((float)(hText / HIGHTMENUTEXTURE) * hRender);
@@ -567,6 +596,7 @@ int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
 	}
 	return indexPrec;
 }
+
 
 
 
@@ -782,6 +812,57 @@ int indiceTexture(enum MENU menu)
 		return 17;
 	}
 	return 0;
+}
+
+/**
+* \fn char* stringTexture(enum MENU menu)
+* \brief Convert the menu name into an int.
+*
+* \param[in] menu, menu enumeration.
+* \returns the string of the texture to display.
+*/
+char* stringTexture(enum MENU menu)
+{
+	switch (menu)
+	{
+	case MAIN:
+		return MAINMENU;
+	case MAINversus:
+		return MAINMENUVERSUS;
+	case MAINmap:
+		return MAINMENUMAP;
+	case MAINoption:
+		return MAINMENUOPTION;
+	case VERSUS:
+		return VERSUSMENU;
+	case VERSUSn:
+		return VERSUSMENUNEXT;
+	case VERSUSm:
+		return VERSUSMENUMAIN;
+	case VERSUSname:
+		return VERSUSMENUNAMEPLAYER;
+	case VERSUSnameN:
+		return VERSUSMENUNAMEPLAYERN;
+	case VERSUSnameM:
+		return VERSUSMENUNAMEPLAYERM;
+	case VERSUSstart:
+		return VERSUSMENUSTART;
+	case VERSUSstartS:
+		return VERSUSMENUSTARTS;
+	case MAP:
+		return MAPMENU;
+	case MAPmain:
+		return MAPMENUMAIN;
+	case MAPchoose:
+		return MAPMENUCHOOSE;
+	case MAPrepertory:
+		return MAPMENUREPERTORY;
+	case OPTIONS:
+		return OPTIONMENU;
+	case OPTIONSm:
+		return OPTIONMENUMAIN;
+	}
+	return MAINMENU;
 }
 
 /**
@@ -1324,9 +1405,13 @@ SDL_Rect initButtonBox(SDL_Renderer* pRenderer, int x, int y, int w, int h)
 	int wRender, hRender;
 
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender);
 	w = (int)((float)(w / WIDTHMENUTEXTURE) * wRender);
 	h = (int)((float)(h / HIGHTMENUTEXTURE) * hRender);
-	x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
+	if (x >= 0)
+		x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
+	else x = wRender / 2 - w / 2;
+	if (y >= 0)
+		y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender);
+	else y = hRender / 2 - h / 2;
 	return initRect(x, y, w, h);
 }

@@ -4,6 +4,7 @@
 #include "KaamEngine.h"
 #include "input.h"
 #include "display.h"
+#include "armes.h"
 
 
 
@@ -358,20 +359,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 }
 
 
-void effacerSurface(SDL_Surface* pSurface)
-{
-	Uint32 pixel_Transparent = SDL_MapRGBA(pSurface->format, 255, 255, 255, 0);
-	int x, y;
-	int Wsurface = pSurface->w, xSurface = pSurface->clip_rect.x;
-	int Hsurface = pSurface->h, ySurface = pSurface->clip_rect.y;
-	for (y = ySurface; y < (ySurface + Hsurface); y++)
-	{
-		for (x = xSurface; x < (xSurface + Wsurface); x++)
-		{
-			WritePixel(pSurface, x - xSurface, y - ySurface, pixel_Transparent);
-		}
-	}
-}
+
 
 
 
@@ -383,7 +371,7 @@ void effacerSurface(SDL_Surface* pSurface)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMap)
+* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \brief Update worms display, manages overlay and physics for all worms.
 *
 * \param[in] pInput, pointer to the Input structure.
@@ -391,18 +379,21 @@ void effacerSurface(SDL_Surface* pSurface)
 * \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
 * \returns void
 */
-void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision)
+void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer)
 {
+	int x, y;
+	double xx, yy, z;
 	int indexWorms;
 	static char armePrec = 0;
+	SDL_Surface* rotoSurface = NULL;
 	if (!pInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 		{
-			callNextWorms();
+			callNextWorms(wormsTab);
 		}
 		pInput->deplacement = 0;
-		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
 				|| !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
@@ -415,24 +406,33 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
 					resetInputs(pInput);
 			}
-			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec == 1)
+			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec)
 			{
-				if (pInput->arme && indexWorms == globalVar.indexWormsTab && armePrec == 0) // On affiche l'arme la première fois
+				if (pInput->arme && indexWorms == globalVar.indexWormsTab && !armePrec) // On affiche l'arme la première fois
 				{
-					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 20;
-					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 15;
+					arme1->clip_rect.x = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x - 10;
+					arme1->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + 5;
 					display(arme1, 1);
+					display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface, 0);
 				}
-				if (pInput->arme == 1 && armePrec == 1) // On fait tourner l'arme en fonction de la souris
+				if (pInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 				{
-					display(arme1, 0);
+					SDL_GetMouseState(&x, &y);
+					xx = MY_ABS((x - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x)));
+					yy = y - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y);
+					z = atan(yy / xx);
+					z = (z / pi * 180.0);
+					rotoSurface = rotozoomSurface(arme1, z, 1.0, 1);
+					centerRectToPoint(&rotoSurface->clip_rect, arme1->clip_rect.x + arme1->w / 2, arme1->clip_rect.y + arme1->h / 2);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
+					display(rotoSurface, 1);
+					SDL_FreeSurface(rotoSurface);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme == 0 && armePrec == 1) // On efface l'arme
 				{
-					updateSurfaceFromSurface(pMainTerrain->globalMapSurface, pMainTerrain->collisionMapSurface, &arme1->clip_rect, 1);
-					updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &arme1->clip_rect);
+					updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, &arme1->clip_rect, 1);
+					updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, &arme1->clip_rect);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				}
 				updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie				
@@ -456,9 +456,9 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 void wormsOverlay(Worms** wormsTab)
 {
 	int i = 0, j = 0;
-	for (i = 0; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
 	{
-		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
+		for (j = i + 1; j < globalVar.nbWormsTotal; j++)
 		{
 			SDL_Rect* rectTab[3];
 			rectTab[0] = &wormsTab[i]->wormsObject->objectSurface->clip_rect;
@@ -568,7 +568,7 @@ void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox
 {
 	int indexWorms = 0, i;
 	Point P;
-	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 	{
 		if (!collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
 			continue;

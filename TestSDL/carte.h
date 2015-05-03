@@ -1,7 +1,7 @@
 #ifndef CARTE_H
 #define CARTE_H
 
-#include "worms.h"
+#include "Libraries.h"
 /* Déclaration des structures et constantes relatives à la carte jouée */
 
 typedef struct {	/* Structure terrain */
@@ -27,7 +27,6 @@ void destroyMap(Terrain** p_pMapTerrain);	//détruit un terrain
 enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);
 
 /*Détection et gestion des collisions*/
-int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect);
 
 
 

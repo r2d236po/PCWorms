@@ -414,6 +414,53 @@ int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
 }
 
 /**
+* \fn int collisionRectWithMap(SDL_Surface* pSurfaceMap, SDL_Rect* pRect, int* xE, int* yE)
+* \brief Detecte s'il y a collision entre un rectangle et une surface.
+*
+* \param[in] pSurfaceMap, pointeur vers la surface de la surface a tester
+* \param[in] pRect, pointeur vers le rectangle a tester
+* \param[in] xE, pointeur vers la variable contenant l'abscisse de la collision
+* \param[in] yE, pointeur vers la variable contenant l'ordonne de la collision
+* \returns int, indicateur de collision : 1 = collision, 0 sinon
+*/
+int collisionRectWithMap(SDL_Surface* pSurfaceMap, SDL_Rect* pRect, int* xE, int* yE)
+{
+	int x = 0, y = 0;
+	reajustRect(pRect, pSurfaceMap);
+	for (y = (*pRect).y; y <= ((*pRect).h + (*pRect).y); y++)
+	{
+		if (y == (*pRect).y || y == ((*pRect).h + (*pRect).y))
+		{
+			for (x = (*pRect).x; (x <= (*pRect).x + (*pRect).w); x++)
+			{
+				if (!pixelTransparent(ReadPixel(pSurfaceMap, x, y), pSurfaceMap->format)) //transparence
+				{
+					*xE = x;
+					*yE = y;
+					return 1;
+				}
+			}
+		}
+		else
+		{
+			if (!pixelTransparent(ReadPixel(pSurfaceMap, (*pRect).x, y), pSurfaceMap->format)) //transparence
+			{
+				*xE = (*pRect).x;
+				*yE = y;
+				return 1;
+			}
+			if (!pixelTransparent(ReadPixel(pSurfaceMap, (*pRect).x + (*pRect).w, y), pSurfaceMap->format)) //transparence
+			{
+				*xE = (*pRect).x + (*pRect).w;
+				*yE = y;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+/**
 * \fn int collisionPointWithCercle(Point P, int centerX, int centerY, int radius)
 * \brief Test if a point is inside a cercle.
 *
@@ -453,7 +500,7 @@ int collisionPointWithRect(Point P, SDL_Rect* box)
 
 /**
 * \fn int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By)
-* \brief Test if a point is inside a rect.
+* \brief Test if point is encompassed in a segment.
 *
 * \param[in] C, point to test.
 * \param[in] Ax, X coordinate of first edge of the segment.
@@ -476,6 +523,17 @@ int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By)
 		return 0;
 	return 1;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -638,6 +696,21 @@ SDL_Rect createGlobalRect(int nbRect, SDL_Rect** rectTab)
 			hMax = y2 + h2 - yMin;
 	}
 	return initRect(xMin, yMin, wMax, hMax);
+}
+
+/**
+* \fn void centerRectToPoint(SDL_Rect* pRect, int x, int y)
+* \brief Center a rect on a point.
+*
+* \param[in] pRect, pointer to the rect to center.
+* \param[in] x, x to center on.
+* \param[in] y, y to center on.
+* \return void.
+*/
+void centerRectToPoint(SDL_Rect* pRect, int x, int y)
+{
+	pRect->x = x - (pRect->w / 2);
+	pRect->y = y - (pRect->h / 2);
 }
 
 

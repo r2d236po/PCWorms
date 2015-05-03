@@ -40,6 +40,8 @@
 #define NUMBERMAP 7
 #define ICONE "../assets/pictures/icone.png"
 
+#define INGAMEMENU "../assets/pictures/Interface/ingameMenu.png"
+
 /*Structures globales*/
 typedef struct{		//structure Point
 	int x;
@@ -124,11 +126,12 @@ typedef struct{		//structure gérant les polices
 	SDL_Color colorTab[4];
 
 	int nbEquipe;
-	int nbWormsEquipe;
+	int nbWormsEquipe[4];
+	int nbWormsTotal;
 	int gameEnd;
 
 	int teamPlaying;
-	int wormsPlaying;
+	int wormsPlaying[4];
 	int indexWormsTab;
 
 	char savePath[100];

@@ -34,9 +34,10 @@
 enum MENU { MAIN, MAINversus, MAINmap, MAINoption, VERSUS,VERSUSn, VERSUSm,VERSUSname, VERSUSnameN, VERSUSnameM, VERSUSstart, VERSUSstartS, MAP, MAPmain, MAPchoose, MAPrepertory, OPTIONS,OPTIONSm };
 enum CHOICE{ NEXT, PREVIOUS, NEITHER, YES, NO, DEFAULT, SET, TEXT, CLICK};
 
-int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100], int *pNbTeam, int *pNbWorms);
+int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100]);
 int initTabTextureMenu(SDL_Renderer* pRenderer, SDL_Texture* menuTexture[NBTEXTURE], ...);
 void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE]);
+char* stringTexture(enum MENU menu);
 
 enum MENU menu(SDL_Renderer* pRenderer, Input* pInput);
 
@@ -46,8 +47,8 @@ void setTeamName(SDL_Renderer* pRenderer, Input* pInput);
 void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam);
 void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow);
 int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput);
-int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput);
-int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox);
+int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput, int init);
+int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox, int init);
 void setColorTeam(SDL_Renderer* pRenderer, Input* pInput);
 int getIndexColor(SDL_Renderer* pRenderer, Input* pInput);
 void initColorTab(SDL_Color colorArray[6]);

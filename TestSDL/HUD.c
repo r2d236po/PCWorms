@@ -30,14 +30,14 @@ void updateTextSurfaceWorms(Worms** wormsTab)
 	int i;
 	SDL_Surface *txtLifeSurface = NULL;
 
-	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe ; i++)
+	for (i = 0; i < globalVar.nbWormsTotal ; i++)
 	{
 		sprintf(str, " %d ", wormsTab[i]->vie);
 		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(wormsTab[i]->color));
 		copySurfacePixels(txtLifeSurface, NULL, wormsTab[i]->texteLifeSurface, NULL);
+		SDL_FreeSurface(txtLifeSurface);
+		txtLifeSurface = NULL;
 	}
-	SDL_FreeSurface(txtLifeSurface);
-	txtLifeSurface = NULL;
 
 	updateTextSurfacePosition(wormsTab);
 }
@@ -52,7 +52,7 @@ void updateTextSurfacePosition(Worms** wormsTab)
 {
 	int i, t_x, t_y;
 
-	for (i = 0; i < globalVar.nbEquipe * globalVar.nbWormsEquipe; i++)
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
 	{
 		//Affichage du Nom
 		t_x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x + 15 - (wormsTab[i]->texteNameSurface->clip_rect.w / 2);

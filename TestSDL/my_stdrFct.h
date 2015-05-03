@@ -23,6 +23,7 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 
 /*Basics collisions*/
 int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2);
+int collisionRectWithMap(SDL_Surface* pSurfaceMap, SDL_Rect* pRect, int* xE, int* yE);
 int collisionPointWithCercle(Point P, int centerX, int centerY, int radius);
 int collisionPointWithRect(Point P, SDL_Rect* box);
 int pointProjectionOnSegment(Point C, int Ax, int Ay, int Bx, int By);
@@ -34,6 +35,7 @@ void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurface
 int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap);	//réajuste un rectangle pour pas dépasser de la map
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
 int rand_a_b(int a, int b);
+void centerRectToPoint(SDL_Rect* pRect, int x, int y);
 
 /*Manipulation de formes*/
 int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);

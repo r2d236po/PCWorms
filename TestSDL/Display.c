@@ -1,6 +1,10 @@
 #include "display.h"
 #include "my_stdrFct.h"
 
+
+SDL_Texture* pGlobalTexture;
+Terrain* pMainTerrain;
+
 /**
 * \fn int initDisplay(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \brief initialize the global pointer for display.
@@ -63,9 +67,9 @@ int display(SDL_Surface* pSurface, int mode)
 		}
 		if (surfaceTab[index]->flags != 0 || surfaceTab[index]->format == NULL)
 		{
-			reindexTab(nbSurface, index, 0, surfaceTab);
-			reindexTab(nbSurface, index, 1, xTab);
-			reindexTab(nbSurface, index, 1, yTab);
+			reindexTab(NBSURFACEMAX, index, 0, surfaceTab);
+			reindexTab(NBSURFACEMAX, index, 1, xTab);
+			reindexTab(NBSURFACEMAX, index, 1, yTab);
 			nbSurface--;
 			index = 0;
 		}
@@ -108,11 +112,11 @@ void reindexTab(int size, int startPosition, int type, void* tab)
 	va_start(list, type);
 	switch (type)
 	{
-	case 0 :
+	case 0:
 		//pSurfaceTab = va_arg(list, SDL_Surface**);
 		pSurfaceTab = tab;
 		break;
-	case 1 :
+	case 1:
 		//intTab = va_arg(list, int*);
 		intTab = tab;
 		break;
@@ -130,6 +134,12 @@ void reindexTab(int size, int startPosition, int type, void* tab)
 		else if (pSurfaceTab != NULL)
 			pSurfaceTab[index] = pSurfaceTab[index + 1];
 	}
+	if (intTab != NULL)
+		intTab[(size - 1)] = 0;
+	else if (charTab != NULL)
+		charTab[(size - 1)] = 0;
+	else if (pSurfaceTab != NULL)
+		pSurfaceTab[(size - 1)] = NULL;
 	va_end(list);
 }
 

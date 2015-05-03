@@ -4,9 +4,6 @@
 #include "Libraries.h"
 #include "carte.h"
 
-SDL_Texture* pGlobalTexture;
-Terrain* pMainTerrain;
-
 #define NBSURFACEMAX 50
 
 /*Init display*/
