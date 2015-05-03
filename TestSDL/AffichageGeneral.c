@@ -22,6 +22,7 @@ int mainFenetre()
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
+		
 		//Initialisation des inputs
 		pInput = initInput();
 		if (pInput == NULL)
@@ -30,6 +31,14 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
+
+		//InitSounds 
+		if (!initSDLMixer()){
+			fprintf(logFile, "initSDLMixer : FAILURE, init.\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			return -1;
+		}
+		
 		strcpy(mapName, cMAP);
 		/*Initialisation SDL_TTF*/
 		if (TTF_Init() == -1)
@@ -72,14 +81,6 @@ int mainFenetre()
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
-				return -1;
-			}
-
-			/*Init sounds*/
-			if (loadSounds(BipExplo, 0) < 0)
-			{
-				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
 				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 				return -1;
 			}
@@ -137,6 +138,10 @@ int mainFenetre()
 
 
 		endDisplay();
+		
+		cleanSounds();
+		Mix_CloseAudio();
+
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		if (jeu != NULL)
 			destroyMap(&jeu->pMapTerrain);
@@ -332,8 +337,6 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 	cleanSprites();
 	TTF_Quit();
 	IMG_Quit();
-	cleanSounds();
-	Mix_Quit();
 	SDL_Quit();
 	fprintf(logFile, "cleanUp : DONE.\n");
 }

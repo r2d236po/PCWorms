@@ -2,6 +2,7 @@
 #include "input.h"
 #include "my_stdrFct.h"
 #include "AffichageGeneral.h"
+#include "Sounds.h"
 
 int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100], int *pNbTeam, int *pNbWorms)
 {
@@ -23,6 +24,16 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 		strcpy(globalVar.wormsNames[i], "");
 
 	SDL_StartTextInput();
+
+	if (pInput->musicAllowed){
+		if (loadSounds(ExploSourde, 1)){
+			/*if (Mix_PlayMusic(ptrMusic, -1) == -1)
+			{
+				fprintf(logFile, "Bug playsound\n");
+			}*/
+		}
+	}
+	
 
 	while (!quitMenu)
 	{
