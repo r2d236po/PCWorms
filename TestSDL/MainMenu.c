@@ -7,7 +7,7 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 {
 	SDL_Texture *menuTexture[NBTEXTURE];
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	enum MENU menuIn = MAIN ,menuPrec = MAIN;
+	enum MENU menuIn = MAIN, menuPrec = MAIN;
 	int quitMenu = 0, indexTeam = 1;
 	enum CHOICE nextPrev = NEITHER;
 	enum CHOICE resizable = YES, windowSize = DEFAULT, music = YES, sound = YES, savePath = DEFAULT;
@@ -109,7 +109,7 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 			}
 			for (i = 0; i < 16; i++)
 			{
-				if (strcmp(globalVar.wormsNames[i], "") != 0 && strcmp(globalVar.teamNames[(int)(i/4)], "") != 0)
+				if (strcmp(globalVar.wormsNames[i], "") != 0 && strcmp(globalVar.teamNames[(int)(i / 4)], "") != 0)
 					globalVar.nbWormsEquipe[(int)(i / 4)] += 1;
 			}
 			for (i = 0; i < 4; i++)
@@ -121,11 +121,11 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 				quitMenu = 0;
 				menuIn = MAIN;
 				indexTeam = 1;
-			}	
+			}
 		}
 	}
 
-	
+
 	SDL_StopTextInput();
 	resetStructInput(pInput);
 	destroyTextureTab(menuTexture);
@@ -464,7 +464,7 @@ void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 
 	indexPrec = indexWorms;
 	indexWorms = getWormsIndexText(pRenderer, pInput);
-	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam -1], "") != 0)
+	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam - 1], "") != 0)
 	{
 		indexWorms = indexWorms + (indexTeam - 1) * 4;
 		setTextInput(pInput, globalVar.wormsNames[indexWorms - 1], indexPrec, indexWorms);
@@ -1381,9 +1381,13 @@ SDL_Rect initButtonBox(SDL_Renderer* pRenderer, int x, int y, int w, int h)
 	int wRender, hRender;
 
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
-	y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender);
 	w = (int)((float)(w / WIDTHMENUTEXTURE) * wRender);
 	h = (int)((float)(h / HIGHTMENUTEXTURE) * hRender);
-	x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
+	if (x >= 0)
+		x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
+	else x = wRender / 2 - w / 2;
+	if (y >= 0)
+		y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender);
+	else y = hRender / 2 - h / 2;
 	return initRect(x, y, w, h);
 }

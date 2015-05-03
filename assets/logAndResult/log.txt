@@ -1,4 +1,4 @@
-Start of session : Sun May 03 12:04:34 2015
+Start of session : Sun May 03 13:03:13 2015
 
 
 loadImage : SUCCESS.
@@ -67,29 +67,6 @@ loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptestCam.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptestCam.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
@@ -178,7 +155,7 @@ Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 mainInit : DONE.
 	nombre d'equipes : 1.
-	nombre de worms par equipe : 1.
+	nombre de worms par equipe : 1 0 0 0.
 
 nouveauJeu : START :
 
@@ -203,7 +180,7 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
+	nom du fichier : ../assets/pictures/map.png.
 
 
 initialisationTerrain : SUCCESS.
@@ -221,6 +198,1104 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+initCameras : DONE.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
 ||| END OF THE GAME |||
 destroyMap : DONE.
 cleanSprites : DONE.
@@ -235,4 +1310,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Sun May 03 12:05:35 2015
+End of Session : Sun May 03 13:03:29 2015

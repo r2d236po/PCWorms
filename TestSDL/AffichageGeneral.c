@@ -122,7 +122,7 @@ int mainFenetre()
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				renderScreen(pRenderer, 3, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
+				renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 				pInput->raffraichissement = 0;
 			}
 

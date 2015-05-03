@@ -40,6 +40,8 @@
 #define NUMBERMAP 7
 #define ICONE "../assets/pictures/icone.png"
 
+#define INGAMEMENU "../assets/pictures/Interface/ingameMenu.png"
+
 /*Structures globales*/
 typedef struct{		//structure Point
 	int x;

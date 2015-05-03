@@ -5,6 +5,7 @@
 #include "Sounds.h"
 #include "my_stdrFct.h"
 #include "display.h"
+#include "MainMenu.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -257,6 +258,14 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 		}
 		pInput->changeWorms = 0;
 	}
+	if (pInput->menu)
+	{
+		SDL_Texture* textureMenu = loadTexture(pRenderer, INGAMEMENU);
+		SDL_Rect rectMenu = initButtonBox(pRenderer, -1, -1, 565, 717);
+		renderScreen(pRenderer, 3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+		pInput->raffraichissement = 0;
+		SDL_DestroyTexture(textureMenu);
+	}
 	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
 	if (pInput->direction == DOWN)
 	{
@@ -349,7 +358,9 @@ void callNextWorms(Worms** wormsTab)
 {
 	//Gestion des Index
 	if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)	//Changement de worms
-		{ globalVar.wormsPlaying[globalVar.teamPlaying] += 1; }		//tester si Worms suivant vivant
+	{
+		globalVar.wormsPlaying[globalVar.teamPlaying] += 1;
+	}		//tester si Worms suivant vivant
 	else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
 
 	if (globalVar.teamPlaying != globalVar.nbEquipe - 1) { globalVar.teamPlaying += 1; }							//Changement d'équipe

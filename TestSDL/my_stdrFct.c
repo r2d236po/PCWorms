@@ -702,7 +702,7 @@ SDL_Rect createGlobalRect(int nbRect, SDL_Rect** rectTab)
 * \fn void centerRectToPoint(SDL_Rect* pRect, int x, int y)
 * \brief Center a rect on a point.
 *
-* \param[in] x, pointer to the rect to center.
+* \param[in] pRect, pointer to the rect to center.
 * \param[in] x, x to center on.
 * \param[in] y, y to center on.
 * \return void.

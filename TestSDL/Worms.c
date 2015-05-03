@@ -395,7 +395,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 {
 	int indexWorms;
 	static char armePrec = 0;
-	static double angle = 15.0;
+	static double angle = 0.0;
 	if (!pInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
@@ -420,8 +420,8 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			{
 				if (pInput->arme && indexWorms == globalVar.indexWormsTab && armePrec == 0) // On affiche l'arme la première fois
 				{
-					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 20;
-					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 15;
+					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 10;
+					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 5;
 					display(arme1, 1);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
@@ -433,8 +433,8 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					display(rotoSurface, 1);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 					SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-					SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
-					SDL_RenderPresent(pRenderer);
+					/*SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
+					SDL_RenderPresent(pRenderer);*/
 					SDL_FreeSurface(rotoSurface);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
