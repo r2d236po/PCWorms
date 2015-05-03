@@ -11,6 +11,6 @@ int initDisplay(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay);
 void endDisplay();
 
 /*Display*/
-int display(SDL_Surface* pSurface, int mode);
+int display(SDL_Surface* pSurface, int mode, ...);
 void reindexTab(int size, int startPosition, int type, void* tab);
 #endif // !DISPLAY_H

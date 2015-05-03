@@ -35,9 +35,9 @@ void updateTextSurfaceWorms(Worms** wormsTab)
 		sprintf(str, " %d ", wormsTab[i]->vie);
 		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(wormsTab[i]->color));
 		copySurfacePixels(txtLifeSurface, NULL, wormsTab[i]->texteLifeSurface, NULL);
+		SDL_FreeSurface(txtLifeSurface);
+		txtLifeSurface = NULL;
 	}
-	SDL_FreeSurface(txtLifeSurface);
-	txtLifeSurface = NULL;
 
 	updateTextSurfacePosition(wormsTab);
 }

@@ -397,7 +397,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 	double xx, yy ,z;
 	int indexWorms;
 	static char armePrec = 0;
-	static double angle = 0.0;
+	SDL_Surface* rotoSurface = NULL;
 	if (!pInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
@@ -434,17 +434,11 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					yy = -y + (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y);
 					z = atan(yy/xx);
 					z = -(z / pi * 180.0);
-					SDL_Surface* rotoSurface = rotozoomSurface(arme1, z, 1.0, 1);
+					rotoSurface = rotozoomSurface(arme1, z, 1.0, 1);
 					centerRectToPoint(&rotoSurface->clip_rect, arme1->clip_rect.x + arme1->w / 2, arme1->clip_rect.y + arme1->h / 2);
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 					display(rotoSurface, 1);
-					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
-					
-					/*SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-					SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
-					SDL_RenderPresent(pRenderer);*/
 					SDL_FreeSurface(rotoSurface);
-					rotoSurface = NULL;
-					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme == 0 && armePrec == 1) // On efface l'arme

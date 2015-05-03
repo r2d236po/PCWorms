@@ -42,10 +42,12 @@ int initDisplay(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \returns -1 = error, 0 = no error
 * \remarks The mode 1 should be used on a dynamic surface and the mode 0 on a passive surface.
 */
-int display(SDL_Surface* pSurface, int mode)
+int display(SDL_Surface* pSurface, int mode, ...)
 {
 	static SDL_Surface* surfaceTab[NBSURFACEMAX];
 	static int nbSurface = 0, xTab[NBSURFACEMAX], yTab[NBSURFACEMAX];
+	va_list list;
+	va_start(list, mode);
 	if (pSurface == NULL && mode >= 0)
 	{
 		fprintf(logFile, "display : FAILURE, pSurface = NULL.\n\n");
@@ -88,6 +90,16 @@ int display(SDL_Surface* pSurface, int mode)
 	updateTextureFromMultipleSurface(pGlobalTexture, pMainTerrain->globalMapSurface, pSurface, &rect);
 	xTab[indexFound] = pSurface->clip_rect.x;
 	yTab[indexFound] = pSurface->clip_rect.y;
+	if (va_arg(list, int) == 1)
+	{
+		reindexTab(NBSURFACEMAX, index, 0, surfaceTab);
+		reindexTab(NBSURFACEMAX, index, 1, xTab);
+		reindexTab(NBSURFACEMAX, index, 1, yTab);
+		nbSurface--;
+		SDL_FreeSurface(pSurface);
+		pSurface = NULL;
+	}
+	va_end(list);
 	return 0;
 }
 
@@ -112,11 +124,11 @@ void reindexTab(int size, int startPosition, int type, void* tab)
 	va_start(list, type);
 	switch (type)
 	{
-	case 0 :
+	case 0:
 		//pSurfaceTab = va_arg(list, SDL_Surface**);
 		pSurfaceTab = tab;
 		break;
-	case 1 :
+	case 1:
 		//intTab = va_arg(list, int*);
 		intTab = tab;
 		break;
