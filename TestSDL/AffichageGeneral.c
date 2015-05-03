@@ -39,7 +39,12 @@ int mainFenetre()
 			return -1;
 		}
 
-		mainMenu(pWindow, pRenderer, pInput, mapName, &nbTeam, &nbWorms);
+		if (mainMenu(pWindow, pRenderer, pInput, mapName, &nbTeam, &nbWorms) < 0)
+		{
+			fprintf(logFile, "mainFenetre : FAILURE, mainMenu .\n\n");
+			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			return -1;
+		}
 		if (!pInput->quit)
 		{
 			if (mainInit(nbTeam, nbWorms) < 0)	//set le nombre d'équipe et le nombre de worms par équipe

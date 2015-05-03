@@ -7,7 +7,7 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 {
 	SDL_Texture *menuTexture[NBTEXTURE];
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
-	enum MENU menuIn = MAIN;
+	enum MENU menuIn = MAIN ,menuPrec = MAIN;
 	int quitMenu = 0, indexTeam = 1;
 	enum CHOICE nextPrev = NEITHER;
 	enum CHOICE resizable = YES, windowSize = DEFAULT, music = YES, sound = YES, savePath = DEFAULT;
@@ -87,6 +87,7 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 			SDL_RenderPresent(pRenderer);
 			pInput->raffraichissement = 0;
 		}
+		menuPrec = menuIn;
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 		if (quitMenu == 0)
@@ -780,6 +781,57 @@ int indiceTexture(enum MENU menu)
 		return 17;
 	}
 	return 0;
+}
+
+/**
+* \fn char* stringTexture(enum MENU menu)
+* \brief Convert the menu name into an int.
+*
+* \param[in] menu, menu enumeration.
+* \returns the string of the texture to display.
+*/
+char* stringTexture(enum MENU menu)
+{
+	switch (menu)
+	{
+	case MAIN:
+		return MAINMENU;
+	case MAINversus:
+		return MAINMENUVERSUS;
+	case MAINmap:
+		return MAINMENUMAP;
+	case MAINoption:
+		return MAINMENUOPTION;
+	case VERSUS:
+		return VERSUSMENU;
+	case VERSUSn:
+		return VERSUSMENUNEXT;
+	case VERSUSm:
+		return VERSUSMENUMAIN;
+	case VERSUSname:
+		return VERSUSMENUNAMEPLAYER;
+	case VERSUSnameN:
+		return VERSUSMENUNAMEPLAYERN;
+	case VERSUSnameM:
+		return VERSUSMENUNAMEPLAYERM;
+	case VERSUSstart:
+		return VERSUSMENUSTART;
+	case VERSUSstartS:
+		return VERSUSMENUSTARTS;
+	case MAP:
+		return MAPMENU;
+	case MAPmain:
+		return MAPMENUMAIN;
+	case MAPchoose:
+		return MAPMENUCHOOSE;
+	case MAPrepertory:
+		return MAPMENUREPERTORY;
+	case OPTIONS:
+		return OPTIONMENU;
+	case OPTIONSm:
+		return OPTIONMENUMAIN;
+	}
+	return MAINMENU;
 }
 
 /**

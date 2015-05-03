@@ -383,7 +383,7 @@ void effacerSurface(SDL_Surface* pSurface)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMap)
+* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \brief Update worms display, manages overlay and physics for all worms.
 *
 * \param[in] pInput, pointer to the Input structure.
@@ -391,10 +391,11 @@ void effacerSurface(SDL_Surface* pSurface)
 * \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
 * \returns void
 */
-void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision)
+void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer)
 {
 	int indexWorms;
 	static char armePrec = 0;
+	static double angle = 15.0;
 	if (!pInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
@@ -422,17 +423,25 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 20;
 					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 15;
 					display(arme1, 1);
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
 				if (pInput->arme == 1 && armePrec == 1) // On fait tourner l'arme en fonction de la souris
 				{
-					display(arme1, 0);
+					angle += 1.0;
+					SDL_Surface* rotoSurface = rotozoomSurface(arme1, angle, 1.0, 1);
+					centerRectToPoint(&rotoSurface->clip_rect, arme1->clip_rect.x + arme1->w / 2, arme1->clip_rect.y + arme1->h / 2);
+					display(rotoSurface, 1);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
+					SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+					SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
+					SDL_RenderPresent(pRenderer);
+					SDL_FreeSurface(rotoSurface);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme == 0 && armePrec == 1) // On efface l'arme
 				{
-					updateSurfaceFromSurface(pMainTerrain->globalMapSurface, pMainTerrain->collisionMapSurface, &arme1->clip_rect, 1);
-					updateTextureFromSurface(pGlobalTexture, pMainTerrain->globalMapSurface, &arme1->clip_rect);
+					updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, &arme1->clip_rect, 1);
+					updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, &arme1->clip_rect);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				}
 				updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie				

@@ -1,6 +1,10 @@
 #include "display.h"
 #include "my_stdrFct.h"
 
+
+SDL_Texture* pGlobalTexture;
+Terrain* pMainTerrain;
+
 /**
 * \fn int initDisplay(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \brief initialize the global pointer for display.

@@ -118,7 +118,6 @@ void destroyMap(Terrain** p_pMapTerrain)
 * \param[in] checkMode, mode pour le test de deplacement (0 par defaut)
 * \return DIRECTION, direction de la collision
 */
-
 enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode)
 {
 	if (direction == RIGHT || direction == LEFT)
@@ -167,80 +166,7 @@ enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int 
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 
-/**
-* \fn int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect)
-* \brief Detecte s'il y a collision entre un rectangle et une surface.
-*
-* \param[in] pRenderer, pointeur vers le renderer de la fenetre
-* \param[in] pSurfaceMap, pointeur vers la surface de la surface a tester
-* \param[in] xE, pointeur vers la variable contenant l'abscisse de la collision
-* \param[in] yE, pointeur vers la variable contenant l'ordonne de la collision
-* \param[in] pRect, pointeur vers le rectangle a tester
-* \returns int, indicateur de collision : 1 = collision, 0 sinon
-*/
-int detectionCollisionRect(SDL_Renderer* pRenderer, SDL_Surface* pSurfaceMap, int* xE, int* yE, SDL_Rect* pRect)
-{
-	SDL_Rect rect = { 0, 0, 0, 0 };
-	Uint32 p = ReadPixel(pSurfaceMap, 0, 0);
-	Uint8 r = 0, g = 0, b = 0, a = 0;
-	int x = 0, y = 0, w = 0, h = 0;
-	rect = *pRect;
-	int collision = 0;
-	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-	if ((w - rect.x <= rect.w) || (rect.x <= 0) || (rect.y <= 0) || (h - rect.y) <= rect.h)
-	{
-		return 1;
-	}
-	for (y = rect.y; (y <= rect.h + rect.y) && (collision == 0); y++)
-	{
-		if (y == rect.y || y == (rect.h + rect.y))
-		{
-			for (x = rect.x; (x <= rect.x + rect.w) && (collision == 0); x++)
-			{
-				p = ReadPixel(pSurfaceMap, x, y);
-				SDL_GetRGBA(p, pSurfaceMap->format, &r, &g, &b, &a);
-				if (a < 100) //transparence
-				{
-					collision = 0;
-				}
-				else
-				{
-					*xE = x;
-					*yE = y;
-					collision = 1;
-				}
-			}
-		}
-		else
-		{
-			p = ReadPixel(pSurfaceMap, rect.x, y);
-			SDL_GetRGBA(p, pSurfaceMap->format, &r, &g, &b, &a);
-			if (a < 100) //transparence
-			{
-				collision = 0;
-			}
-			else
-			{
-				*xE = rect.x + rect.w;
-				*yE = y;
-				collision = 1;
-			}
-			p = ReadPixel(pSurfaceMap, rect.x + rect.w, y);
-			SDL_GetRGBA(p, pSurfaceMap->format, &r, &g, &b, &a);
-			if (a < 100) //transparence
-			{
-				collision = 0;
-			}
-			else
-			{
-				*xE = rect.x + rect.w;
-				*yE = y;
-				collision = 1;
-			}
-		}
-	}
-	return collision;
-}
+
 
 
 

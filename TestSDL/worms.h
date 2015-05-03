@@ -3,6 +3,7 @@
 
 #include "Libraries.h"
 #include "armes.h"
+#include "carte.h"
 
 
 #define vitesseX (float)(cos(pi / 3)* 0.95)
@@ -46,7 +47,7 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap);
 int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction);
 
 /*Gestion de l'overlay*/
-void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision);
+void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer);
 void wormsOverlay(Worms** wormsTab);
 void effacerSurface(SDL_Surface* pSurface);
 

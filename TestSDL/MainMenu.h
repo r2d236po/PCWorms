@@ -37,6 +37,7 @@ enum CHOICE{ NEXT, PREVIOUS, NEITHER, YES, NO, DEFAULT, SET, TEXT, CLICK};
 int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100], int *pNbTeam, int *pNbWorms);
 int initTabTextureMenu(SDL_Renderer* pRenderer, SDL_Texture* menuTexture[NBTEXTURE], ...);
 void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE]);
+char* stringTexture(enum MENU menu);
 
 enum MENU menu(SDL_Renderer* pRenderer, Input* pInput);
 
