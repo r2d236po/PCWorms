@@ -22,7 +22,7 @@ int mainFenetre()
 	//init SDL + fenetre + renderer
 	if (initSWR(&pWindow, &pRenderer))
 	{
-		
+
 		//Initialisation des inputs
 		pInput = initInput();
 		if (pInput == NULL)
@@ -38,7 +38,7 @@ int mainFenetre()
 			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
 			return -1;
 		}
-		
+
 		strcpy(mapName, cMAP);
 		/*Initialisation SDL_TTF*/
 		if (TTF_Init() == -1)
@@ -138,7 +138,7 @@ int mainFenetre()
 
 
 		endDisplay();
-		
+
 		cleanSounds();
 		Mix_CloseAudio();
 
@@ -546,6 +546,9 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 */
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 {
+	// test :
+	int a = 0, b = 0;
+	getMousePosition(pRenderer, pInput, camera, &a, &b);
 	int wW = 0, hW = 0, w = 0, h = 0;
 	float x = 0, y = 0, offsetx = 0, offsety;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
@@ -777,4 +780,11 @@ Worms** initWormsTab(Equipe** equipes)
 		}
 	}
 	return Tab;
+}
+
+void getMousePosition(SDL_Renderer * pRenderer, Input * pInput, SDL_Rect * camera, int * x, int *y){
+	int w = 0, h = 0;
+	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+	x = (int)(((float)pInput->cursor.now.x / w)*camera->w) + camera->x;
+	y = (int)(((float)pInput->cursor.now.y / h)*camera->h) + camera->y;
 }
