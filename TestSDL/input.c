@@ -217,7 +217,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* map, SDL_Texture* pTexture, SDL_Rect* camera, Worms* worms)
+* \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 * \brief Gere les inputs.
 * Genere les actions correspondant aux inputs.
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
@@ -253,7 +253,7 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	if (pInput->changeWorms)
 	{
 		if (!pInput->jumpOnGoing && !globalVar.gameEnd){
-			callNextWorms();
+			callNextWorms(wormsTab);
 		}
 		pInput->changeWorms = 0;
 	}
@@ -342,27 +342,42 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 /**
 * \fn void callNextWorms()
 * \brief Change the index of the worms playing if it is dead.
-*
+* \param[in] wormsTab, array of worms
 * \returns void
 */
-void callNextWorms()
+void callNextWorms(Worms** wormsTab)
 {
-	if (globalVar.teamPlaying != globalVar.nbEquipe - 1)
-	{
-		globalVar.teamPlaying += 1;
-	}
-	else {
-		globalVar.teamPlaying = 0;
-		if (globalVar.wormsPlaying != globalVar.nbWormsEquipe - 1)
-		{
-			globalVar.wormsPlaying += 1; // tester si le worms suivant et vivant !!!!!!	
-		}
-		else {
-			globalVar.wormsPlaying = 0;
-		}
-	}
-	globalVar.indexWormsTab = globalVar.teamPlaying * globalVar.nbWormsEquipe + globalVar.wormsPlaying;
+	//Gestion des Index
+	if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)	//Changement de worms
+		{ globalVar.wormsPlaying[globalVar.teamPlaying] += 1; }		//tester si Worms suivant vivant
+	else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
+
+	if (globalVar.teamPlaying != globalVar.nbEquipe - 1) { globalVar.teamPlaying += 1; }							//Changement d'équipe
+	else { globalVar.teamPlaying = 0; }
+
+	//Calcul du IndexWormsTab
+	globalVar.indexWormsTab = calculIndex();
 }
+
+
+/**
+* \fn int calculIndex()
+* \brief calcul le nouvel index à partir des variables globales
+* \returns int nouvel index
+*/
+int calculIndex()
+{
+	int i, index = 0;
+
+	for (i = 0; i < globalVar.teamPlaying; i++)
+	{
+		index += globalVar.nbWormsEquipe[i];
+	}
+	index += globalVar.wormsPlaying[globalVar.teamPlaying];
+
+	return index;
+}
+
 
 /**
 * \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain, SDL_Renderer * pRenderer)

@@ -7,18 +7,16 @@
 * \fn Jeu * nouveauJeu(int nbE, int nbW, char * map)
 * \brief
 *
-* \param[in] nbe,
-* \param[in] nbW,
 * \param[in] map,
 * \returns jeu, pointeur vers le jeu cree
 */
-Jeu * nouveauJeu(int nbE, int nbW, char * map)
+Jeu * nouveauJeu(char * map)
 {
 	Jeu * jeu = NULL;
 	int i = 0;
 	if (logFile != NULL)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
-	if (nbE > 6)
+	if (globalVar.nbEquipe > 4)
 		return NULL;
 	jeu = (Jeu*)malloc(sizeof(Jeu));
 	if (jeu == NULL)
@@ -27,20 +25,20 @@ Jeu * nouveauJeu(int nbE, int nbW, char * map)
 		return NULL;
 	}
 
-	jeu->nbEquipe = nbE;
+	jeu->nbEquipe = globalVar.nbEquipe;
 	jeu->temps = 1000;
 	strcpy(jeu->nomMap, map);
 
-	jeu->equipes = malloc(nbE * sizeof(Equipe*));
+	jeu->equipes = malloc(globalVar.nbEquipe * sizeof(Equipe*));
 	if (jeu->equipes == NULL)
 	{
 		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu->equipes.\n\n");
 		destroyJeu(&jeu);
 		return NULL;
 	}
-	for (i = 0; i < nbE; i++)
+	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		jeu->equipes[i] = nouvelleEquipe(globalVar.teamNames[i], globalVar.colorTab[i], nbW, i);
+		jeu->equipes[i] = nouvelleEquipe(globalVar.teamNames[i], globalVar.colorTab[i], globalVar.nbWormsEquipe[i], i);
 		if (jeu->equipes[i] == NULL)
 		{
 			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
@@ -145,7 +143,7 @@ void destroyEquipe(Equipe ** team, int nbE)
 int getLifeTeam(Equipe* team)
 {
 	int i, vie = 0;
-	for (i = 0; i < globalVar.nbWormsEquipe; i++)
+	for (i = 0; i < team->nbWormsStart; i++)
 	{
 		vie += team->worms[i]->vie;
 	}
@@ -168,15 +166,15 @@ void updateTeamLife(Equipe** equipeTab)
 }
 
 /**
-* \fn void mainInit(int nbE, int nbWpE)
+* \fn void mainInit()
 * \brief
 *
-* \param[in] nbe, nombnre d'equipes
-* \param[in] nbWpe, nombre de worms par equipe
 * \returns void
 */
-int mainInit(int nbE, int nbWpE)
+int mainInit()
 {
+	int i;
+
 	globalVar.FontName = NULL;
 	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 12);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
 	if (globalVar.FontName == NULL)
@@ -186,14 +184,16 @@ int mainInit(int nbE, int nbWpE)
 		return -1;
 	}
 
-	globalVar.nbEquipe = nbE;
-	globalVar.nbWormsEquipe = nbWpE;
-	globalVar.teamPlaying = 0;
-	globalVar.wormsPlaying = 0;
 	globalVar.indexWormsTab = 0;
 	globalVar.gameEnd = 0;
+	globalVar.teamPlaying = 0;
+	for (i = 0; i < 4; i++)
+	{
+		globalVar.wormsPlaying[i] = 0;
+	}
 
-	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d.\n\n", nbE, nbWpE);
+	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d %d %d %d.\n\n", globalVar.nbEquipe, 
+		globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);
 
 	return 0;
 }
@@ -229,11 +229,11 @@ int saveGame(Jeu* jeu)
 	fprintf(file, "\tTemps de jeu : %d secondes.\n", 1000 - jeu->temps);
 	fprintf(file, "\tMap jouée : %s.\n", jeu->nomMap);
 	fprintf(file, "\tNombre d'equipes : %d.\n", jeu->nbEquipe);
-	fprintf(file, "\tNombre de worms par equipe : %d.\n\n", globalVar.nbWormsEquipe);
+	fprintf(file, "\tNombre de worms par equipe : %d %d %d %d.\n\n", globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);
 	for (indexEquipe = 0; indexEquipe < jeu->nbEquipe; indexEquipe++)
 	{
 		fprintf(file, "Bravo à l'équipe %d surnommée les \"%s\" composée des braves : \n", indexEquipe + 1, globalVar.teamNames[indexEquipe]);
-		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe; indexWorms++)
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe[indexEquipe]; indexWorms++)
 		{
 			fprintf(file, "\t%s,", jeu->equipes[indexEquipe]->worms[indexWorms]->nom);
 			if (jeu->equipes[indexEquipe]->worms[indexWorms]->vie == 0)
@@ -248,7 +248,7 @@ int saveGame(Jeu* jeu)
 }
 
 /**
-* \fn int isGameEnd(Equipe** equipeTab) 
+* \fn int isGameEnd(Equipe** equipeTab)
 * \brief Determines if a game is over by checking the global life of every team.
 *
 * \param[in] equipeTab, array of team.
@@ -256,13 +256,13 @@ int saveGame(Jeu* jeu)
 */
 int isGameEnd(Equipe** equipeTab) {
 	int i, nbTeamAlive = 0;
-	for (i=0; i<globalVar.nbEquipe; i++)
+	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		if (equipeTab[i]->vie <= 0) nbTeamAlive++;
+		if (equipeTab[i]->vie > 0) nbTeamAlive++;
 	}
-	if (nbTeamAlive > 1) {
+	if (nbTeamAlive <= 1) {
 		globalVar.gameEnd = 1;
-	return 0;
-}
+		return 0;
+	}
 	return 1;
 }

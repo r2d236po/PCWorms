@@ -124,11 +124,12 @@ typedef struct{		//structure gérant les polices
 	SDL_Color colorTab[4];
 
 	int nbEquipe;
-	int nbWormsEquipe;
+	int nbWormsEquipe[4];
+	int nbWormsTotal;
 	int gameEnd;
 
 	int teamPlaying;
-	int wormsPlaying;
+	int wormsPlaying[4];
 	int indexWormsTab;
 
 	char savePath[100];

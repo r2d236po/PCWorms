@@ -400,10 +400,10 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 		{
-			callNextWorms();
+			callNextWorms(wormsTab);
 		}
 		pInput->deplacement = 0;
-		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
 				|| !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
@@ -465,9 +465,9 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 void wormsOverlay(Worms** wormsTab)
 {
 	int i = 0, j = 0;
-	for (i = 0; i < globalVar.nbWormsEquipe * globalVar.nbEquipe; i++)
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
 	{
-		for (j = i + 1; j < globalVar.nbWormsEquipe * globalVar.nbEquipe; j++)
+		for (j = i + 1; j < globalVar.nbWormsTotal; j++)
 		{
 			SDL_Rect* rectTab[3];
 			rectTab[0] = &wormsTab[i]->wormsObject->objectSurface->clip_rect;
@@ -577,7 +577,7 @@ void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox
 {
 	int indexWorms = 0, i;
 	Point P;
-	for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe * globalVar.nbEquipe; indexWorms++)
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 	{
 		if (!collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
 			continue;
