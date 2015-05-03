@@ -1,6 +1,7 @@
 #ifndef MY_STDRFCT_H
 #define MY_STDRFCT_H
 
+#include "carte.h"
 /*Création d'une fenêtre*/
 SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const char * windowName);	//Créé une fenêtre de largeur w, hauteur h et de nom nom
 
@@ -14,11 +15,12 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
 void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
 int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest);
-void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect, char mode);
+void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect);
 
 /*Update Texture*/
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRectPrec);
 int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect);
+void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSrc, SDL_Rect* pRect, char mode);
 
 
 /*Basics collisions*/

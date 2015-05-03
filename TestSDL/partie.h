@@ -8,8 +8,8 @@
 
 /* Structures et constantes relatives à la gestion d'une partie */
 
-typedef struct {			//Structure équipe
-	Worms** worms;				//Tableau de Worms
+typedef struct Equipe{			//Structure équipe
+	struct Worms** worms;				//Tableau de Worms
 	int nbWormsStart;			//Nombre de Worms au début de la partie
 	int vie;					//Somme des points de vie de l'équipe
 	char nom[50];				//Nom d'équipe

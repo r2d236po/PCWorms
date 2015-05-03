@@ -782,11 +782,10 @@ Worms** initWormsTab(Equipe** equipes)
 }
 
 /**
-* \fn void getMousePosition(Input * pInput, SDL_Rect * camera, int * x, int *y)
+* \fn void getMousePosition(SDL_Rect * camera, int * x, int *y)
 * \brief Réajuste la taille de la caméra pour un rétrécissement de l'image.
 *
 *
-* \param[in] pInput, les inputs utilisateur.
 *
 * \param[in] camera, le rect de la camera courante.
 *
@@ -796,9 +795,10 @@ Worms** initWormsTab(Equipe** equipes)
 *
 * \returns void
 */
-void getMousePosition(Input * pInput, SDL_Rect * camera, int *x, int *y){
-	int w = 0, h = 0;
+void getMousePosition(SDL_Rect * camera, int *x, int *y){
+	int w = 0, h = 0, xMouse, yMouse;
 	SDL_GetRendererOutputSize(globalRenderer, &w, &h);
-	*x = (int)(((float)pInput->cursor.now.x / w)*camera->w) + camera->x;
-	*y = (int)(((float)pInput->cursor.now.y / h)*camera->h) + camera->y;
+	SDL_GetMouseState(&xMouse, &yMouse);
+	*x = (int)(((float)xMouse / w)*camera->w) + camera->x;
+	*y = (int)(((float)yMouse / h)*camera->h) + camera->y;
 }

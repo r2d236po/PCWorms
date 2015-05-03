@@ -229,6 +229,24 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 	return 1;
 }
 
+/**
+* \fn void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
+* \brief Restore an area of the main surface.
+*
+* \param[in] pMapTerrain, pointer to a terrain structure.
+* \param[in] pTextureDisplay, pointer to the main texture.
+* \param[in] pRect, pointer to the rect of the area to erase.
+* \returns void
+*/
+void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
+{
+	updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, pRect, 1);
+	updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, pRect);
+}
+
+
+
+
 
 
 

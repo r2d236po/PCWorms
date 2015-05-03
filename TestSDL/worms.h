@@ -4,7 +4,6 @@
 #include "Libraries.h"
 #include "carte.h"
 
-
 #define vitesseX (float)(cos(pi / 3)* 0.95)
 #define vitesseY (float)(sin(pi / 3)*1.3)
 #define TAILLEINV 5 
@@ -13,6 +12,7 @@
 #define DAMAGEFALL 0.33
 
 typedef struct {			//Structure worms
+	Equipe** equipe;
 	int vie;					//Point de vie
 	char nom[20];				//Nom du joueur
 	char* arme;					//Arme en cours d'utilisation
