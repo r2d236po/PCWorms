@@ -8,11 +8,6 @@
 
 
 
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////              Initialisation / Destruction              /////////////////
@@ -28,7 +23,7 @@
 *
 * \returns pointeur vers la structure worms créée, NULL si echec
 */
-Worms* createWorms(char* name, SDL_Color* couleur)
+Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 {
 	Worms* worms = NULL;
 	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);

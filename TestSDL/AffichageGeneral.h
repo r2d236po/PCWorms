@@ -11,10 +11,7 @@
 
 #define FRAME_RATE (1000 / 80)
 
-
-
 int mainFenetre();
-
 
 //Fonctions d'initialisation
 int initSWR();	//Initialise la SDL, la SDL_Image, le pWindow et le pRenderer
