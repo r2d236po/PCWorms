@@ -15,17 +15,16 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void getInput(Input * pInput, SDL_Window* pWindow)
+* \fn void getInput(Input * pInput)
 * \brief Récupère les inputs.
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
-* \param[in] pWindow, pointeur pWindow pour récupérer les informations relative à la fenêtre.
 */
-void getInput(Input * pInput, SDL_Window* pWindow)
+void getInput(Input * pInput)
 {
 	SDL_Event event;
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-	Uint32 flags = (SDL_GetWindowFlags(pWindow) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+	Uint32 flags = (SDL_GetWindowFlags(globalWindow) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
 	static int wormsCounter = 0;
 	while (SDL_PollEvent(&event))
 	{
@@ -192,7 +191,7 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 	//Gestion du plein écran
 	if (keystate[SDL_SCANCODE_RETURN] && SDL_GetModState() & KMOD_CTRL)
 	{
-		if (SDL_SetWindowFullscreen(pWindow, flags) < 0)
+		if (SDL_SetWindowFullscreen(globalWindow, flags) < 0)
 			printf("ERROR lors du passage en mode fenetre : %s", SDL_GetError());
 		SDL_Delay(50);
 		pInput->raffraichissement = 1;
@@ -218,18 +217,17 @@ void getInput(Input * pInput, SDL_Window* pWindow)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
+* \fn int gestInput(Input* pInput,Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 * \brief Gere les inputs.
 * Genere les actions correspondant aux inputs.
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
-* \param[in] pRenderer, pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \param[in] wormsTab, pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
+int gestInput(Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 {
 	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -240,15 +238,15 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
 	static KaamObject* test = NULL;
-	inputsCamera(pInput, pTextureDisplay, pCamera, pRenderer, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
+	inputsCamera(pInput, pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
 	if (pInput->windowResized){
-		initCameras(pRenderer, pMapTerrain, pCamera, NULL);
+		initCameras(pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
 	}
-	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, pRenderer, wormsTab);	//appel de la fonction de gestion des Inputs des armes
+	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain,  wormsTab);	//appel de la fonction de gestion des Inputs des armes
 	if (pInput->screenshot)
 	{
-		screenshot(pRenderer);
+		screenshot();
 		pInput->screenshot = 0;
 	}
 	if (pInput->changeWorms)
@@ -260,9 +258,9 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	}
 	if (pInput->menu)
 	{
-		SDL_Texture* textureMenu = loadTexture(pRenderer, INGAMEMENU);
-		SDL_Rect rectMenu = initButtonBox(pRenderer, -1, -1, 565, 717);
-		renderScreen(pRenderer, 3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+		SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
+		SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
+		renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
 		pInput->raffraichissement = 0;
 		SDL_DestroyTexture(textureMenu);
 	}
@@ -271,23 +269,22 @@ int gestInput(Input* pInput, SDL_Renderer * pRenderer, Terrain* pMapTerrain, SDL
 	{
 		teleportWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface, pCamera);
 	}
-	updateGameWorms(pInput, wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay, pRenderer);
+	updateGameWorms(pInput, wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay);
 
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
 
 /**
-* \fn void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera, SDL_Renderer * pRenderer)
+* \fn void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera)
 * \brief Gere les inputs relatives a la camera.
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la caméra.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
-* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \returns void
 */
-void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, SDL_Renderer * pRenderer, Worms * pWorms)
+void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms * pWorms)
 {
 
 	if (pInput->rclick)
@@ -300,12 +297,12 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 		pInput->raffraichissement = (char)centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
 	}
 	if (pInput->wheelUp){
-		zoomIn(pRenderer, pTextureDisplay, pCamera, pInput);
+		zoomIn(pTextureDisplay, pCamera, pInput);
 		pInput->wheelUp = 0;
 		pInput->raffraichissement = 1;
 	}
 	if (pInput->wheelDown){
-		zoomOut(pRenderer, pTextureDisplay, pCamera);
+		zoomOut(pTextureDisplay, pCamera);
 		pInput->wheelDown = 0;
 		pInput->raffraichissement = 1;
 	}
@@ -368,7 +365,7 @@ void callNextWorms(Worms** wormsTab)
 
 	//Calcul du IndexWormsTab
 	globalVar.indexWormsTab = calculIndex();
-	}
+}
 
 
 /**
@@ -381,7 +378,7 @@ int calculIndex()
 	int i, index = 0;
 
 	for (i = 0; i < globalVar.teamPlaying; i++)
-		{
+	{
 		index += globalVar.nbWormsEquipe[i];
 	}
 	index += globalVar.wormsPlaying[globalVar.teamPlaying];
@@ -391,24 +388,23 @@ int calculIndex()
 
 
 /**
-* \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain, SDL_Renderer * pRenderer)
+* \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain)
 * \brief Gere les inputs relatives aux armes.
 *
 * \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pMapTerrain pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
-* \param[in] pRenderer pointeur pWindow pour récupérer les informations relative à la fenêtre.
 * \returns void
 */
-void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, SDL_Renderer * pRenderer, Worms** wormsTab)
+void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, Worms** wormsTab)
 {
 	if (pInput->bombe)
 	{
 		static int rW, rH;
 		//Mix_PlayChannel(2, sndFx, 0);
 
-		SDL_GetRendererOutputSize(pRenderer, &rW, &rH);
+		SDL_GetRendererOutputSize(globalRenderer, &rW, &rH);
 		int x = (int)(pInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x);
 		int y = (int)(pInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y);
 		int radius = 50;

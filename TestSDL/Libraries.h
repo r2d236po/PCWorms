@@ -42,6 +42,12 @@
 
 #define INGAMEMENU "../assets/pictures/Interface/ingameMenu.png"
 
+
+/*Variables Globales importantes*/
+SDL_Window *globalWindow;
+SDL_Renderer *globalRenderer;
+
+
 /*Structures globales*/
 typedef struct{		//structure Point
 	int x;

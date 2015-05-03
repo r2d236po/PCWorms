@@ -6,8 +6,8 @@ SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const ch
 
 /*Chargement d'image dans une surface ou une texture*/
 SDL_Surface * loadImage(const char * file);	//Charge une image dans une surface
-SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file);	//Charge une image dans une texture
-SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer);
+SDL_Texture * loadTexture(const char * file);	//Charge une image dans une texture
+SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface);
 
 /*Manipulation des pixels*/
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
@@ -39,7 +39,7 @@ void centerRectToPoint(SDL_Rect* pRect, int x, int y);
 
 /*Manipulation de formes*/
 int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);
-void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint);
+void drawShape(SDL_Point* shapeTab, int nbPoint);
 void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint);
 int simplifiedShape(SDL_Point* shapeTab, int nbShapeOriginal, int coeff);
 #endif

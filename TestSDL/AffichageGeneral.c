@@ -9,8 +9,6 @@
 int mainFenetre()
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE, temps = 0;
-	SDL_Renderer * pRenderer = NULL; //déclaration du renderer
-	SDL_Window * pWindow = NULL;	//déclaration de la window
 	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	SDL_Texture * pTextureDisplay = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
@@ -19,23 +17,24 @@ int mainFenetre()
 	Jeu* jeu = NULL;
 
 	//init SDL + fenetre + renderer
-	if (initSWR(&pWindow, &pRenderer))
+	if (initSWR())
 	{
-
 		//Initialisation des inputs
 		pInput = initInput();
 		if (pInput == NULL)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			cleanUp(&pInput, &pTextureDisplay);
 			return -1;
 		}
 
 		//InitSounds 
-		if (!initSDLMixer()){
+		if (!initSDLMixer())
+		{
 			fprintf(logFile, "initSDLMixer : FAILURE, init.\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			cleanUp(&pInput, &pTextureDisplay);
 			return -1;
+			
 		}
 
 		strcpy(mapName, cMAP);
@@ -43,14 +42,14 @@ int mainFenetre()
 		if (TTF_Init() == -1)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			cleanUp(&pInput, &pTextureDisplay);
 			return -1;
 		}
 
-		if (mainMenu(pWindow, pRenderer, pInput, mapName) < 0)
+		if (mainMenu(pInput, mapName) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, mainMenu .\n\n");
-			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+			cleanUp(&pInput, &pTextureDisplay);
 			return -1;
 		}
 		if (!pInput->quit)
@@ -58,7 +57,7 @@ int mainFenetre()
 			if (mainInit() < 0)	//set le nombre d'équipe et le nombre de worms par équipe
 			{
 				fprintf(logFile, "mainInit : FAILURE.\n");
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				cleanUp(&pInput, &pTextureDisplay);
 				return -1;
 			}
 
@@ -67,37 +66,45 @@ int mainFenetre()
 			if (jeu == NULL)
 			{
 				fprintf(logFile, "nouveauJeu : FAILURE.\n");
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				cleanUp(&pInput, &pTextureDisplay);
 				return -1;
 			}
 
 			/*Init map*/
-			if (initialisionTerrain(&jeu->pMapTerrain, pRenderer, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
+			if (initialisionTerrain(&jeu->pMapTerrain, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				cleanUp(&pInput, &pTextureDisplay);
 				return -1;
 			}
 
 			/*Init global texture*/
-			pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface, pRenderer);
+			pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface);
 			if (pTextureDisplay == NULL)
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				cleanUp(&pInput, &pTextureDisplay);
+				return -1;
+			}
+
+			/*Init sounds*/
+			if (loadSounds(BipExplo, 0) < 0)
+			{
+				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
+				cleanUp(&pInput, &pTextureDisplay);
 				return -1;
 			}
 
 			/*Init camera*/
-			initCameras(pRenderer, jeu->pMapTerrain, &camera, NULL);
+			initCameras(jeu->pMapTerrain, &camera, NULL);
 
 			/*Initialisation du tableau global de worms*/
 			wormsTab = initWormsTab(jeu->equipes);
 			if (wormsTab == NULL)
 			{
 				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+				cleanUp(&pInput, &pTextureDisplay);
 				fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
 				return -1;
 			}
@@ -107,15 +114,15 @@ int mainFenetre()
 
 			/*Initialisation des worms*/
 			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
-				renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
+				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
 		while (!(pInput->quit))
 		{
 			//Récupération des inputs
-			getInput(pInput, pWindow);
+			getInput(pInput);
 
 			//Gestion des inputs
-			if (!gestInput(pInput, pRenderer, jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
+			if (!gestInput(pInput, jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
@@ -123,7 +130,7 @@ int mainFenetre()
 			//Update de l'écran
 			if (pInput->raffraichissement)
 			{
-				renderScreen(pRenderer, 2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
+				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 				pInput->raffraichissement = 0;
 			}
 
@@ -142,10 +149,8 @@ int mainFenetre()
 
 
 		endDisplay();
-
 		cleanSounds();
 		Mix_CloseAudio();
-
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		if (jeu != NULL)
 			destroyMap(&jeu->pMapTerrain);
@@ -154,7 +159,7 @@ int mainFenetre()
 			free(wormsTab);
 		wormsTab = NULL;
 	}
-	cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
+	cleanUp(&pInput, &pTextureDisplay);
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	if (jeu != NULL)
 	{
@@ -170,19 +175,17 @@ int mainFenetre()
 }
 
 /**
-* \fn int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
+* \fn int initSWR()
 * \brief Initialisation de la fenêtre.
 *
 *La fonction initSWR initialise la SDL, la SDL_Image et les pointeurs
-*pWindow ainsi que pRenderer. Elle créé la fenêtre et le renderer associé.
+*globalWindow ainsi que globalRenderer. Elle créé la fenêtre et le renderer associé.
 *Elle retourne 1 si tout c'est bien passé, -1 sinon.
 *
-* \param[in] p_pWindow, adresse du pointeur pWindow pour l'initialiser
-* \param[in] p_pRenderer, adresse du pointeur pRenderer pour l'initialiser
 * \returns int, indicateur si la fonction a bien fonctionnée.
-* \returns les pointeurs pWindow et pRenderer
+* \returns les pointeurs globalWindow et globalRenderer
 */
-int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
+int initSWR()
 {
 	/* Initialisation simple */
 	if (SDL_VideoInit(NULL) < 0)
@@ -191,8 +194,8 @@ int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 		return -1;
 	}
 	/* Création de la fenêtre */
-	*p_pWindow = creerFenetre(1080, 600, "KaamWorms");
-	if (*p_pWindow == NULL)
+	globalWindow = creerFenetre(1080, 600, "KaamWorms");
+	if (globalWindow == NULL)
 	{
 		fprintf(logFile, "initSWR : FAILURE, creerFenetre.\n\n");
 		return -1;
@@ -200,22 +203,22 @@ int initSWR(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer)
 	{
 		SDL_Surface* surfaceIcone = loadImage(ICONE);
 		if (surfaceIcone != NULL)
-			SDL_SetWindowIcon(*p_pWindow, surfaceIcone);
+			SDL_SetWindowIcon(globalWindow, surfaceIcone);
 		SDL_FreeSurface(surfaceIcone);
 	};
 	/* Création du renderer */
-	*p_pRenderer = SDL_CreateRenderer(*p_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (*p_pRenderer == NULL)//gestion des erreurs
+	globalRenderer = SDL_CreateRenderer(globalWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (globalRenderer == NULL)//gestion des erreurs
 	{
 		fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
-		cleanUp(p_pWindow, NULL, NULL, NULL);
+		cleanUp(NULL, NULL);
 		return -1;
 	}
 	/*Initialisation SDL_Image*/
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
 		fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
-		cleanUp(p_pWindow, p_pRenderer, NULL, NULL);
+		cleanUp(NULL, NULL);
 		return -1;
 	}
 	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
@@ -297,15 +300,13 @@ void cleanSprites(void)
 }
 
 /**
-* \fn void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
+* \fn void cleanUp(Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 * \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL.
 *
-* \param[in] p_pWindow, adresse du pointeur de la fenêtre.
-* \param[in] p_pRenderer, adresse du pointeur du renderer.
 * \param[in] p_pInput, adresse du pointeur de la structure Input.
 * \param[in] p_pTextureDisplay, adresse de la texture display.
 */
-void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInput, SDL_Texture** p_pTextureDisplay)
+void cleanUp(Input** p_pInput, SDL_Texture** p_pTextureDisplay)
 {
 	if ((*p_pInput) != NULL)
 	{
@@ -322,15 +323,15 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 		free(*p_pInput);
 		(*p_pInput) = NULL;
 	}
-	if ((*p_pRenderer) != NULL)
+	if (globalRenderer != NULL)
 	{
-		SDL_DestroyRenderer(*p_pRenderer);
-		(*p_pRenderer) = NULL;
+		SDL_DestroyRenderer(globalRenderer);
+		globalRenderer = NULL;
 	}
-	if ((*p_pWindow) != NULL)
+	if (globalWindow != NULL)
 	{
-		SDL_DestroyWindow(*p_pWindow);
-		(*p_pWindow) = NULL;
+		SDL_DestroyWindow(globalWindow);
+		globalWindow= NULL;
 	}
 	if ((*p_pTextureDisplay) != NULL)
 	{
@@ -341,6 +342,8 @@ void cleanUp(SDL_Window** p_pWindow, SDL_Renderer** p_pRenderer, Input** p_pInpu
 	cleanSprites();
 	TTF_Quit();
 	IMG_Quit();
+	cleanSounds();
+	Mix_Quit();
 	SDL_Quit();
 	fprintf(logFile, "cleanUp : DONE.\n");
 }
@@ -363,30 +366,30 @@ void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir)
 	}
 }
 //Affiche un point aux coordonnées de la souris
-void afficherPoint(SDL_Renderer * r)
+void afficherPoint()
 {
 	static int x, y;
 	SDL_GetMouseState(&x, &y);
-	SDL_RenderDrawPoint(r, x, y);
-	SDL_RenderPresent(r);
+	SDL_RenderDrawPoint(globalRenderer, x, y);
+	SDL_RenderPresent(globalRenderer);
 }
-void afficherLigne(SDL_Renderer * r, Point * p1, Point * p2)
+void afficherLigne(Point * p1, Point * p2)
 {
 	p1->x = p2->x;
 	p1->y = p2->y;
 	SDL_GetMouseState(&p2->x, &p2->y);
-	SDL_RenderDrawLine(r, p1->x, p1->y, p2->x, p2->y);
-	SDL_RenderPresent(r);
+	SDL_RenderDrawLine(globalRenderer, p1->x, p1->y, p2->x, p2->y);
+	SDL_RenderPresent(globalRenderer);
 }
 //Clear noir du renderer
-void clearRenderer(SDL_Renderer * pRenderer)
+void clearRenderer()
 {
-	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(pRenderer);
-	SDL_RenderPresent(pRenderer);
+	SDL_SetRenderDrawColor(globalRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(globalRenderer);
+	SDL_RenderPresent(globalRenderer);
 }
 /**
-* \fn void renderScreen(SDL_Renderer * pRenderer, int nb, ...)
+* \fn void renderScreen(int nb, ...)
 * \brief Actualise l'affichage.
 *
 * Cette fonction est appelée à chaque changement dans l'image pour
@@ -394,7 +397,6 @@ void clearRenderer(SDL_Renderer * pRenderer)
 * Elle peut prendre plusieurs types de paramètre pour réaliser des actions
 * diverses (affichage de la map, d'un (de) rectangle(s) ou d'une (de) textures).
 *
-* \param[in] pRenderer, pointeur vers le renderer de la fenêtre
 * \param[in] nb, nombre de paramètres dans l'appel
 * \remarks Le formatage des paramètres supplémentaire est le suivant :
 *	pour le background de la map : 0,Terrain* map
@@ -404,7 +406,7 @@ void clearRenderer(SDL_Renderer * pRenderer)
 * ATTENTION : Penser a incrementer nb en fonction du nombre de paramètre en plus,
 * par exemple : une texture et un rectangle => nb = 2
 */
-void renderScreen(SDL_Renderer * pRenderer, int nb, ...)
+void renderScreen(int nb, ...)
 {
 	Terrain* pMap = NULL;
 	SDL_Texture* pTexture = NULL;
@@ -419,19 +421,19 @@ void renderScreen(SDL_Renderer * pRenderer, int nb, ...)
 		{
 		case 0:
 			pMap = va_arg(list, Terrain*);
-			SDL_RenderCopy(pRenderer, pMap->imageBackground, NULL, NULL);
+			SDL_RenderCopy(globalRenderer, pMap->imageBackground, NULL, NULL);
 			break;
 		case 1:
 			pTexture = va_arg(list, SDL_Texture*);
 			pRectSrc = va_arg(list, SDL_Rect*);
 			pRectDst = va_arg(list, SDL_Rect*);
-			SDL_RenderCopy(pRenderer, pTexture, pRectSrc, pRectDst);
+			SDL_RenderCopy(globalRenderer, pTexture, pRectSrc, pRectDst);
 			break;
 		case 2:
 			rgb = va_arg(list, Uint32);
 			pRectDst = va_arg(list, SDL_Rect*);
-			SDL_SetRenderDrawColor(pRenderer, rgb >> 24, (rgb >> 16) & 0x00FF, (rgb >> 8) & 0x0000FF, (rgb & 0x000000FF));
-			SDL_RenderFillRect(pRenderer, pRectDst);
+			SDL_SetRenderDrawColor(globalRenderer, rgb >> 24, (rgb >> 16) & 0x00FF, (rgb >> 8) & 0x0000FF, (rgb & 0x000000FF));
+			SDL_RenderFillRect(globalRenderer, pRectDst);
 			break;
 		default:
 			break;
@@ -441,7 +443,7 @@ void renderScreen(SDL_Renderer * pRenderer, int nb, ...)
 	pTexture = NULL;
 	pRectSrc = NULL;
 	pRectDst = NULL;
-	SDL_RenderPresent(pRenderer);
+	SDL_RenderPresent(globalRenderer);
 	va_end(list);
 }
 /**
@@ -469,10 +471,9 @@ void frameRate(unsigned int fM)
 	}
 }
 /**
-* \fn void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms)
+* \fn void initCameras(Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms)
 * \brief Initialise une camera.
 *
-* \param[in] pRenderer, le renderer de la fenêtre.
 *
 * \param[in] pMapTerrain, la texture de la map.
 *
@@ -481,9 +482,9 @@ void frameRate(unsigned int fM)
 * \param[in] pWorms, pointeur du worms sur lequel on se centre
 * \returns void
 */
-void initCameras(SDL_Renderer * pRenderer, Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms){
+void initCameras(Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms){
 	int w = 0, h = 0, wW = 0, hW = 0;
-	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
+	SDL_GetRendererOutputSize(globalRenderer, &wW, &hW);
 	if (pWorms == NULL){
 		w = pMapTerrain->collisionMapSurface->w;
 		h = pMapTerrain->collisionMapSurface->h;
@@ -539,20 +540,19 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 	}
 }
 /**
-* \fn void zoomIn(SDL_Renderer * pRenderer, SDL_Rect * camera)
+* \fn void zoomIn(SDL_Rect * camera)
 * \brief Réajuste la taille de la caméra pour un grossissement de l'image.
 *
-* \param[in] pRenderer, le renderer de la fenêtre courante.
 *
 * \param[in] camera, le rect de la camera courante.
 *
 * \returns void
 */
-void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
+void zoomIn(SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 {
 	int wW = 0, hW = 0, w = 0, h = 0;
 	float x = 0, y = 0, offsetx = 0, offsety;
-	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
+	SDL_GetRendererOutputSize(globalRenderer, &wW, &hW);
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 
 	offsety = (float)camera->h;
@@ -586,10 +586,9 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera,
 
 }
 /**
-* \fn void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
+* \fn void zoomOut(SDL_Texture* pTexture, SDL_Rect * camera)
 * \brief Réajuste la taille de la caméra pour un rétrécissement de l'image.
 *
-* \param[in] pRenderer, le renderer de la fenêtre courante.
 *
 * \param[in] pTexture, la texture de la fenêtre courante.
 *
@@ -597,10 +596,10 @@ void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera,
 *
 * \returns void
 */
-void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
+void zoomOut(SDL_Texture* pTexture, SDL_Rect * camera)
 {
 	int w = 0, h = 0, wM = 0, hM = 0;
-	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+	SDL_GetRendererOutputSize(globalRenderer, &w, &h);
 	SDL_QueryTexture(pTexture, NULL, NULL, &wM, &hM);
 	if (camera->h < hM){
 		camera->x = camera->x + (camera->w) / 2;
@@ -632,13 +631,12 @@ void zoomOut(SDL_Renderer * pRenderer, SDL_Texture* pTexture, SDL_Rect * camera)
 }
 
 /**
-* \fn void screenshot(SDL_Renderer* pRenderer)
+* \fn void screenshot()
 * \brief Make a screenshot of the screen
 *
-* \param[in] pRenderer, pointer to the renderer of the current window
 * \return void
 */
-void screenshot(SDL_Renderer* pRenderer)
+void screenshot()
 {
 	int w, h;
 	int i = 0;
@@ -648,9 +646,9 @@ void screenshot(SDL_Renderer* pRenderer)
 	time_t t1;
 	t1 = time(NULL);
 	SDL_Surface* surfaceScreenshot = NULL;
-	SDL_GetRendererOutputSize(pRenderer, &w, &h);
+	SDL_GetRendererOutputSize(globalRenderer, &w, &h);
 	surfaceScreenshot = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
-	SDL_RenderReadPixels(pRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
+	SDL_RenderReadPixels(globalRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
 	strcpy(path, mainPath);
 	sprintf(screenshotName, "%s\0", ctime(&t1));
 	strcat(path, screenshotName);
@@ -782,11 +780,11 @@ Worms** initWormsTab(Equipe** equipes)
 	}
 	return Tab;
 }
+
 /**
-* \fn void getMousePosition(SDL_Renderer * pRenderer, Input * pInput, SDL_Rect * camera, int * x, int *y)
+* \fn void getMousePosition(Input * pInput, SDL_Rect * camera, int * x, int *y)
 * \brief Réajuste la taille de la caméra pour un rétrécissement de l'image.
 *
-* \param[in] pRenderer, le renderer de la fenêtre courante.
 *
 * \param[in] pInput, les inputs utilisateur.
 *
@@ -798,9 +796,9 @@ Worms** initWormsTab(Equipe** equipes)
 *
 * \returns void
 */
-void getMousePosition(SDL_Renderer * pRenderer, Input * pInput, SDL_Rect * camera, int * x, int *y){
+void getMousePosition(Input * pInput, SDL_Rect * camera, int *x, int *y){
 	int w = 0, h = 0;
-	SDL_GetRendererOutputSize(pRenderer, &w, &h);
-	x = (int)(((float)pInput->cursor.now.x / w)*camera->w) + camera->x;
-	y = (int)(((float)pInput->cursor.now.y / h)*camera->h) + camera->y;
+	SDL_GetRendererOutputSize(globalRenderer, &w, &h);
+	*x = (int)(((float)pInput->cursor.now.x / w)*camera->w) + camera->x;
+	*y = (int)(((float)pInput->cursor.now.y / h)*camera->h) + camera->y;
 }

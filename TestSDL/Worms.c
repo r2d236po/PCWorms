@@ -379,7 +379,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 * \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
 * \returns void
 */
-void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer)
+void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 {
 	int x, y;
 	double xx, yy, z;

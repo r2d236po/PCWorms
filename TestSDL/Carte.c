@@ -11,16 +11,15 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const char * nomImageFond, const char * nomImageMap)
+* \fn int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, const char * nomImageMap)
 * \brief Initialise un terrain avec son image de fond et l'image de la map.
 *
 * \param[in] p_pMapTerrain, adresse du pointeur de structure Terrain a initialiser
-* \param[in] pRenderer, pointeur du renderer dans lequel le Terrain est a initialiser
 * \param[in] nomImageFond, nom du fichier de l'image de fond
 * \param[in] nomImageMap, nom du fichier de l'image de la map
 * \returns int, Indicateur de reussite de la fonction : 1 = succes, -1 = echec
 */
-int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const char * nomImageFond, const char * nomImageMap)
+int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, const char * nomImageMap)
 {
 	Terrain * pMapTerrainTemp = NULL;	//Pointeur du Terrain temporaire
 
@@ -36,7 +35,7 @@ int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const
 	pMapTerrainTemp->collisionMapSurface = NULL;	//Initialisation à NULL du pointeur de la surface de l'image de la map
 
 	//Creation de la texture de l'image de fond
-	pMapTerrainTemp->imageBackground = loadTexture(pRenderer, nomImageFond);	//Chargement de l'image de fond dans la texture
+	pMapTerrainTemp->imageBackground = loadTexture(nomImageFond);	//Chargement de l'image de fond dans la texture
 	if (pMapTerrainTemp->imageBackground == NULL)	//Si le chargement a échoué
 	{
 		fprintf(logFile, "initialisationTerrain : FAILURE, loadTexture : imageBackground.\n\n");

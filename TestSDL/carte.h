@@ -19,7 +19,7 @@ typedef struct{
 } Caisse;
 
 /*Fonction de gestion du terrain*/
-int initialisionTerrain(Terrain** p_pMapTerrain, SDL_Renderer * pRenderer, const char * nomImageFond, const char * nomImageMap);
+int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, const char * nomImageMap);
 void destroyMap(Terrain** p_pMapTerrain);	//détruit un terrain
 
 

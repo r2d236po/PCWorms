@@ -34,42 +34,42 @@
 enum MENU { MAIN, MAINversus, MAINmap, MAINoption, VERSUS,VERSUSn, VERSUSm,VERSUSname, VERSUSnameN, VERSUSnameM, VERSUSstart, VERSUSstartS, MAP, MAPmain, MAPchoose, MAPrepertory, OPTIONS,OPTIONSm };
 enum CHOICE{ NEXT, PREVIOUS, NEITHER, YES, NO, DEFAULT, SET, TEXT, CLICK};
 
-int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100]);
-int initTabTextureMenu(SDL_Renderer* pRenderer, SDL_Texture* menuTexture[NBTEXTURE], ...);
+int mainMenu(Input* pInput, char mapName[100]);
+int initTabTextureMenu(SDL_Texture* menuTexture[NBTEXTURE], ...);
 void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE]);
 char* stringTexture(enum MENU menu);
 
-enum MENU menu(SDL_Renderer* pRenderer, Input* pInput);
+enum MENU menu(Input* pInput);
 
 
-enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam);
-void setTeamName(SDL_Renderer* pRenderer, Input* pInput);
-void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam);
+enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam);
+void setTeamName(Input* pInput);
+void setWormsName(Input* pInput, int indexTeam);
 void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow);
-int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput);
-int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput, int init);
-int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox, int init);
-void setColorTeam(SDL_Renderer* pRenderer, Input* pInput);
-int getIndexColor(SDL_Renderer* pRenderer, Input* pInput);
+int getTeamIndexText(Input* pInput);
+int getWormsIndexText(Input* pInput, int init);
+int getIndexText(Input* pInput, int xBox, int init);
+void setColorTeam(Input* pInput);
+int getIndexColor(Input* pInput);
 void initColorTab(SDL_Color colorArray[6]);
 
-enum MENU mapMenu(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *nextPrev);
-void  mapSketch(SDL_Renderer* pRenderer, enum CHOICE nextPrev, char* mapName);
+enum MENU mapMenu(Input* pInput, enum CHOICE *nextPrev);
+void  mapSketch(enum CHOICE nextPrev, char* mapName);
 
-enum MENU optionMenu(SDL_Renderer* pRenderer, Input* pInput);
-void setResizableOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice);
-void setMusicOption(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice);
-void setSizeOption(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice);
-void setSavePathOption(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSize);
-void setSoundOption(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice);
-void toggleOptions(SDL_Renderer* pRenderer, Input* pInput, enum CHOICE *pChoice, int x, int y);
-void SDL_SetWindowResizable(SDL_Window *pWindow, SDL_bool resizable);
-SDL_Texture* loadFromRenderedText(SDL_Renderer* pRenderer, char* textureText, SDL_Color textColor, int *w, int *h, int size);
+enum MENU optionMenu(Input* pInput);
+void setResizableOption(Input* pInput, enum CHOICE *pChoice);
+void setMusicOption(Input* pInput, enum CHOICE *pChoice);
+void setSizeOption(Input* pInput, enum CHOICE *pChoice);
+void setSavePathOption(Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSize);
+void setSoundOption(Input* pInput, enum CHOICE *pChoice);
+void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y);
+void SDL_SetWindowResizable(SDL_bool resizable);
+SDL_Texture* loadFromRenderedText(char* textureText, SDL_Color textColor, int *w, int *h, int size);
 int testEndInput(char* text, int size);
 void getSizeWindow(int *w, int *h, char* str);
 
 int indiceTexture(enum MENU menu);
 void setColorForGame();
-void renderText(SDL_Renderer* pRenderer, char* str, int x, int y, int sizeFont, SDL_Color color);
-SDL_Rect initButtonBox(SDL_Renderer* pRenderer, int x, int y, int w, int h);
+void renderText(char* str, int x, int y, int sizeFont, SDL_Color color);
+SDL_Rect initButtonBox(int x, int y, int w, int h);
 #endif // !MAINMENU_H

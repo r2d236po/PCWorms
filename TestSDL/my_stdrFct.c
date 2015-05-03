@@ -17,20 +17,20 @@
 * \returns pointer to the created window, NULL if error.
 */
 SDL_Window* creerFenetre(const int windowWidth, const int windowHight, const char * windowName){
-	SDL_Window * pWindow = NULL;
-	pWindow = SDL_CreateWindow(windowName,	//nom de la fenêtre
+	SDL_Window *windowTemp = NULL;
+	windowTemp = SDL_CreateWindow(windowName,	//nom de la fenêtre
 		SDL_WINDOWPOS_CENTERED, //position en x de la fenêtre
 		SDL_WINDOWPOS_CENTERED,	//position en y de la fenêtre
 		windowWidth,	//largeur de la fenêtre
 		windowHight,	//hauteur de la fenêtre
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);	//propriétés supplémentaires de la fenêtre
-	if (pWindow == NULL)
+	if (windowTemp == NULL)
 	{
 		fprintf(logFile, "creerFenetre : FAILURE, erreur de création de la fenêtre: %s.\n", SDL_GetError());
 		return NULL;
 	}
 	fprintf(logFile, "creerFenetre : SUCCESS.\n");
-	return pWindow;
+	return windowTemp;
 }
 
 
@@ -67,17 +67,16 @@ SDL_Surface* loadImage(const char * file){
 
 
 /**
-* \fn SDL_Texture * loadTexture(SDL_Renderer * pRenderer, const char * file)
+* \fn SDL_Texture * loadTexture(const char * file)
 * \brief Create and load an image into a texture for the current renderer.
 *
-* \param[in] pRenderer, pointer to the window's renderer.
 * \param[in] file, name of the image to load (with the entire path if necessary).
 * \returns pointer to the created texture, NULL if error
 */
-SDL_Texture* loadTexture(SDL_Renderer * pRenderer, const char * file)
+SDL_Texture* loadTexture(const char * file)
 {
 
-	SDL_Texture * texture = IMG_LoadTexture(pRenderer, file);
+	SDL_Texture * texture = IMG_LoadTexture(globalRenderer, file);
 	if (texture == NULL)
 	{
 		fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
@@ -88,19 +87,19 @@ SDL_Texture* loadTexture(SDL_Renderer * pRenderer, const char * file)
 }
 
 /**
-* \fn SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer)
+* \fn SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface)
 * \brief Create a texture from a surface.
 *
 * \param[in] pSurface, pointer to the source surface.
-* \param[in] pRenderer, pointer to the current renderer.
+* \param[in] globalRenderer, pointer to the current renderer.
 * \returns pointer to the created texture, NULL if error.
 * \remarks It is like createTextureFromSurface with error handling and access to pixel enable.
 */
-SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface, SDL_Renderer* pRenderer)
+SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface)
 {
 
 	SDL_Texture* textureTemp = NULL;
-	textureTemp = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
+	textureTemp = SDL_CreateTexture(globalRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
 	if (textureTemp == NULL)
 	{
 		fprintf(logFile, "my_createTextureFromSurface : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
@@ -897,18 +896,17 @@ void moveShape(SDL_Point* shapeTab, int dx, int dy, int nbPoint)
 }
 
 /**
-* \fn void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint)
+* \fn void drawShape(SDL_Point* shapeTab, int nbPoint)
 * \brief Draw an array of points.
 *
-* \param[in] pRenderer, pointer to the renderer.
 * \param[in] shapeTab, array of point
 * \param[in] nbPoint, array of point.
 * \return void
 */
-void drawShape(SDL_Renderer* pRenderer, SDL_Point* shapeTab, int nbPoint)
+void drawShape(SDL_Point* shapeTab, int nbPoint)
 {
-	SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-	SDL_RenderDrawLines(pRenderer, shapeTab, nbPoint);
+	SDL_SetRenderDrawColor(globalRenderer, 0, 0, 0, 255);
+	SDL_RenderDrawLines(globalRenderer, shapeTab, nbPoint);
 }
 
 
