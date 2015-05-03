@@ -461,8 +461,8 @@ void setTeamName(SDL_Renderer* pRenderer, Input* pInput)
 */
 void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 {
-	int indexPrec = 0, i, y = 0;
-	static int indexWorms = 0;
+	int indexPrec = 0, i, y = 0, init = 0;
+	static int indexWorms = 0, team = 1;
 	char strTitre[45];
 	SDL_Color color;
 	setSDLColor(&color, 0, 0, 0);
@@ -470,9 +470,11 @@ void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 
 	sprintf(strTitre, "Choix des noms des joueurs de l'équipe %d :", indexTeam);
 	renderText(pRenderer, strTitre, 470, 32, 32, color);
-
+	if (team != indexTeam)
+		init = 1;
+	else init = 0;
 	indexPrec = indexWorms;
-	indexWorms = getWormsIndexText(pRenderer, pInput);
+	indexWorms = getWormsIndexText(pRenderer, pInput, init);
 	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam - 1], "") != 0)
 	{
 		indexWorms = indexWorms + (indexTeam - 1) * 4;
@@ -483,6 +485,7 @@ void setWormsName(SDL_Renderer* pRenderer, Input* pInput, int indexTeam)
 		y = 225 + i * 163;
 		renderText(pRenderer, globalVar.wormsNames[i + (indexTeam - 1) * 4], 920, y, 16, globalVar.colorTab[(indexTeam - 1)]);
 	}
+	team = indexTeam;
 }
 
 /**
@@ -521,24 +524,24 @@ void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow)
 */
 int getTeamIndexText(SDL_Renderer* pRenderer, Input* pInput)
 {
-	return getIndexText(pRenderer, pInput, 647);
+	return getIndexText(pRenderer, pInput, 647, 0);
 }
 
 /**
-* \fn int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput)
+* \fn int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput, int init)
 * \brief Determine what team to write to.
 *
 * \param[in] pRenderer, pointer to the renderer of the window.
 * \param[in] pInput, pointer to the input structure.
 * \returns index of the worms.
 */
-int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput)
+int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput, int init)
 {
-	return getIndexText(pRenderer, pInput, 920);
+	return getIndexText(pRenderer, pInput, 920, init);
 }
 
 /**
-* \fn int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
+* \fn int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox, int init)
 * \brief Determine what team to write to.
 *
 * \param[in] pRenderer, pointer to the renderer of the window.
@@ -546,13 +549,14 @@ int getWormsIndexText(SDL_Renderer* pRenderer, Input* pInput)
 * \param[in] xBox, origin of the text.
 * \returns index of the box text.
 */
-int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
+int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox, int init)
 {
 	int xText = xBox, yText = 225, wText = 533, hText = 87, yNom = 225;
 	int wRender, hRender, index;
 	static int indexPrec = 0;
 	SDL_Rect textRect;
-
+	if (init)
+		indexPrec = 0;
 	SDL_GetRendererOutputSize(pRenderer, &wRender, &hRender);
 	wText = (int)((float)(wText / WIDTHMENUTEXTURE) * wRender);
 	hText = (int)((float)(hText / HIGHTMENUTEXTURE) * hRender);

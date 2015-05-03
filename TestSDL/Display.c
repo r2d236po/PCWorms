@@ -67,9 +67,9 @@ int display(SDL_Surface* pSurface, int mode)
 		}
 		if (surfaceTab[index]->flags != 0 || surfaceTab[index]->format == NULL)
 		{
-			reindexTab(nbSurface, index, 0, surfaceTab);
-			reindexTab(nbSurface, index, 1, xTab);
-			reindexTab(nbSurface, index, 1, yTab);
+			reindexTab(NBSURFACEMAX, index, 0, surfaceTab);
+			reindexTab(NBSURFACEMAX, index, 1, xTab);
+			reindexTab(NBSURFACEMAX, index, 1, yTab);
 			nbSurface--;
 			index = 0;
 		}

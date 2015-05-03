@@ -422,10 +422,10 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 			{
 				if (pInput->arme && indexWorms == globalVar.indexWormsTab && !armePrec) // On affiche l'arme la première fois
 				{
-					arme1->clip_rect.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x - 10;
-					arme1->clip_rect.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y + 5;
+					arme1->clip_rect.x = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x - 10;
+					arme1->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + 5;
 					display(arme1, 1);
-					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
+					display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface, 0);
 				}
 				if (pInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 				{
@@ -443,6 +443,8 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
 					SDL_RenderPresent(pRenderer);*/
 					SDL_FreeSurface(rotoSurface);
+					rotoSurface = NULL;
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				if (pInput->arme == 0 && armePrec == 1) // On efface l'arme
