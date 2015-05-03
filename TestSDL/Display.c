@@ -134,6 +134,12 @@ void reindexTab(int size, int startPosition, int type, void* tab)
 		else if (pSurfaceTab != NULL)
 			pSurfaceTab[index] = pSurfaceTab[index + 1];
 	}
+	if (intTab != NULL)
+		intTab[(size - 1)] = 0;
+	else if (charTab != NULL)
+		charTab[(size - 1)] = 0;
+	else if (pSurfaceTab != NULL)
+		pSurfaceTab[(size - 1)] = NULL;
 	va_end(list);
 }
 

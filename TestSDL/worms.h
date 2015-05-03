@@ -2,7 +2,6 @@
 #define WORMS_H
 
 #include "Libraries.h"
-#include "armes.h"
 #include "carte.h"
 
 
@@ -17,7 +16,7 @@ typedef struct {			//Structure worms
 	int vie;					//Point de vie
 	char nom[20];				//Nom du joueur
 	char* arme;					//Arme en cours d'utilisation
-	Arme* invent[TAILLEINV];	//Inventaire des armes et objets disponibles
+	//Arme* invent[TAILLEINV];	//Inventaire des armes et objets disponibles
 	enum DIRECTION dirSurface;
 	SDL_Surface* wormsSurfaceLeft;
 	SDL_Surface* wormsSurfaceRight;
@@ -49,7 +48,6 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction);
 /*Gestion de l'overlay*/
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer);
 void wormsOverlay(Worms** wormsTab);
-void effacerSurface(SDL_Surface* pSurface);
 
 /*Fonctions diverses*/
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);

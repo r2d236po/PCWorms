@@ -4,6 +4,7 @@
 #include "KaamEngine.h"
 #include "input.h"
 #include "display.h"
+#include "armes.h"
 
 
 
@@ -358,20 +359,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 }
 
 
-void effacerSurface(SDL_Surface* pSurface)
-{
-	Uint32 pixel_Transparent = SDL_MapRGBA(pSurface->format, 255, 255, 255, 0);
-	int x, y;
-	int Wsurface = pSurface->w, xSurface = pSurface->clip_rect.x;
-	int Hsurface = pSurface->h, ySurface = pSurface->clip_rect.y;
-	for (y = ySurface; y < (ySurface + Hsurface); y++)
-	{
-		for (x = xSurface; x < (xSurface + Wsurface); x++)
-		{
-			WritePixel(pSurface, x - xSurface, y - ySurface, pixel_Transparent);
-		}
-	}
-}
+
 
 
 
@@ -394,7 +382,7 @@ void effacerSurface(SDL_Surface* pSurface)
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer)
 {
 	int x, y;
-	double xx, yy ,z;
+	double xx, yy, z;
 	int indexWorms;
 	static char armePrec = 0;
 	SDL_Surface* rotoSurface = NULL;
@@ -430,10 +418,10 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				if (pInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 				{
 					SDL_GetMouseState(&x, &y);
-					xx = -x + (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x);
-					yy = -y + (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y);
-					z = atan(yy/xx);
-					z = -(z / pi * 180.0);
+					xx = MY_ABS((x - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x)));
+					yy = y - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y);
+					z = atan(yy / xx);
+					z = (z / pi * 180.0);
 					rotoSurface = rotozoomSurface(arme1, z, 1.0, 1);
 					centerRectToPoint(&rotoSurface->clip_rect, arme1->clip_rect.x + arme1->w / 2, arme1->clip_rect.y + arme1->h / 2);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
