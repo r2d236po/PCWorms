@@ -14,6 +14,7 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap);	//Gestion des Inputs pour un saut de worms
 void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, SDL_Renderer * pRenderer, Worms** wormsTab);	//Gestion des Inputs des armes
 void callNextWorms(Worms** wormsTab);
+int calculIndex();
 
 /*Initialisations*/
 Input* initInput();		//Initialise les Input

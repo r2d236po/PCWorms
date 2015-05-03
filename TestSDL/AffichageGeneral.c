@@ -38,7 +38,7 @@ int mainFenetre()
 			return -1;
 		}
 
-		if (mainMenu(pWindow, pRenderer, pInput, mapName, &nbTeam, &nbWorms) < 0)
+		if (mainMenu(pWindow, pRenderer, pInput, mapName) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, mainMenu .\n\n");
 			cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
