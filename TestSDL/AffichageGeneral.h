@@ -25,7 +25,7 @@ void afficherLigne(Point * p1, Point * p2);	//affiche une ligne
 void deplacementRectangle(SDL_Rect * rect, int x2, int y2, int dir);	//déplace un rectangle en fonction de la souris
 void frameRate(unsigned int fM);	//gère le framerate
 void screenshot();
-void getMousePosition(Input * pInput, SDL_Rect * camera, int * x, int *y);
+void getMousePosition(SDL_Rect * camera, int * x, int *y);
 
 //gestion de l'affichage
 void renderScreen(int nb, ...);	//actualise l'affichage

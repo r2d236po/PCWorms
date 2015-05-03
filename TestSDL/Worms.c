@@ -650,12 +650,13 @@ void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius)
 
 void teleportWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_Rect* pCamera)
 {
-	int x, y;
+	int x, y, xMouse, yMouse;
 	int wWorms = pWorms->wormsObject->objectSurface->w, xWorms = pWorms->wormsObject->objectSurface->clip_rect.x;
 	int hWorms = pWorms->wormsObject->objectSurface->h, yWorms = pWorms->wormsObject->objectSurface->clip_rect.y;
 
-	x = pInput->cursor.now.x + pCamera->x - wWorms / 2;
-	y = pInput->cursor.now.y - hWorms / 2;
+	getMousePosition(pCamera, &xMouse, &yMouse);
+	x = xMouse - wWorms / 2;
+	y = yMouse - hWorms / 2;
 	if (x < 0 || y < 0)
 		return;
 	pWorms->wormsObject->objectSurface->clip_rect.x = x;
