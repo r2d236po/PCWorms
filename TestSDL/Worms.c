@@ -433,7 +433,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					display(rotoSurface, 1);
 					SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
 					SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
-					SDL_RenderPresent(pRenderer); 
+					SDL_RenderPresent(pRenderer);
 					SDL_FreeSurface(rotoSurface);
 					rotoSurface = NULL;
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
