@@ -546,9 +546,6 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 */
 void zoomIn(SDL_Renderer * pRenderer, SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 {
-	// test :
-	int a = 0, b = 0;
-	getMousePosition(pRenderer, pInput, camera, &a, &b);
 	int wW = 0, hW = 0, w = 0, h = 0;
 	float x = 0, y = 0, offsetx = 0, offsety;
 	SDL_GetRendererOutputSize(pRenderer, &wW, &hW);
