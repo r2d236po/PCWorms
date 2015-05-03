@@ -57,6 +57,8 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 			menuIn = versusMenu(pRenderer, pInput, &quitMenu, menuIn, &indexTeam);
 			break;
 		}
+		if (menuIn == MAIN)
+			indexTeam = 1;
 		if (pInput->raffraichissement == 1)
 		{
 			SDL_RenderCopy(pRenderer, menuTexture[indiceTexture(menuIn)], NULL, NULL);
@@ -230,8 +232,11 @@ enum MENU menu(SDL_Renderer* pRenderer, Input* pInput)
 enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam)
 {
 	SDL_Rect nextRect, mainRect, startRect;
-	int testChange = 0;
+	int testChange = 0, start = 0, next = 0;
 	static int alreadyChange = 0;
+
+	start = !strcmp(globalVar.teamNames[*pIndexTeam - 1], "");
+	next = strcmp(globalVar.teamNames[*pIndexTeam], "");
 
 	if (menuPrec != VERSUSstart && menuPrec != VERSUSstartS)
 	{
@@ -245,18 +250,22 @@ enum MENU versusMenu(SDL_Renderer* pRenderer, Input* pInput, int* quit, enum MEN
 				pInput->raffraichissement = 1;
 				alreadyChange = 0;
 				strcpy(pInput->textInput, "");
-				if (menuPrec == VERSUSn || menuPrec == VERSUS)
+				if (!start && next && (menuPrec == VERSUSn || menuPrec == VERSUS))
 				{
 					return VERSUSname;
 				}
-				else if ((menuPrec == VERSUSnameN || menuPrec == VERSUSname) && (*pIndexTeam) < 3)
+				else if (next && (menuPrec == VERSUSnameN || menuPrec == VERSUSname) && (*pIndexTeam) < 3)
 				{
 					*pIndexTeam += 1;
-					return VERSUSname;
+					next = strcmp(globalVar.teamNames[*pIndexTeam], "");
+					if (next)
+						return VERSUSname;
+					else return VERSUSstart;
 				}
-				else if (menuPrec == VERSUSnameN || menuPrec == VERSUSname)
+				else if (menuPrec == VERSUSnameN || menuPrec == VERSUSname || (menuPrec == VERSUSn || menuPrec == VERSUS) && !start)
 				{
-					*pIndexTeam += 1;
+					if (next)
+						*pIndexTeam += 1;
 					return VERSUSstart;
 				}
 			}

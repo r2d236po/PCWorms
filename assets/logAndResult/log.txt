@@ -1,4 +1,4 @@
-Start of session : Sun May 03 13:03:13 2015
+Start of session : Sun May 03 13:30:57 2015
 
 
 loadImage : SUCCESS.
@@ -153,13 +153,457 @@ Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
 Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
+Unable to render text surface! SDL_ttf Error: Text has zero width
 mainInit : DONE.
-	nombre d'equipes : 1.
-	nombre de worms par equipe : 1 0 0 0.
+	nombre d'equipes : 4.
+	nombre de worms par equipe : 2 1 3 2.
 
 nouveauJeu : START :
 
 nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -198,1104 +642,6 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-initCameras : DONE.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
 ||| END OF THE GAME |||
 destroyMap : DONE.
 cleanSprites : DONE.
@@ -1305,9 +651,26 @@ mainFenetre : SUCCESS.
 saveGame : SUCCESS.
 KaamDestroyObject : DONE. 
 
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Sun May 03 13:03:29 2015
+End of Session : Sun May 03 13:31:56 2015
