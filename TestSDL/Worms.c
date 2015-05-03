@@ -393,6 +393,8 @@ void effacerSurface(SDL_Surface* pSurface)
 */
 void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Renderer* pRenderer)
 {
+	int x, y;
+	double xx, yy ,z;
 	int indexWorms;
 	static char armePrec = 0;
 	static double angle = 0.0;
@@ -416,24 +418,30 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
 					resetInputs(pInput);
 			}
-			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec == 1)
+			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec)
 			{
-				if (pInput->arme && indexWorms == globalVar.indexWormsTab && armePrec == 0) // On affiche l'arme la première fois
+				if (pInput->arme && indexWorms == globalVar.indexWormsTab && !armePrec) // On affiche l'arme la première fois
 				{
 					arme1->clip_rect.x = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x - 10;
 					arme1->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + 5;
 					display(arme1, 1);
 					display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface, 0);
 				}
-				if (pInput->arme == 1 && armePrec == 1 && indexWorms == globalVar.indexWormsTab) // On fait tourner l'arme en fonction de la souris
+				if (pInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 				{
-					angle += 1.0;
-					SDL_Surface* rotoSurface = rotozoomSurface(arme1, angle, 1.0, 1); 
+					SDL_GetMouseState(&x, &y);
+					xx = -x + (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x);
+					yy = -y + (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y);
+					z = atan(yy/xx);
+					z = -(z / pi * 180.0);
+					SDL_Surface* rotoSurface = rotozoomSurface(arme1, z, 1.0, 1);
 					centerRectToPoint(&rotoSurface->clip_rect, arme1->clip_rect.x + arme1->w / 2, arme1->clip_rect.y + arme1->h / 2);
 					display(rotoSurface, 1);
-					SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
+					
+					/*SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
 					SDL_RenderDrawRect(pRenderer, &rotoSurface->clip_rect);
-					SDL_RenderPresent(pRenderer);
+					SDL_RenderPresent(pRenderer);*/
 					SDL_FreeSurface(rotoSurface);
 					rotoSurface = NULL;
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
