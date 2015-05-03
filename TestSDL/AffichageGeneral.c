@@ -782,7 +782,22 @@ Worms** initWormsTab(Equipe** equipes)
 	}
 	return Tab;
 }
-
+/**
+* \fn void getMousePosition(SDL_Renderer * pRenderer, Input * pInput, SDL_Rect * camera, int * x, int *y)
+* \brief Réajuste la taille de la caméra pour un rétrécissement de l'image.
+*
+* \param[in] pRenderer, le renderer de la fenêtre courante.
+*
+* \param[in] pInput, les inputs utilisateur.
+*
+* \param[in] camera, le rect de la camera courante.
+*
+* \param[in] x, le pointeur sur un int pour stocker x.
+*
+* \param[in] y, le pointeur sur un int pour stocker y.
+*
+* \returns void
+*/
 void getMousePosition(SDL_Renderer * pRenderer, Input * pInput, SDL_Rect * camera, int * x, int *y){
 	int w = 0, h = 0;
 	SDL_GetRendererOutputSize(pRenderer, &w, &h);
