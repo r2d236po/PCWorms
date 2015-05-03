@@ -42,7 +42,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	static int initStart = 0;
 	if (initStart == 0)
 	{
-		for (indexWorms = 0; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0, pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
 			wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
@@ -59,7 +59,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 		display(wormsTab[0]->wormsObject->objectSurface, 1);
 		display(wormsTab[0]->texteNameSurface, 1);
 		display(wormsTab[0]->texteLifeSurface, 1);
-		for (indexWorms = 1; indexWorms < globalVar.nbWormsEquipe*globalVar.nbEquipe; indexWorms++)
+		for (indexWorms = 1; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms],pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);

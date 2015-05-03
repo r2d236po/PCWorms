@@ -3,7 +3,7 @@
 #include "my_stdrFct.h"
 #include "AffichageGeneral.h"
 
-int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100], int *pNbTeam, int *pNbWorms)
+int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char mapName[100])
 {
 	SDL_Texture *menuTexture[NBTEXTURE];
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
@@ -94,27 +94,33 @@ int mainMenu(SDL_Window* pWindow, SDL_Renderer* pRenderer, Input* pInput, char m
 		if (quitMenu == 1 && !pInput->quit)
 		{
 			/*Calcul du nombre d'équipe et du nombre de worms par équipe*/
-			*pNbWorms = 0;
-			*pNbTeam = 0;
+			for (i = 0; i < 4; i++)
+			{
+				globalVar.nbWormsEquipe[i] = 0;
+			}
+			globalVar.nbEquipe = 0;
+			globalVar.nbWormsTotal = 0;
+
 			for (i = 0; i < 4; i++)
 			{
 				if (strcmp(globalVar.teamNames[i], "") != 0)
-					*pNbTeam += 1;
+					globalVar.nbEquipe += 1;
 			}
 			for (i = 0; i < 16; i++)
 			{
-				if (strcmp(globalVar.wormsNames[i], "") != 0)
-					*pNbWorms += 1;
+				if (strcmp(globalVar.wormsNames[i], "") != 0 && strcmp(globalVar.teamNames[(int)(i/4)], "") != 0)
+					globalVar.nbWormsEquipe[(int)(i / 4)] += 1;
 			}
-			if ((*pNbTeam) == 0 || (*pNbWorms) == 0)
+			for (i = 0; i < 4; i++)
+			{
+				globalVar.nbWormsTotal += globalVar.nbWormsEquipe[i];
+			}
+			if (globalVar.nbWormsTotal == 0 || globalVar.nbEquipe == 0)
 			{
 				quitMenu = 0;
 				menuIn = MAIN;
 				indexTeam = 1;
-			}
-			if (*pNbWorms != 0)
-				*pNbWorms = (*pNbWorms) / (*pNbTeam);
-				
+			}	
 		}
 	}
 
@@ -565,6 +571,7 @@ int getIndexText(SDL_Renderer* pRenderer, Input* pInput, int xBox)
 	}
 	return indexPrec;
 }
+
 
 
 

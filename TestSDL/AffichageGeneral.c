@@ -16,7 +16,6 @@ int mainFenetre()
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 	Worms** wormsTab = NULL;
 	char mapName[100];
-	int nbTeam = 1, nbWorms = 1;
 	Jeu* jeu = NULL;
 
 	//init SDL + fenetre + renderer
@@ -39,10 +38,10 @@ int mainFenetre()
 			return -1;
 		}
 
-		mainMenu(pWindow, pRenderer, pInput, mapName, &nbTeam, &nbWorms);
+		mainMenu(pWindow, pRenderer, pInput, mapName);
 		if (!pInput->quit)
 		{
-			if (mainInit(nbTeam, nbWorms) < 0)	//set le nombre d'équipe et le nombre de worms par équipe
+			if (mainInit() < 0)	//set le nombre d'équipe et le nombre de worms par équipe
 			{
 				fprintf(logFile, "mainInit : FAILURE.\n");
 				cleanUp(&pWindow, &pRenderer, &pInput, &pTextureDisplay);
@@ -50,7 +49,7 @@ int mainFenetre()
 			}
 
 			/*Init game*/
-			jeu = nouveauJeu(globalVar.nbEquipe, globalVar.nbWormsEquipe, mapName);
+			jeu = nouveauJeu(mapName);
 			if (jeu == NULL)
 			{
 				fprintf(logFile, "nouveauJeu : FAILURE.\n");
@@ -762,12 +761,12 @@ Worms** initWormsTab(Equipe** equipes)
 {
 	Worms** Tab = NULL;
 	int i, j, k = 0;
-	Tab = (Worms**)malloc(globalVar.nbEquipe * globalVar.nbWormsEquipe * sizeof(Worms*));
+	Tab = (Worms**)malloc(globalVar.nbWormsTotal * sizeof(Worms*));
 	if (Tab == NULL)
 		return NULL;
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		for (j = 0; j < globalVar.nbWormsEquipe; j++)
+		for (j = 0; j < equipes[i]->nbWormsStart; j++)
 		{
 			Tab[k] = equipes[i]->worms[j];
 			k++;
