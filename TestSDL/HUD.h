@@ -12,5 +12,6 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b);
 void updateTextSurfaceWormsTab(Worms** wormsTab);
 int updateTextSurfaceWorms(Worms* pWorms);
 void updateTextSurfacePosition(Worms* pWorms);
+void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
 
 #endif

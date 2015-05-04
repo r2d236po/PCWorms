@@ -112,4 +112,7 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
 	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
 	SDL_DestroyTexture(textureMenu);
+	SDL_DestroyTexture(textureMenuMainMenu);
+	SDL_DestroyTexture(textureMenuOption);
+	SDL_DestroyTexture(textureMenuQuit);
 }
