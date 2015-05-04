@@ -3,6 +3,8 @@
 #include "my_stdrFct.h"
 #include "AffichageGeneral.h"
 #include "Sounds.h"
+#include "HUD.h"
+#include "partie.h"
 
 int mainMenu(Input* pInput, char mapName[100])
 {

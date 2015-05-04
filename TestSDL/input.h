@@ -2,8 +2,6 @@
 #define INPUT_H
 
 #include "Libraries.h"
-#include "carte.h"
-#include "worms.h"
 
 /*Acquisition des Inputs*/
 void getInput(Input* pInput);	//Récupère les inputs

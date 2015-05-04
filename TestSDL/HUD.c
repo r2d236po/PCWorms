@@ -18,54 +18,75 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 }
 
 /**
-* \fn void updateTextSurfaceWorms(Worms** wormsTab)
+* \fn void updateTextSurfaceWormsTab(Worms** wormsTab)
 * \brief Updates the life display of the worms in game.
 *
 * \param[in] wormsTab, array of worms.
 * \returns void
 */
-void updateTextSurfaceWorms(Worms** wormsTab)
+void updateTextSurfaceWormsTab(Worms** wormsTab)
 {
-	char str[10];
 	int i;
-	SDL_Surface *txtLifeSurface = NULL;
-
 	for (i = 0; i < globalVar.nbWormsTotal ; i++)
 	{
-		sprintf(str, " %d ", wormsTab[i]->vie);
-		txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(wormsTab[i]->color));
-		copySurfacePixels(txtLifeSurface, NULL, wormsTab[i]->texteLifeSurface, NULL);
-		SDL_FreeSurface(txtLifeSurface);
-		txtLifeSurface = NULL;
+		updateTextSurfaceWorms(wormsTab[i]);
 	}
-
-	updateTextSurfacePosition(wormsTab);
 }
 
+
 /**
-* \fn void updateTextSurfacePosition(Worms** wormsTab)
+* \fn void updateTextSurfaceWorms(Worms** wormsTab)
+* \brief Updates the life display of one worms in game.
+*
+* \param[in] pWorms,  pointer of the worms.
+* \returns -1 if error, 0 else
+*/
+int updateTextSurfaceWorms(Worms* pWorms)
+{
+	char str[10];
+	SDL_Surface *txtLifeSurface = NULL;
+	sprintf(str, " %d ", pWorms->vie);
+	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(pWorms->color));
+	if (txtLifeSurface == NULL)
+		return -1;
+	copySurfacePixels(txtLifeSurface, NULL, pWorms->texteLifeSurface, NULL);
+	SDL_FreeSurface(txtLifeSurface);
+	txtLifeSurface = NULL;
+	updateTextSurfacePosition(pWorms);
+	return 0;
+}
+
+
+/**
+* \fn void updateTextSurfacePosition(Worms* pWorms)
 * \brief Updates the life display of the worms in game.
 *
-* \param[in] wormsTab, array of worms.
+* \param[in] wormsTab, pointer of the worms.
 */
-void updateTextSurfacePosition(Worms** wormsTab)
+void updateTextSurfacePosition(Worms* pWorms)
 {
 	int i, t_x, t_y;
 
 	for (i = 0; i < globalVar.nbWormsTotal; i++)
 	{
 		//Affichage du Nom
-		t_x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x + 15 - (wormsTab[i]->texteNameSurface->clip_rect.w / 2);
-		t_y = wormsTab[i]->wormsObject->objectSurface->clip_rect.y - 40;
+		t_x = pWorms->wormsObject->objectSurface->clip_rect.x + 15 - (pWorms->texteNameSurface->clip_rect.w / 2);
+		t_y = pWorms->wormsObject->objectSurface->clip_rect.y - 40;
 
-		if (t_x >= 0){ wormsTab[i]->texteNameSurface->clip_rect.x = t_x; }
-		else { wormsTab[i]->texteNameSurface->clip_rect.x = wormsTab[i]->wormsObject->objectSurface->clip_rect.x; }
+		if (t_x >= 0)
+		{ 
+			pWorms->texteNameSurface->clip_rect.x = t_x; 
+		}
+		else pWorms->texteNameSurface->clip_rect.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 
-		if (t_y >= 0) { wormsTab[i]->texteNameSurface->clip_rect.y = t_y; }
-		else { wormsTab[i]->texteNameSurface->clip_rect.y = wormsTab[i]->wormsObject->objectSurface->clip_rect.y + 40; }
+		if (t_y >= 0) 
+		{ 
+			pWorms->texteNameSurface->clip_rect.y = t_y; 
+		}
+		else pWorms->texteNameSurface->clip_rect.y = pWorms->wormsObject->objectSurface->clip_rect.y + 40;
 
 		//Affichage de la Vie
-		wormsTab[i]->texteLifeSurface->clip_rect.x = wormsTab[i]->texteNameSurface->clip_rect.x + (wormsTab[i]->texteNameSurface->clip_rect.w / 2) - (wormsTab[i]->texteLifeSurface->clip_rect.w /2);
-		wormsTab[i]->texteLifeSurface->clip_rect.y = wormsTab[i]->texteNameSurface->clip_rect.y + wormsTab[i]->texteNameSurface->clip_rect.h;
+		pWorms->texteLifeSurface->clip_rect.x = pWorms->texteNameSurface->clip_rect.x + (pWorms->texteNameSurface->clip_rect.w / 2) - (pWorms->texteLifeSurface->clip_rect.w / 2);
+		pWorms->texteLifeSurface->clip_rect.y = pWorms->texteNameSurface->clip_rect.y + pWorms->texteNameSurface->clip_rect.h;
 	}
 }

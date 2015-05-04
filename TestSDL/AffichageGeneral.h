@@ -4,10 +4,6 @@
 #define MAINDISPLAY_H
 
 #include "worms.h"
-#include "HUD.h"
-#include "carte.h"
-#include "armes.h"
-#include "partie.h"
 
 #define FRAME_RATE (1000 / 80)
 

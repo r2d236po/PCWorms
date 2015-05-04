@@ -8,7 +8,4 @@ int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, cons
 void destroyMap(Terrain** p_pMapTerrain);	//détruit un terrain
 
 
-/*Fonctions diverses*/
-enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);
-
 #endif

@@ -2,8 +2,6 @@
 #define GAME_H
 
 #include "Libraries.h"
-#include "worms.h"
-#include "carte.h"
 
 #define DEFAULTPATH "../assets/logAndResult/ResultGame.txt"
 

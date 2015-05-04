@@ -1,7 +1,7 @@
 #ifndef MY_STDRFCT_H
 #define MY_STDRFCT_H
 
-#include "carte.h"
+#include "Libraries.h"
 /*Création d'une fenêtre*/
 SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const char * windowName);	//Créé une fenêtre de largeur w, hauteur h et de nom nom
 

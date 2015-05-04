@@ -1,4 +1,5 @@
 #include "input.h"
+#include "armes.h"
 #include "AffichageGeneral.h"
 #include "KaamEngine.h"
 #include "worms.h"

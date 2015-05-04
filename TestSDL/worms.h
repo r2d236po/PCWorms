@@ -2,7 +2,6 @@
 #define WORMS_H
 
 #include "Libraries.h"
-#include "carte.h"
 
 #define vitesseX (float)(cos(pi / 3)* 0.95)
 #define vitesseY (float)(sin(pi / 3)*1.3)

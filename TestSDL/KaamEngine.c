@@ -2,6 +2,8 @@
 #include "AffichageGeneral.h"
 #include "input.h"
 #include "display.h"
+#include "HUD.h"
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
@@ -53,20 +55,21 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	}
 	else
 	{
-		updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie	
+		updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	
 		initEnd = testGround(pSurfaceMap, wormsTab[0]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[0], pSurfaceMap);
 		KaamGravityManagement(pSurfaceMap, wormsTab[0]->wormsObject);
-		display(wormsTab[0]->wormsObject->objectSurface, 1);
-		display(wormsTab[0]->texteNameSurface, 1);
-		display(wormsTab[0]->texteLifeSurface, 1);
+		displayWorms(wormsTab[0], 1);
 		for (indexWorms = 1; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms],pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
-			display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-			display(wormsTab[indexWorms]->texteNameSurface, 1);
-			display(wormsTab[indexWorms]->texteLifeSurface, 1);
+			displayWorms(wormsTab[indexWorms], 1);
 		}
+	}
+	for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
+	{
+		wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
+		wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y;
 	}
 	if (initEnd)
 	 fprintf(logFile, "KaamInitGame : DONE.\n\n");

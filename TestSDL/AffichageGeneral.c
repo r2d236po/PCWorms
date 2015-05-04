@@ -5,6 +5,9 @@
 #include "KaamEngine.h"
 #include "display.h"
 #include "MainMenu.h"
+#include "partie.h"
+#include "HUD.h"
+#include "carte.h"
 
 int mainFenetre()
 {

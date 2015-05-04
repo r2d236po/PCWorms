@@ -2,7 +2,6 @@
 #define DISPLAY_H
 
 #include "Libraries.h"
-#include "carte.h"
 
 #define NBSURFACEMAX 50
 
@@ -12,5 +11,6 @@ void endDisplay();
 
 /*Display*/
 int display(SDL_Surface* pSurface, int mode);
+int displayWorms(Worms* pWorms, int mode);
 void reindexTab(int size, int startPosition, int type, void* tab);
 #endif // !DISPLAY_H

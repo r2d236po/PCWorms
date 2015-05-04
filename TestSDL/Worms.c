@@ -5,6 +5,7 @@
 #include "input.h"
 #include "display.h"
 #include "armes.h"
+#include "HUD.h"
 
 
 
@@ -431,7 +432,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, &arme1->clip_rect);
 					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
 				}
-				updateTextSurfaceWorms(wormsTab);	//MAJ de la position du texte + Surface Vie				
+				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie				
 				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
 				wormsOverlay(wormsTab);
@@ -666,7 +667,8 @@ void teleportWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_R
 		pWorms->wormsObject->objectSurface->clip_rect.x = xWorms;
 		pWorms->wormsObject->objectSurface->clip_rect.y = yWorms;
 	}
-	display(pWorms->wormsObject->objectSurface, 1);
+	updateTextSurfaceWorms(pWorms);
+	displayWorms(pWorms, 1);
 	resetMotionVariables(pInput, pWorms->wormsObject);
 	resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface, &pWorms->wormsObject->objectBox.x, &pWorms->wormsObject->objectBox.y);
 }

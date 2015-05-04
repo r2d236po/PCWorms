@@ -156,3 +156,25 @@ void endDisplay()
 	pGlobalTexture = NULL;
 }
 
+
+
+/**
+* \fn int displayWorms(Worms* pWorms, int mode)
+* \brief Displays a worms with his life and name.
+*
+* \param[in] pWorms, pointer to the worms.
+* \param[in] mode, mode of display (1 = erase last position, 0 = display without erasing).
+* \returns -1 = error, 0 = no error
+* \remarks The mode 1 should be used on a dynamic surface and the mode 0 on a passive surface.
+*/
+int displayWorms(Worms* pWorms, int mode)
+{
+	if (display(pWorms->wormsObject->objectSurface, mode) < 0)
+		return -1;
+	if (display(pWorms->texteNameSurface, mode) < 0)
+		return -1;
+	if (display(pWorms->texteLifeSurface, mode) < 0)
+		return -1;
+	return 0;
+}
+

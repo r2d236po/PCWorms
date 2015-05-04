@@ -2,8 +2,6 @@
 #define KAAMENGINEDEP_H
 
 #include "Libraries.h"
-#include "carte.h"
-#include "worms.h"
 #include "my_stdrFct.h"
 
 #define groundSpeed 1
@@ -38,6 +36,7 @@ int collisionSurfaceWithMapBasic(SDL_Surface* pSurfaceMap, SDL_Surface* pSurface
 int collisionSurfaceWithMap(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION* pDirection, int checkMode);
 void calculXYBalayage(SDL_Surface* pSurfaceMotion, int* xStart, int* xEnd, int* yStart, int* yEnd, int zone);
 void calculOrdreBalayage(enum DIRECTION direction, int ordre[4]);
+enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode);;
 
 /*Motion functions*/
 int dyBoxProcess(KaamObject* pObject);

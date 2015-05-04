@@ -2,8 +2,6 @@
 #define WEAPONS_H
 
 #include "Libraries.h" //Inclus toutes les librairies
-#include "carte.h"
-#include "worms.h"
 
 #define BombFactor 0.5
 #define MAXDAMAGE 20

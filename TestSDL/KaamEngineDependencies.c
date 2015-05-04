@@ -1,6 +1,5 @@
 #include "KaamEngineDependencies.h"
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
 /////////////////                    Set functions                       /////////////////
@@ -656,6 +655,50 @@ void calculOrdreBalayage(enum DIRECTION direction, int ordre[4])
 		break;
 	}
 
+}
+
+/**
+* \fn enum DIRECTION calculDirection(enum DIRECTION direction, int zone, int checkMode)
+*
+* \brief Determine la direction de la collision.
+*
+* \param[in] direction, direction du déplacement
+* \param[in] zone, zone de la collision
+* \param[in] checkMode, mode pour le test de deplacement (0 par defaut)
+* \return DIRECTION, direction de la collision
+*/
+enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int checkMode)
+{
+	if (direction == RIGHT || direction == LEFT)
+	{
+		switch (zone)
+		{
+		case 7:
+			return UP;
+		case 8:
+			return DOWN;
+		default:
+			break;
+		}
+	}
+	if (direction == UPRIGHT)
+	{
+		/*if (zone == 1)
+		return UPLEFT;
+		else if (zone == 2)
+		return UP;*/
+	}
+	else if (direction == UPLEFT)
+	{
+
+	}
+	if (zone == 3 && direction == DRIGHT)
+		return DOWN;
+	else if (zone == 4 && direction == DLEFT)
+		return DOWN;
+	if (checkMode && direction == UP && zone == 8)
+		return DOWN;
+	return direction;
 }
 
 
