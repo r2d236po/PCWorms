@@ -258,11 +258,8 @@ int gestInput(Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay,
 	}
 	if (pInput->menu)
 	{
-		SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
-		SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
-		renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+		inGameMenu(pMapTerrain, pTextureDisplay, pCamera);
 		pInput->raffraichissement = 0;
-		SDL_DestroyTexture(textureMenu);
 	}
 	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
 	if (pInput->direction == DOWN)
@@ -482,7 +479,7 @@ Input* initInput()
 	pInput->bombe = 0;
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
-	pInput->camCentrer = 0;
+	pInput->camCentrer = 1;
 	pInput->changeWorms = 0;
 	pInput->arme = 0;
 	pInput->soundAllowed = 1;
@@ -518,7 +515,7 @@ void resetStructInput(Input* pInput)
 	pInput->bombe = 0;
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
-	pInput->camCentrer = 0;
+	pInput->camCentrer = 1;
 	pInput->changeWorms = 0;
 	pInput->arme = 0;
 }

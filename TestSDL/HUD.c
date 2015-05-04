@@ -1,5 +1,6 @@
 #include "HUD.h"
 #include "my_stdrFct.h"
+#include "MainMenu.h"
 /**
 * \fn void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 * \brief Initializes an SDL_Color structure.
@@ -68,4 +69,26 @@ void updateTextSurfacePosition(Worms** wormsTab)
 		wormsTab[i]->texteLifeSurface->clip_rect.x = wormsTab[i]->texteNameSurface->clip_rect.x + (wormsTab[i]->texteNameSurface->clip_rect.w / 2) - (wormsTab[i]->texteLifeSurface->clip_rect.w /2);
 		wormsTab[i]->texteLifeSurface->clip_rect.y = wormsTab[i]->texteNameSurface->clip_rect.y + wormsTab[i]->texteNameSurface->clip_rect.h;
 	}
+}
+
+/**
+* \fn void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \brief Gestion du menu InGame
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
+* \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
+*/
+
+
+void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+{
+	SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
+	SDL_Texture* textureMenuMainMenu = loadTexture(INGAMEMENUMAINMENU);
+	SDL_Texture* textureMenuOption = loadTexture(INGAMEMENUOPTIONS);
+	SDL_Texture* textureMenuQuit = loadTexture(INGAMEMENUQUIT);
+
+	SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
+	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+	SDL_DestroyTexture(textureMenu);
 }
