@@ -52,17 +52,16 @@ void explosion(int x, int y, int rayon, SDL_Surface *pSurfaceMap, SDL_Texture *p
 }
 
 /**
-* \fn void weaponManagement(Input *pInput, Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex)
+* \fn void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex)
 * \brief Manages the use of weapons.
 *
-* \param[in] pInput, pointer to hte input structure.
 * \param[in] pMapTerrain, pointer to a terrain structure.
 * \param[in] pTextureDisplay, pointer to the main texture.
 * \param[in] pWorms, pointer to the worms playing.
 * \param[in] weaponIndex, index of the weapons selected.
 * \returns void
 */
-void weaponManagement(Input *pInput, Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex)
+void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex)
 {
 	static char armePrec = 0;
 	SDL_Surface* rotoSurface = NULL;
@@ -71,14 +70,14 @@ void weaponManagement(Input *pInput, Terrain *pMapTerrain, SDL_Texture *pTexture
 	double angle = 0.0;
 
 
-	if (pInput->arme  && !armePrec) // On affiche l'arme la première fois
+	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
 	{
 		arme1->clip_rect.x = pWorms->wormsObject->objectSurface->clip_rect.x - 10;
 		arme1->clip_rect.y = pWorms->wormsObject->objectSurface->clip_rect.y + 5;
 		display(pWorms->wormsObject->objectSurface, 1);
 		display(arme1, 0);
 	}
-	else if (pInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
+	else if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 	{
 		angle = getAngle(pWorms->wormsObject->objectSurface->clip_rect.x, pWorms->wormsObject->objectSurface->clip_rect.y, &dirWeapon);
 
@@ -91,13 +90,13 @@ void weaponManagement(Input *pInput, Terrain *pMapTerrain, SDL_Texture *pTexture
 		display(pWorms->wormsObject->objectSurface, 1);
 		display(rotoSurface, 0);
 	}
-	else if (pInput->arme == 0 && armePrec == 1) // On efface l'arme
+	else if (globalInput->arme == 0 && armePrec == 1) // On efface l'arme
 	{
 		eraseRectFromSurface(pMapTerrain, pTextureDisplay, &rectWeapon);
 		display(pWorms->wormsObject->objectSurface, 1);
 	}
 
-	armePrec = pInput->arme;
+	armePrec = globalInput->arme;
 	if (rotoSurface != NULL)
 	{
 		rectWeapon = rotoSurface->clip_rect;

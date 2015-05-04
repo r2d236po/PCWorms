@@ -25,13 +25,13 @@ void getMousePosition(SDL_Rect * camera, int * x, int *y);
 
 //gestion de l'affichage
 void renderScreen(int nb, ...);	//actualise l'affichage
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//déplace la caméra dans l'espace
-void zoomIn(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput);	//Zoom In, grossis
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera);	//déplace la caméra dans l'espace
+void zoomIn(SDL_Texture* pTexture, SDL_Rect * camera);	//Zoom In, grossis
 void zoomOut(SDL_Texture* pTexture, SDL_Rect * camera);	//Zoom out, rétrécis
 int centerCam(SDL_Rect * camera, SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture);
 
 //Fonctions de nettoyage
-void cleanUp(Input** p_pInput, SDL_Texture** p_pTextureDisplay);	//nettoie et quit la SDL
+void cleanUp(SDL_Texture** p_pTextureDisplay);	//nettoie et quit la SDL
 void clearRenderer();	//Clear de l'écran
 void cleanSprites(void);
 

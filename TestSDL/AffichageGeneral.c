@@ -12,7 +12,6 @@
 int mainFenetre()
 {
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE, temps = 0;
-	Input * pInput = NULL; //structure contenant les informations relatives aux inputs clavier
 	SDL_Texture * pTextureDisplay = NULL;	//Texture globale
 	SDL_Rect camera = initRect(0, 0, 0, 0); // rect(x,y,w,h)
 	Worms** wormsTab = NULL;
@@ -23,11 +22,12 @@ int mainFenetre()
 	if (initSWR())
 	{
 		//Initialisation des inputs
-		pInput = initInput();
-		if (pInput == NULL)
+		globalInput = NULL;
+		globalInput = initInput();
+		if (globalInput == NULL)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, initInput.\n");
-			cleanUp(&pInput, &pTextureDisplay);
+			cleanUp(&pTextureDisplay);
 			return -1;
 		}
 
@@ -35,7 +35,7 @@ int mainFenetre()
 		if (!initSDLMixer())
 		{
 			fprintf(logFile, "initSDLMixer : FAILURE, init.\n");
-			cleanUp(&pInput, &pTextureDisplay);
+			cleanUp(&pTextureDisplay);
 			return -1;
 			
 		}
@@ -45,22 +45,22 @@ int mainFenetre()
 		if (TTF_Init() == -1)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, initialisation de TTF_Init : %s.\n\n", TTF_GetError());
-			cleanUp(&pInput, &pTextureDisplay);
+			cleanUp(&pTextureDisplay);
 			return -1;
 		}
 
-		if (mainMenu(pInput, mapName) < 0)
+		if (mainMenu(mapName) < 0)
 		{
 			fprintf(logFile, "mainFenetre : FAILURE, mainMenu .\n\n");
-			cleanUp(&pInput, &pTextureDisplay);
+			cleanUp(&pTextureDisplay);
 			return -1;
 		}
-		if (!pInput->quit)
+		if (!globalInput->quit)
 		{
 			if (mainInit() < 0)	//set le nombre d'équipe et le nombre de worms par équipe
 			{
 				fprintf(logFile, "mainInit : FAILURE.\n");
-				cleanUp(&pInput, &pTextureDisplay);
+				cleanUp(&pTextureDisplay);
 				return -1;
 			}
 
@@ -69,7 +69,7 @@ int mainFenetre()
 			if (jeu == NULL)
 			{
 				fprintf(logFile, "nouveauJeu : FAILURE.\n");
-				cleanUp(&pInput, &pTextureDisplay);
+				cleanUp(&pTextureDisplay);
 				return -1;
 			}
 
@@ -77,7 +77,7 @@ int mainFenetre()
 			if (initialisionTerrain(&jeu->pMapTerrain, "../assets/pictures/FondMap1.png", jeu->nomMap) < 0)
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, initialisationTerrain.\n");
-				cleanUp(&pInput, &pTextureDisplay);
+				cleanUp(&pTextureDisplay);
 				return -1;
 			}
 
@@ -87,7 +87,7 @@ int mainFenetre()
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
 				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pInput, &pTextureDisplay);
+				cleanUp(&pTextureDisplay);
 				return -1;
 			}
 
@@ -95,7 +95,7 @@ int mainFenetre()
 			if (loadSounds(BipExplo, 0) < 0)
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
-				cleanUp(&pInput, &pTextureDisplay);
+				cleanUp(&pTextureDisplay);
 				return -1;
 			}
 
@@ -107,7 +107,7 @@ int mainFenetre()
 			if (wormsTab == NULL)
 			{
 				destroyMap(&jeu->pMapTerrain);
-				cleanUp(&pInput, &pTextureDisplay);
+				cleanUp(&pTextureDisplay);
 				fprintf(logFile, "mainFenetre : FAILURE, allocating memory to the global array of worms pointer.\n\n");
 				return -1;
 			}
@@ -119,22 +119,22 @@ int mainFenetre()
 			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
 				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
-		while (!(pInput->quit))
+		while (!(globalInput->quit))
 		{
 			//Récupération des inputs
-			getInput(pInput);
+			getInput();
 
 			//Gestion des inputs
-			if (!gestInput(pInput, jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
+			if (!gestInput(jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
 
 			//Update de l'écran
-			if (pInput->raffraichissement)
+			if (globalInput->raffraichissement)
 			{
 				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
-				pInput->raffraichissement = 0;
+				globalInput->raffraichissement = 0;
 			}
 
 			updateTeamLife(jeu->equipes);
@@ -162,7 +162,7 @@ int mainFenetre()
 			free(wormsTab);
 		wormsTab = NULL;
 	}
-	cleanUp(&pInput, &pTextureDisplay);
+	cleanUp(&pTextureDisplay);
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	if (jeu != NULL)
 	{
@@ -214,14 +214,14 @@ int initSWR()
 	if (globalRenderer == NULL)//gestion des erreurs
 	{
 		fprintf(logFile, "initSWR : FAILURE, erreur lors de la creation du renderer : %s\n\n", SDL_GetError());
-		cleanUp(NULL, NULL);
+		cleanUp(NULL);
 		return -1;
 	}
 	/*Initialisation SDL_Image*/
 	if (IMG_Init(IMG_INIT_PNG) < 0)
 	{
 		fprintf(logFile, "initSWR : FAILURE, initialisation de IMG : %s.\n\n", IMG_GetError());
-		cleanUp(NULL, NULL);
+		cleanUp(NULL);
 		return -1;
 	}
 	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
@@ -303,28 +303,27 @@ void cleanSprites(void)
 }
 
 /**
-* \fn void cleanUp(Input** p_pInput, SDL_Texture** p_pTextureDisplay)
-* \brief Détruit la fenêtre et le renderer. Libère la mémoire de pInput et quitte la SDL.
+* \fn void cleanUp(SDL_Texture** p_pTextureDisplay)
+* \brief Détruit la fenêtre et le renderer. Libère la mémoire de globalInput et quitte la SDL.
 *
-* \param[in] p_pInput, adresse du pointeur de la structure Input.
 * \param[in] p_pTextureDisplay, adresse de la texture display.
 */
-void cleanUp(Input** p_pInput, SDL_Texture** p_pTextureDisplay)
+void cleanUp(SDL_Texture** p_pTextureDisplay)
 {
-	if ((*p_pInput) != NULL)
+	if (globalInput != NULL)
 	{
-		if ((*p_pInput)->cursor.cursor1 != NULL)
+		if (globalInput->cursor.cursor1 != NULL)
 		{
-			SDL_FreeCursor((*p_pInput)->cursor.cursor1);
-			(*p_pInput)->cursor.cursor1 = NULL;
+			SDL_FreeCursor(globalInput->cursor.cursor1);
+			globalInput->cursor.cursor1 = NULL;
 		}
-		if ((*p_pInput)->cursor.cursor2 != NULL)
+		if (globalInput->cursor.cursor2 != NULL)
 		{
-			SDL_FreeCursor((*p_pInput)->cursor.cursor2);
-			(*p_pInput)->cursor.cursor2 = NULL;
+			SDL_FreeCursor(globalInput->cursor.cursor2);
+			globalInput->cursor.cursor2 = NULL;
 		}
-		free(*p_pInput);
-		(*p_pInput) = NULL;
+		free(globalInput);
+		globalInput = NULL;
 	}
 	if (globalRenderer != NULL)
 	{
@@ -511,24 +510,23 @@ void initCameras(Terrain * pMapTerrain, SDL_Rect * pCamera, Worms  * pWorms){
 }
 
 /**
-* \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput,...)
+* \fn void moveCam(SDL_Texture* pTexture, SDL_Rect * camera)
 * \brief Déplace la camera suivant la souris.
 *
 * \param[in] pTexture, la texture de la fenêtre courante.
 *
 * \param[in] camera, le rect de la camera courante.
 *
-* \param[in] pInput, les inputs utilisateur.
 *
 * \returns void
 */
-void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
+void moveCam(SDL_Texture* pTexture, SDL_Rect * camera)
 {
-	pInput->camCentrer = 0;
+	globalInput->camCentrer = 0;
 	int w = 0, h = 0;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
-	camera->x = camera->x - (pInput->cursor.now.x - pInput->cursor.before.x);
-	camera->y = camera->y - (pInput->cursor.now.y - pInput->cursor.before.y);
+	camera->x = camera->x - (globalInput->cursor.now.x - globalInput->cursor.before.x);
+	camera->y = camera->y - (globalInput->cursor.now.y - globalInput->cursor.before.y);
 	if (camera->x + camera->w > w){
 		camera->x = w - camera->w;
 	}
@@ -551,7 +549,7 @@ void moveCam(SDL_Texture* pTexture, SDL_Rect * camera, Input * pInput)
 *
 * \returns void
 */
-void zoomIn(SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
+void zoomIn(SDL_Texture * pTexture, SDL_Rect * camera)
 {
 	int wW = 0, hW = 0, w = 0, h = 0;
 	float x = 0, y = 0, offsetx = 0, offsety;
@@ -565,8 +563,8 @@ void zoomIn(SDL_Texture * pTexture, SDL_Rect * camera, Input * pInput)
 	camera->w = (int)(camera->h * ((float)wW / (float)hW));// keep the ratio depending of the size of the window!!!!!
 	offsetx -= camera->w;
 
-	x = 2 * (float)((float)(pInput->cursor.now.x / (float)wW) - 0.5);
-	y = 2 * (float)((float)(pInput->cursor.now.y / (float)hW) - 0.5);
+	x = 2 * (float)((float)(globalInput->cursor.now.x / (float)wW) - 0.5);
+	y = 2 * (float)((float)(globalInput->cursor.now.y / (float)hW) - 0.5);
 
 	if (x > 0.2 || x < -0.2){
 		float coefx = (float)(0.03 * camera->w);

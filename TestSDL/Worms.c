@@ -156,19 +156,18 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+* \fn void swapManagement(Worms* pWorms, SDL_Surface* pSurfaceMap)
 * \brief Manages the swap of a worms and collision if needed.
 *
-* \param[in] pInput, pointer to the Input structure.
 * \param[in] pWorms, pointeur du worms a tester
 * \returns void
 */
-int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+int swapManagement(Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
-	if (swapWorms(pInput, pWorms))
+	if (swapWorms(pWorms))
 	{
 		swapWormsSurface(pWorms);
-		pInput->direction = NONE;
+		globalInput->direction = NONE;
 		int indexBoucle = 0;
 		while (indexBoucle < 3 && collisionSurfaceWithMapBasic(pSurfaceMap, pWorms->wormsObject->objectSurface))
 		{
@@ -180,24 +179,23 @@ int swapManagement(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 		resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface,
 			&pWorms->wormsObject->absoluteCoordinate.x,
 			&pWorms->wormsObject->absoluteCoordinate.y);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 		return 1;
 	}
 	return 0;
 }
 
 /**
-* \fn int swapWorms(Input* pInput, Worms* pWorms)
+* \fn int swapWorms(Worms* pWorms)
 * \brief Detects a swap over of a worms.
 *
-* \param[in] pInput, pointer to the Input structure.
 * \param[in] pWorms, pointer to the worms.
 * \returns 	1 = there is a swap
 *			0 = no swap
 */
-int swapWorms(Input* pInput, Worms* pWorms)
+int swapWorms(Worms* pWorms)
 {
-	return (pInput->direction == RIGHT || pInput->direction == LEFT) && (pWorms->dirSurface != pInput->direction);
+	return (globalInput->direction == RIGHT || globalInput->direction == LEFT) && (pWorms->dirSurface != globalInput->direction);
 }
 
 /**
@@ -368,28 +366,27 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
+* \fn void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 * \brief Update worms display, manages overlay and physics for all worms.
 *
-* \param[in] pInput, pointer to the Input structure.
 * \param[in] wormsTab, array of worms.
 * \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
 * \returns void
 */
-void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
+void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
 {
 	int x, y;
 	double xx, yy, z;
 	int indexWorms;
 	static char armePrec = 0;
 	SDL_Surface* rotoSurface = NULL;
-	if (!pInput->menu)
+	if (!globalInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 		{
 			callNextWorms(wormsTab);
 		}
-		pInput->deplacement = 0;
+		globalInput->deplacement = 0;
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
@@ -398,21 +395,21 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				if (wormsTab[indexWorms]->vie > 0
 					|| (wormsTab[indexWorms]->vie == 0 && !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
 				{
-					KaamWormsMotionManagement(pInput, wormsTab[indexWorms], pSurfaceMapCollision);
+					KaamWormsMotionManagement(wormsTab[indexWorms], pSurfaceMapCollision);
 				}
 				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
-					resetInputs(pInput);
+					resetInputs();
 			}
-			if (pInput->deplacement || pInput->raffraichissement || pInput->arme || armePrec)
+			if (globalInput->deplacement || globalInput->raffraichissement || globalInput->arme || armePrec)
 			{
-				if (pInput->arme && indexWorms == globalVar.indexWormsTab && !armePrec) // On affiche l'arme la première fois
+				if (globalInput->arme && indexWorms == globalVar.indexWormsTab && !armePrec) // On affiche l'arme la première fois
 				{
 					arme1->clip_rect.x = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x - 10;
 					arme1->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + 5;
 					display(arme1, 1);
 					display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface, 0);
 				}
-				if (pInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
+				if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 				{
 					SDL_GetMouseState(&x, &y);
 					xx = MY_ABS((x - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x)));
@@ -426,7 +423,7 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 					SDL_FreeSurface(rotoSurface);
 				}
 				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-				if (pInput->arme == 0 && armePrec == 1) // On efface l'arme
+				if (globalInput->arme == 0 && armePrec == 1) // On efface l'arme
 				{
 					updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, &arme1->clip_rect, 1);
 					updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, &arme1->clip_rect);
@@ -436,11 +433,11 @@ void updateGameWorms(Input* pInput, Worms** wormsTab, SDL_Surface* pSurfaceMapCo
 				display(wormsTab[indexWorms]->texteLifeSurface, 1);
 				display(wormsTab[indexWorms]->texteNameSurface, 1);
 				wormsOverlay(wormsTab);
-				pInput->raffraichissement = 1;
+				globalInput->raffraichissement = 1;
 			}
 		}
 	}
-	armePrec = pInput->arme;
+	armePrec = globalInput->arme;
 }
 
 /**
@@ -550,10 +547,9 @@ void wormsFallDamages(Worms* pWorms)
 }
 
 /**
-* \fn void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
+* \fn void bombReactionManagement(Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
 * \brief Detects if a worms is within the range of a weapon and applies dammage if so.
 *
-* \param[in] pInput, pointer to the Input structure.
 * \param[in] wormsTab, array of worms.
 * \param[in] cercleBox, box which contains the cercle of the explosion.
 * \param[in] centerX, X coordinate of the center of the cercle of the explosion.
@@ -561,7 +557,7 @@ void wormsFallDamages(Worms* pWorms)
 * \param[in] radius, radius of the explosion.
 * \returns void
 */
-void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
+void bombReactionManagement(Worms** wormsTab, SDL_Rect* cercleBox, int centerX, int centerY, int radius)
 {
 	int indexWorms = 0, i;
 	Point P;
@@ -569,7 +565,7 @@ void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox
 	{
 		if (!collisionRectWithRect(cercleBox, &wormsTab[indexWorms]->wormsObject->objectBox))
 			continue;
-		if (pInput->jumpOnGoing && indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1)
+		if (globalInput->jumpOnGoing && indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1)
 			continue;
 		int x = wormsTab[indexWorms]->wormsObject->objectBox.x, y = wormsTab[indexWorms]->wormsObject->objectBox.y;
 		int w = wormsTab[indexWorms]->wormsObject->objectBox.w, h = wormsTab[indexWorms]->wormsObject->objectBox.h;
@@ -602,7 +598,7 @@ void bombReactionManagement(Input* pInput, Worms** wormsTab, SDL_Rect* cercleBox
 			speedBombReaction(wormsTab[indexWorms], centerX, centerY, radius);
 		}
 	}
-	pInput->bombe = 0;
+	globalInput->bombe = 0;
 }
 
 /**
@@ -649,7 +645,7 @@ void speedBombReaction(Worms* pWorms, int centerX, int centerY, int radius)
 
 
 
-void teleportWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_Rect* pCamera)
+void teleportWorms(Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_Rect* pCamera)
 {
 	int x, y, xMouse, yMouse;
 	int wWorms = pWorms->wormsObject->objectSurface->w, xWorms = pWorms->wormsObject->objectSurface->clip_rect.x;
@@ -669,7 +665,7 @@ void teleportWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap, SDL_R
 	}
 	updateTextSurfaceWorms(pWorms);
 	displayWorms(pWorms, 1);
-	resetMotionVariables(pInput, pWorms->wormsObject);
+	resetMotionVariables(pWorms->wormsObject);
 	resetAbsoluteCoordinates(pWorms->wormsObject->objectSurface, &pWorms->wormsObject->objectBox.x, &pWorms->wormsObject->objectBox.y);
 }
 

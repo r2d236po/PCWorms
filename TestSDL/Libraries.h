@@ -45,6 +45,7 @@
 /*Variables Globales importantes*/
 SDL_Window *globalWindow;
 SDL_Renderer *globalRenderer;
+Input *globalInput;
 
 GlobalVariable globalVar;
 FILE* logFile;

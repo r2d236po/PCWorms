@@ -115,17 +115,16 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
-* \fn void resetInputs(Input* pInput)
+* \fn void resetInputs()
 * \brief Reset the inputs relatives to jump and deplacement
 *
-* \param[in] pInput, pointer to the structure of inputs.
 * \returns void
 */
-void resetInputs(Input* pInput)
+void resetInputs()
 {
-	pInput->jump = 0;
-	pInput->jumpOnGoing = 0;
-	pInput->direction = NONE;
+	globalInput->jump = 0;
+	globalInput->jumpOnGoing = 0;
+	globalInput->direction = NONE;
 }
 
 /**
@@ -143,16 +142,15 @@ void resetSpeed(float* Xspeed, float* Yspeed)
 }
 
 /**
-* \fn void resetMotionVariables(Input* pInput, KaamObject* pObject)
+* \fn void resetMotionVariables(KaamObject* pObject)
 * \brief Resets all variable relative to a jump.
 *
-* \param[in] pInput, pointer to the structure of inputs.
 * \param[in] pObject, pointer to the object to move.
 * \returns void
 */
-void resetMotionVariables(Input* pInput, KaamObject* pObject)
+void resetMotionVariables(KaamObject* pObject)
 {
-	resetInputs(pInput);
+	resetInputs();
 	resetSpeed(&pObject->Xspeed, &pObject->Yspeed);
 	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
 	pObject->relativeTime = 0;
@@ -195,18 +193,17 @@ void resetAbsoluteCoordinates(SDL_Surface* pSurface, int* absoluteX, int* absolu
 }
 
 /**
-* \fn void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+* \fn void resetNonLinearMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 * \brief Reset all non linear motion variables.
 *
-* \param[in] pInput, pointer to the structure of inputs.
 * \param[in] pObject, pointer to the object to move.
 * \param[in] pSurface, pointer to the map's surface.
 * \returns void
 */
-void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+void resetNonLinearMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 {
 	pObject->rebound = 0;
-	resetMotionVariables(pInput, pObject);
+	resetMotionVariables(pObject);
 	pObject->reactToBomb = 0;
 	setSideMotionPossibility(pObject, pSurfaceMap);
 }
@@ -227,18 +224,17 @@ void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurf
 
 
 /**
-* \fn int getStartMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+* \fn int getStartMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 * \brief Manages the start of a jump of a worms.
 *
-* \param[in] pInput, pointer to the structure of inputs.
 * \param[in] pWorms, pointer to the worms to move.
 * \param[in] pSurfaceMap, pointer to the surface of the map.
 * \returns jumpOk, 1 = the jump can start, 0 = the jump cannot start
 */
-int getStartMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap)
+int getStartMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 {
 	int	motionOk = 1;
-	if (pInput->jump)
+	if (globalInput->jump)
 	{
 		motionOk = jumpDoability(pSurfaceMap, pObject->objectSurface, pObject->motionDirection);
 	}

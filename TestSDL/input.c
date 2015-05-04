@@ -7,6 +7,7 @@
 #include "my_stdrFct.h"
 #include "display.h"
 #include "MainMenu.h"
+#include "HUD.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -16,12 +17,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void getInput(Input * pInput)
+* \fn void getInput()
 * \brief Récupère les inputs.
 *
-* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 */
-void getInput(Input * pInput)
+void getInput()
 {
 	SDL_Event event;
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
@@ -32,13 +32,13 @@ void getInput(Input * pInput)
 		switch (event.type)
 		{
 		case SDL_QUIT:
-			pInput->quit = 1;
+			globalInput->quit = 1;
 			break;
 
 		case SDL_WINDOWEVENT:
 			if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
-				pInput->windowResized = 1;
-				pInput->raffraichissement = 1;
+				globalInput->windowResized = 1;
+				globalInput->raffraichissement = 1;
 			}
 			break;
 
@@ -46,144 +46,144 @@ void getInput(Input * pInput)
 			switch (event.button.button)
 			{
 			case SDL_BUTTON_LEFT:
-				pInput->lclick = 1;
-				pInput->cursor.before = pInput->cursor.now;
+				globalInput->lclick = 1;
+				globalInput->cursor.before = globalInput->cursor.now;
 				break;
 			case SDL_BUTTON_RIGHT:
-				pInput->rclick = 1;
-				pInput->cursor.before = pInput->cursor.now;
+				globalInput->rclick = 1;
+				globalInput->cursor.before = globalInput->cursor.now;
 				break;
 			}
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEBUTTONUP:
 			switch (event.button.button)
 			{
 			case SDL_BUTTON_LEFT:
-				if (pInput->lclick)
-					pInput->lclick = 0;
+				if (globalInput->lclick)
+					globalInput->lclick = 0;
 				break;
 			case SDL_BUTTON_RIGHT:
-				if (pInput->rclick)
-					pInput->rclick = 0;
+				if (globalInput->rclick)
+					globalInput->rclick = 0;
 				break;
 			}
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEMOTION:
-			pInput->cursor.motion = 1;
-			if (pInput->rclick == 1 || pInput->lclick == 1)
-				pInput->raffraichissement = 1;
+			globalInput->cursor.motion = 1;
+			if (globalInput->rclick == 1 || globalInput->lclick == 1)
+				globalInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEWHEEL:
 			if (event.wheel.y < 0)
-				pInput->wheelDown = 1;
-			else pInput->wheelUp = 1;
-			pInput->raffraichissement = 1;
+				globalInput->wheelDown = 1;
+			else globalInput->wheelUp = 1;
+			globalInput->raffraichissement = 1;
 			break;
 
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_LEFT:
-				if (!pInput->arme){
-					pInput->direction = LEFT;
+				if (!globalInput->arme){
+					globalInput->direction = LEFT;
 					SDL_Delay(10);
 				}
 				break;
 			case SDLK_RIGHT:
-				if (!pInput->arme){
-					pInput->direction = RIGHT;
+				if (!globalInput->arme){
+					globalInput->direction = RIGHT;
 					SDL_Delay(10);
 				}
 				break;
 			case SDLK_UP:
-				if (!pInput->jumpOnGoing && !pInput->arme)
-					pInput->direction = UP;
+				if (!globalInput->jumpOnGoing && !globalInput->arme)
+					globalInput->direction = UP;
 				break;
 			case SDLK_DOWN:
-				if (!pInput->arme){
-					pInput->direction = DOWN;
+				if (!globalInput->arme){
+					globalInput->direction = DOWN;
 				}
 				break;
 			case SDLK_SPACE:
-				if (!pInput->jumpOnGoing && !pInput->arme)
-					pInput->jump = 1;
+				if (!globalInput->jumpOnGoing && !globalInput->arme)
+					globalInput->jump = 1;
 				break;
 			case SDLK_LCTRL:
-				pInput->bend = 1;
+				globalInput->bend = 1;
 				break;
 			case SDLK_ESCAPE:
-				if (!pInput->menu)
-					pInput->menu = 1;
-				else pInput->menu = 0;
+				if (!globalInput->menu)
+					globalInput->menu = 1;
+				else globalInput->menu = 0;
 				break;
 			case SDLK_q:
-				pInput->quit = 1;
+				globalInput->quit = 1;
 				break;
 			case SDLK_TAB:
-				pInput->weaponTab = 1;
+				globalInput->weaponTab = 1;
 				break;
 			case SDLK_b:
-				pInput->bombe = 1;
+				globalInput->bombe = 1;
 				break;
 			case SDLK_r:
-				if (pInput->camCentrer){
-					pInput->camCentrer = 0;
+				if (globalInput->camCentrer){
+					globalInput->camCentrer = 0;
 				}
-				else pInput->camCentrer = 1;
+				else globalInput->camCentrer = 1;
 				break;
 			case SDLK_c:
-				if (!pInput->arme){
-					pInput->changeWorms = 1;
+				if (!globalInput->arme){
+					globalInput->changeWorms = 1;
 				}
 				break;
 			case SDLK_PRINTSCREEN:
-				pInput->screenshot = 1;
+				globalInput->screenshot = 1;
 				break;
 			case SDLK_k:
-				if (pInput->cursor.currentCursor == 0)
+				if (globalInput->cursor.currentCursor == 0)
 				{
-					SDL_SetCursor(pInput->cursor.cursor2);
-					pInput->cursor.currentCursor = 1;
+					SDL_SetCursor(globalInput->cursor.cursor2);
+					globalInput->cursor.currentCursor = 1;
 				}
 				else
 				{
-					SDL_SetCursor(pInput->cursor.cursor1);
-					pInput->cursor.currentCursor = 0;
+					SDL_SetCursor(globalInput->cursor.cursor1);
+					globalInput->cursor.currentCursor = 0;
 				}
 				break;
 			case SDLK_a:
-				if (pInput->arme == 0) { pInput->arme = 1; }
-				else pInput->arme = 0;
+				if (globalInput->arme == 0) { globalInput->arme = 1; }
+				else globalInput->arme = 0;
 				break;
 			case SDLK_BACKSPACE:
-				pInput->textCounter--;
-				secuTextInput(pInput);
-				pInput->textInput[pInput->textCounter] = '\0';
+				globalInput->textCounter--;
+				secuTextInput(globalInput);
+				globalInput->textInput[globalInput->textCounter] = '\0';
 				break;
 
 			}
 			if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
 			{
-				strcpy(pInput->textInput, SDL_GetClipboardText());
-				pInput->textCounter += (char)strlen(SDL_GetClipboardText());
+				strcpy(globalInput->textInput, SDL_GetClipboardText());
+				globalInput->textCounter += (char)strlen(SDL_GetClipboardText());
 			}
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			break;
 		case SDL_TEXTINPUT:
-			pInput->textInput[pInput->textCounter] = event.text.text[0];
-			pInput->textCounter++;
-			if (pInput->textCounter == 100)
-				pInput->textCounter = 0;
-			secuTextInput(pInput);
-			pInput->textInput[pInput->textCounter] = '\0';
-			pInput->raffraichissement = 1;
+			globalInput->textInput[globalInput->textCounter] = event.text.text[0];
+			globalInput->textCounter++;
+			if (globalInput->textCounter == 100)
+				globalInput->textCounter = 0;
+			secuTextInput(globalInput);
+			globalInput->textInput[globalInput->textCounter] = '\0';
+			globalInput->raffraichissement = 1;
 			if (event.text.text[0] == 'q')
-				pInput->quit = 0;
+				globalInput->quit = 0;
 			break;
 		default:
 			break;
@@ -195,12 +195,12 @@ void getInput(Input * pInput)
 		if (SDL_SetWindowFullscreen(globalWindow, flags) < 0)
 			printf("ERROR lors du passage en mode fenetre : %s", SDL_GetError());
 		SDL_Delay(50);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
-	if (pInput->cursor.motion){
-		pInput->cursor.before = pInput->cursor.now;
-		SDL_GetMouseState(&pInput->cursor.now.x, &pInput->cursor.now.y);
-		pInput->cursor.motion = 0;
+	if (globalInput->cursor.motion){
+		globalInput->cursor.before = globalInput->cursor.now;
+		SDL_GetMouseState(&globalInput->cursor.now.x, &globalInput->cursor.now.y);
+		globalInput->cursor.motion = 0;
 	}
 }
 
@@ -218,91 +218,89 @@ void getInput(Input * pInput)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int gestInput(Input* pInput,Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
+* \fn int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 * \brief Gere les inputs.
 * Genere les actions correspondant aux inputs.
-* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \param[in] wormsTab, pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
+int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 {
-	/*if (pInput->right) //Exemple de gestion d'input V1.0, test du booleen
+	/*if (globalInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
 	...
 	Code à éxécuter
 	...
 
-	pInput->right = 0;	//remise à zéro du booléen (si nécessaire)
+	globalInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
 	static KaamObject* test = NULL;
-	inputsCamera(pInput, pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
-	if (pInput->windowResized){
+	inputsCamera(pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
+	if (globalInput->windowResized){
 		initCameras(pMapTerrain, pCamera, NULL);
-		pInput->windowResized = 0;
+		globalInput->windowResized = 0;
 	}
-	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
-	if (pInput->screenshot)
+	inputsWeapons(pTextureDisplay, pCamera, pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
+	if (globalInput->screenshot)
 	{
 		screenshot();
-		pInput->screenshot = 0;
+		globalInput->screenshot = 0;
 	}
-	if (pInput->changeWorms)
+	if (globalInput->changeWorms)
 	{
-		if (!pInput->jumpOnGoing && !globalVar.gameEnd){
+		if (!globalInput->jumpOnGoing && !globalVar.gameEnd){
 			callNextWorms(wormsTab);
 		}
-		pInput->changeWorms = 0;
+		globalInput->changeWorms = 0;
 	}
-	if (pInput->menu)
+	if (globalInput->menu)
 	{
 		inGameMenu(pMapTerrain, pTextureDisplay, pCamera);
-		pInput->raffraichissement = 0;
+		globalInput->raffraichissement = 0;
 	}
-	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
-	if (pInput->direction == DOWN)
+	inputsJumpWorms(wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
+	if (globalInput->direction == DOWN)
 	{
-		teleportWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface, pCamera);
+		teleportWorms(wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface, pCamera);
 	}
-	updateGameWorms(pInput, wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay);
+	updateGameWorms(wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay);
 
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
 
 /**
-* \fn void inputsCamera(Input* pInput, SDL_Texture* pTexture, SDL_Rect* camera)
+* \fn void inputsCamera(SDL_Texture* pTexture, SDL_Rect* camera)
 * \brief Gere les inputs relatives a la camera.
 *
-* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la caméra.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
 * \returns void
 */
-void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms * pWorms)
+void inputsCamera(SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms * pWorms)
 {
 
-	if (pInput->rclick)
+	if (globalInput->rclick)
 	{
-		moveCam(pTextureDisplay, pCamera, pInput); //gestion du scrolling de caméra
-		pInput->cursor.before = pInput->cursor.now;
+		moveCam(pTextureDisplay, pCamera); //gestion du scrolling de caméra
+		globalInput->cursor.before = globalInput->cursor.now;
 	}
-	if (pInput->camCentrer)
+	if (globalInput->camCentrer)
 	{
-		pInput->raffraichissement = (char)centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
+		globalInput->raffraichissement = (char)centerCam(pCamera, pWorms->wormsObject->objectSurface, pTextureDisplay);
 	}
-	if (pInput->wheelUp){
-		zoomIn(pTextureDisplay, pCamera, pInput);
-		pInput->wheelUp = 0;
-		pInput->raffraichissement = 1;
+	if (globalInput->wheelUp){
+		zoomIn(pTextureDisplay, pCamera);
+		globalInput->wheelUp = 0;
+		globalInput->raffraichissement = 1;
 	}
-	if (pInput->wheelDown){
+	if (globalInput->wheelDown){
 		zoomOut(pTextureDisplay, pCamera);
-		pInput->wheelDown = 0;
-		pInput->raffraichissement = 1;
+		globalInput->wheelDown = 0;
+		globalInput->raffraichissement = 1;
 	}
 
 
@@ -310,31 +308,30 @@ void inputsCamera(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera
 
 
 /**
-* \fn void inputsJumpWorms(Input* pInput, Worms* worms)
+* \fn void inputsJumpWorms(Worms* worms)
 * \brief Handles the inputs for a worms's jump.
 *
-* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pWorms, pointeur vers la structure du worms en cours
 * \returns void
 */
-void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
+void inputsJumpWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
 	int onGround = testGround(pSurfaceMap, pWorms->wormsObject->objectSurface, 1);
 	if (onGround)
 	{
-		if (!pInput->jumpOnGoing)
+		if (!globalInput->jumpOnGoing)
 		{
-			if (pInput->jump)
+			if (globalInput->jump)
 			{
 				setWormsSpeed(pWorms, pWorms->dirSurface);
-				pInput->jumpOnGoing = 1;
+				globalInput->jumpOnGoing = 1;
 			}
-			else if (pInput->direction == UP)
+			else if (globalInput->direction == UP)
 			{
 				setWormsSpeed(pWorms, UP);
-				pInput->jumpOnGoing = 1;
+				globalInput->jumpOnGoing = 1;
 			}
-			if (pInput->jumpOnGoing)
+			if (globalInput->jumpOnGoing)
 			{
 				pWorms->indexAnim = 0;
 				animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
@@ -403,32 +400,31 @@ int calculIndex()
 
 
 /**
-* \fn void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain)
+* \fn void inputsWeapons(SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* mapTerrain)
 * \brief Gere les inputs relatives aux armes.
 *
-* \param[in] pInput, pointeur pInput vers la structure qui stocke l'état des inputs.
 * \param[in] pMapTerrain pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera pointeur vers la structure SDL_Rect de la caméra pour modifier ses valeurs.
 * \returns void
 */
-void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, Worms** wormsTab)
+void inputsWeapons(SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Terrain* pMapTerrain, Worms** wormsTab)
 {
-	if (pInput->bombe)
+	if (globalInput->bombe)
 	{
 		static int rW, rH;
 		//Mix_PlayChannel(2, sndFx, 0);
 
 		SDL_GetRendererOutputSize(globalRenderer, &rW, &rH);
-		int x = (int)(pInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x);
-		int y = (int)(pInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y);
+		int x = (int)(globalInput->cursor.now.x * ((float)pCamera->w / (float)rW) + pCamera->x);
+		int y = (int)(globalInput->cursor.now.y * ((float)pCamera->h / (float)rH) + pCamera->y);
 		int radius = 50;
 		SDL_Rect  rect = initRect(x - radius, y - radius, 2 * radius, 2 * radius);
 		explosion(x, y, radius, pMapTerrain->globalMapSurface, pTextureDisplay);
-		bombReactionManagement(pInput, wormsTab, &rect, x, y, radius);
+		bombReactionManagement(wormsTab, &rect, x, y, radius);
 		//Update of the collision surface
 		updateSurfaceFromSurface(pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface, &rect, 0);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
 }
 
@@ -447,78 +443,77 @@ void inputsWeapons(Input* pInput, SDL_Texture* pTextureDisplay, SDL_Rect* pCamer
 */
 Input* initInput()
 {
-	Input* pInput = NULL;
+	Input* inputTemp = NULL;
 
-	pInput = (Input*)malloc(sizeof(Input));
-	if (pInput == NULL)
+	inputTemp = (Input*)malloc(sizeof(Input));
+	if (inputTemp == NULL)
 	{
-		fprintf(logFile, "initInput : FAILURE, allocation memoire de pInput.\n\n");
+		fprintf(logFile, "initInput : FAILURE, allocation memoire de globalInput.\n\n");
 		return NULL;
 	}
-	pInput->cursor = initCursor();
-	if (pInput->cursor.cursor1 == NULL || pInput->cursor.cursor2 == NULL)
+	inputTemp->cursor = initCursor();
+	if (inputTemp->cursor.cursor1 == NULL || inputTemp->cursor.cursor2 == NULL)
 	{
 		fprintf(logFile, "initInput : FAILURE, initCursor.\n\n");
-		free(pInput);
-		pInput = NULL;
+		free(inputTemp);
+		inputTemp = NULL;
 		return NULL;
 	}
-	pInput->jump = 0;
-	pInput->jumpOnGoing = 0;
-	pInput->bend = 0;
-	pInput->menu = 0;
-	pInput->direction = NONE;
-	pInput->lclick = 0;
-	pInput->rclick = 0;
-	pInput->quit = 0;
-	pInput->weaponTab = 0;
-	pInput->wheelUp = 0;
-	pInput->wheelDown = 0;
-	pInput->raffraichissement = 1;
-	pInput->windowResized = 1;
-	pInput->acceleration = 1;
-	pInput->bombe = 0;
-	pInput->deplacement = 0;
-	pInput->screenshot = 0;
-	pInput->camCentrer = 1;
-	pInput->changeWorms = 0;
-	pInput->arme = 0;
-	pInput->soundAllowed = 1;
-	pInput->musicAllowed = 1;
-	strcpy(pInput->textInput, "");
-	pInput->textCounter = 0;
+	inputTemp->jump = 0;
+	inputTemp->jumpOnGoing = 0;
+	inputTemp->bend = 0;
+	inputTemp->menu = 0;
+	inputTemp->direction = NONE;
+	inputTemp->lclick = 0;
+	inputTemp->rclick = 0;
+	inputTemp->quit = 0;
+	inputTemp->weaponTab = 0;
+	inputTemp->wheelUp = 0;
+	inputTemp->wheelDown = 0;
+	inputTemp->raffraichissement = 1;
+	inputTemp->windowResized = 1;
+	inputTemp->acceleration = 1;
+	inputTemp->bombe = 0;
+	inputTemp->deplacement = 0;
+	inputTemp->screenshot = 0;
+	inputTemp->camCentrer = 1;
+	inputTemp->changeWorms = 0;
+	inputTemp->arme = 0;
+	inputTemp->soundAllowed = 1;
+	inputTemp->musicAllowed = 1;
+	strcpy(inputTemp->textInput, "");
+	inputTemp->textCounter = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
-	return pInput;
+	return inputTemp;
 }
 
 /**
-* \fn void resetStructInput(Input* pInput)
+* \fn void resetStructInput()
 * \brief Reset all inputs of a Input struct.
 *
-* \param[in] pInput, pointer to the inputs structure.
 * \returns void
 */
-void resetStructInput(Input* pInput)
+void resetStructInput()
 {
-	pInput->jump = 0;
-	pInput->jumpOnGoing = 0;
-	pInput->bend = 0;
-	pInput->menu = 0;
-	pInput->direction = NONE;
-	pInput->lclick = 0;
-	pInput->rclick = 0;
-	pInput->weaponTab = 0;
-	pInput->wheelUp = 0;
-	pInput->wheelDown = 0;
-	pInput->raffraichissement = 0;
-	pInput->windowResized = 1;
-	pInput->acceleration = 1;
-	pInput->bombe = 0;
-	pInput->deplacement = 0;
-	pInput->screenshot = 0;
-	pInput->camCentrer = 1;
-	pInput->changeWorms = 0;
-	pInput->arme = 0;
+	globalInput->jump = 0;
+	globalInput->jumpOnGoing = 0;
+	globalInput->bend = 0;
+	globalInput->menu = 0;
+	globalInput->direction = NONE;
+	globalInput->lclick = 0;
+	globalInput->rclick = 0;
+	globalInput->weaponTab = 0;
+	globalInput->wheelUp = 0;
+	globalInput->wheelDown = 0;
+	globalInput->raffraichissement = 0;
+	globalInput->windowResized = 1;
+	globalInput->acceleration = 1;
+	globalInput->bombe = 0;
+	globalInput->deplacement = 0;
+	globalInput->screenshot = 0;
+	globalInput->camCentrer = 1;
+	globalInput->changeWorms = 0;
+	globalInput->arme = 0;
 }
 
 /**
@@ -568,17 +563,16 @@ Cursor initCursor(void)
 }
 
 /**
-* \fn void secuTextInput(Input* pInput)
+* \fn void secuTextInput()
 * \brief Test if the textCounter is out of limit.
 *
-* \param[in] pInput, pointer to the inputs structure.
 * \returns void
 */
-void secuTextInput(Input* pInput)
+void secuTextInput()
 {
-	if (pInput->textCounter >= 49)
-		pInput->textCounter = 49;
-	if (pInput->textCounter < 0)
-		pInput->textCounter = 0;
+	if (globalInput->textCounter >= 49)
+		globalInput->textCounter = 49;
+	if (globalInput->textCounter < 0)
+		globalInput->textCounter = 0;
 }
 

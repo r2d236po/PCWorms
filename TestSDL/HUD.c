@@ -1,6 +1,8 @@
 #include "HUD.h"
 #include "my_stdrFct.h"
 #include "MainMenu.h"
+#include "AffichageGeneral.h"
+
 /**
 * \fn void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 * \brief Initializes an SDL_Color structure.

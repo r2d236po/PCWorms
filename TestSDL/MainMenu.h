@@ -34,35 +34,35 @@
 enum MENU { MAIN, MAINversus, MAINmap, MAINoption, VERSUS,VERSUSn, VERSUSm,VERSUSname, VERSUSnameN, VERSUSnameM, VERSUSstart, VERSUSstartS, MAP, MAPmain, MAPchoose, MAPrepertory, OPTIONS,OPTIONSm };
 enum CHOICE{ NEXT, PREVIOUS, NEITHER, YES, NO, DEFAULT, SET, TEXT, CLICK};
 
-int mainMenu(Input* pInput, char mapName[100]);
+int mainMenu(char mapName[100]);
 int initTabTextureMenu(SDL_Texture* menuTexture[NBTEXTURE], ...);
 void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE]);
 char* stringTexture(enum MENU menu);
 
-enum MENU menu(Input* pInput);
+enum MENU menu();
 
 
-enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam);
-void setTeamName(Input* pInput);
-void setWormsName(Input* pInput, int indexTeam);
-void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow);
-int getTeamIndexText(Input* pInput);
-int getWormsIndexText(Input* pInput, int init);
-int getIndexText(Input* pInput, int xBox, int init);
-void setColorTeam(Input* pInput);
-int getIndexColor(Input* pInput);
+enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam);
+void setTeamName();
+void setWormsName( int indexTeam);
+void setTextInput(char* str, int indexPrec, int indexNow);
+int getTeamIndexText();
+int getWormsIndexText(int init);
+int getIndexText(int xBox, int init);
+void setColorTeam();
+int getIndexColor();
 void initColorTab(SDL_Color colorArray[6]);
 
-enum MENU mapMenu(Input* pInput, enum CHOICE *nextPrev);
+enum MENU mapMenu(enum CHOICE *nextPrev);
 void  mapSketch(enum CHOICE nextPrev, char* mapName);
 
-enum MENU optionMenu(Input* pInput);
-void setResizableOption(Input* pInput, enum CHOICE *pChoice);
-void setMusicOption(Input* pInput, enum CHOICE *pChoice);
-void setSizeOption(Input* pInput, enum CHOICE *pChoice);
-void setSavePathOption(Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSize);
-void setSoundOption(Input* pInput, enum CHOICE *pChoice);
-void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y);
+enum MENU optionMenu();
+void setResizableOption(enum CHOICE *pChoice);
+void setMusicOption(enum CHOICE *pChoice);
+void setSizeOption(enum CHOICE *pChoice);
+void setSavePathOption(enum CHOICE *pChoice, enum CHOICE windowSize);
+void setSoundOption(enum CHOICE *pChoice);
+void toggleOptions(enum CHOICE *pChoice, int x, int y);
 void SDL_SetWindowResizable(SDL_bool resizable);
 SDL_Texture* loadFromRenderedText(char* textureText, SDL_Color textColor, int *w, int *h, int size);
 int testEndInput(char* text, int size);

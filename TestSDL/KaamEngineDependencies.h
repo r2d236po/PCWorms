@@ -15,15 +15,15 @@ void setSpeed(float* Xspeed, float* Yspeed, float valueX, float valueY);
 void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap);
 
 /*Reset functions*/
-void resetInputs(Input* pInput);
+void resetInputs();
 void resetSpeed(float* Xspeed, float* Yspeed);
-void resetMotionVariables(Input* pInput, KaamObject* pObject);
+void resetMotionVariables(KaamObject* pObject);
 void resetAbsoluteCoordinates(SDL_Surface* pSurface, int* absoluteX, int* absoluteY);
 void resetReboundVariables(KaamObject* pObject, float signX, float signY, float coeffX, float coeffY);
-void resetNonLinearMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap);
+void resetNonLinearMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap);
 
 /*Test functions*/
-int getStartMotion(Input* pInput, KaamObject* pObject, SDL_Surface* pSurfaceMap);
+int getStartMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap);
 int jumpDoability(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, enum DIRECTION jumpDirection);
 int checkDirection(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion, int offsetX, int offsetY, enum DIRECTION checkDirection);
 int processCheck(int checkLeft, int checkRight, int checkUp, int checkUpLeft, int checkUpRight, enum DIRECTION jumpDirection);

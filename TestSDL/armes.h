@@ -7,7 +7,7 @@
 #define MAXDAMAGE 20
 
 void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture * pTextureDisplay);
-void weaponManagement(Input *pInput, Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex);
+void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex);
 double getAngle(int x, int y, enum DIRECTION *pDir);
 
 #endif

@@ -6,7 +6,7 @@
 #include "HUD.h"
 #include "partie.h"
 
-int mainMenu(Input* pInput, char mapName[100])
+int mainMenu(char mapName[100])
 {
 	SDL_Texture *menuTexture[NBTEXTURE];
 	unsigned int frame_max = SDL_GetTicks() + FRAME_RATE;
@@ -27,7 +27,7 @@ int mainMenu(Input* pInput, char mapName[100])
 
 	SDL_StartTextInput();
 
-	if (pInput->musicAllowed)
+	if (globalInput->musicAllowed)
 	{
 		if (loadSounds(ExploSourde, 1))
 		{
@@ -40,7 +40,7 @@ int mainMenu(Input* pInput, char mapName[100])
 	}
 	while (!quitMenu)
 	{
-		getInput(pInput);
+		getInput();
 
 		switch (menuIn)
 		{
@@ -48,17 +48,17 @@ int mainMenu(Input* pInput, char mapName[100])
 		case MAINmap:
 		case MAINoption:
 		case MAIN:
-			menuIn = menu(pInput);
+			menuIn = menu();
 			break;
 		case MAPmain:
 		case MAPchoose:
 		case MAPrepertory:
 		case MAP:
-			menuIn = mapMenu(pInput, &nextPrev);
+			menuIn = mapMenu(&nextPrev);
 			break;
 		case OPTIONSm:
 		case OPTIONS:
-			menuIn = optionMenu(pInput);
+			menuIn = optionMenu();
 			break;
 		case VERSUSn:
 		case VERSUSm:
@@ -68,12 +68,12 @@ int mainMenu(Input* pInput, char mapName[100])
 		case VERSUSstart:
 		case VERSUSstartS:
 		case VERSUS:
-			menuIn = versusMenu(pInput, &quitMenu, menuIn, &indexTeam);
+			menuIn = versusMenu(&quitMenu, menuIn, &indexTeam);
 			break;
 		}
 		if (menuIn == MAIN)
 			indexTeam = 1;
-		if (pInput->raffraichissement == 1)
+		if (globalInput->raffraichissement == 1)
 		{
 			SDL_RenderCopy(globalRenderer, menuTexture[indiceTexture(menuIn)], NULL, NULL);
 			if (menuIn == MAP || menuIn == MAPmain || menuIn == MAPchoose || menuIn == MAPrepertory
@@ -84,31 +84,31 @@ int mainMenu(Input* pInput, char mapName[100])
 			}
 			if (menuIn == OPTIONS || menuIn == OPTIONSm)
 			{
-				setResizableOption(pInput, &resizable);
-				setMusicOption(pInput, &music);
-				setSoundOption(pInput, &sound);
-				setSizeOption(pInput, &windowSize);
-				setSavePathOption(pInput, &savePath, windowSize);
+				setResizableOption(&resizable);
+				setMusicOption(&music);
+				setSoundOption(&sound);
+				setSizeOption(&windowSize);
+				setSavePathOption(&savePath, windowSize);
 			}
 			if (menuIn == VERSUS || menuIn == VERSUSn || menuIn == VERSUSm)
 			{
-				setColorTeam(pInput);
-				setTeamName(pInput);
+				setColorTeam();
+				setTeamName();
 			}
 			if (menuIn == VERSUSname || menuIn == VERSUSnameN || menuIn == VERSUSnameM
 				|| menuIn == VERSUSstart || menuIn == VERSUSstartS)
 			{
-				setWormsName(pInput, indexTeam);
+				setWormsName(indexTeam);
 			}
 			SDL_RenderPresent(globalRenderer);
-			pInput->raffraichissement = 0;
+			globalInput->raffraichissement = 0;
 		}
 		menuPrec = menuIn;
 		frameRate(frame_max);
 		frame_max = SDL_GetTicks() + FRAME_RATE;
 		if (quitMenu == 0)
-			quitMenu = pInput->quit;
-		if (quitMenu == 1 && !pInput->quit)
+			quitMenu = globalInput->quit;
+		if (quitMenu == 1 && !globalInput->quit)
 		{
 			/*Calcul du nombre d'équipe et du nombre de worms par équipe*/
 			for (i = 0; i < 4; i++)
@@ -143,20 +143,19 @@ int mainMenu(Input* pInput, char mapName[100])
 
 
 	SDL_StopTextInput();
-	resetStructInput(pInput);
+	resetStructInput();
 	destroyTextureTab(menuTexture);
 	setColorForGame();
 	return 0;
 }
 
 /**
-* \fn enum MENU menu(Input* pInput)
+* \fn enum MENU menu()
 * \brief Manages the main menu.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns which menu to display.
 */
-enum MENU menu(Input* pInput)
+enum MENU menu()
 {
 	SDL_Rect versusRect, optionRect, mapRect;
 	int testChange = 0;
@@ -166,49 +165,49 @@ enum MENU menu(Input* pInput)
 	mapRect = initButtonBox(758, 893, 470, 158);
 	optionRect = initButtonBox(1479, 893, 470, 158);
 
-	if (collisionPointWithRect(pInput->cursor.now, &versusRect))
+	if (collisionPointWithRect(globalInput->cursor.now, &versusRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			alreadyChange = 0;
-			strcpy(pInput->textInput, "");
+			strcpy(globalInput->textInput, "");
 			return VERSUS;
 		}
 		if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return MAINversus;
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &mapRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &mapRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			alreadyChange = 0;
 			return MAP;
 		}
 		if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return MAINmap;
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &optionRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &optionRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			alreadyChange = 0;
 			return OPTIONS;
 		}
 		if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return MAINoption;
 	}
@@ -217,7 +216,7 @@ enum MENU menu(Input* pInput)
 		testChange = alreadyChange;
 		alreadyChange = 0;
 		if (testChange != alreadyChange)
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 	}
 	return MAIN;
 }
@@ -233,15 +232,14 @@ enum MENU menu(Input* pInput)
 
 
 /**
-* \fn enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam)
+* \fn enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
 * \brief Manages the versus menu.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] quit, pointer to the quit variable to start the game.
 * \param[in] menuPrec, precedent menu.
 * \returns which menu to display.
 */
-enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTeam)
+enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
 {
 	SDL_Rect nextRect, mainRect, startRect;
 	int testChange = 0, start = 0, next = 0;
@@ -254,14 +252,14 @@ enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTe
 	{
 		mainRect = initButtonBox(48, 965, 324, 121);
 		nextRect = initButtonBox(1625, 929, 328, 198);
-		if (collisionPointWithRect(pInput->cursor.now, &nextRect))
+		if (collisionPointWithRect(globalInput->cursor.now, &nextRect))
 		{
-			if (pInput->lclick)
+			if (globalInput->lclick)
 			{
-				pInput->lclick = 0;
-				pInput->raffraichissement = 1;
+				globalInput->lclick = 0;
+				globalInput->raffraichissement = 1;
 				alreadyChange = 0;
-				strcpy(pInput->textInput, "");
+				strcpy(globalInput->textInput, "");
 				if (!start && next && (menuPrec == VERSUSn || menuPrec == VERSUS))
 				{
 					return VERSUSname;
@@ -284,27 +282,27 @@ enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTe
 			else if (!alreadyChange)
 			{
 				alreadyChange = 1;
-				pInput->raffraichissement = 1;
+				globalInput->raffraichissement = 1;
 			}
 			if (menuPrec == VERSUS || menuPrec == VERSUSn)
 				return VERSUSn;
 			else return VERSUSnameN;
 		}
-		else if (collisionPointWithRect(pInput->cursor.now, &mainRect))
+		else if (collisionPointWithRect(globalInput->cursor.now, &mainRect))
 		{
-			if (pInput->lclick)
+			if (globalInput->lclick)
 			{
-				pInput->lclick = 0;
-				pInput->raffraichissement = 1;
+				globalInput->lclick = 0;
+				globalInput->raffraichissement = 1;
 				alreadyChange = 0;
-				strcpy(pInput->textInput, "");
+				strcpy(globalInput->textInput, "");
 				*pIndexTeam = 1;
 				return MAIN;
 			}
 			else if (!alreadyChange)
 			{
 				alreadyChange = 1;
-				pInput->raffraichissement = 1;
+				globalInput->raffraichissement = 1;
 			}
 			if (menuPrec == VERSUS || menuPrec == VERSUSm)
 				return VERSUSm;
@@ -314,19 +312,19 @@ enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTe
 	else
 	{
 		startRect = initButtonBox(1450, 917, 470, 158);
-		if (collisionPointWithRect(pInput->cursor.now, &startRect))
+		if (collisionPointWithRect(globalInput->cursor.now, &startRect))
 		{
-			if (pInput->lclick)
+			if (globalInput->lclick)
 			{
-				pInput->lclick = 0;
-				pInput->raffraichissement = 1;
+				globalInput->lclick = 0;
+				globalInput->raffraichissement = 1;
 				alreadyChange = 0;
 				*quit = 1;
 			}
 			else if (!alreadyChange)
 			{
 				alreadyChange = 1;
-				pInput->raffraichissement = 1;
+				globalInput->raffraichissement = 1;
 			}
 			return VERSUSstartS;
 		}
@@ -335,7 +333,7 @@ enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTe
 	testChange = alreadyChange;
 	alreadyChange = 0;
 	if (testChange != alreadyChange)
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 
 	if (menuPrec == VERSUSstartS || menuPrec == VERSUSstart)
 		return VERSUSstart;
@@ -347,13 +345,12 @@ enum MENU versusMenu(Input* pInput, int* quit, enum MENU menuPrec, int *pIndexTe
 }
 
 /**
-* \fn void setColorTeam(Input* pInput)
+* \fn void setColorTeam()
 * \brief Manages the color of a team.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns void.
 */
-void setColorTeam(Input* pInput)
+void setColorTeam()
 {
 	int indexColor = 0, indexTeam = 0, indexGlobal = 0;
 	static SDL_Color colorTab[6];
@@ -365,7 +362,7 @@ void setColorTeam(Input* pInput)
 		initColorTab(colorTab);
 	}
 
-	indexGlobal = getIndexColor(pInput);
+	indexGlobal = getIndexColor();
 	indexTeam = indexGlobal / 6;
 	indexColor = indexGlobal % 6;
 	globalVar.colorTab[indexTeam] = colorTab[indexColor];
@@ -395,13 +392,12 @@ void initColorTab(SDL_Color colorArray[6])
 }
 
 /**
-* \fn int getIndexColor(Input* pInput)
+* \fn int getIndexColor()
 * \brief Determinate the color and the to apply the color.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns index to the color and the team corresponding.
 */
-int getIndexColor(Input* pInput)
+int getIndexColor()
 {
 	int xBox = 1243, yBox = 237, wBox = 63, hBox = 60;
 	int xNom = xBox, yNom = yBox, wRender, hRender;
@@ -422,11 +418,11 @@ int getIndexColor(Input* pInput)
 			xBox = xNom + indexColor * 130;
 			xBox = (int)((float)(xBox / WIDTHMENUTEXTURE) * wRender);
 			colorRect = initRect(xBox, yBox, wBox, hBox);
-			if (collisionPointWithRect(pInput->cursor.now, &colorRect))
+			if (collisionPointWithRect(globalInput->cursor.now, &colorRect))
 			{
-				if (pInput->lclick)
+				if (globalInput->lclick)
 				{
-					pInput->lclick = 0;
+					globalInput->lclick = 0;
 					colorPrec = indexColor + (indexTeam - 1) * 6;
 					return indexColor + (indexTeam - 1) * 6;
 				}
@@ -437,19 +433,18 @@ int getIndexColor(Input* pInput)
 }
 
 /**
-* \fn void setTeamName(Input* pInput)
+* \fn void setTeamName()
 * \brief Writes the team names.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns void.
 */
-void setTeamName(Input* pInput)
+void setTeamName()
 {
 	int indexPrec = 0, i, y = 0;
 	static int indexTeam = 0;
 
 	indexPrec = indexTeam;
-	indexTeam = getTeamIndexText(pInput);
+	indexTeam = getTeamIndexText();
 	if (indexTeam > 1)
 	{
 		for (i = 1; i < indexTeam; i++)
@@ -462,7 +457,7 @@ void setTeamName(Input* pInput)
 		}
 	}
 	if (indexTeam != 0)
-		setTextInput(pInput, globalVar.teamNames[indexTeam - 1], indexPrec, indexTeam);
+		setTextInput(globalVar.teamNames[indexTeam - 1], indexPrec, indexTeam);
 	for (i = 0; i < 4; i++)
 	{
 		y = 225 + i * 163;
@@ -471,14 +466,13 @@ void setTeamName(Input* pInput)
 }
 
 /**
-* \fn void setWormsName(Input* pInput, int indexTeam)
+* \fn void setWormsName(int indexTeam)
 * \brief Writes the team names.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] indexTeam, index of the team.
 * \returns void.
 */
-void setWormsName(Input* pInput, int indexTeam)
+void setWormsName( int indexTeam)
 {
 	int indexPrec = 0, i, y = 0, init = 0, indexTest;
 	static int indexWorms = 0, team = 1;
@@ -493,7 +487,7 @@ void setWormsName(Input* pInput, int indexTeam)
 		init = 1;
 	else init = 0;
 	indexPrec = indexWorms;
-	indexWorms = getWormsIndexText(pInput, init);
+	indexWorms = getWormsIndexText(init);
 	if (indexWorms > 1)
 	{
 		indexTest = indexWorms + (indexTeam - 1) * 4;
@@ -509,7 +503,7 @@ void setWormsName(Input* pInput, int indexTeam)
 	if (indexWorms != 0 && strcmp(globalVar.teamNames[indexTeam - 1], "") != 0)
 	{
 		indexWorms = indexWorms + (indexTeam - 1) * 4;
-		setTextInput(pInput, globalVar.wormsNames[indexWorms - 1], indexPrec, indexWorms);
+		setTextInput(globalVar.wormsNames[indexWorms - 1], indexPrec, indexWorms);
 	}
 	for (i = 0; i < 4; i++)
 	{
@@ -520,64 +514,60 @@ void setWormsName(Input* pInput, int indexTeam)
 }
 
 /**
-* \fn void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow)
+* \fn void setTextInput(char* str, int indexPrec, int indexNow)
 * \brief Text input function. Manages the precdent writing, deleting, etc.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] str, the string to write in.
 * \param[in] indexPrec, precedent index.
 * \param[in] indexNow, index now.
 * \returns void.
 */
-void setTextInput(Input* pInput, char* str, int indexPrec, int indexNow)
+void setTextInput(char* str, int indexPrec, int indexNow)
 {
-	if (indexPrec == indexNow && strcmp(pInput->textInput, "") == 0 && strlen(str) == 1)
+	if (indexPrec == indexNow && strcmp(globalInput->textInput, "") == 0 && strlen(str) == 1)
 	{
-		strcpy(str, pInput->textInput);
-		pInput->textCounter = 0;
+		strcpy(str, globalInput->textInput);
+		globalInput->textCounter = 0;
 	}
-	else if (indexPrec != indexNow || strcmp(pInput->textInput, "") == 0)
+	else if (indexPrec != indexNow || strcmp(globalInput->textInput, "") == 0)
 	{
-		strcpy(pInput->textInput, str);
-		pInput->textCounter = (char)strlen(str);
+		strcpy(globalInput->textInput, str);
+		globalInput->textCounter = (char)strlen(str);
 	}
-	secuTextInput(pInput);
-	strcpy(str, pInput->textInput);
+	secuTextInput();
+	strcpy(str, globalInput->textInput);
 }
 
 /**
-* \fn int getTeamIndexText(Input* pInput)
+* \fn int getTeamIndexText()
 * \brief Determine what team to write to.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns index of the team.
 */
-int getTeamIndexText(Input* pInput)
+int getTeamIndexText()
 {
-	return getIndexText(pInput, 647, 0);
+	return getIndexText(647, 0);
 }
 
 /**
-* \fn int getWormsIndexText(Input* pInput, int init)
+* \fn int getWormsIndexText(int init)
 * \brief Determine what team to write to.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns index of the worms.
 */
-int getWormsIndexText(Input* pInput, int init)
+int getWormsIndexText(int init)
 {
-	return getIndexText(pInput, 920, init);
+	return getIndexText(920, init);
 }
 
 /**
-* \fn int getIndexText(Input* pInput, int xBox, int init)
+* \fn int getIndexText(int xBox, int init)
 * \brief Determine what team to write to.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] xBox, origin of the text.
 * \returns index of the box text.
 */
-int getIndexText(Input* pInput, int xBox, int init)
+int getIndexText(int xBox, int init)
 {
 	int xText = xBox, yText = 225, wText = 533, hText = 87, yNom = 225;
 	int wRender, hRender, index;
@@ -594,20 +584,20 @@ int getIndexText(Input* pInput, int xBox, int init)
 	{
 		yText = (int)((float)(yText / HIGHTMENUTEXTURE) * hRender);
 		textRect = initRect(xText, yText, wText, hText);
-		if (collisionPointWithRect(pInput->cursor.now, &textRect))
+		if (collisionPointWithRect(globalInput->cursor.now, &textRect))
 		{
-			if (pInput->lclick)
+			if (globalInput->lclick)
 			{
-				pInput->lclick = 0;
+				globalInput->lclick = 0;
 				indexPrec = index;
 				return index;
 			}
 		}
 		yText = yNom + (index)* 163;
 	}
-	if (pInput->lclick)
+	if (globalInput->lclick)
 	{
-		pInput->lclick = 0;
+		globalInput->lclick = 0;
 		indexPrec = 0;
 		return 0;
 	}
@@ -635,14 +625,13 @@ int getIndexText(Input* pInput, int xBox, int init)
 
 
 /**
-* \fn enum MENU mapMenu(Input* pInput, enum CHOICE *nextPrev)
+* \fn enum MENU mapMenu(enum CHOICE *nextPrev)
 * \brief Manages the map menu.
 *.
-* \param[in] pInput, pointer to the input structure.
 * \param[in] nextPrev, pointer to a choice structure to be filled with NEXT or PREVIOUS or NEITHER command.
 * \returns which menu to display.
 */
-enum MENU mapMenu(Input* pInput, enum CHOICE *nextPrev)
+enum MENU mapMenu(enum CHOICE *nextPrev)
 {
 	SDL_Rect mainMenuRect, nextRect, previousRect, chooseRect, repertoryRect;
 	int testChange = 0;
@@ -654,71 +643,71 @@ enum MENU mapMenu(Input* pInput, enum CHOICE *nextPrev)
 	nextRect = initButtonBox(1245, 892, 211, 194);
 	previousRect = initButtonBox(545, 892, 211, 194);
 
-	if (collisionPointWithRect(pInput->cursor.now, &mainMenuRect))
+	if (collisionPointWithRect(globalInput->cursor.now, &mainMenuRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			alreadyChange = 0;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			return MAIN;
 		}
 		else if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return MAPmain;
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &nextRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &nextRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			*nextPrev = NEXT;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			return MAP;
 		}
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &previousRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &previousRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			*nextPrev = PREVIOUS;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			return MAP;
 		}
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &chooseRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &chooseRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			alreadyChange = 0;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 			*nextPrev = CLICK;
 			return MAIN;
 		}
 		else if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return MAPchoose;
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &repertoryRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &repertoryRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
-			pInput->raffraichissement = 1;
+			globalInput->lclick = 0;
+			globalInput->raffraichissement = 1;
 			return MAP;
 		}
 		else if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return MAPrepertory;
 	}
@@ -728,7 +717,7 @@ enum MENU mapMenu(Input* pInput, enum CHOICE *nextPrev)
 		testChange = alreadyChange;
 		alreadyChange = 0;
 		if (testChange != alreadyChange)
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 	}
 	return MAP;
 }
@@ -943,13 +932,12 @@ void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE])
 /****************************************************************************/
 
 /**
-* \fn enum MENU optionMenu(Input* pInput)
+* \fn enum MENU optionMenu()
 * \brief Manages the option menu.
 *
-* \param[in] pInput, pointer to the input structure.
 * \returns which menu to display.
 */
-enum MENU optionMenu(Input* pInput)
+enum MENU optionMenu()
 {
 	SDL_Rect mainMenuRect;
 	int testChange = 0;
@@ -957,18 +945,18 @@ enum MENU optionMenu(Input* pInput)
 
 	mainMenuRect = initButtonBox(44, 965, 324, 121);
 
-	if (collisionPointWithRect(pInput->cursor.now, &mainMenuRect))
+	if (collisionPointWithRect(globalInput->cursor.now, &mainMenuRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
-			pInput->raffraichissement = 1;
+			globalInput->lclick = 0;
+			globalInput->raffraichissement = 1;
 			return MAIN;
 		}
 		if (!alreadyChange)
 		{
 			alreadyChange = 1;
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 		}
 		return OPTIONSm;
 	}
@@ -977,71 +965,67 @@ enum MENU optionMenu(Input* pInput)
 		testChange = alreadyChange;
 		alreadyChange = 0;
 		if (testChange != alreadyChange)
-			pInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 	}
 	return OPTIONS;
 }
 
 /**
-* \fn void setResizableOption(Input* pInput, enum CHOICE *pChoice)
+* \fn void setResizableOption(enum CHOICE *pChoice)
 * \brief Set the resizable option.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] pChoice, pointer to a choice variable.
 * \returns void.
 */
-void setResizableOption(Input* pInput, enum CHOICE *pChoice)
+void setResizableOption(enum CHOICE *pChoice)
 {
 	int xYes = 1197, y = 149;
-	toggleOptions(pInput, pChoice, xYes, y);
+	toggleOptions(pChoice, xYes, y);
 	if (*pChoice == YES)
 		SDL_SetWindowResizable(SDL_TRUE);
 	else SDL_SetWindowResizable(SDL_FALSE);
 }
 
 /**
-* \fn void setMusicOption(Input* pInput, enum CHOICE *pChoice)
+* \fn void setMusicOption(enum CHOICE *pChoice)
 * \brief Set the music option.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] pChoice, pointer to a choice variable.
 * \returns void.
 */
-void setMusicOption(Input* pInput, enum CHOICE *pChoice)
+void setMusicOption(enum CHOICE *pChoice)
 {
 	int xYes = 1197, y = 434;
-	toggleOptions(pInput, pChoice, xYes, y);
+	toggleOptions(pChoice, xYes, y);
 	if (*pChoice == YES)
-		pInput->musicAllowed = 1;
-	else pInput->musicAllowed = 0;
+		globalInput->musicAllowed = 1;
+	else globalInput->musicAllowed = 0;
 }
 
 /**
-* \fn void setSoundOption(Input* pInput, enum CHOICE *pChoice)
+* \fn void setSoundOption(enum CHOICE *pChoice)
 * \brief Set the sound option.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] pChoice, pointer to a choice variable.
 * \returns void.
 */
-void setSoundOption(Input* pInput, enum CHOICE *pChoice)
+void setSoundOption(enum CHOICE *pChoice)
 {
 	int xYes = 1199, y = 576;
-	toggleOptions(pInput, pChoice, xYes, y);
+	toggleOptions(pChoice, xYes, y);
 	if (*pChoice == YES)
-		pInput->soundAllowed = 1;
-	else pInput->soundAllowed = 0;
+		globalInput->soundAllowed = 1;
+	else globalInput->soundAllowed = 0;
 }
 
 /**
-* \fn void setSizeOption(Input* pInput, enum CHOICE *pChoice)
+* \fn void setSizeOption(enum CHOICE *pChoice)
 * \brief Set the size option.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] pChoice, pointer to a choice variable.
 * \returns void.
 */
-void setSizeOption(Input* pInput, enum CHOICE *pChoice)
+void setSizeOption(enum CHOICE *pChoice)
 {
 	static int wWindow, hWindow;
 	static char strSize[21] = "1080*600";
@@ -1051,20 +1035,20 @@ void setSizeOption(Input* pInput, enum CHOICE *pChoice)
 	setSDLColor(&color, 0, 0, 0);
 	color.a = 255;
 
-	toggleOptions(pInput, pChoice, xYes, y);
+	toggleOptions(pChoice, xYes, y);
 	if (testChange != *pChoice)
 	{
-		strcpy(pInput->textInput, "");
-		pInput->textCounter = 0;
+		strcpy(globalInput->textInput, "");
+		globalInput->textCounter = 0;
 	}
 	if (*pChoice == TEXT)
 	{
-		if (strcmp(pInput->textInput, "") == 0 && strlen(strSize) > 1)
+		if (strcmp(globalInput->textInput, "") == 0 && strlen(strSize) > 1)
 		{
-			strcpy(pInput->textInput, strSize);
-			pInput->textCounter = (char)strlen(strSize);
+			strcpy(globalInput->textInput, strSize);
+			globalInput->textCounter = (char)strlen(strSize);
 		}
-		strcpy(strSize, pInput->textInput);
+		strcpy(strSize, globalInput->textInput);
 	}
 	else if (*pChoice == SET)
 	{
@@ -1072,7 +1056,7 @@ void setSizeOption(Input* pInput, enum CHOICE *pChoice)
 		{
 			getSizeWindow(&wWindow, &hWindow, strSize);
 			SDL_SetWindowSize(globalWindow, wWindow, hWindow);
-			pInput->textCounter = 0;
+			globalInput->textCounter = 0;
 		}
 	}
 	else if (*pChoice == DEFAULT && testChange != *pChoice)
@@ -1091,14 +1075,13 @@ void setSizeOption(Input* pInput, enum CHOICE *pChoice)
 }
 
 /**
-* \fn void setSavePathOption(Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSize)
+* \fn void setSavePathOption(enum CHOICE *pChoice, enum CHOICE windowSize)
 * \brief Set the save path option.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] pChoice, pointer to a choice variable.
 * \returns void.
 */
-void setSavePathOption(Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSize)
+void setSavePathOption(enum CHOICE *pChoice, enum CHOICE windowSize)
 {
 	int xYes = 1197, y = 719;
 	static char strPath[100] = "";
@@ -1107,11 +1090,11 @@ void setSavePathOption(Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSi
 	setSDLColor(&color, 0, 0, 0);
 	color.a = 255;
 
-	toggleOptions(pInput, pChoice, xYes, y);
+	toggleOptions(pChoice, xYes, y);
 	if (testChange != *pChoice)
 	{
-		strcpy(pInput->textInput, "");
-		pInput->textCounter = 0;
+		strcpy(globalInput->textInput, "");
+		globalInput->textCounter = 0;
 	}
 	if (*pChoice == DEFAULT)
 	{
@@ -1121,28 +1104,27 @@ void setSavePathOption(Input* pInput, enum CHOICE *pChoice, enum CHOICE windowSi
 	}
 	else if (*pChoice == TEXT && windowSize != TEXT)
 	{
-		if (strcmp(pInput->textInput, "") == 0 && strlen(strPath) > 1)
+		if (strcmp(globalInput->textInput, "") == 0 && strlen(strPath) > 1)
 		{
-			strcpy(pInput->textInput, strPath);
-			pInput->textCounter = (char)strlen(strPath);
+			strcpy(globalInput->textInput, strPath);
+			globalInput->textCounter = (char)strlen(strPath);
 		}
-		strcpy(strPath, pInput->textInput);
-		strcpy(globalVar.savePath, pInput->textInput);
+		strcpy(strPath, globalInput->textInput);
+		strcpy(globalVar.savePath, globalInput->textInput);
 	}
 	renderText(strPath, 1493, 719, 16, color);
 }
 
 /**
-* \fn void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
+* \fn void toggleOptions(enum CHOICE *pChoice, int x, int y)
 * \brief Toggle an option.
 *
-* \param[in] pInput, pointer to the input structure.
 * \param[in] pChoice, pointer to a choice variable.
 * \param[in] x, x coordinnate of the first option box.
 * \param[in] y, y coordinnate of the first option box.
 * \returns void.
 */
-void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
+void toggleOptions(enum CHOICE *pChoice, int x, int y)
 {
 	SDL_Texture* textureChoice = NULL;
 	SDL_Rect yesRect, noRect, textRect, setRect;
@@ -1152,36 +1134,36 @@ void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
 	textRect = initButtonBox(1493, y, 386, 88);
 	setRect = initButtonBox(1846, y, 107, 88);
 
-	if (collisionPointWithRect(pInput->cursor.now, &yesRect))
+	if (collisionPointWithRect(globalInput->cursor.now, &yesRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			if (*pChoice != NEITHER && *pChoice != DEFAULT && *pChoice != SET && *pChoice != TEXT)
 				*pChoice = YES;
 			else *pChoice = DEFAULT;
 		}
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &noRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &noRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			if (*pChoice != NEITHER && *pChoice != DEFAULT && *pChoice != SET && *pChoice != TEXT)
 				*pChoice = NO;
 			else *pChoice = TEXT;
 		}
 	}
-	else if (collisionPointWithRect(pInput->cursor.now, &setRect))
+	else if (collisionPointWithRect(globalInput->cursor.now, &setRect))
 	{
-		if (pInput->lclick)
+		if (globalInput->lclick)
 		{
-			pInput->lclick = 0;
+			globalInput->lclick = 0;
 			if (*pChoice == NEITHER || *pChoice == DEFAULT || *pChoice == TEXT)
 				*pChoice = SET;
 		}
 	}
-	else if ((*pChoice == TEXT || *pChoice == NEITHER) && pInput->lclick)
+	else if ((*pChoice == TEXT || *pChoice == NEITHER) && globalInput->lclick)
 		*pChoice = NEITHER;
 	if (*pChoice == YES)
 	{
@@ -1192,7 +1174,7 @@ void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
 			return;
 		}
 		else SDL_RenderCopy(globalRenderer, textureChoice, NULL, &yesRect);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
 	else if (*pChoice == DEFAULT)
 	{
@@ -1203,7 +1185,7 @@ void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
 			return;
 		}
 		else SDL_RenderCopy(globalRenderer, textureChoice, NULL, &yesRect);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
 	else if (*pChoice == SET)
 	{
@@ -1214,7 +1196,7 @@ void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
 			return;
 		}
 		else SDL_RenderCopy(globalRenderer, textureChoice, NULL, &setRect);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
 	else if (*pChoice != NEITHER && *pChoice != TEXT)
 	{
@@ -1225,7 +1207,7 @@ void toggleOptions(Input* pInput, enum CHOICE *pChoice, int x, int y)
 			return;
 		}
 		else SDL_RenderCopy(globalRenderer, textureChoice, NULL, &noRect);
-		pInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
 	SDL_DestroyTexture(textureChoice);
 }
