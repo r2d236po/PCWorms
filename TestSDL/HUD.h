@@ -3,6 +3,10 @@
 
 #include "Libraries.h" //Inclus toutes les librairies
 
+#define INGAMEMENU "../assets/pictures/Interface/ingameMenu.png"
+#define INGAMEMENUMAINMENU "../assets/pictures/Interface/ingameMenuMainMenu.png"
+#define INGAMEMENUOPTIONS "../assets/pictures/Interface/ingameMenuOptions.png"
+#define INGAMEMENUQUIT "../assets/pictures/Interface/ingameMenuQuit.png"
 
 void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b);
 void updateTextSurfaceWormsTab(Worms** wormsTab);

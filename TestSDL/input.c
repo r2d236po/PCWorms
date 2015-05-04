@@ -244,7 +244,7 @@ int gestInput(Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay,
 		initCameras(pMapTerrain, pCamera, NULL);
 		pInput->windowResized = 0;
 	}
-	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain,  wormsTab);	//appel de la fonction de gestion des Inputs des armes
+	inputsWeapons(pInput, pTextureDisplay, pCamera, pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
 	if (pInput->screenshot)
 	{
 		screenshot();
@@ -259,11 +259,8 @@ int gestInput(Input* pInput, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay,
 	}
 	if (pInput->menu)
 	{
-		SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
-		SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
-		renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+		inGameMenu(pMapTerrain, pTextureDisplay, pCamera);
 		pInput->raffraichissement = 0;
-		SDL_DestroyTexture(textureMenu);
 	}
 	inputsJumpWorms(pInput, wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
 	if (pInput->direction == DOWN)
@@ -354,17 +351,34 @@ void inputsJumpWorms(Input* pInput, Worms* pWorms, SDL_Surface* pSurfaceMap)
 */
 void callNextWorms(Worms** wormsTab)
 {
-	//Gestion des Index
-	if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)	//Changement de worms
+
+	//Rajouter isGameEnd()
+
+	//Changement de worms pour l'equipe qui vient de jouer
+	if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)
 	{
 		globalVar.wormsPlaying[globalVar.teamPlaying] += 1;
-	}		//tester si Worms suivant vivant
+	}
 	else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
 
-	if (globalVar.teamPlaying != globalVar.nbEquipe - 1) { globalVar.teamPlaying += 1; }							//Changement d'équipe
-	else { globalVar.teamPlaying = 0; }
+	//Determine la nouvelle equipe
+	do 
+	{
+		if (globalVar.teamPlaying != globalVar.nbEquipe - 1) { globalVar.teamPlaying += 1; }
+		else { globalVar.teamPlaying = 0; }
+	} while (wormsTab[calculIndex()]->team->vie <= 0 || globalVar.gameEnd);
 
-	//Calcul du IndexWormsTab
+	//Determine le nouveau worms
+	while (wormsTab[calculIndex()]->vie <= 0)
+	{
+		if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)
+		{
+			globalVar.wormsPlaying[globalVar.teamPlaying] += 1;
+		}
+		else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
+	}
+
+	//Affecte la valeur à l'index global
 	globalVar.indexWormsTab = calculIndex();
 }
 
@@ -466,7 +480,7 @@ Input* initInput()
 	pInput->bombe = 0;
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
-	pInput->camCentrer = 0;
+	pInput->camCentrer = 1;
 	pInput->changeWorms = 0;
 	pInput->arme = 0;
 	pInput->soundAllowed = 1;
@@ -502,7 +516,7 @@ void resetStructInput(Input* pInput)
 	pInput->bombe = 0;
 	pInput->deplacement = 0;
 	pInput->screenshot = 0;
-	pInput->camCentrer = 0;
+	pInput->camCentrer = 1;
 	pInput->changeWorms = 0;
 	pInput->arme = 0;
 }

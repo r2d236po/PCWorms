@@ -42,9 +42,6 @@
 #define NUMBERMAP 7
 #define ICONE "../assets/pictures/icone.png"
 
-#define INGAMEMENU "../assets/pictures/Interface/ingameMenu.png"
-
-
 /*Variables Globales importantes*/
 SDL_Window *globalWindow;
 SDL_Renderer *globalRenderer;
