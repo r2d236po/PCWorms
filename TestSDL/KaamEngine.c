@@ -282,7 +282,7 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 void KaamWormsMotionManagement(Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
 	int launchAnim = globalInput->direction != NONE && !globalInput->jumpOnGoing && (pWorms->wormsObject->falling == 0) && globalInput->direction != DOWN;
-	int swap = 0;
+	int swap = 0; 
 	if (launchAnim)
 	{
 		if (!globalInput->jumpOnGoing)
