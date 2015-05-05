@@ -1,4 +1,4 @@
-Start of session : Tue May 05 20:16:33 2015
+Start of session : Tue May 05 21:05:05 2015
 
 
 loadImage : SUCCESS.
@@ -76,63 +76,19 @@ loadTexture : SUCCESS.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/map.png.
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptestCam.png.
+	nom du fichier : ../assets/pictures/map.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptestCam.png.
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
+	nom du fichier : ../assets/pictures/maptestCam.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptest4.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptest4.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptest4.png.
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
-Unable to render text surface! SDL_ttf Error: Text has zero width
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest4.png.
 mainInit : DONE.
 	nombre d'equipes : 1.
 	nombre de worms par equipe : 1 0 0 0.
@@ -178,216 +134,6 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsLeft.png.
-
 cleanSounds : DONE.
 ||| END OF THE GAME |||
 destroyMap : DONE.
@@ -403,4 +149,4 @@ destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Tue May 05 20:16:46 2015
+End of Session : Tue May 05 21:05:20 2015

@@ -6,8 +6,8 @@
 #define vitesseX (float)(cos(pi / 3)* 0.95)
 #define vitesseY (float)(sin(pi / 3)*1.3)
 #define TAILLEINV 5 
-#define WIDTHSPRITEMOVE 38
-#define HIGHTSPRITEMOVE 54
+#define WIDTHSPRITEMOVE 31
+#define HIGHTSPRITEMOVE 30
 #define DAMAGEFALL 0.33
 
 

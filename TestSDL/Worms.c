@@ -337,51 +337,24 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 {
 	SDL_Rect clip;
-	SDL_Surface* moveRight = NULL;
-	SDL_Surface* moveLeft = NULL;
-	SDL_Surface* moveUp = NULL;
 	switch (direction)
 	{
 	case RIGHT:
-		moveRight = loadImage("../assets/sprites/wormsRight.png");
-		if (moveRight == NULL)
-		{
-			fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
-			cleanSprites();
-			return -1;
-		}
-		clip = animationSprite(moveRight, 15, indexFrameAnim);
-		copySurfacePixels(moveRight, &clip, pWorms->wormsObject->objectSurface, NULL);
-		SDL_FreeSurface(moveRight);
+		if (pWorms->dirSurface == RIGHT)
+			clip = initRect((24 + indexFrameAnim * 31), 84, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
+		else	clip = initRect((11 + indexFrameAnim * 31), 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
 		break;
 	case LEFT:
-		moveLeft = loadImage("../assets/sprites/wormsLeft.png");
-		if (moveLeft == NULL)
-		{
-			fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
-			cleanSprites();
-			return -1;
-		}
-		clip = animationSprite(moveLeft, 15, indexFrameAnim);
-		copySurfacePixels(moveLeft, &clip, pWorms->wormsObject->objectSurface, NULL);
-		SDL_FreeSurface(moveLeft);
+		if (pWorms->dirSurface == LEFT)
+			clip = initRect((445 - indexFrameAnim * 31), 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
+		else	clip = initRect((458 - indexFrameAnim * 31), 84, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
 		break;
 	case UP:
-		moveUp = loadImage("../assets/sprites/wormsJump.png");
-		if (moveUp == NULL)
-		{
-			fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
-			cleanSprites();
-			return -1;
-		}
-		clip = animationSprite(moveUp, 19, indexFrameAnim);
-		copySurfacePixels(moveUp, &clip, pWorms->wormsObject->objectSurface, NULL);
-		SDL_FreeSurface(moveUp);
 		break;
 	case DOWN:
 		break;
 	}
-	//return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsObject->objectSurface, NULL);
+	return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsObject->objectSurface, NULL);
 	return 0;
 }
 

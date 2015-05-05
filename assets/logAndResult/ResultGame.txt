@@ -1,11 +1,11 @@
 Resultat de la partie : 
 
-	Temps de jeu : 7 secondes.
+	Temps de jeu : 6 secondes.
 	Map jouée : ../assets/pictures/maptest4.png.
 	Nombre d'equipes : 1.
 	Nombre de worms par equipe : 1 0 0 0.
 
-Bravo à l'équipe 1 surnommée les "aaa" composée des braves : 
+Bravo à l'équipe 1 surnommée les "aa" composée des braves : 
 	a,	Félicitation pour avoir fait un massacre chez l'ennemie !
 
 

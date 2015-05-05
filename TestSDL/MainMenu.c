@@ -965,7 +965,7 @@ enum MENU optionMenu()
 		testChange = alreadyChange;
 		alreadyChange = 0;
 		if (testChange != alreadyChange)
-			globalInput->raffraichissement = 1;
+		globalInput->raffraichissement = 1;
 	}
 	return OPTIONS;
 }
@@ -1364,6 +1364,9 @@ void renderText(char* str, int x, int y, int sizeFont, SDL_Color color)
 {
 	int hText = 87, wRender, hRender, wText = 0;
 	SDL_Rect rect;
+
+	if (strcmp(str, "") == 0)
+		return;
 
 	SDL_GetRendererOutputSize(globalRenderer, &wRender, &hRender);
 	x = (int)((float)(x / WIDTHMENUTEXTURE) * wRender);
