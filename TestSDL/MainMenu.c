@@ -330,7 +330,7 @@ enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
 		}
 	}
 	*quit = 0;
-	testChange = alreadyChange;
+	testChange = alreadyChange;  
 	alreadyChange = 0;
 	if (testChange != alreadyChange)
 		globalInput->raffraichissement = 1;
