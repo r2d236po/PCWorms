@@ -13,4 +13,5 @@ void endDisplay();
 int display(SDL_Surface* pSurface, int mode);
 int displayWorms(Worms* pWorms, int mode);
 void reindexTab(int size, int startPosition, int type, void* tab);
+SDL_Rect animationSprite(SDL_Surface* pSurfaceSprite, int nbFrame, int indexAnim);
 #endif // !DISPLAY_H

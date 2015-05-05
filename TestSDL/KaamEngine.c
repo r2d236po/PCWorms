@@ -61,7 +61,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 		displayWorms(wormsTab[0], 1);
 		for (indexWorms = 1; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
-			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms],pSurfaceMap));
+			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms], pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
 			displayWorms(wormsTab[indexWorms], 1);
 		}
@@ -72,7 +72,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 		wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y;
 	}
 	if (initEnd)
-	 fprintf(logFile, "KaamInitGame : DONE.\n\n");
+		fprintf(logFile, "KaamInitGame : DONE.\n\n");
 	return initEnd;
 }
 
@@ -287,7 +287,7 @@ void KaamWormsMotionManagement(Worms* pWorms, SDL_Surface* pSurfaceMap)
 	{
 		if (!globalInput->jumpOnGoing)
 			swap = swapManagement(pWorms, pSurfaceMap);
-		gestionAnimationWorms(pWorms, swap, pSurfaceMap);
+			gestionAnimationWorms(pWorms, swap, pSurfaceMap);
 	}
 	int motion = pWorms->wormsObject->startMotion || pWorms->wormsObject->falling;
 	if (!swap)

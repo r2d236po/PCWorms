@@ -178,3 +178,16 @@ int displayWorms(Worms* pWorms, int mode)
 	return 0;
 }
 
+
+SDL_Rect animationSprite(SDL_Surface* pSurfaceSprite, int nbFrame, int indexAnim)
+{
+	int w, h, step = 0, x = 0;
+	SDL_Rect clip;
+	w = pSurfaceSprite->w;
+	h = pSurfaceSprite->h;
+	step = w / nbFrame;
+	x = step * indexAnim;
+	clip = initRect(x, 0, step, h);
+	return clip;
+}
+

@@ -299,6 +299,11 @@ void cleanSprites(void)
 		SDL_FreeSurface(spriteNukeExplosion);
 		spriteNukeExplosion = NULL;
 	}
+	if (arme1 != NULL)
+	{
+		SDL_FreeSurface(arme1);
+		arme1 = NULL;
+	}
 	fprintf(logFile, "cleanSprites : DONE.\n");
 }
 

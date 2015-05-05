@@ -182,7 +182,7 @@ void getInput()
 			secuTextInput(globalInput);
 			globalInput->textInput[globalInput->textCounter] = '\0';
 			globalInput->raffraichissement = 1;
-			if (event.text.text[0] == 'q')
+			if (event.text.text[0] == 'q' || event.text.text[0] == 'Q')
 				globalInput->quit = 0;
 			break;
 		default:
@@ -268,6 +268,7 @@ int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCam
 	}
 	updateGameWorms(wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay);
 
+	
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -511,7 +512,7 @@ void resetStructInput()
 	globalInput->bombe = 0;
 	globalInput->deplacement = 0;
 	globalInput->screenshot = 0;
-	globalInput->camCentrer = 1;
+	globalInput->camCentrer = 0;
 	globalInput->changeWorms = 0;
 	globalInput->arme = 0;
 }

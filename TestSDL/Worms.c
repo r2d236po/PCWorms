@@ -27,7 +27,7 @@
 Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 {
 	Worms* worms = NULL;
-	SDL_Rect clip = initRect(445, 28, widthSpriteMov, hightSpriteMov);
+	SDL_Rect clip = initRect(445, 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
 	char strVie[10];
 	fprintf(logFile, "createWorms : START :\n\n");
 	worms = (Worms*)malloc(sizeof(Worms));
@@ -37,8 +37,8 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 		return NULL;
 	}
 	worms->wormsSurfaceTomb = loadImage("../assets/pictures/Tombe2_SD.png");
-	worms->wormsSurfaceLeft = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
-	worms->wormsSurfaceRight = SDL_CreateRGBSurface(0, widthSpriteMov, hightSpriteMov, 32, RMASK, GMASK, BMASK, AMASK);
+	worms->wormsSurfaceLeft = SDL_CreateRGBSurface(0, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE, 32, RMASK, GMASK, BMASK, AMASK);
+	worms->wormsSurfaceRight = SDL_CreateRGBSurface(0, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE, 32, RMASK, GMASK, BMASK, AMASK);
 	if (worms->wormsSurfaceTomb == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
@@ -287,7 +287,9 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 {
 	if (swap)
 		pWorms->indexAnim = 0;
-	animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
+	if (!globalInput->jumpOnGoing)
+		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
+	else animationWorms(pWorms, pWorms->indexAnim, UP);
 	int indexBoucle = 0;
 	enum DIRECTION dirTest = pWorms->dirSurface;
 	while (indexBoucle < 3 && collisionSurfaceWithMap(pSurfaceMap, pWorms->wormsObject->objectSurface, &dirTest, 1))
@@ -316,7 +318,9 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 		}
 	}
-	if (pWorms->indexAnim >= 14)
+	if (pWorms->indexAnim >= 14 && !globalInput->jumpOnGoing)
+		pWorms->indexAnim = 0;
+	else if (pWorms->indexAnim >= 18)
 		pWorms->indexAnim = 0;
 	else pWorms->indexAnim++;
 }
@@ -333,24 +337,52 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 {
 	SDL_Rect clip;
+	SDL_Surface* moveRight = NULL;
+	SDL_Surface* moveLeft = NULL;
+	SDL_Surface* moveUp = NULL;
 	switch (direction)
 	{
 	case RIGHT:
-		if (pWorms->dirSurface == RIGHT)
-			clip = initRect((24 + indexFrameAnim * 31), 84, widthSpriteMov, hightSpriteMov);
-		else	clip = initRect((11 + indexFrameAnim * 31), 28, widthSpriteMov, hightSpriteMov);
+		moveRight = loadImage("../assets/sprites/wormsRight.png");
+		if (moveRight == NULL)
+		{
+			fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+			cleanSprites();
+			return -1;
+		}
+		clip = animationSprite(moveRight, 15, indexFrameAnim);
+		copySurfacePixels(moveRight, &clip, pWorms->wormsObject->objectSurface, NULL);
+		SDL_FreeSurface(moveRight);
 		break;
 	case LEFT:
-		if (pWorms->dirSurface == LEFT)
-			clip = initRect((445 - indexFrameAnim * 31), 28, widthSpriteMov, hightSpriteMov);
-		else	clip = initRect((458 - indexFrameAnim * 31), 84, widthSpriteMov, hightSpriteMov);
+		moveLeft = loadImage("../assets/sprites/wormsLeft.png");
+		if (moveLeft == NULL)
+		{
+			fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+			cleanSprites();
+			return -1;
+		}
+		clip = animationSprite(moveLeft, 15, indexFrameAnim);
+		copySurfacePixels(moveLeft, &clip, pWorms->wormsObject->objectSurface, NULL);
+		SDL_FreeSurface(moveLeft);
 		break;
 	case UP:
+		moveUp = loadImage("../assets/sprites/wormsJump.png");
+		if (moveUp == NULL)
+		{
+			fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+			cleanSprites();
+			return -1;
+		}
+		clip = animationSprite(moveUp, 19, indexFrameAnim);
+		copySurfacePixels(moveUp, &clip, pWorms->wormsObject->objectSurface, NULL);
+		SDL_FreeSurface(moveUp);
 		break;
 	case DOWN:
 		break;
 	}
-	return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsObject->objectSurface, NULL);
+	//return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsObject->objectSurface, NULL);
+	return 0;
 }
 
 
@@ -465,12 +497,8 @@ void wormsOverlay(Worms** wormsTab)
 			SDL_Rect boxWorms2 = createGlobalRect(3, rectTab);
 			if (collisionRectWithRect(&boxWorms1, &boxWorms2))
 			{
-				display(wormsTab[i]->wormsObject->objectSurface, 0);
-				display(wormsTab[j]->wormsObject->objectSurface, 0);
-				display(wormsTab[i]->texteNameSurface, 0);
-				display(wormsTab[i]->texteLifeSurface, 0);
-				display(wormsTab[j]->texteNameSurface, 0);
-				display(wormsTab[j]->texteLifeSurface, 0);
+				displayWorms(wormsTab[i], 0);
+				displayWorms(wormsTab[j], 0);
 			}
 		}
 	}
