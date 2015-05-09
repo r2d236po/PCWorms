@@ -26,6 +26,8 @@ void swapWormsSurface(Worms* pWorms);
 /*Gestion de l'animation*/
 void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap, int random);
 int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, int random);
+void randomAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap);
+int randomWorms();
 
 /*Gestion de l'overlay*/
 void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);

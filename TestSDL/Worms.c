@@ -93,6 +93,8 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 
 	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->indexAnim = 0;
+	worms->random = 0;
+	worms->randomCounter = 0;
 	worms->dirSurface = RIGHT;
 	worms->arme = NULL;
 	worms->team = team;
@@ -326,15 +328,16 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap, in
 			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 		}
 	}
-	if (random == 1 && pWorms->indexAnim)
+	if (random == 1 && pWorms->indexAnim >= 6)
 		pWorms->indexAnim = 0;
-	else if (random == 2 && pWorms->indexAnim)
+	else if (random == 2 && pWorms->indexAnim >= 8)
 		pWorms->indexAnim = 0;
 	else if (pWorms->indexAnim >= 14 && !globalInput->jumpOnGoing)
 		pWorms->indexAnim = 0;
 	else if (pWorms->indexAnim >= 18)
 		pWorms->indexAnim = 0;
-	else pWorms->indexAnim += WORMSANIMSPEED;
+	else if (!swap)
+		pWorms->indexAnim += WORMSANIMSPEED;
 }
 
 /**
@@ -356,18 +359,36 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, 
 		switch (direction)
 		{
 		case RIGHT:
+			if (random == 1)
+			{
+				randomSurface = loadImage("../assets/sprites/wormsRandom1R.png");
+				pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 6, indexFrameAnim);
+			}
+			else
+			{
+				randomSurface = loadImage("../assets/sprites/wormsRandom2R.png");
+				pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 8, indexFrameAnim);
+			}
+			if (randomSurface != NULL)
+				SDL_FreeSurface(randomSurface);
 			break;
 		case LEFT:
 			if (random == 1)
+			{
 				randomSurface = loadImage("../assets/sprites/wormsRandom1.png");
-			else randomSurface = loadImage("../assets/sprites/wormsRandom2.png");
-			pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 6, indexFrameAnim);
+				pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 6, indexFrameAnim);
+			}
+			else
+			{
+				randomSurface = loadImage("../assets/sprites/wormsRandom2.png");
+				pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 8, indexFrameAnim);
+			}
 			if (randomSurface != NULL)
 				SDL_FreeSurface(randomSurface);
 			break;
 		}
 	}
-	else 
+	else
 	{
 		switch (direction)
 		{
@@ -389,6 +410,60 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, 
 	}
 	return 0;
 }
+
+/**
+* \fn void randomAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
+* \brief Perform random animations when the worms is not moving.
+*
+* \param[in] pWorms, pointer to the worms to animate.
+* \param[in] pSurfaceMap, pointer to the map's surface.
+* \returns void.
+*/
+void randomAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
+{
+	int motion = pWorms->wormsObject->startMotion || pWorms->wormsObject->falling;
+	if (!motion || pWorms->random)
+	{
+		if (pWorms->indexAnim == 0)
+		{
+			pWorms->random = randomWorms();
+		}
+		if (pWorms->random)
+		{
+			if (pWorms->randomCounter % 4 == 0)
+			{
+				gestionAnimationWorms(pWorms, 0, pSurfaceMap, pWorms->random);
+				globalInput->raffraichissement = 1;
+			}
+			pWorms->randomCounter++;
+		}
+		else pWorms->randomCounter = 0;
+	}
+	else pWorms->random = 0;
+}
+
+/**
+* \fn int randomWorms()
+* \brief Calculate a random animation index.
+*
+* \returns index of the random animation.
+*/
+int randomWorms()
+{
+	int rand = rand_a_b(0, 30000);
+	static unsigned int time = 0;
+	time = SDL_GetTicks() - time;
+	if (time % 50 == 0)
+	{
+		if (rand < 10000)
+			return 0;
+		else if (rand >= 10000 && rand < 20000)
+			return 1;
+		return 2;
+	}
+	return 0;
+}
+
 
 
 
@@ -433,6 +508,7 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
 					resetInputs();
 			}
+			randomAnimationWorms(wormsTab[indexWorms], pSurfaceMapCollision);
 			if (globalInput->deplacement || globalInput->raffraichissement)
 			{
 				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	

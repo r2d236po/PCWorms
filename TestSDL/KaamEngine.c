@@ -276,11 +276,13 @@ void KaamWormsMotionManagement(Worms* pWorms, SDL_Surface* pSurfaceMap)
 			swap = swapManagement(pWorms, pSurfaceMap);
 		gestionAnimationWorms(pWorms, swap, pSurfaceMap, 0);
 	}
-	int motion = pWorms->wormsObject->startMotion || pWorms->wormsObject->falling;
 	if (!swap)
 		KaamPhysicManagement(pWorms->wormsObject, pSurfaceMap);
+	int motion = pWorms->wormsObject->startMotion || pWorms->wormsObject->falling;
 	if (motion == 1 && pWorms->wormsObject->startMotion == 0 && pWorms->wormsObject->falling == 0)
+	{
 		wormsFallDamages(pWorms);
+	}
 }
 
 

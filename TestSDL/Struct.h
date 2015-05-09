@@ -42,6 +42,8 @@ typedef struct Worms{			//Structure worms
 	SDL_Color* color;
 	int indexAnim;
 	struct Equipe* team;
+	char random;
+	char randomCounter;
 	//son?
 } Worms;
 

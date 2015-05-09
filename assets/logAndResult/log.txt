@@ -1,4 +1,4 @@
-Start of session : Sat May 09 12:54:15 2015
+Start of session : Sat May 09 14:12:50 2015
 
 
 loadImage : SUCCESS.
@@ -76,6 +76,8 @@ loadTexture : SUCCESS.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/map.png.
 loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/map.png.
+loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptestCam.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptestCam.png.
@@ -89,11 +91,27 @@ loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/maptest4.png.
 mainInit : DONE.
 	nombre d'equipes : 1.
-	nombre de worms par equipe : 1 0 0 0.
+	nombre de worms par equipe : 2 0 0 0.
 
 nouveauJeu : START :
 
 nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -139,856 +157,334 @@ KaamInitGame : DONE.
 initCameras : DONE.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
 
 cleanSounds : DONE.
 ||| END OF THE GAME |||
@@ -1000,9 +496,11 @@ mainFenetre : SUCCESS.
 saveGame : SUCCESS.
 KaamDestroyObject : DONE. 
 
+KaamDestroyObject : DONE. 
+
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
 
 
-End of Session : Sat May 09 12:55:00 2015
+End of Session : Sat May 09 14:13:18 2015
