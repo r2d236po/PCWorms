@@ -7,13 +7,23 @@
 #define ExploMed "../assets/sounds/Explosion_medium.wav"
 #define BipExplo "../assets/sounds/Bip_explosion.wav"
 #define ExploSourde "../assets/sounds/Explosion_sourde.mp3"
-//#define MusiqueMenu "../assets/sounds/MusiqueMenu.wav"
-#define MusiqueMenu "../assets/sounds/test.mp3"
+#define MusiqueMenu "../assets/sounds/MusiqueMenu.wav"
 
-Mix_Music* ptrMusic;
-Mix_Chunk* sndFx;
+typedef struct // structure pour les chunk
+{
+	char *adresse;
+	Mix_Chunk * ptrChunk;
+}Chunk;
+
+int indextab; // index de la dernière case non vide du tableau
+Mix_Chunk * sndFx;
+Chunk chunkTab[30];
+Mix_Music * ptrMusicMenu;
+
 
 int initSDLMixer();
-int loadSounds(const char* file, int type);
+int loadSounds(char* file, int type);
+int playMusiqueMenu(int validation);
+int findChunkInTab(char * file);
 void cleanSounds();
 #endif // !SOUND_H

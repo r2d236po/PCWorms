@@ -27,17 +27,8 @@ int mainMenu(char mapName[100])
 
 	SDL_StartTextInput();
 
-	if (globalInput->musicAllowed)
-	{
-		if (loadSounds(ExploSourde, 1))
-		{
-			/*if (Mix_PlayMusic(ptrMusic, -1) == -1)
-						{
-						fprintf(logFile, "Bug playsound\n");
-						}*/
-		}
-
-	}
+	playMusiqueMenu(globalInput->musicAllowed); //playMusique first
+	
 	while (!quitMenu)
 	{
 		getInput();
@@ -1000,6 +991,7 @@ void setMusicOption(enum CHOICE *pChoice)
 	if (*pChoice == YES)
 		globalInput->musicAllowed = 1;
 	else globalInput->musicAllowed = 0;
+	playMusiqueMenu(globalInput->musicAllowed);
 }
 
 /**
