@@ -30,6 +30,7 @@
 #define GMASK 0x0000FF00
 #define BMASK 0x00FF0000
 #define AMASK 0xFF000000
+#define GLOBALFONTSIZE 12
 
 /*Chemins de map*/
 #define cMAP		"../assets/pictures/map.png"

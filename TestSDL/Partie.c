@@ -176,7 +176,7 @@ int mainInit()
 	int i;
 
 	globalVar.FontName = NULL;
-	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", 12);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
+	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", GLOBALFONTSIZE);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
 	if (globalVar.FontName == NULL)
 	{
 		fprintf(logFile, "Font loading : FAILURE.\n");

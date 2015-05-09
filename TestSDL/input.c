@@ -266,7 +266,7 @@ int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCam
 	{
 		teleportWorms(wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface, pCamera);
 	}
-	updateGameWorms(wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay);
+	updateGameWorms(wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay, pCamera);
 
 	
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
@@ -335,7 +335,7 @@ void inputsJumpWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 			if (globalInput->jumpOnGoing)
 			{
 				pWorms->indexAnim = 0;
-				animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
+				animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface, 0);
 			}
 		}
 	}

@@ -4,8 +4,8 @@
 #include "Libraries.h"
 #include "my_stdrFct.h"
 
-#define groundSpeed 1
-#define Xtest 1
+#define GROUNDSPEED 1
+#define XTEST 1
 #define Ytest 3
 
 /*Set functions*/

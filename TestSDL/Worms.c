@@ -27,6 +27,8 @@
 Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 {
 	Worms* worms = NULL;
+	SDL_Surface* moveRight = NULL;
+	SDL_Surface* moveLeft = NULL;
 	SDL_Rect clip = initRect(445, 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
 	char strVie[10];
 	fprintf(logFile, "createWorms : START :\n\n");
@@ -36,14 +38,17 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 		fprintf(logFile, "createWorms : FAILURE, allocating memory to worms.\n\n");
 		return NULL;
 	}
-	worms->wormsSurfaceTomb = loadImage("../assets/pictures/Tombe2_SD.png");
-	worms->wormsSurfaceLeft = SDL_CreateRGBSurface(0, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE, 32, RMASK, GMASK, BMASK, AMASK);
-	worms->wormsSurfaceRight = SDL_CreateRGBSurface(0, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE, 32, RMASK, GMASK, BMASK, AMASK);
-	if (worms->wormsSurfaceTomb == NULL)
+	moveLeft = loadImage("../assets/sprites/moveLeft.png");
+	if (moveLeft != NULL)
 	{
-		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
-		destroyWorms(&worms, 1);
-		return NULL;
+		worms->wormsSurfaceLeft = animationSprite(moveLeft, NULL, 15, 14);
+		SDL_FreeSurface(moveLeft);
+	}
+	moveRight = loadImage("../assets/sprites/moveRight.png");
+	if (moveRight != NULL)
+	{
+		worms->wormsSurfaceRight = animationSprite(moveRight, NULL, 15, 0);
+		SDL_FreeSurface(moveRight);
 	}
 	if (worms->wormsSurfaceLeft == NULL || worms->wormsSurfaceRight == NULL)
 	{
@@ -51,10 +56,14 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
-	SDL_BlitSurface(spriteDeplacement, &clip, worms->wormsSurfaceLeft, NULL);
-	clip.x = 24;
-	clip.y = 84;
-	SDL_BlitSurface(spriteDeplacement, &clip, worms->wormsSurfaceRight, NULL);
+
+	worms->wormsSurfaceTomb = loadImage("../assets/pictures/Tombe2_SD.png");
+	if (worms->wormsSurfaceTomb == NULL)
+	{
+		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
+		destroyWorms(&worms, 1);
+		return NULL;
+	}
 
 	//initialisation des variables autres
 	worms->vie = 100;
@@ -75,13 +84,12 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	clip.y = 100;
 	clip.w = worms->wormsSurfaceRight->w;
 	clip.h = worms->wormsSurfaceRight->h;
-	if ((worms->wormsObject = KaamInitObject(clip, 0.0, 0.0, DOWN, 0)) == NULL)
+	if ((worms->wormsObject = KaamInitObject(worms->wormsSurfaceRight, 0.0, 0.0, DOWN, 0)) == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, KaamInitObject.\n\n");
 		destroyWorms(&worms, 1);
 		return NULL;
 	}
-	KaamInitSurfaceObject(worms->wormsObject, (Uint32*)worms->wormsSurfaceRight->pixels, worms->wormsSurfaceRight->w * worms->wormsSurfaceRight->h);
 
 	//worms->invent = initInvent(Worms* worms); A FAIRE
 	worms->indexAnim = 0;
@@ -276,20 +284,20 @@ void setWormsSpeed(Worms* pWorms, enum DIRECTION jumpDirection)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
+* \fn void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap, int random)
 * \brief Manages animation of the worms.
 *
 * \param[in] pWorms, pointer to the worms to swap
 * \param[in] swap, indicates if a swap occured.
 * \returns void
 */
-void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
+void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap, int random)
 {
 	if (swap)
 		pWorms->indexAnim = 0;
 	if (!globalInput->jumpOnGoing)
-		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface);
-	else animationWorms(pWorms, pWorms->indexAnim, UP);
+		animationWorms(pWorms, pWorms->indexAnim, pWorms->dirSurface, random);
+	else animationWorms(pWorms, pWorms->indexAnim, UP, random);
 	int indexBoucle = 0;
 	enum DIRECTION dirTest = pWorms->dirSurface;
 	while (indexBoucle < 3 && collisionSurfaceWithMap(pSurfaceMap, pWorms->wormsObject->objectSurface, &dirTest, 1))
@@ -318,15 +326,19 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 			pWorms->wormsObject->objectBox.x = pWorms->wormsObject->objectSurface->clip_rect.x;
 		}
 	}
-	if (pWorms->indexAnim >= 14 && !globalInput->jumpOnGoing)
+	if (random == 1 && pWorms->indexAnim)
+		pWorms->indexAnim = 0;
+	else if (random == 2 && pWorms->indexAnim)
+		pWorms->indexAnim = 0;
+	else if (pWorms->indexAnim >= 14 && !globalInput->jumpOnGoing)
 		pWorms->indexAnim = 0;
 	else if (pWorms->indexAnim >= 18)
 		pWorms->indexAnim = 0;
-	else pWorms->indexAnim++;
+	else pWorms->indexAnim += WORMSANIMSPEED;
 }
 
 /**
-* \fn void animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
+* \fn void animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, int random)
 * \brief Realise les animations de deplacement.
 *
 * \param[in] pWorms, worms a animer
@@ -334,27 +346,47 @@ void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap)
 * \param[in] direction, direction du deplacement
 * \returns 1 = affichage frame OK, 0 = problem copy frame
 */
-int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
+int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, int random)
 {
-	SDL_Rect clip;
-	switch (direction)
+	SDL_Surface* moveRight = NULL;
+	SDL_Surface* moveLeft = NULL;
+	SDL_Surface* randomSurface = NULL;
+	if (random > 0)
 	{
-	case RIGHT:
-		if (pWorms->dirSurface == RIGHT)
-			clip = initRect((24 + indexFrameAnim * 31), 84, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
-		else	clip = initRect((11 + indexFrameAnim * 31), 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
-		break;
-	case LEFT:
-		if (pWorms->dirSurface == LEFT)
-			clip = initRect((445 - indexFrameAnim * 31), 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
-		else	clip = initRect((458 - indexFrameAnim * 31), 84, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
-		break;
-	case UP:
-		break;
-	case DOWN:
-		break;
+		switch (direction)
+		{
+		case RIGHT:
+			break;
+		case LEFT:
+			if (random == 1)
+				randomSurface = loadImage("../assets/sprites/wormsRandom1.png");
+			else randomSurface = loadImage("../assets/sprites/wormsRandom2.png");
+			pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 6, indexFrameAnim);
+			if (randomSurface != NULL)
+				SDL_FreeSurface(randomSurface);
+			break;
+		}
 	}
-	return copySurfacePixels(spriteDeplacement, &clip, pWorms->wormsObject->objectSurface, NULL);
+	else 
+	{
+		switch (direction)
+		{
+		case RIGHT:
+			moveRight = loadImage("../assets/sprites/moveRight.png");
+			pWorms->wormsObject->objectSurface = animationSprite(moveRight, pWorms->wormsObject->objectSurface, 15, indexFrameAnim);
+			if (moveRight != NULL)
+				SDL_FreeSurface(moveRight);
+			break;
+		case LEFT:
+			moveLeft = loadImage("../assets/sprites/moveLeft.png");
+			pWorms->wormsObject->objectSurface = animationSprite(moveLeft, pWorms->wormsObject->objectSurface, 15, indexFrameAnim);
+			if (moveLeft != NULL)
+				SDL_FreeSurface(moveLeft);
+			break;
+		case UP:
+			break;
+		}
+	}
 	return 0;
 }
 
@@ -371,20 +403,16 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction)
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
+* \fn void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 * \brief Update worms display, manages overlay and physics for all worms.
 *
 * \param[in] wormsTab, array of worms.
 * \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
 * \returns void
 */
-void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay)
+void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
-	int x, y;
-	double xx, yy, z;
 	int indexWorms;
-	static char armePrec = 0;
-	SDL_Surface* rotoSurface = NULL;
 	if (!globalInput->menu)
 	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
@@ -405,44 +433,17 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
 					resetInputs();
 			}
-			if (globalInput->deplacement || globalInput->raffraichissement || globalInput->arme || armePrec)
+			if (globalInput->deplacement || globalInput->raffraichissement)
 			{
-				if (globalInput->arme && indexWorms == globalVar.indexWormsTab && !armePrec) // On affiche l'arme la première fois
-				{
-					arme1->clip_rect.x = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x - 10;
-					arme1->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + 5;
-					display(arme1, 1);
-					display(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface, 0);
-				}
-				if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
-				{
-					SDL_GetMouseState(&x, &y);
-					xx = MY_ABS((x - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x)));
-					yy = y - (wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y);
-					z = atan(yy / xx);
-					z = (z / pi * 180.0);
-					rotoSurface = rotozoomSurface(arme1, z, 1.0, 1);
-					centerRectToPoint(&rotoSurface->clip_rect, arme1->clip_rect.x + arme1->w / 2, arme1->clip_rect.y + arme1->h / 2);
-					display(wormsTab[indexWorms]->wormsObject->objectSurface, 0);
-					display(rotoSurface, 1);
-					SDL_FreeSurface(rotoSurface);
-				}
-				else display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-				if (globalInput->arme == 0 && armePrec == 1) // On efface l'arme
-				{
-					updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, &arme1->clip_rect, 1);
-					updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, &arme1->clip_rect);
-					display(wormsTab[indexWorms]->wormsObject->objectSurface, 1);
-				}
-				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie				
-				display(wormsTab[indexWorms]->texteLifeSurface, 1);
-				display(wormsTab[indexWorms]->texteNameSurface, 1);
+				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	
+				displayWorms(wormsTab[indexWorms], 1);
 				wormsOverlay(wormsTab);
 				globalInput->raffraichissement = 1;
 			}
+			if (indexWorms == globalVar.indexWormsTab)
+				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab[indexWorms], 0, pCamera);
 		}
 	}
-	armePrec = globalInput->arme;
 }
 
 /**

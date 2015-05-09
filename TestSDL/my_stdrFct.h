@@ -15,7 +15,8 @@ Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
 void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
 int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest);
-void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect);
+void eraseRectFromMap(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect);
+void cleanSurface(SDL_Surface* pSurface);
 
 /*Update Texture*/
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRectPrec);

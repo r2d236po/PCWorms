@@ -230,7 +230,7 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 }
 
 /**
-* \fn void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
+* \fn void eraseRectFromMap(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
 * \brief Restore an area of the main surface.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
@@ -238,14 +238,27 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 * \param[in] pRect, pointer to the rect of the area to erase.
 * \returns void
 */
-void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
+void eraseRectFromMap(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
 {
 	updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, pRect, 1);
 	updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, pRect);
 }
 
-
-
+/**
+* \fn void cleanSurface(SDL_Surface* pSurface)
+* \brief Erase all pixel of a surface.
+*
+* \param[in] pSurface, pointer to the surface.
+* \returns void
+*/
+void cleanSurface(SDL_Surface* pSurface)
+{
+	int w = pSurface->w, h = pSurface->h;
+	Uint32 cleanPixel = SDL_MapRGBA(pSurface->format, 255, 255, 255, 0);
+	int index, end = w*h;
+	for (index = 0; index < end; index++)
+		*((Uint32*)(pSurface->pixels) + index) = cleanPixel;
+}
 
 
 
@@ -272,6 +285,7 @@ void eraseRectFromSurface(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SD
 */
 int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
 {
+	reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
 	if (pRect->x != pSurfaceSecond->clip_rect.x || pRect->y != pSurfaceSecond->clip_rect.y)
 		updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
 	if (pSurfaceMain != pSurfaceSecond)

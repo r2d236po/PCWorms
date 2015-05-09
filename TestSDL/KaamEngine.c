@@ -77,10 +77,10 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 }
 
 /**
-* \fn KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
+* \fn KaamObject* KaamInitObject(SDL_Surface* pSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
 * \brief Initialiazes a KaamObject structure.
 *
-* \param[in] rectSurface, rect of the size and position of the surface to create.
+* \param[in] pSurface, surface to initialize the object with.
 * \param[in] initSpeedX, speed along X axis to initialises the object with.
 * \param[in] initSpeedY, speed along Y axis to initialises the object with.
 * \param[in] initDirection, direction of the object.
@@ -89,7 +89,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 * \remarks The surface is just initiliased, there is no pixels in it. It should be done after calling this function.
 *		   Use KaamInitSurfaceObject.
 */
-KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
+KaamObject* KaamInitObject(SDL_Surface* pSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
 {
 	KaamObject* objectTemp = (KaamObject*)malloc(sizeof(KaamObject));
 	if (objectTemp == NULL)
@@ -99,15 +99,16 @@ KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpe
 	}
 
 	/*Init object surface*/
-	objectTemp->objectSurface = SDL_CreateRGBSurface(0, rectSurface.w, rectSurface.h, 32, RMASK, GMASK, BMASK, AMASK);
+	objectTemp->objectSurface = SDL_CreateRGBSurface(0, pSurface->w, pSurface->h, 32, RMASK, GMASK, BMASK, AMASK);
 	if (objectTemp->objectSurface == NULL)
 	{
 		fprintf(logFile, "KaamInitObject : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
 		KaamDestroyObject(&objectTemp);
 		return NULL;
 	}
-	objectTemp->objectSurface->clip_rect.x = rectSurface.x;
-	objectTemp->objectSurface->clip_rect.y = rectSurface.y;
+	memcpy(objectTemp->objectSurface->pixels, pSurface->pixels, pSurface->w*pSurface->h*sizeof(Uint32));
+	objectTemp->objectSurface->clip_rect.x = pSurface->clip_rect.x;
+	objectTemp->objectSurface->clip_rect.y = pSurface->clip_rect.y;
 
 	/*Init absolute coordinate*/
 	resetAbsoluteCoordinates(objectTemp->objectSurface, &objectTemp->absoluteCoordinate.x, &objectTemp->absoluteCoordinate.y);
@@ -168,20 +169,6 @@ void KaamDestroyObject(KaamObject** p_pObject)
 		(*p_pObject) = NULL;
 	}
 	fprintf(logFile, "KaamDestroyObject : DONE. \n\n");
-}
-
-/**
-* \fn void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels)
-* \brief Initialises the pixels of a surface.
-*
-* \param[in] pObject, pointer to the object.
-* \param[in] pixels, array of pixels.
-* \param[in] nbPixels, number of pixels.
-* \returns void
-*/
-void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels)
-{
-	memcpy(pObject->objectSurface->pixels, pixels, nbPixels*sizeof(Uint32));
 }
 
 
@@ -282,12 +269,12 @@ void KaamGravityManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject)
 void KaamWormsMotionManagement(Worms* pWorms, SDL_Surface* pSurfaceMap)
 {
 	int launchAnim = globalInput->direction != NONE && !globalInput->jumpOnGoing && (pWorms->wormsObject->falling == 0) && globalInput->direction != DOWN;
-	int swap = 0; 
+	int swap = 0;
 	if (launchAnim)
 	{
 		if (!globalInput->jumpOnGoing)
 			swap = swapManagement(pWorms, pSurfaceMap);
-			gestionAnimationWorms(pWorms, swap, pSurfaceMap);
+		gestionAnimationWorms(pWorms, swap, pSurfaceMap, 0);
 	}
 	int motion = pWorms->wormsObject->startMotion || pWorms->wormsObject->falling;
 	if (!swap)
@@ -372,13 +359,13 @@ void KaamGroundMotion(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		{
 		case RIGHT:
 			if (pObject->rightOk)
-				pObject->objectSurface->clip_rect.x += groundSpeed;
+				pObject->objectSurface->clip_rect.x += GROUNDSPEED;
 			if (pObject->rightOk > 1)
 				pObject->objectSurface->clip_rect.y -= 1;
 			break;
 		case LEFT:
 			if (pObject->leftOk)
-				pObject->objectSurface->clip_rect.x -= groundSpeed;
+				pObject->objectSurface->clip_rect.x -= GROUNDSPEED;
 			if (pObject->leftOk > 1)
 				pObject->objectSurface->clip_rect.y -= 1;
 			break;

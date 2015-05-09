@@ -474,7 +474,7 @@ void setTeamName()
 */
 void setWormsName( int indexTeam)
 {
-	int indexPrec = 0, i, y = 0, init = 0, indexTest;
+	int indexPrec = 0, i, y = 0, init = 0, indeXTEST;
 	static int indexWorms = 0, team = 1;
 	char strTitre[45];
 	SDL_Color color;
@@ -490,8 +490,8 @@ void setWormsName( int indexTeam)
 	indexWorms = getWormsIndexText(init);
 	if (indexWorms > 1)
 	{
-		indexTest = indexWorms + (indexTeam - 1) * 4;
-		for (i = (indexTeam - 1) * 4; i < indexTest - 1; i++)
+		indeXTEST = indexWorms + (indexTeam - 1) * 4;
+		for (i = (indexTeam - 1) * 4; i < indeXTEST - 1; i++)
 		{
 			if (strcmp(globalVar.wormsNames[i], "") == 0)
 			{

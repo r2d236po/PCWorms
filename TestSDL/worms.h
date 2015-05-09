@@ -9,7 +9,7 @@
 #define WIDTHSPRITEMOVE 31
 #define HIGHTSPRITEMOVE 30
 #define DAMAGEFALL 0.33
-
+#define WORMSANIMSPEED 1
 
 /*Initialisation / Destruction*/
 Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur);	//Créé un worms 
@@ -24,11 +24,11 @@ int swapWorms(Worms* pWorms);
 void swapWormsSurface(Worms* pWorms);
 
 /*Gestion de l'animation*/
-void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap);
-int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction);
+void gestionAnimationWorms(Worms* pWorms, int swap, SDL_Surface* pSurfaceMap, int random);
+int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, int random);
 
 /*Gestion de l'overlay*/
-void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay);
+void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
 void wormsOverlay(Worms** wormsTab);
 
 /*Fonctions diverses*/

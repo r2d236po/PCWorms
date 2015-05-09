@@ -30,7 +30,7 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 void updateTextSurfaceWormsTab(Worms** wormsTab)
 {
 	int i;
-	for (i = 0; i < globalVar.nbWormsTotal ; i++)
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
 	{
 		updateTextSurfaceWorms(wormsTab[i]);
 	}
@@ -52,6 +52,7 @@ int updateTextSurfaceWorms(Worms* pWorms)
 	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(pWorms->color));
 	if (txtLifeSurface == NULL)
 		return -1;
+	cleanSurface(pWorms->texteLifeSurface);
 	copySurfacePixels(txtLifeSurface, NULL, pWorms->texteLifeSurface, NULL);
 	SDL_FreeSurface(txtLifeSurface);
 	txtLifeSurface = NULL;
@@ -68,30 +69,26 @@ int updateTextSurfaceWorms(Worms* pWorms)
 */
 void updateTextSurfacePosition(Worms* pWorms)
 {
-	int i, t_x, t_y;
+	int t_x, t_y;
+	//Affichage du Nom
+	t_x = pWorms->wormsObject->objectSurface->clip_rect.x + pWorms->wormsObject->objectSurface->w / 2 - (pWorms->texteNameSurface->clip_rect.w / 2);
+	t_y = pWorms->wormsObject->objectSurface->clip_rect.y - pWorms->texteLifeSurface->h - pWorms->texteNameSurface->h;
 
-	for (i = 0; i < globalVar.nbWormsTotal; i++)
+	if (t_x >= 0)
 	{
-		//Affichage du Nom
-		t_x = pWorms->wormsObject->objectSurface->clip_rect.x + 15 - (pWorms->texteNameSurface->clip_rect.w / 2);
-		t_y = pWorms->wormsObject->objectSurface->clip_rect.y - 40;
-
-		if (t_x >= 0)
-		{ 
-			pWorms->texteNameSurface->clip_rect.x = t_x; 
-		}
-		else pWorms->texteNameSurface->clip_rect.x = pWorms->wormsObject->objectSurface->clip_rect.x;
-
-		if (t_y >= 0) 
-		{ 
-			pWorms->texteNameSurface->clip_rect.y = t_y; 
-		}
-		else pWorms->texteNameSurface->clip_rect.y = pWorms->wormsObject->objectSurface->clip_rect.y + 40;
-
-		//Affichage de la Vie
-		pWorms->texteLifeSurface->clip_rect.x = pWorms->texteNameSurface->clip_rect.x + (pWorms->texteNameSurface->clip_rect.w / 2) - (pWorms->texteLifeSurface->clip_rect.w / 2);
-		pWorms->texteLifeSurface->clip_rect.y = pWorms->texteNameSurface->clip_rect.y + pWorms->texteNameSurface->clip_rect.h;
+		pWorms->texteNameSurface->clip_rect.x = t_x;
 	}
+	else pWorms->texteNameSurface->clip_rect.x = pWorms->wormsObject->objectSurface->clip_rect.x;
+
+	if (t_y >= 0)
+	{
+		pWorms->texteNameSurface->clip_rect.y = t_y;
+	}
+	else pWorms->texteNameSurface->clip_rect.y = pWorms->wormsObject->objectSurface->clip_rect.y + pWorms->texteLifeSurface->h + pWorms->texteNameSurface->h;
+
+	//Affichage de la Vie
+	pWorms->texteLifeSurface->clip_rect.x = pWorms->texteNameSurface->clip_rect.x + (pWorms->texteNameSurface->w / 2) - (pWorms->texteLifeSurface->w / 2);
+	pWorms->texteLifeSurface->clip_rect.y = pWorms->texteNameSurface->clip_rect.y + pWorms->texteNameSurface->h;
 }
 
 /**

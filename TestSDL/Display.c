@@ -171,23 +171,78 @@ int displayWorms(Worms* pWorms, int mode)
 {
 	if (display(pWorms->wormsObject->objectSurface, mode) < 0)
 		return -1;
-	if (display(pWorms->texteNameSurface, mode) < 0)
-		return -1;
 	if (display(pWorms->texteLifeSurface, mode) < 0)
+		return -1;
+	if (display(pWorms->texteNameSurface, mode) < 0)
 		return -1;
 	return 0;
 }
 
-
-SDL_Rect animationSprite(SDL_Surface* pSurfaceSprite, int nbFrame, int indexAnim)
+/**
+* \fn SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurface, int nbFrame, int indexAnim)
+* \brief Load the right frame into a surface from a sprite.
+*
+* \param[in] pSurfaceSprite, pointer to the sprite's surface.
+* \param[in] pAnimSurface, pointer to the animation's surface, NULL creates automatically a new surface.
+* \param[in] nbFrame, number of frame in the sprite.
+* \param[in] indexAnim, index of the frame in the sprite.
+* \returns the surface with the frame, NULL on error
+* \remarks ATTENTION : If the size of the pAnimSurface and the size of the frame are different, the function creates a new surface
+* and free the old one. If the size are the same, the pAnimSurface is returned. SO BE CAREFULL, if in your function you call 
+* animationSprite with NULL in pAnimSurface, remember to FREE your surface when you're done. 
+*/
+SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurface, int nbFrame, int indexAnim)
 {
 	int w, h, step = 0, x = 0;
+	SDL_Surface* newAnimSurface = NULL;
 	SDL_Rect clip;
+	if (pSurfaceSprite == NULL)
+		return pAnimSurface;
 	w = pSurfaceSprite->w;
 	h = pSurfaceSprite->h;
 	step = w / nbFrame;
 	x = step * indexAnim;
 	clip = initRect(x, 0, step, h);
-	return clip;
+	if (pAnimSurface == NULL)
+	{
+		newAnimSurface = SDL_CreateRGBSurface(0, step, h, 32, RMASK, GMASK, BMASK, AMASK);
+		if (newAnimSurface != NULL)
+			copySurfacePixels(pSurfaceSprite, &clip, newAnimSurface, NULL);
+		return newAnimSurface;
+	}
+	else if (pAnimSurface->w != step || pAnimSurface->h != h)
+	{
+		newAnimSurface = SDL_CreateRGBSurface(0, step, h, 32, RMASK, GMASK, BMASK, AMASK);
+		if (newAnimSurface != NULL)
+		{
+			recenterSurface(pAnimSurface, newAnimSurface);
+			copySurfacePixels(pSurfaceSprite, &clip, newAnimSurface, NULL);
+			SDL_FreeSurface(pAnimSurface);
+			return newAnimSurface;
+		}
+	}
+	else
+	{
+		copySurfacePixels(pSurfaceSprite, &clip, pAnimSurface, NULL);
+	}
+	return pAnimSurface;
 }
 
+/**
+* \fn void recenterSurface(SDL_Surface* oldSurface, SDL_Surface* newSurface)
+* \brief Reposition the new surface at the same place as the old surface used to be.
+*
+* \param[in] oldSurface, pointer to the old surface.
+* \param[in] newSurface, pointer to the new surface..
+* \returns void
+* \remarks the functions handle the negative positionning but NOT the limits of the map, so be carreful.
+*/
+void recenterSurface(SDL_Surface* oldSurface, SDL_Surface* newSurface)
+{
+	newSurface->clip_rect.x = oldSurface->clip_rect.x;
+	if (newSurface->clip_rect.x < 0)
+		newSurface->clip_rect.x = 0;
+	newSurface->clip_rect.y = oldSurface->clip_rect.y + oldSurface->h - newSurface->h;
+	if (newSurface->clip_rect.y < 0)
+		newSurface->clip_rect.y = 0;
+}

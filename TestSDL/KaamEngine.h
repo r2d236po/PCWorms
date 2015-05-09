@@ -9,8 +9,7 @@ void KaamEngine();
 
 /*Inits*/
 int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap);
-KaamObject* KaamInitObject(SDL_Rect rectSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon);
-void KaamInitSurfaceObject(KaamObject* pObject, Uint32* pixels, Uint32 nbPixels);
+KaamObject* KaamInitObject(SDL_Surface* pSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon);
 void KaamDestroyObject(KaamObject** p_pObject);
 
 /*Physic Management*/
