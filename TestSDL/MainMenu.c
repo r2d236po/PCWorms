@@ -27,8 +27,8 @@ int mainMenu(char mapName[100])
 
 	SDL_StartTextInput();
 
-	playMusiqueMenu(globalInput->musicAllowed); //playMusique first
-	
+	playMusique(globalInput->musicAllowed,MusiqueMenu);
+
 	while (!quitMenu)
 	{
 		getInput();
@@ -991,7 +991,7 @@ void setMusicOption(enum CHOICE *pChoice)
 	if (*pChoice == YES)
 		globalInput->musicAllowed = 1;
 	else globalInput->musicAllowed = 0;
-	playMusiqueMenu(globalInput->musicAllowed);
+	playMusique(globalInput->musicAllowed, MusiqueMenu);
 }
 
 /**

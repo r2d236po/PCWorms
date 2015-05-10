@@ -55,6 +55,9 @@ int mainFenetre()
 			cleanUp(&pTextureDisplay);
 			return -1;
 		}
+
+		playMusique(0,MusiqueMenu);
+
 		if (!globalInput->quit)
 		{
 			if (mainInit() < 0)	//set le nombre d'équipe et le nombre de worms par équipe
