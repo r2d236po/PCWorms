@@ -102,6 +102,7 @@ void cleanSounds()
 	{
 		if (musicTab[i].ptrMusic != NULL){
 			Mix_FreeMusic(musicTab[i].ptrMusic);
+			musicTab[i].adresse = NULL;
 			musicTab[i].ptrMusic = NULL;
 		}
 	}
@@ -109,6 +110,7 @@ void cleanSounds()
 	{
 		if (chunkTab[i].ptrChunk != NULL){
 			Mix_FreeChunk(chunkTab[i].ptrChunk);
+			chunkTab[i].adresse = NULL;
 			chunkTab[i].ptrChunk = NULL;
 		}
 	}
@@ -166,11 +168,13 @@ int playMusique(int validation,char * file){
 */
 int findChunkInTab(char * file){
 	int i = 0;
-	for (i = 0; i < indexTabChunk; i++)
+	for (i = 0; i <= indexTabChunk; i++)
 	{
-		if (strcmp(chunkTab[i].adresse, file))
-		{
-			return i;
+		if (chunkTab[i].adresse != NULL){
+			if (strcmp(chunkTab[i].adresse, file) == 0)
+			{
+				return i;
+			}
 		}
 	}
 	return -1;
@@ -217,7 +221,7 @@ int playChunk(int validation, char * file){
 			}
 		}
 		else{
-			if (Mix_PlayChannel(-1, chunkTab[indexTabChunk].ptrChunk, 0) < 0)
+			if (Mix_PlayChannel(-1, chunkTab[index].ptrChunk, 0) < 0)
 			{
 				fprintf(logFile, "Bug playchunk: %s\n", Mix_GetError());
 				return -1;

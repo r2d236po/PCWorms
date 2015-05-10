@@ -96,14 +96,6 @@ int mainFenetre()
 				return -1;
 			}
 
-			/*Init sounds*/
-			if (loadSounds(BipExplo, 0) < 0)
-			{
-				fprintf(logFile, "mainFenetre : FAILURE, loadSounds.\n");
-				cleanUp(&pTextureDisplay);
-				return -1;
-			}
-
 			/*Init camera*/
 			initCameras(jeu->pMapTerrain, &camera, NULL);
 

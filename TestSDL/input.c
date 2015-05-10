@@ -165,6 +165,19 @@ void getInput()
 				secuTextInput(globalInput);
 				globalInput->textInput[globalInput->textCounter] = '\0';
 				break;
+			///////////////////////// test son num pad
+			case SDLK_KP_1:
+				playChunk(globalInput->soundAllowed, ExploMed);
+				break;
+			case SDLK_KP_2:
+				playChunk(globalInput->soundAllowed, BipExplo);
+				break;
+			case SDLK_KP_3:
+				playChunk(globalInput->soundAllowed, ExploSourde);
+				break;
+			case SDLK_KP_4:
+				playChunk(globalInput->soundAllowed, MusiqueVictoire);
+				break;
 
 			}
 			if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
