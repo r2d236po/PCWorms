@@ -9,7 +9,12 @@
 #define ExploSourde "../assets/sounds/Explosion_sourde.mp3"
 #define MusiqueMenu "../assets/sounds/MusiqueMenu.wav"
 #define MusiqueMenu2 "../assets/sounds/MusiqueMenu2.wav"
-#define MusiqueMenu3 "../assets/sounds/ffvii.wav"
+#define MusiqueVictoire "../assets/sounds/ffvii.wav"
+#define MusiqueInGame "../assets/sounds/musicInGame.wav"
+
+#define NBCHUNK 20
+#define NBMUSIC 5
+
 typedef struct // structure pour les chunk
 {
 	char *adresse;
@@ -25,8 +30,8 @@ typedef struct // structure pour les chunk
 int indexTabChunk; // index de la dernière case non vide du tableau des chunks
 int indexTabMusic; // index de la dernière case non vide du tableau des music
 Mix_Chunk * sndFx;
-Chunk chunkTab[30];
-Music musicTab[5];
+Chunk chunkTab[NBCHUNK];
+Music musicTab[NBMUSIC];
 Mix_Music * ptrMusicMenu;
 
 

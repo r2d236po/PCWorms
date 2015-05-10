@@ -57,6 +57,8 @@ int mainFenetre()
 		}
 
 		playMusique(0,MusiqueMenu);
+		playMusique(globalInput->musicAllowed, MusiqueInGame);
+		Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
 
 		if (!globalInput->quit)
 		{

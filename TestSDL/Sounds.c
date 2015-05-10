@@ -9,6 +9,7 @@ int initSDLMixer()
 {
 	indexTabChunk = 0;
 	indexTabMusic = 0;
+	Mix_AllocateChannels(NBCHUNK/3);
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1){
 		fprintf(logFile,"%s", Mix_GetError());
 		return 0;
@@ -116,9 +117,10 @@ void cleanSounds()
 
 
 /**
-* \fn int playMusiqueMenu(int validation)
+* \fn int playMusique(int validation,char * file)
 * \brief lit la musique du menu 
 * \param[in] validation, 1 pour lancer 0 pour arreter
+* \param[in] file, chemin du fichier à jouer
 * \return -1 = FAIL, 1 = success
 */
 int playMusique(int validation,char * file){
@@ -192,4 +194,35 @@ int findMusicInTab(char * file){
 		}
 	}
 	return -1;
+}
+
+/**
+* \fn int playChunk(int validation)
+* \brief lit la musique du menu
+* \param[in] validation, 1 pour lancer 0 pour arreter
+* \return -1 = FAIL, 1 = success
+*/
+int playChunk(int validation, char * file){
+	if (validation){
+		int index = findChunkInTab(file);
+		if (index == -1){
+			int index = loadSounds(file, 0);
+			if (index != -1)
+			{
+				if (Mix_PlayChannel(-1, chunkTab[indexTabChunk].ptrChunk,0) < 0)
+				{
+					fprintf(logFile, "Bug playchunk: %s\n", Mix_GetError());
+					return -1;
+				}
+			}
+		}
+		else{
+			if (Mix_PlayChannel(-1, chunkTab[indexTabChunk].ptrChunk, 0) < 0)
+			{
+				fprintf(logFile, "Bug playchunk: %s\n", Mix_GetError());
+				return -1;
+			}
+		}
+	}
+	return 1;
 }
