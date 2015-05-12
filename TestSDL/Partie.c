@@ -166,21 +166,27 @@ void updateTeamLife(Equipe** equipeTab)
 }
 
 /**
-* \fn void mainInit()
+* \fn int mainInit()
 * \brief
 *
-* \returns void
+* \returns 0 si OK, -1 si erreur
 */
 int mainInit()
 {
 	int i;
+	char str[10];
 
-	globalVar.FontName = NULL;
-	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", GLOBALFONTSIZE);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
-	if (globalVar.FontName == NULL)
+	if(setFonts())
+		return -1;
+
+	sprintf(str, " ");
+	timerSurface = NULL;
+	timerSurface = TTF_RenderText_Blended(globalVar.FontName[1], str, globalVar.colorTab[0]);
+	if (timerSurface == NULL)
 	{
-		fprintf(logFile, "Font loading : FAILURE.\n");
-		fprintf(logFile, "error : %s\n", TTF_GetError());
+		fprintf(logFile, "mainInit : FAILURE, timerSurface loading.\n");
+		fprintf(logFile, "error : %s\n\n", TTF_GetError());
+		cleanSprites();
 		return -1;
 	}
 
@@ -196,17 +202,6 @@ int mainInit()
 		globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);
 
 	return 0;
-}
-
-/**
-* \fn void destroyPolice()
-* \brief detruit la police globale.
-*
-* \returns void
-*/
-void destroyPolice()
-{
-	TTF_CloseFont(globalVar.FontName);
 }
 
 /**

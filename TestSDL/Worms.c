@@ -70,8 +70,8 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	sprintf(strVie, " %d ", worms->vie);
 	worms->color = couleur;
 	strcpy(worms->nom, name);
-	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, *(worms->color));
-	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, *(worms->color));
+	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], strVie, *(worms->color));
+	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName[0], worms->nom, *(worms->color));
 	if (worms->texteLifeSurface == NULL || worms->texteNameSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
@@ -519,6 +519,7 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 			if (indexWorms == globalVar.indexWormsTab)
 				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab[indexWorms], 0, pCamera);
 		}
+		updateHUD(pMapTerrain, pTextureDisplay, pCamera);
 	}
 }
 
