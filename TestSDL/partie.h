@@ -11,8 +11,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 void destroyEquipe(Equipe** team, int nbE);
 int getLifeTeam(Equipe* team);
 void updateTeamLife(Equipe** equipeTab);
-int mainInit();					// Initialise les polices et les variables globales
-void destroyPolice();
+void destroyFonts();
 int saveGame(Jeu* jeu);
 int isGameEnd(Equipe** equipeTab);
 

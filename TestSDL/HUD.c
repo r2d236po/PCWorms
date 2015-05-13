@@ -4,6 +4,41 @@
 #include "AffichageGeneral.h"
 
 /**
+* \fn int setFonts()
+* \brief set les polices globales.
+*
+* \returns 0 si OK, -1 si erreur
+*/
+int setFonts()
+{
+	globalVar.FontName[0] = NULL;
+	globalVar.FontName[1] = NULL;
+	globalVar.FontName[0] = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", FONTSIZENAME);
+	globalVar.FontName[1] = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", FONTSIZETIMER);
+	if (globalVar.FontName[0] == NULL || globalVar.FontName[1] == NULL)
+	{
+		fprintf(logFile, "setFonts : FAILURE loading fonts.\n");
+		fprintf(logFile, "error : %s\n\n", TTF_GetError());
+		return -1;
+	}
+	return 0;
+}
+
+/**
+* \fn void destroyFonts()
+* \brief detruit les polices globales.
+*
+* \returns void
+*/
+void destroyFonts()
+{
+	int i;
+	for (i = 0; i < NBFONTS; i++){
+		TTF_CloseFont(globalVar.FontName[i]);
+	}
+}
+
+/**
 * \fn void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
 * \brief Initializes an SDL_Color structure.
 *
@@ -49,7 +84,7 @@ int updateTextSurfaceWorms(Worms* pWorms)
 	char str[10];
 	SDL_Surface *txtLifeSurface = NULL;
 	sprintf(str, " %d ", pWorms->vie);
-	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(pWorms->color));
+	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
 	if (txtLifeSurface == NULL)
 		return -1;
 	cleanSurface(pWorms->texteLifeSurface);
@@ -99,8 +134,6 @@ void updateTextSurfacePosition(Worms* pWorms)
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-
-
 void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
@@ -114,4 +147,29 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	SDL_DestroyTexture(textureMenuMainMenu);
 	SDL_DestroyTexture(textureMenuOption);
 	SDL_DestroyTexture(textureMenuQuit);
+}
+
+/**
+* \fn void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \brief MAJ de toutes les textures de l'Interfaces
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
+*/
+void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+{
+	static int timerVal = 1000;
+	char str[10];
+	SDL_Surface* tempSurface = NULL;
+
+	SDL_FreeSurface(timerSurface);
+	sprintf(str, "%d", timerVal);
+	tempSurface = TTF_RenderText_Blended(globalVar.FontName[1], str, globalVar.colorTab[2]);
+	timerSurface = tempSurface;
+
+	SDL_Texture* timerTexture = my_createTextureFromSurface(timerSurface);
+	SDL_Rect rectMenu = initButtonBox(0, 0, timerSurface->clip_rect.w, timerSurface->clip_rect.h);
+	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, timerTexture, NULL, &rectMenu);
+	SDL_DestroyTexture(timerTexture);
+
 }

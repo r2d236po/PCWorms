@@ -154,7 +154,7 @@ int mainFenetre()
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		if (jeu != NULL)
 			destroyMap(&jeu->pMapTerrain);
-		destroyPolice();
+		destroyFonts();
 		if (wormsTab != NULL)
 			free(wormsTab);
 		wormsTab = NULL;
