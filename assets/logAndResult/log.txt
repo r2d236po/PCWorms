@@ -1,4 +1,4 @@
-Start of session : Sat May 09 14:12:50 2015
+Start of session : Tue May 12 18:58:32 2015
 
 
 loadImage : SUCCESS.
@@ -67,440 +67,544 @@ loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
-loadSounds : FAILURE : Couldn't open '../assets/sounds/test.mp3'.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptestCam.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptestCam.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-mainInit : DONE.
-	nombre d'equipes : 1.
-	nombre de worms par equipe : 2 0 0 0.
-
-nouveauJeu : START :
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
-
-nouveauJeu : SUCCESS.
-
-initialisationTerrain : START :
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/FondMap1.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/maptest4.png.
-
-
-initialisationTerrain : SUCCESS.
-
-my_createTextureFromSurface : SUCCESS.
-
 loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/Bip_explosion.wav.
-
-initCameras : DONE.
-
-initDisplay : DONE.
-
-KaamInitGame : DONE.
-
-initCameras : DONE.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom1R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+	name of the sound : ../assets/sounds/MusiqueMenu.wav.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/Explosion_medium.wav.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/ffvii.wav.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/no.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/yes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/defaut.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/musicInGame.wav.
 
 cleanSounds : DONE.
 ||| END OF THE GAME |||
-destroyMap : DONE.
 cleanSprites : DONE.
 cleanSounds : DONE.
 cleanUp : DONE.
 mainFenetre : SUCCESS.
-saveGame : SUCCESS.
-KaamDestroyObject : DONE. 
-
-KaamDestroyObject : DONE. 
-
-destroyWorms : DONE.
-destroyEquipe : DONE.
-destroyJeu : DONE.
 
 
-End of Session : Sat May 09 14:13:18 2015
+End of Session : Tue May 12 18:59:06 2015

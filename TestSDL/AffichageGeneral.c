@@ -663,6 +663,7 @@ void screenshot()
 	SDL_SaveBMP(surfaceScreenshot, path);
 	SDL_FreeSurface(surfaceScreenshot);
 }
+
 /**
 * \fn void centerCam(SDL_Rect * camera,SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture)
 * \brief Center the camera on the surface with actual Zoom
