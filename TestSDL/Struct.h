@@ -162,11 +162,14 @@ typedef struct GlobalVariable{		//structure gérant les polices
 	int nbWormsEquipe[4];
 	int nbWormsTotal;
 	int gameEnd;
+	Uint32 timeLastWormsChange;
 
+	//Varibles d'index
 	int teamPlaying;
 	int wormsPlaying[4];
 	int indexWormsTab;
 
+	//Initialisation du jeu
 	char savePath[100];
 	char teamNames[4][50];
 	char wormsNames[16][50];

@@ -1,17 +1,16 @@
 Resultat de la partie : 
 
 	Temps de jeu : 17 secondes.
-	Map jouée : ../assets/pictures/map.png.
+	Map jouée : ../assets/pictures/maptest.png.
 	Nombre d'equipes : 2.
-	Nombre de worms par equipe : 2 2 0 0.
+	Nombre de worms par equipe : 2 1 0 0.
 
-Bravo à l'équipe 1 surnommée les "edvxd" composée des braves : 
-	xdv,	Félicitation pour avoir fait un massacre chez l'ennemie !
-	xdcv,	Félicitation pour avoir fait un massacre chez l'ennemie !
+Bravo à l'équipe 1 surnommée les "dsfdrdrd" composée des braves : 
+	rs  sdr,	Félicitation pour avoir fait un massacre chez l'ennemie !
+	sdrsd,	Félicitation pour avoir fait un massacre chez l'ennemie !
 
 
-Bravo à l'équipe 2 surnommée les "vxd" composée des braves : 
-	xdf,	Tu es mort comme un héros !
-	d,	Félicitation pour avoir fait un massacre chez l'ennemie !
+Bravo à l'équipe 2 surnommée les "dr" composée des braves : 
+	srsd,	Félicitation pour avoir fait un massacre chez l'ennemie !
 
 
