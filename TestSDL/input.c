@@ -26,6 +26,7 @@ void getInput()
 	SDL_Event event;
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 	Uint32 flags = (SDL_GetWindowFlags(globalWindow) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
+	static Uint32 timeStartPause = 0;
 	static int wormsCounter = 0;
 	while (SDL_PollEvent(&event))
 	{
@@ -117,9 +118,15 @@ void getInput()
 				globalInput->bend = 1;
 				break;
 			case SDLK_ESCAPE:
-				if (!globalInput->menu)
+				if (!globalInput->menu) {
 					globalInput->menu = 1;
-				else globalInput->menu = 0;
+					timeStartPause = SDL_GetTicks();
+				}
+				else {
+					globalInput->menu = 0;
+					globalVar.timePause += SDL_GetTicks() - timeStartPause;
+					timeStartPause = 0;
+				}
 				break;
 			case SDLK_q:
 				globalInput->quit = 1;
@@ -137,7 +144,7 @@ void getInput()
 				else globalInput->camCentrer = 1;
 				break;
 			case SDLK_c:
-				if (!globalInput->arme){
+				if (!globalInput->arme && !globalInput->menu){
 					globalInput->changeWorms = 1;
 				}
 				break;
@@ -157,15 +164,17 @@ void getInput()
 				}
 				break;
 			case SDLK_a:
-				if (globalInput->arme == 0) { globalInput->arme = 1; }
-				else globalInput->arme = 0;
+				if (!globalInput->menu){
+					if (globalInput->arme == 0) { globalInput->arme = 1; }
+					else globalInput->arme = 0;
+				}
 				break;
 			case SDLK_BACKSPACE:
 				globalInput->textCounter--;
 				secuTextInput(globalInput);
 				globalInput->textInput[globalInput->textCounter] = '\0';
 				break;
-			///////////////////////// test son num pad
+				///////////////////////// test son num pad
 			case SDLK_KP_1:
 				playChunk(globalInput->soundAllowed, ExploMed);
 				break;
@@ -281,7 +290,7 @@ int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCam
 	}
 	updateGameWorms(wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay, pCamera);
 
-	
+
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -373,7 +382,7 @@ void callNextWorms(Worms** wormsTab)
 	else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
 
 	//Determine la nouvelle equipe
-	do 
+	do
 	{
 		if (globalVar.teamPlaying != globalVar.nbEquipe - 1) { globalVar.teamPlaying += 1; }
 		else { globalVar.teamPlaying = 0; }
@@ -392,6 +401,7 @@ void callNextWorms(Worms** wormsTab)
 	//Affecte la valeur à l'index global
 	globalVar.indexWormsTab = calculIndex();
 	globalVar.timeLastWormsChange = SDL_GetTicks();
+	globalVar.timePause = 0;
 }
 
 

@@ -159,7 +159,8 @@ void updateHUD(Worms** wormsTab, Terrain* pMapTerrain, SDL_Texture* pTextureDisp
 {
 	char str[20];
 	static int lastTime = 0;
-	int timeToPrint = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange - SDL_GetTicks()) / 1000;
+
+	int timeToPrint = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange - SDL_GetTicks() + globalVar.timePause) / 1000;
 	if (timeToPrint <= 0)
 	{
 		globalInput->changeWorms = 1;

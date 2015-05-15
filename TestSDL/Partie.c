@@ -182,6 +182,8 @@ int mainInit()
 	rectTimer = initRect(0, 0, 10, 10);
 
 	globalVar.timeLastWormsChange = SDL_GetTicks();
+	globalVar.timePause = 0;
+
 	globalVar.indexWormsTab = 0;
 	globalVar.gameEnd = 0;
 	globalVar.teamPlaying = 0;
