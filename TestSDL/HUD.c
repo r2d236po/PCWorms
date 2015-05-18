@@ -2,6 +2,7 @@
 #include "my_stdrFct.h"
 #include "MainMenu.h"
 #include "AffichageGeneral.h"
+#include "input.h"
 
 /**
 * \fn int setFonts()

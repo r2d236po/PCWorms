@@ -19,7 +19,7 @@ void updateTextSurfaceWormsTab(Worms** wormsTab);
 int updateTextSurfaceWorms(Worms* pWorms);
 void updateTextSurfacePosition(Worms* pWorms);
 void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
-void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
+void updateHUD(Worms** wormsTab, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
 int setFonts();
 void destroyFonts();
 

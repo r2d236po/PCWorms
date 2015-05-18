@@ -1,6 +1,7 @@
 #include "partie.h"
 #include "AffichageGeneral.h"
 #include "my_stdrFct.h"
+#include "HUD.h"
 
 /* Fonctions relatives à la gestion d'une partie */
 /**
