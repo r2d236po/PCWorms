@@ -174,21 +174,15 @@ void updateTeamLife(Equipe** equipeTab)
 int mainInit()
 {
 	int i;
-	char str[10];
 
 	if(setFonts())
 		return -1;
 
-	sprintf(str, " ");
-	timerSurface = NULL;
-	timerSurface = TTF_RenderText_Blended(globalVar.FontName[1], str, globalVar.colorTab[0]);
-	if (timerSurface == NULL)
-	{
-		fprintf(logFile, "mainInit : FAILURE, timerSurface loading.\n");
-		fprintf(logFile, "error : %s\n\n", TTF_GetError());
-		cleanSprites();
-		return -1;
-	}
+	timerTexture = NULL;
+	rectTimer = initRect(0, 0, 10, 10);
+
+	globalVar.timeLastWormsChange = SDL_GetTicks();
+	globalVar.timePause = 0;
 
 	globalVar.indexWormsTab = 0;
 	globalVar.gameEnd = 0;

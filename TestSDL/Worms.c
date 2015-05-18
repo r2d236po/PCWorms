@@ -519,7 +519,7 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 			if (indexWorms == globalVar.indexWormsTab)
 				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab[indexWorms], 0, pCamera);
 		}
-		updateHUD(pMapTerrain, pTextureDisplay, pCamera);
+		updateHUD(wormsTab, pMapTerrain, pTextureDisplay, pCamera);
 	}
 }
 

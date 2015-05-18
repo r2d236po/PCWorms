@@ -11,7 +11,6 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 void destroyEquipe(Equipe** team, int nbE);
 int getLifeTeam(Equipe* team);
 void updateTeamLife(Equipe** equipeTab);
-void destroyFonts();
 int saveGame(Jeu* jeu);
 int isGameEnd(Equipe** equipeTab);
 

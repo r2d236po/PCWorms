@@ -12,10 +12,8 @@
 int setFonts()
 {
 	globalVar.FontName[0] = NULL;
-	globalVar.FontName[1] = NULL;
 	globalVar.FontName[0] = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", FONTSIZENAME);
-	globalVar.FontName[1] = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", FONTSIZETIMER);
-	if (globalVar.FontName[0] == NULL || globalVar.FontName[1] == NULL)
+	if (globalVar.FontName[0] == NULL)
 	{
 		fprintf(logFile, "setFonts : FAILURE loading fonts.\n");
 		fprintf(logFile, "error : %s\n\n", TTF_GetError());
@@ -152,22 +150,27 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 /**
 * \fn void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 * \brief MAJ de toutes les textures de l'Interfaces
+* \param[in] wormsTab, tableau de worms
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 */
-void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+void updateHUD(Worms** wormsTab, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
-	static int timerVal = 1000;
-	char str[10];
-	SDL_Surface* tempSurface = NULL;
+	char str[20];
+	static int lastTime = 0;
 
-	SDL_FreeSurface(timerSurface);
-	sprintf(str, "%d", timerVal);
-	tempSurface = TTF_RenderText_Blended(globalVar.FontName[1], str, globalVar.colorTab[2]);
-	timerSurface = tempSurface;
-	SDL_Texture* timerTexture = my_createTextureFromSurface(timerSurface);
-	SDL_Rect rectMenu = initButtonBox(0, 0, timerSurface->clip_rect.w, timerSurface->clip_rect.h);
-	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, timerTexture, NULL, &rectMenu);
+	int timeToPrint = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange - SDL_GetTicks() + globalVar.timePause) / 1000;
+	if (timeToPrint <= 0)
+	{
+		globalInput->changeWorms = 1;
+	}
+	else if (timeToPrint != lastTime)
+	{
 	SDL_DestroyTexture(timerTexture);
+		sprintf(str, "%d", timeToPrint);
+		timerTexture = loadFromRenderedText(str, *wormsTab[calculIndex()]->color, &rectTimer.w, &rectTimer.h, 72);
+		globalInput->raffraichissement = 1;
+	}
+	lastTime = timeToPrint;
 }
