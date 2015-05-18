@@ -27,7 +27,7 @@ Jeu * nouveauJeu(char * map)
 	}
 
 	jeu->nbEquipe = globalVar.nbEquipe;
-	jeu->temps = 1000;
+	jeu->temps = TEMPSPARTIE;
 	strcpy(jeu->nomMap, map);
 
 	jeu->equipes = malloc(globalVar.nbEquipe * sizeof(Equipe*));
@@ -179,8 +179,10 @@ int mainInit()
 	if(setFonts())
 		return -1;
 
-	timerTexture = NULL;
-	rectTimer = initRect(0, 0, 10, 10);
+	timerTeamTexture = NULL;
+	timerGeneralTexture = NULL;
+	rectTimerTeam = initRect(0, 0, 10, 10);
+	rectTimerGeneral = initRect(0, 0, 10, 10);
 
 	globalVar.timeLastWormsChange = SDL_GetTicks();
 	globalVar.timePause = 0;
@@ -216,7 +218,7 @@ int saveGame(Jeu* jeu)
 		return 0;
 	}
 	fprintf(file, "Resultat de la partie : \n\n");
-	fprintf(file, "\tTemps de jeu : %d secondes.\n", 1000 - jeu->temps);
+	fprintf(file, "\tTemps de jeu : %d secondes.\n", TEMPSPARTIE - jeu->temps);
 	fprintf(file, "\tMap jouée : %s.\n", jeu->nomMap);
 	fprintf(file, "\tNombre d'equipes : %d.\n", jeu->nbEquipe);
 	fprintf(file, "\tNombre de worms par equipe : %d %d %d %d.\n\n", globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);

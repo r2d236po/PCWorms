@@ -116,26 +116,23 @@ int mainFenetre()
 			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
 				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
-		while (!(globalInput->quit))
+		while (!globalInput->quit /*&& !globalVar.gameEnd*/)
 		{
 			//Récupération des inputs
 			getInput();
 
 			//Gestion des inputs
-			if (!gestInput(jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
+			if (!gestInput(jeu, pTextureDisplay, &camera, wormsTab))
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
-
+			
 			//Update de l'écran
 			if (globalInput->raffraichissement)
 			{
-				renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL, 1, timerTexture, NULL, &rectTimer);
+				renderScreen(4, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL, 1, timerTeamTexture, NULL, &rectTimerTeam, 1, timerGeneralTexture, NULL, &rectTimerGeneral);
 				globalInput->raffraichissement = 0;
 			}
-
-			updateTeamLife(jeu->equipes);
-			isGameEnd(jeu->equipes);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
