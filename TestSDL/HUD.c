@@ -166,10 +166,8 @@ void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCa
 	sprintf(str, "%d", timerVal);
 	tempSurface = TTF_RenderText_Blended(globalVar.FontName[1], str, globalVar.colorTab[2]);
 	timerSurface = tempSurface;
-
 	SDL_Texture* timerTexture = my_createTextureFromSurface(timerSurface);
 	SDL_Rect rectMenu = initButtonBox(0, 0, timerSurface->clip_rect.w, timerSurface->clip_rect.h);
 	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, timerTexture, NULL, &rectMenu);
 	SDL_DestroyTexture(timerTexture);
-
 }
