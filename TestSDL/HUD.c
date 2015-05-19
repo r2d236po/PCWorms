@@ -82,7 +82,8 @@ int updateTextSurfaceWorms(Worms* pWorms)
 {
 	char str[10];
 	SDL_Surface *txtLifeSurface = NULL;
-	sprintf(str, " %d ", pWorms->vie);
+	if (pWorms->vie >= 0) sprintf(str, " %d ", pWorms->vie);
+	else sprintf(str, " ");
 	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
 	if (txtLifeSurface == NULL)
 		return -1;
@@ -149,29 +150,55 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 }
 
 /**
-* \fn void updateHUD(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \fn void updateHUD(Worms** wormsTab)
 * \brief MAJ de toutes les textures de l'Interfaces
 * \param[in] wormsTab, tableau de worms
-* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
-* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
-* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 */
-void updateHUD(Worms** wormsTab, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+void updateHUD(Worms** wormsTab)
 {
 	char str[20];
-	static int lastTime = 0;
+	static int lastTimeTeam = 0, lastTimeGeneral = 0;
 
-	int timeToPrint = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange - SDL_GetTicks() + globalVar.timePause) / 1000;
-	if (timeToPrint <= 0)
+	int timeToPrintTeam = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange + globalVar.timePause - SDL_GetTicks()) / 1000;
+	int timeToPrintGeneral = TEMPSPARTIE + (int)(globalVar.timePause - SDL_GetTicks()) / 1000;
+
+	if (timeToPrintGeneral <= 0)
 	{
 		globalInput->changeWorms = 1;
 	}
-	else if (timeToPrint != lastTime)
+	else if (timeToPrintGeneral != lastTimeGeneral)
 	{
-	SDL_DestroyTexture(timerTexture);
-		sprintf(str, "%d", timeToPrint);
-		timerTexture = loadFromRenderedText(str, *wormsTab[calculIndex()]->color, &rectTimer.w, &rectTimer.h, 72);
+		SDL_DestroyTexture(timerGeneralTexture);
+		sprintf(str, "%d : %d", timeToPrintGeneral/60, timeToPrintGeneral%60);
+		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 98);
 		globalInput->raffraichissement = 1;
 	}
-	lastTime = timeToPrint;
+
+	if (timeToPrintTeam <= 0)
+	{
+		globalInput->changeWorms = 1;
+	}
+	else if (timeToPrintTeam != lastTimeTeam)
+	{
+		SDL_DestroyTexture(timerTeamTexture);
+		sprintf(str, "%d", timeToPrintTeam);
+		timerTeamTexture = loadFromRenderedText(str, *wormsTab[calculIndex()]->color, &rectTimerTeam.w, &rectTimerTeam.h, 48);
+		globalInput->raffraichissement = 1;
+	}
+	lastTimeTeam = timeToPrintTeam;
+	lastTimeGeneral = timeToPrintGeneral;
+
+	updateRectTimerPosition();
+}
+
+
+/**
+* \fn void updateRectPosition()
+* \brief MAJ la position des timers sur l'écran
+*/
+void updateRectTimerPosition()
+{
+	int rW, rH;
+	SDL_GetRendererOutputSize(globalRenderer, &rW, &rH);
+	rectTimerGeneral.x = (rW - rectTimerGeneral.w) / 2;
 }

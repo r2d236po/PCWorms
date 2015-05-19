@@ -240,16 +240,16 @@ void getInput()
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
+* \fn int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 * \brief Gere les inputs.
 * Genere les actions correspondant aux inputs.
-* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] jeu, pointeur vers le jeu en cours
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \param[in] wormsTab, pointeur vers la structure du worms en cours de jeu pour modifier ses paramètres de position.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
+int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab)
 {
 	/*if (globalInput->right) //Exemple de gestion d'input V1.0, test du booleen
 	{
@@ -262,10 +262,10 @@ int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCam
 	static KaamObject* test = NULL;
 	inputsCamera(pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
 	if (globalInput->windowResized){
-		initCameras(pMapTerrain, pCamera, NULL);
+		initCameras(jeu->pMapTerrain, pCamera, NULL);
 		globalInput->windowResized = 0;
 	}
-	inputsWeapons(pTextureDisplay, pCamera, pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
+	inputsWeapons(pTextureDisplay, pCamera, jeu->pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
 	if (globalInput->screenshot)
 	{
 		screenshot();
@@ -280,15 +280,16 @@ int gestInput(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCam
 	}
 	if (globalInput->menu)
 	{
-		inGameMenu(pMapTerrain, pTextureDisplay, pCamera);
+		inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
 		globalInput->raffraichissement = 0;
 	}
-	inputsJumpWorms(wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface);
+	inputsJumpWorms(wormsTab[globalVar.indexWormsTab], jeu->pMapTerrain->collisionMapSurface);
 	if (globalInput->direction == DOWN)
 	{
-		teleportWorms(wormsTab[globalVar.indexWormsTab], pMapTerrain->collisionMapSurface, pCamera);
+		teleportWorms(wormsTab[globalVar.indexWormsTab], jeu->pMapTerrain->collisionMapSurface, pCamera);
 	}
-	updateGameWorms(wormsTab, pMapTerrain->collisionMapSurface, pMapTerrain, pTextureDisplay, pCamera);
+
+	updateGameWorms(jeu, wormsTab, pTextureDisplay, pCamera);
 
 
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
@@ -371,9 +372,6 @@ void inputsJumpWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 */
 void callNextWorms(Worms** wormsTab)
 {
-
-	//Rajouter isGameEnd()
-
 	//Changement de worms pour l'equipe qui vient de jouer
 	if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)
 	{

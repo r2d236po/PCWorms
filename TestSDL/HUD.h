@@ -10,6 +10,7 @@
 
 #define NBFONTS 1
 #define FONTSIZENAME 12
+#define TEMPSPARTIE 900
 #define TEMPSPARTOUR 30
 
 
@@ -19,7 +20,8 @@ void updateTextSurfaceWormsTab(Worms** wormsTab);
 int updateTextSurfaceWorms(Worms* pWorms);
 void updateTextSurfacePosition(Worms* pWorms);
 void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
-void updateHUD(Worms** wormsTab, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
+void updateHUD(Worms** wormsTab);
+void updateRectTimerPosition();
 int setFonts();
 void destroyFonts();
 
