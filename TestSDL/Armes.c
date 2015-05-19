@@ -249,12 +249,12 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
 {
 	if (dir == RIGHT)
-		bulletSurface->clip_rect.x += 3 * cos(angle);
-	else bulletSurface->clip_rect.x -= 3 * cos(angle);
+		bulletSurface->clip_rect.x += (int)(3 * cos(angle));
+	else bulletSurface->clip_rect.x -= (int)(3 * cos(angle));
 	if (angle > 0 && dir == LEFT || dir == RIGHT && angle < 0)
-		bulletSurface->clip_rect.y += 2 * sin(-angle);
+		bulletSurface->clip_rect.y += (int)(2 * sin(-angle));
 	else if (angle < 0 && dir == LEFT || dir == RIGHT && angle > 0)
-		bulletSurface->clip_rect.y -= 2 * sin(-angle);
+		bulletSurface->clip_rect.y -=(int)(2 * sin(-angle));
 	display(bulletSurface, 1);
 	if (impactBulletWorms(wormsTab, &bulletSurface->clip_rect))
 	{

@@ -6,6 +6,7 @@
 #include "display.h"
 #include "armes.h"
 #include "HUD.h"
+#include "partie.h"
 
 
 
@@ -519,9 +520,9 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 				globalInput->raffraichissement = 1;
 			}
 			if (indexWorms == globalVar.indexWormsTab)
-				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
+				weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
 		}
-		updateHUD(wormsTab, jeu->pMapTerrain, pTextureDisplay, pCamera);
+		updateHUD(wormsTab);
 	}
 }
 
