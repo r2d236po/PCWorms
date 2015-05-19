@@ -426,7 +426,7 @@ void randomAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 	{
 		if (pWorms->indexAnim == 0)
 		{
-			pWorms->random = randomWorms();
+			pWorms->random = (char)randomWorms();
 		}
 		if (pWorms->random)
 		{
@@ -517,7 +517,7 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 				globalInput->raffraichissement = 1;
 			}
 			if (indexWorms == globalVar.indexWormsTab)
-				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab[indexWorms], 0, pCamera);
+				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
 		}
 		updateHUD(wormsTab, pMapTerrain, pTextureDisplay, pCamera);
 	}
