@@ -511,7 +511,8 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 				if (deathByLimitMap(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface))
 					resetInputs();
 			}
-			randomAnimationWorms(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface);
+			if (wormsTab[indexWorms]->vie > 0)
+				randomAnimationWorms(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface);
 			if (globalInput->deplacement || globalInput->raffraichissement)
 			{
 				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	
