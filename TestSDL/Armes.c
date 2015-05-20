@@ -52,73 +52,109 @@ void explosion(int x, int y, int rayon, SDL_Surface *pSurfaceMap, SDL_Texture *p
 }
 
 /**
-* \fn void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex, SDL_Rect* pCamera)
+* \fn void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera)
 * \brief Manages the use of weapons.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
 * \param[in] pTextureDisplay, pointer to the main texture.
-* \param[in] pWorms, pointer to the worms playing.
+* \param[in] wormsTab, array of worms.
 * \param[in] weaponIndex, index of the weapons selected.
 * \returns void
 */
-void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms *pWorms, int weaponIndex, SDL_Rect* pCamera)
+void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera)
 {
 	static char armePrec = 0;
-	static int xCenter = 0, yCenter = 0;
+	static int xCenter = 0, yCenter = 0, fire = 0;
 	SDL_Surface* rotoSurface = NULL;
 	SDL_Surface* armeIndex = NULL;
 	static SDL_Rect rectWeapon;
-	enum DIRECTION dirWeapon = pWorms->dirSurface;
+	enum DIRECTION dirWeapon = wormsTab[globalVar.indexWormsTab]->dirSurface;
 	double angle = 0.0;
-
+	static double angleShot = 0.0;
 
 	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
 	{
 		armeIndex = selectWeapon(weaponIndex, dirWeapon);
-		if (armeIndex == NULL)
-			return;
-		xCenter = pWorms->wormsObject->objectSurface->clip_rect.x + pWorms->wormsObject->objectSurface->w / 2;
-		yCenter = pWorms->wormsObject->objectSurface->clip_rect.y + pWorms->wormsObject->objectSurface->h / 2;
-		centerRectToPoint(&armeIndex->clip_rect, xCenter, yCenter);
-		displayWorms(pWorms, 1);
-		display(armeIndex, 0);
-		globalInput->raffraichissement = 1;
+		if (armeIndex != NULL)
+		{
+			/*Center weapon on worms*/
+			setCenterWeapons(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter);
+			centerRectToPoint(&armeIndex->clip_rect, xCenter, yCenter);
+
+			/*Display worms + weapon*/
+			displayWorms(wormsTab[globalVar.indexWormsTab], 1);
+			display(armeIndex, 0);
+
+			/*Set the target Cursor*/
+			SDL_SetCursor(globalInput->cursor.cursor2);
+			globalInput->cursor.currentCursor = 1;
+		}
 	}
 	else if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 	{
-		angle = getAngle(pWorms->wormsObject->objectSurface->clip_rect.x, pWorms->wormsObject->objectSurface->clip_rect.y, &dirWeapon, pCamera);
+		angle = getAngle(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x, wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y, &dirWeapon, pCamera);
 		if (dirWeapon == RIGHT)
 			angle = -angle;
 		armeIndex = selectWeapon(weaponIndex, dirWeapon);
-		if (armeIndex == NULL)
-			return;
-		if (dirWeapon != pWorms->dirSurface)
-			swapWormsSurface(pWorms);
+		if (armeIndex != NULL)
+		{
+			if (dirWeapon != wormsTab[globalVar.indexWormsTab]->dirSurface)
+			{
+				swapWormsSurface(wormsTab[globalVar.indexWormsTab]);
+				setCenterWeapons(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter);
+			}
+			/*Rotate the weapon + center it on worms*/
+			if (!fire)
+				rotoSurface = rotozoomSurface(armeIndex, angle, 1.0, 1);
+			else rotoSurface = rotozoomSurface(armeIndex, angleShot * 180.0 / pi, 1.0, 1);
+			centerRectToPoint(&rotoSurface->clip_rect, xCenter, yCenter);
 
-		rotoSurface = rotozoomSurface(armeIndex, angle, 1.0, 1);
-		centerRectToPoint(&rotoSurface->clip_rect, xCenter, yCenter);
-		eraseRectFromMap(pMapTerrain, pTextureDisplay, &rectWeapon);
-		displayWorms(pWorms, 1);
-		display(rotoSurface, 0);
-		globalInput->raffraichissement = 1;
+			/*Erase previous position + display worms and weapon*/
+			eraseRectFromMap(pMapTerrain, pTextureDisplay, &rectWeapon);
+			displayWorms(wormsTab[globalVar.indexWormsTab], 1);
+			display(rotoSurface, 0);
+
+			if (globalInput->lclick)
+			{
+				fire = 1;
+				globalInput->lclick = 0;
+				angleShot = angle * pi / 180.0;
+			}
+			if (fire)
+			{
+				if (fireWeapon(pMapTerrain, pTextureDisplay, dirWeapon, angleShot, wormsTab, rotoSurface))
+				{
+					fire = 0;
+					globalInput->arme = 0;
+				}
+			}
+		}
 	}
-	else if (globalInput->arme == 0 && armePrec == 1) // On efface l'arme
+	if (!globalInput->arme && armePrec) // On efface l'arme
 	{
+		/*Erase previous position + display worms and weapon*/
 		eraseRectFromMap(pMapTerrain, pTextureDisplay, &rectWeapon);
-		displayWorms(pWorms, 1);
+		displayWorms(wormsTab[globalVar.indexWormsTab], 1);
 		globalInput->raffraichissement = 1;
+
+		/*Set standard cursor*/
+		SDL_SetCursor(globalInput->cursor.cursor1);
+		globalInput->cursor.currentCursor = 0;
 	}
 
 	if (armeIndex != NULL)
+	{
 		SDL_FreeSurface(armeIndex);
-	armeIndex = NULL;
-	armePrec = globalInput->arme;
+		globalInput->raffraichissement = 1;
+	}
 	if (rotoSurface != NULL)
 	{
 		rectWeapon = rotoSurface->clip_rect;
 		SDL_FreeSurface(rotoSurface);
 		rotoSurface = NULL;
 	}
+	armeIndex = NULL;
+	armePrec = globalInput->arme;
 }
 
 /**
@@ -160,5 +196,92 @@ SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
 	case 1:
 		break;
 	}
+	return NULL;
 }
 
+
+void setCenterWeapons(Worms* pWorms, int* xCenter, int* yCenter)
+{
+	*xCenter = pWorms->wormsObject->objectSurface->clip_rect.x + 2 * pWorms->wormsObject->objectSurface->w / 3;
+	*yCenter = pWorms->wormsObject->objectSurface->clip_rect.y + 2 * pWorms->wormsObject->objectSurface->h / 3;
+}
+
+
+int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* pSurface)
+{
+	SDL_Surface* bulletSprite = NULL;
+	static SDL_Surface* bulletSurface = NULL;
+	static int fire = 0;
+	int contact = 0;
+	if (!fire)
+		bulletSprite = loadImage("../assets/sprites/bullet1.png");
+	if (bulletSprite != NULL)
+	{
+		fire = 1;
+		if (dir == LEFT)
+		{
+			bulletSurface = animationSprite(bulletSprite, NULL, 2, 0);
+			bulletSurface = rotozoomSurface(bulletSurface, angle * 180.0 / pi, 1.0, 1);
+			bulletSurface->clip_rect.x = pSurface->clip_rect.x - bulletSurface->w;
+		}
+		else
+		{
+			bulletSurface = animationSprite(bulletSprite, NULL, 2, 1);
+			bulletSurface = rotozoomSurface(bulletSurface, angle * 180.0 / pi, 1.0, 1);
+			bulletSurface->clip_rect.x = pSurface->clip_rect.x + pSurface->w;
+		}
+		bulletSurface->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->h / 2 - bulletSurface->h;
+		SDL_FreeSurface(bulletSprite);
+	}
+
+	if (moveBullet(pMapTerrain, bulletSurface, angle, wormsTab, dir))
+	{
+		eraseRectFromMap(pMapTerrain, pTextureDisplay, &bulletSurface->clip_rect);
+		SDL_FreeSurface(bulletSurface);
+		contact = 1;
+		fire = 0;
+	}
+
+	return contact;
+}
+
+
+int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
+{
+	if (dir == RIGHT)
+		bulletSurface->clip_rect.x += (int)(3 * cos(angle));
+	else bulletSurface->clip_rect.x -= (int)(3 * cos(angle));
+	if (angle > 0 && dir == LEFT || dir == RIGHT && angle < 0)
+		bulletSurface->clip_rect.y += (int)(2 * sin(-angle));
+	else if (angle < 0 && dir == LEFT || dir == RIGHT && angle > 0)
+		bulletSurface->clip_rect.y -=(int)(2 * sin(-angle));
+	display(bulletSurface, 1);
+	if (impactBulletWorms(wormsTab, &bulletSurface->clip_rect))
+	{
+		return 1;
+	}
+	if (collisionRectWithMap(pMapTerrain->collisionMapSurface, &bulletSurface->clip_rect, NULL, NULL))
+	{
+		return 1;
+	}
+	return 0;
+}
+
+
+int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect)
+{
+	int i = 0;
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
+	{
+		if (i == globalVar.indexWormsTab)
+			continue;
+		if (wormsTab[i]->team == wormsTab[globalVar.indexWormsTab]->team)
+			return 1;
+		if (collisionRectWithRect(pRect, &wormsTab[i]->wormsObject->objectSurface->clip_rect))
+		{
+			wormsTab[i]->vie -= 15;
+			return 1;
+		}
+	}
+	return 0;
+}
