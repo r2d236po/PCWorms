@@ -280,7 +280,7 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	}
 	if (globalInput->menu)
 	{
-		EngGameScreen(jeu);
+		EngGameScreen(jeu, pTextureDisplay, pCamera);
 		//inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
 		globalInput->raffraichissement = 0;
 	}
