@@ -12,6 +12,6 @@ void destroyEquipe(Equipe** team, int nbE);
 int getLifeTeam(Equipe* team);
 void updateTeamLife(Equipe** equipeTab);
 int saveGame(Jeu* jeu);
-int isGameEnd(Equipe** equipeTab);
+int isGameEnd(Jeu* jeu);
 
 #endif

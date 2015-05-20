@@ -116,6 +116,7 @@ int mainFenetre()
 			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
 				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
+
 		while (!globalInput->quit /*&& !globalVar.gameEnd*/)
 		{
 			//Récupération des inputs

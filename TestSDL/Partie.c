@@ -186,6 +186,7 @@ int mainInit()
 
 	globalVar.timeLastWormsChange = SDL_GetTicks();
 	globalVar.timePause = 0;
+	globalVar.timeStartGame = SDL_GetTicks();
 
 	globalVar.indexWormsTab = 0;
 	globalVar.gameEnd = 0;
@@ -240,21 +241,27 @@ int saveGame(Jeu* jeu)
 }
 
 /**
-* \fn int isGameEnd(Equipe** equipeTab)
+* \fn int isGameEnd(Jeu* jeu)
 * \brief Determines if a game is over by checking the global life of every team.
 *
-* \param[in] equipeTab, array of team.
-* \returns  1 = the game if over, 0 = the game is not over yet.
+* \param[in] jeu, jeu en cours
+* \returns  1 = the game is over, 0 = the game is not over yet.
 */
-int isGameEnd(Equipe** equipeTab) {
+int isGameEnd(Jeu* jeu) {
 	int i, nbTeamAlive = 0;
+	if (jeu->temps < 0)
+	{
+		globalVar.gameEnd = 1;
+		return 1;
+	}
+
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		if (equipeTab[i]->vie > 0) nbTeamAlive++;
+		if (jeu->equipes[i]->vie > 0) nbTeamAlive++;
 	}
 	if (nbTeamAlive <= 1) {
 		globalVar.gameEnd = 1;
-		return 0;
+		return 1;
 	}
-	return 1;
+	return 0;
 }

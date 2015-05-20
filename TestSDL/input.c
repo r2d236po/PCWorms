@@ -280,7 +280,8 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	}
 	if (globalInput->menu)
 	{
-		inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
+		EngGameScreen(jeu, pTextureDisplay, pCamera);
+		//inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
 		globalInput->raffraichissement = 0;
 	}
 	inputsJumpWorms(wormsTab[globalVar.indexWormsTab], jeu->pMapTerrain->collisionMapSurface);
