@@ -5,8 +5,8 @@
 
 #define BombFactor 0.5
 #define MAXDAMAGE 20
-#define WEAPONSPEEDY 8.0
-#define WEAPONSPEEDX 8.0
+#define WEAPONSPEEDY 25.0
+#define WEAPONSPEEDX 25.0
 
 void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture * pTextureDisplay);
 void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera);

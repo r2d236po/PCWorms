@@ -240,10 +240,10 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect)
 	{
 		if (i == globalVar.indexWormsTab)
 			continue;
-		if (wormsTab[i]->team == wormsTab[globalVar.indexWormsTab]->team)
-			return 1;
 		if (collisionRectWithRect(pRect, &wormsTab[i]->wormsObject->objectSurface->clip_rect))
 		{
+			/*if (wormsTab[i]->team == wormsTab[globalVar.indexWormsTab]->team)
+				return 1;*/
 			wormsTab[i]->vie -= 80;
 			if (wormsTab[i]->vie <= 0)
 			{
