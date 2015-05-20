@@ -6,6 +6,7 @@
 #include "display.h"
 #include "armes.h"
 #include "HUD.h"
+#include "partie.h"
 
 
 
@@ -70,8 +71,8 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	sprintf(strVie, " %d ", worms->vie);
 	worms->color = couleur;
 	strcpy(worms->nom, name);
-	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName, strVie, *(worms->color));
-	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName, worms->nom, *(worms->color));
+	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], strVie, *(worms->color));
+	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName[0], worms->nom, *(worms->color));
 	if (worms->texteLifeSurface == NULL || worms->texteNameSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
@@ -426,7 +427,7 @@ void randomAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 	{
 		if (pWorms->indexAnim == 0)
 		{
-			pWorms->random = randomWorms();
+			pWorms->random = (char)randomWorms();
 		}
 		if (pWorms->random)
 		{
@@ -478,18 +479,20 @@ int randomWorms()
 //////////////////////////////////////////////////////////////////////////////////////////
 
 /**
-* \fn void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMap, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \fn void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 * \brief Update worms display, manages overlay and physics for all worms.
 *
-* \param[in] wormsTab, array of worms.
-* \param[in] pSurfaceMapCollision, pointer to the collision map's surface.
 * \returns void
 */
-void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	int indexWorms;
+
 	if (!globalInput->menu)
 	{
+		updateTeamLife(jeu->equipes);
+		isGameEnd(jeu);
+
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 		{
 			callNextWorms(wormsTab);
@@ -498,17 +501,17 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			if (indexWorms == globalVar.indexWormsTab || wormsTab[indexWorms]->wormsObject->reactToBomb == 1
-				|| !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
+				|| !testGround(jeu->pMapTerrain->collisionMapSurface, wormsTab[indexWorms]->wormsObject->objectSurface, 1))
 			{
 				if (wormsTab[indexWorms]->vie > 0
-					|| (wormsTab[indexWorms]->vie == 0 && !testGround(pSurfaceMapCollision, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
+					|| (wormsTab[indexWorms]->vie == 0 && !testGround(jeu->pMapTerrain->collisionMapSurface, wormsTab[indexWorms]->wormsObject->objectSurface, 2)))
 				{
-					KaamWormsMotionManagement(wormsTab[indexWorms], pSurfaceMapCollision);
+					KaamWormsMotionManagement(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface);
 				}
-				if (deathByLimitMap(wormsTab[indexWorms], pSurfaceMapCollision))
+				if (deathByLimitMap(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface))
 					resetInputs();
 			}
-			randomAnimationWorms(wormsTab[indexWorms], pSurfaceMapCollision);
+			randomAnimationWorms(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface);
 			if (globalInput->deplacement || globalInput->raffraichissement)
 			{
 				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	
@@ -517,8 +520,9 @@ void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrai
 				globalInput->raffraichissement = 1;
 			}
 			if (indexWorms == globalVar.indexWormsTab)
-				weaponManagement(pMapTerrain, pTextureDisplay, wormsTab[indexWorms], 0, pCamera);
+				weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
 		}
+		updateHUD(wormsTab);
 	}
 }
 

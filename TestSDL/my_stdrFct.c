@@ -457,7 +457,8 @@ int collisionRectWithRect(SDL_Rect* pRect, SDL_Rect* pRect2)
 int collisionRectWithMap(SDL_Surface* pSurfaceMap, SDL_Rect* pRect, int* xE, int* yE)
 {
 	int x = 0, y = 0;
-	reajustRect(pRect, pSurfaceMap);
+	if (pRect->x <= 0 || pRect->y <= 0 || pRect->x + pRect->w >= pSurfaceMap->w || pRect->y + pRect->h >= pSurfaceMap->h)
+		return 1;
 	for (y = (*pRect).y; y <= ((*pRect).h + (*pRect).y); y++)
 	{
 		if (y == (*pRect).y || y == ((*pRect).h + (*pRect).y))
@@ -466,8 +467,10 @@ int collisionRectWithMap(SDL_Surface* pSurfaceMap, SDL_Rect* pRect, int* xE, int
 			{
 				if (!pixelTransparent(ReadPixel(pSurfaceMap, x, y), pSurfaceMap->format)) //transparence
 				{
-					*xE = x;
-					*yE = y;
+					if (xE != NULL)
+						*xE = x;
+					if (yE != NULL)
+						*yE = y;
 					return 1;
 				}
 			}
@@ -476,14 +479,18 @@ int collisionRectWithMap(SDL_Surface* pSurfaceMap, SDL_Rect* pRect, int* xE, int
 		{
 			if (!pixelTransparent(ReadPixel(pSurfaceMap, (*pRect).x, y), pSurfaceMap->format)) //transparence
 			{
-				*xE = (*pRect).x;
-				*yE = y;
+				if (xE != NULL)
+					*xE = (*pRect).x;
+				if (yE != NULL)
+					*yE = y;
 				return 1;
 			}
 			if (!pixelTransparent(ReadPixel(pSurfaceMap, (*pRect).x + (*pRect).w, y), pSurfaceMap->format)) //transparence
 			{
-				*xE = (*pRect).x + (*pRect).w;
-				*yE = y;
+				if (xE != NULL)
+					*xE = (*pRect).x + (*pRect).w;
+				if (yE != NULL)
+					*yE = y;
 				return 1;
 			}
 		}
@@ -722,7 +729,7 @@ SDL_Rect createGlobalRect(int nbRect, SDL_Rect** rectTab)
 		if (y2 < yMin && y2 >= 0)
 			yMin = y2;
 		if ((xMin + wMax) < (x2 + w2))
-			wMax =x2 + w2 - xMin;
+			wMax = x2 + w2 - xMin;
 		if ((yMin + hMax) < (y2 + h2))
 			hMax = y2 + h2 - yMin;
 	}

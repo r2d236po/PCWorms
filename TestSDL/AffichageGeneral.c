@@ -116,26 +116,24 @@ int mainFenetre()
 			while (!KaamInitGame(wormsTab, jeu->pMapTerrain->collisionMapSurface))
 				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 		}
-		while (!(globalInput->quit))
+
+		while (!globalInput->quit /*&& !globalVar.gameEnd*/)
 		{
 			//Récupération des inputs
 			getInput();
 
 			//Gestion des inputs
-			if (!gestInput(jeu->pMapTerrain, pTextureDisplay, &camera, wormsTab))
+			if (!gestInput(jeu, pTextureDisplay, &camera, wormsTab))
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, gestInput.\n");
 			}
-
+			
 			//Update de l'écran
 			if (globalInput->raffraichissement)
 			{
-				renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
+				renderScreen(4, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL, 1, timerTeamTexture, NULL, &rectTimerTeam, 1, timerGeneralTexture, NULL, &rectTimerGeneral);
 				globalInput->raffraichissement = 0;
 			}
-
-			updateTeamLife(jeu->equipes);
-			isGameEnd(jeu->equipes);
 
 			//Gestion du frame Rate
 			frameRate(frame_max);
@@ -154,7 +152,7 @@ int mainFenetre()
 		fprintf(logFile, "||| END OF THE GAME |||\n");
 		if (jeu != NULL)
 			destroyMap(&jeu->pMapTerrain);
-		destroyPolice();
+		destroyFonts();
 		if (wormsTab != NULL)
 			free(wormsTab);
 		wormsTab = NULL;
@@ -663,6 +661,7 @@ void screenshot()
 	SDL_SaveBMP(surfaceScreenshot, path);
 	SDL_FreeSurface(surfaceScreenshot);
 }
+
 /**
 * \fn void centerCam(SDL_Rect * camera,SDL_Surface * surfaceWhereCenter, SDL_Texture* pTexture)
 * \brief Center the camera on the surface with actual Zoom

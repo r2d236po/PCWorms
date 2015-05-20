@@ -2,6 +2,40 @@
 #include "my_stdrFct.h"
 #include "MainMenu.h"
 #include "AffichageGeneral.h"
+#include "input.h"
+
+/**
+* \fn int setFonts()
+* \brief set les polices globales.
+*
+* \returns 0 si OK, -1 si erreur
+*/
+int setFonts()
+{
+	globalVar.FontName[0] = NULL;
+	globalVar.FontName[0] = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", FONTSIZENAME);
+	if (globalVar.FontName[0] == NULL)
+	{
+		fprintf(logFile, "setFonts : FAILURE loading fonts.\n");
+		fprintf(logFile, "error : %s\n\n", TTF_GetError());
+		return -1;
+	}
+	return 0;
+}
+
+/**
+* \fn void destroyFonts()
+* \brief detruit les polices globales.
+*
+* \returns void
+*/
+void destroyFonts()
+{
+	int i;
+	for (i = 0; i < NBFONTS; i++){
+		TTF_CloseFont(globalVar.FontName[i]);
+	}
+}
 
 /**
 * \fn void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
@@ -48,8 +82,9 @@ int updateTextSurfaceWorms(Worms* pWorms)
 {
 	char str[10];
 	SDL_Surface *txtLifeSurface = NULL;
-	sprintf(str, " %d ", pWorms->vie);
-	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName, str, *(pWorms->color));
+	if (pWorms->vie >= 0) sprintf(str, " %d ", pWorms->vie);
+	else sprintf(str, " ");
+	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
 	if (txtLifeSurface == NULL)
 		return -1;
 	cleanSurface(pWorms->texteLifeSurface);
@@ -99,8 +134,6 @@ void updateTextSurfacePosition(Worms* pWorms)
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-
-
 void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
@@ -114,4 +147,77 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	SDL_DestroyTexture(textureMenuMainMenu);
 	SDL_DestroyTexture(textureMenuOption);
 	SDL_DestroyTexture(textureMenuQuit);
+}
+
+/**
+* \fn void updateHUD(Worms** wormsTab)
+* \brief MAJ de toutes les textures de l'Interfaces
+* \param[in] wormsTab, tableau de worms
+*/
+void updateHUD(Worms** wormsTab)
+{
+	char str[20];
+	static int lastTimeTeam = 0, lastTimeGeneral = 0;
+
+	int timeToPrintTeam = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange + globalVar.timePause - SDL_GetTicks()) / 1000;
+	int timeToPrintGeneral = TEMPSPARTIE + (int)(globalVar.timePause + globalVar.timeStartGame - SDL_GetTicks()) / 1000;
+
+	if (timeToPrintGeneral <= 0)
+	{
+		globalInput->changeWorms = 1;
+	}
+	else if (timeToPrintGeneral != lastTimeGeneral)
+	{
+		SDL_DestroyTexture(timerGeneralTexture);
+		sprintf(str, "%.2d : %.2d", timeToPrintGeneral/60, timeToPrintGeneral%60);
+		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 98);
+		globalInput->raffraichissement = 1;
+	}
+
+	if (timeToPrintTeam <= 0)
+	{
+		globalInput->changeWorms = 1;
+	}
+	else if (timeToPrintTeam != lastTimeTeam)
+	{
+		SDL_DestroyTexture(timerTeamTexture);
+		sprintf(str, "%d", timeToPrintTeam);
+		timerTeamTexture = loadFromRenderedText(str, *wormsTab[calculIndex()]->color, &rectTimerTeam.w, &rectTimerTeam.h, 48);
+		globalInput->raffraichissement = 1;
+	}
+	lastTimeTeam = timeToPrintTeam;
+	lastTimeGeneral = timeToPrintGeneral;
+
+	updateRectTimerPosition();
+}
+
+
+/**
+* \fn void updateRectPosition()
+* \brief MAJ la position des timers sur l'écran
+*/
+void updateRectTimerPosition()
+{
+	int rW, rH;
+	SDL_GetRendererOutputSize(globalRenderer, &rW, &rH);
+	rectTimerGeneral.x = (rW - rectTimerGeneral.w) / 2;
+}
+
+/**
+* \fn void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \brief Gestion du menu InGame
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
+* \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
+*/
+void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+{
+	SDL_Texture* score = loadTexture(INGAMEMENU);
+	SDL_Rect rectScore = initButtonBox(-1, -1, 565, 717);
+
+	renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, score, NULL, &rectScore);
+
+	SDL_DestroyTexture(score);
+
 }

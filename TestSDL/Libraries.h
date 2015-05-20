@@ -30,7 +30,7 @@
 #define GMASK 0x0000FF00
 #define BMASK 0x00FF0000
 #define AMASK 0xFF000000
-#define GLOBALFONTSIZE 12
+
 
 /*Chemins de map*/
 #define cMAP		"../assets/pictures/map.png"
@@ -55,4 +55,9 @@ SDL_Surface* spriteDeplacement;
 SDL_Surface* spriteGrenadeExplosion;
 SDL_Surface* spriteNukeExplosion;
 SDL_Surface* arme1;
+SDL_Texture* timerTeamTexture;
+SDL_Texture* timerGeneralTexture;
+SDL_Rect rectTimerTeam;
+SDL_Rect rectTimerGeneral;
+
 #endif

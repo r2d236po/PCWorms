@@ -1,6 +1,7 @@
 #include "partie.h"
 #include "AffichageGeneral.h"
 #include "my_stdrFct.h"
+#include "HUD.h"
 
 /* Fonctions relatives à la gestion d'une partie */
 /**
@@ -26,7 +27,7 @@ Jeu * nouveauJeu(char * map)
 	}
 
 	jeu->nbEquipe = globalVar.nbEquipe;
-	jeu->temps = 1000;
+	jeu->temps = TEMPSPARTIE;
 	strcpy(jeu->nomMap, map);
 
 	jeu->equipes = malloc(globalVar.nbEquipe * sizeof(Equipe*));
@@ -166,23 +167,26 @@ void updateTeamLife(Equipe** equipeTab)
 }
 
 /**
-* \fn void mainInit()
+* \fn int mainInit()
 * \brief
 *
-* \returns void
+* \returns 0 si OK, -1 si erreur
 */
 int mainInit()
 {
 	int i;
 
-	globalVar.FontName = NULL;
-	globalVar.FontName = TTF_OpenFont("../assets/fonts/Worms_3D_Font.ttf", GLOBALFONTSIZE);  //  RETOURNE UN PUTAIN DE POINTEUR NULL
-	if (globalVar.FontName == NULL)
-	{
-		fprintf(logFile, "Font loading : FAILURE.\n");
-		fprintf(logFile, "error : %s\n", TTF_GetError());
+	if(setFonts())
 		return -1;
-	}
+
+	timerTeamTexture = NULL;
+	timerGeneralTexture = NULL;
+	rectTimerTeam = initRect(0, 0, 10, 10);
+	rectTimerGeneral = initRect(0, 0, 10, 10);
+
+	globalVar.timeLastWormsChange = SDL_GetTicks();
+	globalVar.timePause = 0;
+	globalVar.timeStartGame = SDL_GetTicks();
 
 	globalVar.indexWormsTab = 0;
 	globalVar.gameEnd = 0;
@@ -196,17 +200,6 @@ int mainInit()
 		globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);
 
 	return 0;
-}
-
-/**
-* \fn void destroyPolice()
-* \brief detruit la police globale.
-*
-* \returns void
-*/
-void destroyPolice()
-{
-	TTF_CloseFont(globalVar.FontName);
 }
 
 /**
@@ -226,7 +219,7 @@ int saveGame(Jeu* jeu)
 		return 0;
 	}
 	fprintf(file, "Resultat de la partie : \n\n");
-	fprintf(file, "\tTemps de jeu : %d secondes.\n", 1000 - jeu->temps);
+	fprintf(file, "\tTemps de jeu : %d secondes.\n", TEMPSPARTIE - jeu->temps);
 	fprintf(file, "\tMap jouée : %s.\n", jeu->nomMap);
 	fprintf(file, "\tNombre d'equipes : %d.\n", jeu->nbEquipe);
 	fprintf(file, "\tNombre de worms par equipe : %d %d %d %d.\n\n", globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);
@@ -248,21 +241,27 @@ int saveGame(Jeu* jeu)
 }
 
 /**
-* \fn int isGameEnd(Equipe** equipeTab)
+* \fn int isGameEnd(Jeu* jeu)
 * \brief Determines if a game is over by checking the global life of every team.
 *
-* \param[in] equipeTab, array of team.
-* \returns  1 = the game if over, 0 = the game is not over yet.
+* \param[in] jeu, jeu en cours
+* \returns  1 = the game is over, 0 = the game is not over yet.
 */
-int isGameEnd(Equipe** equipeTab) {
+int isGameEnd(Jeu* jeu) {
 	int i, nbTeamAlive = 0;
+	if (jeu->temps < 0)
+	{
+		globalVar.gameEnd = 1;
+		return 1;
+	}
+
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
-		if (equipeTab[i]->vie > 0) nbTeamAlive++;
+		if (jeu->equipes[i]->vie > 0) nbTeamAlive++;
 	}
 	if (nbTeamAlive <= 1) {
 		globalVar.gameEnd = 1;
-		return 0;
+		return 1;
 	}
-	return 1;
+	return 0;
 }

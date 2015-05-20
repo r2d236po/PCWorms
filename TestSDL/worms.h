@@ -30,7 +30,7 @@ void randomAnimationWorms(Worms* pWorms, SDL_Surface* pSurfaceMap);
 int randomWorms();
 
 /*Gestion de l'overlay*/
-void updateGameWorms(Worms** wormsTab, SDL_Surface* pSurfaceMapCollision, Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
+void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
 void wormsOverlay(Worms** wormsTab);
 
 /*Fonctions diverses*/
