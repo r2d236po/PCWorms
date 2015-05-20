@@ -36,7 +36,7 @@ Mix_Music * ptrMusicMenu;
 
 
 int initSDLMixer();
-int loadSounds(char* file, int type);
+int loadSounds(char* file, int type);// 0 si un chunk 1 une musique
 int playMusique(int validation, char * file);
 int findChunkInTab(char * file);
 int findMusicInTab(char * file);
