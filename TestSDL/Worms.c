@@ -490,7 +490,7 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 	if (!globalInput->menu)
 	{
 		updateTeamLife(jeu->equipes);
-		isGameEnd(jeu->equipes);
+		isGameEnd(jeu);
 
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
 		{
