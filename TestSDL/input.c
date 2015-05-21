@@ -259,7 +259,6 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 
 	globalInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	static KaamObject* test = NULL;
 	inputsCamera(pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
 	if (globalInput->windowResized){
 		initCameras(jeu->pMapTerrain, pCamera, NULL);
