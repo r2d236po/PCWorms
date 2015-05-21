@@ -108,8 +108,6 @@ void reindexTab(int size, int startPosition, int type, void* tab)
 	int* intTab = NULL;
 	char* charTab = NULL;
 	SDL_Surface** pSurfaceTab = NULL;
-	va_list list;
-	va_start(list, type);
 	switch (type)
 	{
 	case 0:
@@ -140,7 +138,6 @@ void reindexTab(int size, int startPosition, int type, void* tab)
 		charTab[(size - 1)] = 0;
 	else if (pSurfaceTab != NULL)
 		pSurfaceTab[(size - 1)] = NULL;
-	va_end(list);
 }
 
 
@@ -169,11 +166,13 @@ void endDisplay()
 */
 int displayWorms(Worms* pWorms, int mode)
 {
-	if (display(pWorms->wormsObject->objectSurface, mode) < 0)
-		return -1;
 	if (display(pWorms->texteLifeSurface, mode) < 0)
 		return -1;
 	if (display(pWorms->texteNameSurface, mode) < 0)
+		return -1;
+	if (display(pWorms->wormsObject->objectSurface, mode) < 0)
+		return -1;
+	if (display(pWorms->texteLifeSurface, mode) < 0)
 		return -1;
 	return 0;
 }
@@ -217,10 +216,7 @@ SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurf
 		}
 		return newAnimSurface;
 	}
-	else
-	{
-		copySurfacePixels(pSurfaceSprite, &clip, pAnimSurface, NULL);
-	}
+	copySurfacePixels(pSurfaceSprite, &clip, pAnimSurface, NULL);
 	return pAnimSurface;
 }
 

@@ -607,6 +607,7 @@ void wormsDead(Worms* pWorms, int limitMap)
 	if (pWorms->vie <= 0 || limitMap == 1)
 	{
 		memcpy(pWorms->wormsObject->objectSurface->pixels, pWorms->wormsSurfaceTomb->pixels, pWorms->wormsSurfaceTomb->w * pWorms->wormsSurfaceTomb->h *sizeof(Uint32));
+		updateTextSurfaceWorms(pWorms);
 		pWorms->vie = 0;
 	}
 }

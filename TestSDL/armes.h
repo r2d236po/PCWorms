@@ -15,8 +15,8 @@ SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir);
 void setCenterWeapons(Worms* pWorms, int* xCenter, int* yCenter);
 int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* pSurface);
 int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir);
-int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect);
-void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter);
+int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index);
+void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter, SDL_Rect* pRect);
 void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* pWorms, SDL_Rect* pRect);
 
 #endif

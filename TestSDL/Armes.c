@@ -74,7 +74,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	static double angleShot = 0.0;
 
 	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
-		initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter);
+		initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon);
 
 	if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 	{
@@ -111,6 +111,8 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 			centerRectToPoint(&rotoSurface->clip_rect, xCenter, yCenter);
 
 			/*Erase previous position + display worms and weapon*/
+			if (rectWeapon.x == 0 && rectWeapon.y == 0 && rectWeapon.w == 0 && rectWeapon.h == 0)
+				rectWeapon = rotoSurface->clip_rect;
 			eraseRectFromMap(pMapTerrain, pTextureDisplay, &rectWeapon);
 			displayWorms(wormsTab[globalVar.indexWormsTab], 1);
 			display(rotoSurface, 0);
@@ -129,9 +131,8 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 		}
 	}
 	if (!globalInput->arme && armePrec) // On efface l'arme
-	{
 		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab[globalVar.indexWormsTab], &rectWeapon);
-	}
+
 
 	if (armeIndex != NULL)
 	{
@@ -209,13 +210,17 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
 {
 	int speedX = (int)(WEAPONSPEEDX * cos(angle)), speedY = (int)(WEAPONSPEEDY * sin(angle));
+	int index = 0;
 	if (dir == LEFT)
 		speedX = -speedX;
 	bulletSurface->clip_rect.x += speedX;
 	bulletSurface->clip_rect.y += speedY;
 	display(bulletSurface, 1);
-	if (impactBulletWorms(wormsTab, &bulletSurface->clip_rect))
+	if (impactBulletWorms(wormsTab, &bulletSurface->clip_rect, &index))
 	{
+		if (dir == LEFT)
+			wormsTab[index]->wormsObject->objectSurface->clip_rect.x -= 2;
+		else wormsTab[index]->wormsObject->objectSurface->clip_rect.x += 2;
 		return 1;
 	}
 	if (collisionRectWithMap(pMapTerrain->collisionMapSurface, &bulletSurface->clip_rect, NULL, NULL))
@@ -226,14 +231,14 @@ int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, W
 }
 
 /**
-* \fn int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect)
+* \fn int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 * \brief Determine if a bullet hit the map or a worms.
 *
 * \param[in] wormsTab, array of worms.
 * \param[in] pRect, rect of the bullet.
 * \returns 1 = bullet hit either map or worms, 0 = no hit
 */
-int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect)
+int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 {
 	int i = 0;
 	for (i = 0; i < globalVar.nbWormsTotal; i++)
@@ -242,15 +247,14 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect)
 			continue;
 		if (collisionRectWithRect(pRect, &wormsTab[i]->wormsObject->objectSurface->clip_rect))
 		{
-			/*if (wormsTab[i]->team == wormsTab[globalVar.indexWormsTab]->team)
-				return 1;*/
-			wormsTab[i]->vie -= 80;
+			wormsTab[i]->vie -= 15;
 			if (wormsTab[i]->vie <= 0)
 			{
 				wormsDead(wormsTab[i], 0);
 				displayWorms(wormsTab[i], 1);
 			}
 			globalInput->raffraichissement = 1;
+			*index = i;
 			return 1;
 		}
 	}
@@ -299,15 +303,16 @@ double getAngle(int x, int y, enum DIRECTION *pDir, SDL_Rect* pCamera)
 }
 
 /**
-* \fn void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter)
+* \fn void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter, SDL_Rect* pRect)
 * \brief Init the weapon mode.
 *
 * \param[in] pWorms, pointer to the worms who is in weapon's mode.
 * \param[in] xCenter, pointer to the x value to center the weapon.
 * \param[in] yCenter, pointer to the y value to center the weapon.
+* \param[in] pRect, pointer to the rect of the weapon to erase pixel.
 * \returns void
 */
-void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter)
+void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter, SDL_Rect* pRect)
 {
 	/*Center weapon on worms*/
 	setCenterWeapons(pWorms, xCenter, yCenter);
@@ -315,6 +320,9 @@ void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter)
 	/*Set the target Cursor*/
 	SDL_SetCursor(globalInput->cursor.cursor2);
 	globalInput->cursor.currentCursor = 1;
+
+	/*Init rect*/
+	*pRect = initRect(0, 0, 0, 0);
 }
 
 /**
@@ -338,4 +346,7 @@ void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* p
 	/*Set standard cursor*/
 	SDL_SetCursor(globalInput->cursor.cursor1);
 	globalInput->cursor.currentCursor = 0;
+
+	/*Reset rect*/
+	*pRect = initRect(0, 0, 0, 0);
 }

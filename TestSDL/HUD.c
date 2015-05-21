@@ -82,13 +82,17 @@ int updateTextSurfaceWorms(Worms* pWorms)
 {
 	char str[10];
 	SDL_Surface *txtLifeSurface = NULL;
-	if (pWorms->vie >= 0) sprintf(str, " %d ", pWorms->vie);
+	if (pWorms->vie > 0) 
+		sprintf(str, " %d ", pWorms->vie);
 	else sprintf(str, " ");
 	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
 	if (txtLifeSurface == NULL)
 		return -1;
 	cleanSurface(pWorms->texteLifeSurface);
-	copySurfacePixels(txtLifeSurface, NULL, pWorms->texteLifeSurface, NULL);
+	if (!copySurfacePixels(txtLifeSurface, NULL, pWorms->texteLifeSurface, NULL))
+	{
+		fprintf(logFile, "updateTextSurfaceWorms : FAILURE, copySurfacePixels.\n\n");
+	}
 	SDL_FreeSurface(txtLifeSurface);
 	txtLifeSurface = NULL;
 	updateTextSurfacePosition(pWorms);
