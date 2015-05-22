@@ -225,7 +225,7 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 	{
 		indexDest = xDest + yDest*wDest;
 		indexSrc = xSrc + ySrc*wSrc;
-		memmove((pixelDest + indexDest), (pixelSrc + indexSrc), wRectSrc*sizeof(Uint32));
+		memcpy((pixelDest + indexDest), (pixelSrc + indexSrc), wRectSrc*sizeof(Uint32));
 		ySrc++;
 		yDest++;
 	}
@@ -363,7 +363,7 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 		for (index = 0; index < nombrePixelToUpdate; index += pRect->w)
 		{
 			indexSurfaceMain = x + y*pSurfaceMain->w;
-			memmove((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexSurfaceMain), pRect->w * sizeof(Uint32));
+			memcpy((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexSurfaceMain), pRect->w * sizeof(Uint32));
 			y++;
 		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);

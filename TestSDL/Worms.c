@@ -522,7 +522,7 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 			}
 			if (indexWorms == globalVar.indexWormsTab)
 				weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
-			if (globalInput->grenade)
+			if (globalInput->grenade && indexWorms == globalVar.indexWormsTab)
 				grenadeManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, pCamera);
 		}
 		updateHUD(wormsTab);
