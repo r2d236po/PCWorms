@@ -432,6 +432,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 	{
 		KaamPhysicManagement(grenadeObject, pMapTerrain->collisionMapSurface);
 		display(grenadeObject->objectSurface, 1);
+		displayWorms(wormsTab[globalVar.indexWormsTab], 0);
 		globalInput->raffraichissement = 1;
 	}
 
