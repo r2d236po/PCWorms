@@ -85,7 +85,7 @@ int display(SDL_Surface* pSurface, int mode)
 	SDL_Rect rect = initRect(xTab[indexFound], yTab[indexFound], pSurface->w, pSurface->h);
 	if (mode == 1)
 		copySurfacePixels(pMainTerrain->collisionMapSurface, &rect, pMainTerrain->globalMapSurface, &rect);
-	updateTextureFromMultipleSurface(pGlobalTexture, pMainTerrain->globalMapSurface, pSurface, &rect);
+	updateGlobalTextureAndSurface(pGlobalTexture, pMainTerrain->globalMapSurface, pSurface, &rect);
 	xTab[indexFound] = pSurface->clip_rect.x;
 	yTab[indexFound] = pSurface->clip_rect.y;
 	return 0;

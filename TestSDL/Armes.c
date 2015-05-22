@@ -48,9 +48,9 @@ void explosion(int x, int y, int rayon, SDL_Surface *pSurfaceMap, SDL_Texture *p
 		}
 	}
 	reajustRect(&rect, pSurfaceMap);
-	if (updateTextureFromSurface(pTextureDisplay, pSurfaceMap, &rect) < 0)
+	if (updateGlobalTexture(pTextureDisplay, pSurfaceMap, &rect) < 0)
 	{
-		fprintf(logFile, "explosion : FAILURE, updateTextureFromSurface.");
+		fprintf(logFile, "explosion : FAILURE, updateGlobalTexture.");
 	}
 }
 

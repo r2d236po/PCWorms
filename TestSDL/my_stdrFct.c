@@ -18,6 +18,10 @@
 */
 SDL_Window* creerFenetre(const int windowWidth, const int windowHight, const char * windowName){
 	SDL_Window *windowTemp = NULL;
+	if (windowHight < 0 || windowWidth < 0 || windowName == NULL)
+	{
+		fprintf(logFile, "creerFenetre : FAILURE, taille de fenetre incorrect ou nom non conforme.\n\n");
+	}
 	windowTemp = SDL_CreateWindow(windowName,	//nom de la fenêtre
 		SDL_WINDOWPOS_CENTERED, //position en x de la fenêtre
 		SDL_WINDOWPOS_CENTERED,	//position en y de la fenêtre
@@ -55,7 +59,13 @@ SDL_Window* creerFenetre(const int windowWidth, const int windowHight, const cha
 * \returns pointer to the created surface, NULL if error.
 */
 SDL_Surface* loadImage(const char * file){
-	SDL_Surface* image = IMG_Load(file);
+	SDL_Surface* image = NULL;
+	if (file == NULL)
+	{
+		fprintf(logFile, "loadTexture : FAILURE, nom de fichier non valide.\n\n");
+		return NULL;
+	}
+	image = IMG_Load(file);
 	if (image == NULL)
 	{
 		fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
@@ -75,8 +85,13 @@ SDL_Surface* loadImage(const char * file){
 */
 SDL_Texture* loadTexture(const char * file)
 {
-
-	SDL_Texture * texture = IMG_LoadTexture(globalRenderer, file);
+	SDL_Texture * texture = NULL;
+	if (file == NULL)
+	{
+		fprintf(logFile, "loadTexture : FAILURE, nom de fichier non valide.\n\n");
+		return NULL;
+	}
+	texture = IMG_LoadTexture(globalRenderer, file);
 	if (texture == NULL)
 	{
 		fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
@@ -99,6 +114,11 @@ SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface)
 {
 
 	SDL_Texture* textureTemp = NULL;
+	if (pSurface == NULL || pSurface->format->BitsPerPixel != 32)
+	{
+		fprintf(logFile, "my_createTextureFromSurface : FAILURE, pointeur surface NULL ou format de pixels non pris en charge. \n\n");
+		return NULL;
+	}
 	textureTemp = SDL_CreateTexture(globalRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
 	if (textureTemp == NULL)
 	{
@@ -137,6 +157,8 @@ SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface)
 
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y)
 {
+	if (pSurface == NULL)
+		return 0;
 	//Convert the pixels to 32 bit
 	Uint32 *pixels = (Uint32 *)pSurface->pixels;	//Récupère le tableau de pixels de la surface
 	//Get the requested pixel
@@ -175,6 +197,8 @@ void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format)
 {
 	Uint8 a, b, g, r;
+	if (format == NULL || format->BitsPerPixel != 32)
+		return 0;
 	SDL_GetRGBA(pixelToRead, format, &r, &g, &b, &a);
 	return a < 150;
 }
@@ -197,6 +221,8 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 	Uint32* pixelDest = (Uint32*)pSurfaceDest->pixels;
 	int ySrc = 0, xSrc = 0, xDest = 0, yDest = 0, wRectSrc = pSurfaceSrc->w, hRectSrc = pSurfaceSrc->h, wDest = pSurfaceDest->w, wSrc = pSurfaceSrc->w;
 	if (pSurfaceDest == pSurfaceSrc)
+		return 0;
+	if (pSurfaceDest->format->BitsPerPixel != pSurfaceSrc->format->BitsPerPixel)
 		return 0;
 	int indexDest = 0, indexSrc = 0;
 	unsigned long int index, nbPixels;
@@ -244,7 +270,7 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 void eraseRectFromMap(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect)
 {
 	updateSurfaceFromSurface(pMapTerrain->globalMapSurface, pMapTerrain->collisionMapSurface, pRect, 1);
-	updateTextureFromSurface(pTextureDisplay, pMapTerrain->globalMapSurface, pRect);
+	updateGlobalTexture(pTextureDisplay, pMapTerrain->globalMapSurface, pRect);
 }
 
 /**
@@ -256,11 +282,21 @@ void eraseRectFromMap(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Re
 */
 void cleanSurface(SDL_Surface* pSurface)
 {
-	int w = pSurface->w, h = pSurface->h;
-	Uint32 cleanPixel = SDL_MapRGBA(pSurface->format, 255, 255, 255, 0);
-	int index, end = w*h;
+	int w = 0, h = 0;
+	Uint32 cleanPixel = 0;
+	Uint32* pixelsTab = NULL;
+	int index, end = 0;
+	if (pSurface == NULL)
+		return;
+	if (pSurface->format->BitsPerPixel != 32)
+		return;
+	w = pSurface->w;
+	h = pSurface->h;
+	end = w*h;
+	cleanPixel = SDL_MapRGBA(pSurface->format, 255, 255, 255, 0);
+	pixelsTab = (Uint32*)(pSurface->pixels);
 	for (index = 0; index < end; index++)
-		*((Uint32*)(pSurface->pixels) + index) = cleanPixel;
+		pixelsTab[index] = cleanPixel;
 }
 
 
@@ -277,23 +313,25 @@ void cleanSurface(SDL_Surface* pSurface)
 /////////////////                                                        /////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
 /**
-* \fn int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
+* \fn int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
 * \brief Update texture associated to a surface with a second surface.
 *
-* \param[in] pTexture, pointer to the texture
-* \param[in] pSurfaceMain, pointer to the surface associated with the texture (the map).
+* \param[in] pTexture, pointer to the global texture.
+* \param[in] pSurfaceMain, pointer to the surface associated with the global texture (the map).
 * \param[in] pSurfaceSecond, pointer to the second surface
 * \param[in] pRect, area to erase before display the second surface (usually the precedent location of the surface).
-* \returns 0 = OK, -1 = problem allocating memory
+* \returns 0 = OK, -1 = error
 */
-int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
+int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Surface* pSurfaceSecond, SDL_Rect* pRect)
 {
-	reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
+	if (pSurfaceMain->format->BytesPerPixel != pSurfaceSecond->format->BytesPerPixel)
+		return -1;
+	if (pSurfaceSecond->h > pSurfaceMain->h || pSurfaceSecond->w > pSurfaceMain->w)
+		return -1;
 	if (pRect->x != pSurfaceSecond->clip_rect.x || pRect->y != pSurfaceSecond->clip_rect.y)
-		updateTextureFromSurface(pTexture, pSurfaceMain, pRect);
-	if (pSurfaceMain != pSurfaceSecond)
+		updateGlobalTexture(pTexture, pSurfaceMain, pRect);
+	if (pSurfaceMain != pSurfaceSecond && pSurfaceMain != NULL && pSurfaceSecond != NULL && pTexture != NULL)
 	{
-		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
 		Uint32* pixelWrite = NULL;
 		Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
 		int x, y, offsety;
@@ -304,7 +342,7 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
 		if (pixelWrite == NULL)
 		{
-			fprintf(logFile, "updateTextureFromMultipleSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			fprintf(logFile, "updateGlobalTextureAndSurface : FAILURE, allocating memory to pixelWrite.\n\n");
 			return -1;
 		}
 		x = pSurfaceSecond->clip_rect.x;
@@ -312,6 +350,10 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		offsety = y * pSurfaceMain->w;
 		for (index = 0; index < nombrePixelToUpdate; index++)
 		{
+			if (index >(Uint32)(pSurfaceSecond->w * pSurfaceSecond->h))
+				break;
+			if (index > (Uint32)(pSurfaceMain->w * pSurfaceMain->h))
+				break;
 			if (pixelTransparent(pixelSurfaceSecond[index], pSurfaceSecond->format))
 			{
 				indexSurfaceMain = (index%pSurfaceSecond->w + x) + (index / pSurfaceSecond->w)*pSurfaceMain->w + offsety;
@@ -324,6 +366,8 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 		for (index = 0; index < nombrePixelToUpdate; index += pSurfaceSecond->w)
 		{
 			int indexDest = x + y*pSurfaceMain->w;
+			if (index >(Uint32)(pSurfaceMain->w * pSurfaceMain->h))
+				break;
 			memcpy((pixelSurfaceMain + indexDest), (pixelWrite + index), pRect->w*sizeof(Uint32));
 			y++;
 		}
@@ -335,26 +379,36 @@ int updateTextureFromMultipleSurface(SDL_Texture* pTexture, SDL_Surface* pSurfac
 }
 
 /**
-* \fn int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
+* \fn int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
 * \brief Update texture associated to a surface on a selected area.
 *
 * \param[in] pTexture, pointer to the texture.
-* \param[in] pSurfaceMain, pointer to the surface.
+* \param[in] pSurfaceMain, pointer to the surface associated with the global texture (the map).
 * \param[in] pRect, area to update, NULL for the entire surface/texture.
-* \returns 0 = OK, -1 = problem allocating memory
+* \returns 0 = OK, -1 = error
 */
-int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
+int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
 {
 	Uint32* pixelWrite = NULL;
 	Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
+	int w = 0, h = 0;
 	int x, y, offsety;
+	if (pSurfaceMain == NULL && pTexture == NULL)
+		return -1;
+	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
+	if (pSurfaceMain->w > w || pSurfaceMain->h > h)
+		return -1;
 	if (pRect != NULL)
 	{
+		if (!checkRectSurfaceDimension(pSurfaceMain, pRect))
+			return -1;
 		nombrePixelToUpdate = pRect->h * pRect->w;
+		if (nombrePixelToUpdate > ((Uint32)(pSurfaceMain->w * pSurfaceMain->h)))
+			return -1;
 		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
 		if (pixelWrite == NULL)
 		{
-			fprintf(logFile, "updateTextureFromSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			fprintf(logFile, "updateGlobalTexture : FAILURE, allocating memory to pixelWrite.\n\n");
 			return -1;
 		}
 		x = pRect->x;
@@ -363,14 +417,14 @@ int updateTextureFromSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, S
 		for (index = 0; index < nombrePixelToUpdate; index += pRect->w)
 		{
 			indexSurfaceMain = x + y*pSurfaceMain->w;
-			memcpy((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexSurfaceMain), pRect->w * sizeof(Uint32));
+			memcpy((pixelWrite + index), ((Uint32*)(pSurfaceMain->pixels) + indexSurfaceMain), pRect->w * sizeof(Uint32));
 			y++;
 		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
 		free(pixelWrite);
 		pixelWrite = NULL;
 	}
-	else SDL_UpdateTexture(pTexture, pRect, pSurfaceMain->pixels, pSurfaceMain->pitch);
+	else  SDL_UpdateTexture(pTexture, pRect, pSurfaceMain->pixels, pSurfaceMain->pitch);
 	return 0;
 }
 
@@ -391,7 +445,15 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 	int x = 0, y = 0;
 	Uint32 pixel;
 	int index;
+	if (pSurfaceDest->format->BitsPerPixel != pSurfaceSrc->format->BitsPerPixel)
+		return;
 	reajustRect(pRect, pSurfaceDest);
+	if (!checkRectSurfaceDimension(pSurfaceDest, pRect))
+		return;
+	if (!checkRectSurfaceDimension(pSurfaceSrc, pRect))
+		return;
+	if (pSurfaceDest->w != pSurfaceSrc->w || pSurfaceDest->h != pSurfaceSrc->h)
+		return;
 	if (mode == 0)
 	{
 		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
@@ -409,7 +471,7 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 		{
 			index = pRect->x + y * pSurfaceDest->w;
-			memcpy((Uint32*)pSurfaceDest->pixels + index, (Uint32*)pSurfaceSrc->pixels + index, pRect->w*sizeof(Uint32));
+			memcpy(((Uint32*)(pSurfaceDest->pixels) + index), ((Uint32*)(pSurfaceSrc->pixels) + index), pRect->w*sizeof(Uint32));
 		}
 	}
 
@@ -639,6 +701,8 @@ int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 */
 void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurfaceMotion)
 {
+	if (pSurfaceMap == NULL || pSurfaceMotion == NULL)
+		return;
 	if (pSurfaceMotion->clip_rect.x < 0)
 		pSurfaceMotion->clip_rect.x = 0;
 	if (pSurfaceMotion->clip_rect.y < 0)
@@ -665,6 +729,7 @@ int rand_a_b(int a, int b)
 }
 
 
+
 /**
 * \fn int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 * \brief Reajust rectangle dimensions of a rect which is a bit out of map.
@@ -676,6 +741,8 @@ int rand_a_b(int a, int b)
 int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 {
 	int modif = 0;
+	if (pSurfaceMap == NULL || pRect == NULL)
+		return 0;
 	if (pRect->x < 0) {
 		pRect->w -= pRect->x;
 		pRect->x = 0;
@@ -687,11 +754,11 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap)
 		modif = 1;
 	}
 	if (pRect->x + pRect->w >= pSurfaceMap->clip_rect.w){
-		pRect->w -= pRect->x + pRect->w - pSurfaceMap->clip_rect.w;
+		pRect->w = pSurfaceMap->clip_rect.w - pRect->x;
 		modif = 1;
 	}
 	if (pRect->y + pRect->h >= pSurfaceMap->clip_rect.h){
-		pRect->h -= pRect->y + pRect->h - pSurfaceMap->clip_rect.h;
+		pRect->h = pSurfaceMap->clip_rect.h - pRect->y;
 		modif = 1;
 	}
 	return modif;

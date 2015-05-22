@@ -91,6 +91,11 @@ void getInput()
 			{
 			case SDLK_LEFT:
 				if (!globalInput->arme){
+					if (globalInput->jump && !globalInput->jumpOnGoing)
+					{
+						globalInput->jump = 0;
+						globalInput->backJump = 1;
+					}
 					globalInput->direction = LEFT;
 					SDL_Delay(10);
 				}
@@ -98,6 +103,11 @@ void getInput()
 			case SDLK_RIGHT:
 				if (!globalInput->arme){
 					globalInput->direction = RIGHT;
+					if (globalInput->jump && !globalInput->jumpOnGoing)
+					{
+						globalInput->jump = 0;
+						globalInput->backJump = 1;
+					}
 					SDL_Delay(10);
 				}
 				break;
@@ -112,7 +122,11 @@ void getInput()
 				break;
 			case SDLK_SPACE:
 				if (!globalInput->jumpOnGoing && !globalInput->arme)
-					globalInput->jump = 1;
+				{
+					if (globalInput->direction == LEFT || globalInput->direction == RIGHT)
+						globalInput->backJump = 1;
+					else globalInput->jump = 1;
+				}
 				break;
 			case SDLK_LCTRL:
 				globalInput->bend = 1;
@@ -355,6 +369,13 @@ void inputsJumpWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 				setWormsSpeed(pWorms, pWorms->dirSurface);
 				globalInput->jumpOnGoing = 1;
 			}
+			else if (globalInput->backJump)
+			{
+				if (pWorms->dirSurface == LEFT)
+					setWormsSpeed(pWorms, RIGHT);
+				else setWormsSpeed(pWorms, LEFT);
+				globalInput->jumpOnGoing = 1;
+			}
 			else if (globalInput->direction == UP)
 			{
 				setWormsSpeed(pWorms, UP);
@@ -488,6 +509,7 @@ Input* initInput()
 		return NULL;
 	}
 	inputTemp->jump = 0;
+	inputTemp->backJump = 0;
 	inputTemp->jumpOnGoing = 0;
 	inputTemp->bend = 0;
 	inputTemp->menu = 0;

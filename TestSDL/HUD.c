@@ -32,8 +32,10 @@ int setFonts()
 void destroyFonts()
 {
 	int i;
-	for (i = 0; i < NBFONTS; i++){
-		TTF_CloseFont(globalVar.FontName[i]);
+	for (i = 0; i < NBFONTS; i++)
+	{
+		if (globalVar.FontName[i] != NULL)
+			TTF_CloseFont(globalVar.FontName[i]);
 	}
 }
 
@@ -80,9 +82,9 @@ void updateTextSurfaceWormsTab(Worms** wormsTab)
 */
 int updateTextSurfaceWorms(Worms* pWorms)
 {
-	char str[10];
+	char str[20];
 	SDL_Surface *txtLifeSurface = NULL;
-	if (pWorms->vie > 0) 
+	if (pWorms->vie > 0)
 		sprintf(str, " %d ", pWorms->vie);
 	else sprintf(str, " ");
 	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
@@ -173,7 +175,7 @@ void updateHUD(Worms** wormsTab)
 	else if (timeToPrintGeneral != lastTimeGeneral)
 	{
 		SDL_DestroyTexture(timerGeneralTexture);
-		sprintf(str, "%.2d : %.2d", timeToPrintGeneral/60, timeToPrintGeneral%60);
+		sprintf(str, "%.2d : %.2d", timeToPrintGeneral / 60, timeToPrintGeneral % 60);
 		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 98);
 		globalInput->raffraichissement = 1;
 	}

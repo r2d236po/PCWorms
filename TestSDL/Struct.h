@@ -108,6 +108,7 @@ typedef struct Cursor{ //structure Curseur
 
 typedef struct Input{		//Structure gérant les différentes inputs
 	char jump;					//touche de saut
+	char backJump;
 	char jumpOnGoing;			//indique qu'un saut est en cours et désactive les touches de direction
 	char bend;					//touche pour s'accroupir
 	char menu;					//touche de menu principal

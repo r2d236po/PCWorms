@@ -46,10 +46,8 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	{
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
-			wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x = rand_a_b(rand_a_b(0, pSurfaceMap->w), (pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w - 1));
-			wormsTab[indexWorms]->wormsObject->objectBox.x = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.x;
-			wormsTab[indexWorms]->wormsObject->objectBox.y = wormsTab[indexWorms]->wormsObject->objectSurface->clip_rect.y = 0;
-			resetAbsoluteCoordinates(wormsTab[indexWorms]->wormsObject->objectSurface, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.x, &wormsTab[indexWorms]->wormsObject->absoluteCoordinate.y);
+			int x = rand_a_b(0, pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w);
+			initObjectPosition(wormsTab[indexWorms]->wormsObject, x, 0);
 			initStart = 1;
 		}
 	}
@@ -64,6 +62,16 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms], pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
 			displayWorms(wormsTab[indexWorms], 1);
+			if (wormsTab[indexWorms]->vie <= 0)
+			{
+				initEnd = 0;
+				wormsTab[indexWorms]->vie = 100;
+				if (wormsTab[indexWorms]->dirSurface == RIGHT)
+					copySurfacePixels(wormsTab[indexWorms]->wormsSurfaceRight, NULL, wormsTab[indexWorms]->wormsObject->objectSurface, NULL);
+				else copySurfacePixels(wormsTab[indexWorms]->wormsSurfaceLeft, NULL, wormsTab[indexWorms]->wormsObject->objectSurface, NULL);
+				int x = rand_a_b(0, pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w);
+				initObjectPosition(wormsTab[indexWorms]->wormsObject, x, 0);
+			}
 		}
 	}
 	for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
@@ -439,9 +447,12 @@ int globalMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap, enum 
 {
 	int possible = 1;
 	enum DIRECTION testDirection = direction;
-	if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &testDirection, 1))
-		possible = 0;
 	if (collisionSurfaceWithMapLimits(pSurfaceMap, pObject->objectSurface))
+	{
+		resetMotionVariables(pObject);
+		possible = 0;
+	}
+	else if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &testDirection, 1))
 		possible = 0;
 	return possible;
 }
@@ -460,6 +471,8 @@ void KaamCollisionManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject, enum
 {
 	while (!globalMotionPossibility(pObject, pSurfaceMap, pObject->motionDirection))
 	{
+		if (!pObject->startMotion)
+			break;
 		if (dxBoxProcess(pObject) > 0)
 			pObject->objectSurface->clip_rect.x -= 1;
 		if (dxBoxProcess(pObject) < 0)

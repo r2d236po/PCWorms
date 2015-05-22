@@ -138,6 +138,7 @@ void initObjectPosition(KaamObject* pObject, int x, int y)
 void resetInputs()
 {
 	globalInput->jump = 0;
+	globalInput->backJump = 0;
 	globalInput->jumpOnGoing = 0;
 	globalInput->direction = NONE;
 }
