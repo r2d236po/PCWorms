@@ -169,6 +169,11 @@ void getInput()
 					else globalInput->arme = 0;
 				}
 				break;
+			case SDLK_g:
+				if (!globalInput->menu){
+					globalInput->grenade = 1;
+				}
+				break;
 			case SDLK_BACKSPACE:
 				globalInput->textCounter--;
 				secuTextInput(globalInput);
@@ -502,6 +507,7 @@ Input* initInput()
 	inputTemp->camCentrer = 1;
 	inputTemp->changeWorms = 0;
 	inputTemp->arme = 0;
+	inputTemp->grenade = 0;
 	inputTemp->soundAllowed = 1;
 	inputTemp->musicAllowed = 1;
 	strcpy(inputTemp->textInput, "");

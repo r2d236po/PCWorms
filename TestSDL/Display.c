@@ -205,9 +205,10 @@ SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurf
 	if (pAnimSurface == NULL || pAnimSurface->w != step || pAnimSurface->h != h)
 	{
 		newAnimSurface = SDL_CreateRGBSurface(0, step, h, 32, RMASK, GMASK, BMASK, AMASK);
-		if (newAnimSurface != NULL)
+		if (newAnimSurface != NULL && newAnimSurface != pSurfaceSprite)
 		{
-			copySurfacePixels(pSurfaceSprite, &clip, newAnimSurface, NULL);
+			if (!copySurfacePixels(pSurfaceSprite, &clip, newAnimSurface, NULL))
+				newAnimSurface = NULL;
 			if (pAnimSurface != NULL)
 			{
 				recenterSurface(pAnimSurface, newAnimSurface);
@@ -216,7 +217,7 @@ SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurf
 		}
 		return newAnimSurface;
 	}
-	copySurfacePixels(pSurfaceSprite, &clip, pAnimSurface, NULL);
+	else copySurfacePixels(pSurfaceSprite, &clip, pAnimSurface, NULL);
 	return pAnimSurface;
 }
 

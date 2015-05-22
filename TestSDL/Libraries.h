@@ -55,6 +55,7 @@ SDL_Surface* spriteDeplacement;
 SDL_Surface* spriteGrenadeExplosion;
 SDL_Surface* spriteNukeExplosion;
 SDL_Surface* arme1;
+SDL_Surface* arme2;
 SDL_Texture* timerTeamTexture;
 SDL_Texture* timerGeneralTexture;
 SDL_Rect rectTimerTeam;

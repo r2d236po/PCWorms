@@ -511,7 +511,7 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 				if (deathByLimitMap(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface))
 					resetInputs();
 			}
-			if (wormsTab[indexWorms]->vie > 0)
+			if (wormsTab[indexWorms]->vie > 0 && (!wormsTab[indexWorms]->wormsObject->startMotion || !wormsTab[indexWorms]->wormsObject->falling))
 				randomAnimationWorms(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface);
 			if (globalInput->deplacement || globalInput->raffraichissement)
 			{
@@ -522,6 +522,8 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 			}
 			if (indexWorms == globalVar.indexWormsTab)
 				weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
+			if (globalInput->grenade && indexWorms == globalVar.indexWormsTab)
+				grenadeManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, pCamera);
 		}
 		updateHUD(wormsTab);
 	}

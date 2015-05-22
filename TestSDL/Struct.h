@@ -127,6 +127,7 @@ typedef struct Input{		//Structure gérant les différentes inputs
 	char camCentrer;
 	char changeWorms;
 	char arme;
+	char grenade;
 	char soundAllowed;
 	char musicAllowed;
 	char textInput[100];
