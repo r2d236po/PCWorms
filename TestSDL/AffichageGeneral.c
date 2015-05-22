@@ -240,6 +240,8 @@ int initSprites(void)
 	spriteGrenadeExplosion = NULL;
 	spriteDeplacement = NULL;
 	spriteNukeExplosion = NULL;
+	arme1 = NULL;
+	arme2 = NULL;
 
 	spriteDeplacement = loadImage("../assets/sprites/spriteMov.png");
 	if (spriteDeplacement == NULL)
@@ -263,6 +265,13 @@ int initSprites(void)
 	}
 	arme1 = loadImage("../assets/sprites/arme1.png");
 	if (arme1 == NULL)
+	{
+		fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
+		cleanSprites();
+		return -1;
+	}
+	arme2 = loadImage("../assets/sprites/arme2.png");
+	if (arme2 == NULL)
 	{
 		fprintf(logFile, "initSprites : FAILURE, loadImage.\n\n");
 		cleanSprites();
@@ -298,6 +307,11 @@ void cleanSprites(void)
 	{
 		SDL_FreeSurface(arme1);
 		arme1 = NULL;
+	}
+	if (arme2 != NULL)
+	{
+		SDL_FreeSurface(arme2);
+		arme2 = NULL;
 	}
 	fprintf(logFile, "cleanSprites : DONE.\n");
 }

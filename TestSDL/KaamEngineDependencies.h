@@ -13,6 +13,7 @@ void setSurfaceRelativeCoordinates(SDL_Surface* pSurface, int relativeTime, floa
 void setSurfaceAbsoluteCoordinates(SDL_Surface* pSurface, int absoluteX, int absoluteY);
 void setSpeed(float* Xspeed, float* Yspeed, float valueX, float valueY);
 void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap);
+void initObjectPosition(KaamObject* pObject, int x, int y);
 
 /*Reset functions*/
 void resetInputs();

@@ -1,6 +1,7 @@
 #include "armes.h"
 #include "carte.h"
 #include "my_stdrFct.h"
+#include "KaamEngine.h"
 #include "AffichageGeneral.h"
 #include "display.h"
 #include "worms.h"
@@ -60,6 +61,7 @@ void explosion(int x, int y, int rayon, SDL_Surface *pSurfaceMap, SDL_Texture *p
 * \param[in] pTextureDisplay, pointer to the main texture.
 * \param[in] wormsTab, array of worms.
 * \param[in] weaponIndex, index of the weapons selected.
+* \param[in] pCamera, pointer to the camera rect.
 * \returns void
 */
 void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera)
@@ -149,8 +151,14 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	armePrec = globalInput->arme;
 }
 
-
-
+/**
+* \fn SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
+* \brief Select the right weapon to display.
+*
+* \param[in] weapondIndex, index of the weapon.
+* \param[in] dir, direction of the weapon.
+* \returns surface of the desired weapons, NULL if error.
+*/
 SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
 {
 	switch (weapondIndex)
@@ -161,14 +169,28 @@ SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
 		else if (dir == RIGHT)
 			return animationSprite(arme1, NULL, 2, 1);
 	case 1:
+		if (dir == LEFT)
+			return animationSprite(arme2, NULL, 2, 0);
+		else if (dir == RIGHT)
+			return animationSprite(arme2, NULL, 2, 1);
 		break;
 	}
 	return NULL;
 }
 
-
-
-int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* pSurface)
+/**
+* \fn int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface)
+* \brief Fire a bullet.
+*
+* \param[in] pMapTerrain, pointer to a terrain structure.
+* \param[in] pTextureDisplay, pointer to the main texture.
+* \param[in] dir, direction of the shot.
+* \param[in] angle, angle of the shot in radians.
+* \param[in] wormsTab, array of worms.
+* \param[in] weaponSurface, surface of the weapons.
+* \returns 1 if contact, 0 else.
+*/
+int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface)
 {
 	SDL_Surface* bulletSprite = NULL;
 	static SDL_Surface* bulletSurface = NULL;
@@ -183,13 +205,13 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 		{
 			bulletSurface = animationSprite(bulletSprite, NULL, 2, 0);
 			bulletSurface = rotozoomSurface(bulletSurface, angle * 180.0 / pi, 1.0, 1);
-			bulletSurface->clip_rect.x = pSurface->clip_rect.x - bulletSurface->w;
+			bulletSurface->clip_rect.x = weaponSurface->clip_rect.x - bulletSurface->w;
 		}
 		else
 		{
 			bulletSurface = animationSprite(bulletSprite, NULL, 2, 1);
 			bulletSurface = rotozoomSurface(bulletSurface, -angle * 180.0 / pi, 1.0, 1);
-			bulletSurface->clip_rect.x = pSurface->clip_rect.x + pSurface->w;
+			bulletSurface->clip_rect.x = weaponSurface->clip_rect.x + weaponSurface->w;
 		}
 		bulletSurface->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->h / 2 - bulletSurface->h;
 		SDL_FreeSurface(bulletSprite);
@@ -199,6 +221,7 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 	{
 		eraseRectFromMap(pMapTerrain, pTextureDisplay, &bulletSurface->clip_rect);
 		SDL_FreeSurface(bulletSurface);
+		bulletSurface = NULL;
 		contact = 1;
 		fire = 0;
 	}
@@ -206,7 +229,17 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 	return contact;
 }
 
-
+/**
+* \fn int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
+* \brief Move the bullet.
+*
+* \param[in] pMapTerrain, pointer to a terrain structure.
+* \param[in] bulletSurface, surface of the bullet.
+* \param[in] angle, angle of the shot in radians.
+* \param[in] wormsTab, array of worms.
+* \param[in] dir, direction of the shot.
+* \returns void
+*/
 int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
 {
 	int speedX = (int)(WEAPONSPEEDX * cos(angle)), speedY = (int)(WEAPONSPEEDY * sin(angle));
@@ -236,6 +269,7 @@ int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, W
 *
 * \param[in] wormsTab, array of worms.
 * \param[in] pRect, rect of the bullet.
+* \param[in] index, index of the worms touched by the bullet.
 * \returns 1 = bullet hit either map or worms, 0 = no hit
 */
 int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
@@ -283,6 +317,7 @@ void setCenterWeapons(Worms* pWorms, int* xCenter, int* yCenter)
 * \param[in] x, x coordinate of the first point.
 * \param[in] y, y coordinate of the first point.
 * \param[in] pDir, pointer to the direction to be filled with the orientation of the mouse.
+* \param[in] pCamera, pointer to the camera rect.
 * \returns the angle between the mouse and the point at (x,y) in degree
 */
 double getAngle(int x, int y, enum DIRECTION *pDir, SDL_Rect* pCamera)
@@ -349,4 +384,260 @@ void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* p
 
 	/*Reset rect*/
 	*pRect = initRect(0, 0, 0, 0);
+}
+
+/**
+* \fn void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* pWorms, SDL_Rect* pRect)
+* \brief Exit the weapon mode.
+*
+* \param[in] pMapTerrain, pointer to the worms who is in weapon's mode.
+* \param[in] pTextureDisplay, pointer to the x value to center the weapon.
+* \param[in] pWorms, pointer to the worms who is in weapon's mode.
+* \param[in] pRect, pointer to the rect of the weapon to erase pixel.
+* \returns void
+*/
+void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, SDL_Rect* pCamera)
+{
+	int radius = 50, triggerBomb = 0, endAnim = 0;
+	SDL_Rect  bombRect;
+	static KaamObject *grenadeObject = NULL;
+	static int animGrenade = 0, indexAnim = 0, lastTime = 0, counter = 0, x = 0, y = 0;
+	//Mix_PlayChannel(2, sndFx, 0);
+	int timerGrenade = TIMERGRENADE - counter;
+	if (timerGrenade <= 0 && !animGrenade)
+	{
+		triggerBomb = 1;
+		animGrenade = 1;
+	}
+	if (!triggerBomb && !animGrenade && grenadeObject == NULL)
+	{
+		SDL_Surface* surface = loadImage(GRENADEPATH);
+		if (surface != NULL)
+		{
+			float speedX = 0.0, speedY = 0.0;
+			enum DIRECTION dirGrenade = DOWN;
+			surface->clip_rect.x = 100;
+			surface->clip_rect.y = 200;
+			initGrenade(pCamera, wormsTab[globalVar.indexWormsTab], &speedX, &speedY, &dirGrenade);
+			grenadeObject = KaamInitObject(surface, speedX, speedY, dirGrenade, 1);
+			initObjectPosition(grenadeObject,
+				wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x + wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->w,
+				wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y);
+			SDL_FreeSurface(surface);
+		}
+		else return;
+	}
+	if (grenadeObject != NULL)
+	{
+		KaamPhysicManagement(grenadeObject, pMapTerrain->collisionMapSurface);
+		display(grenadeObject->objectSurface, 1);
+		globalInput->raffraichissement = 1;
+	}
+
+
+	/*Reaction to the bomb*/
+	if (triggerBomb && grenadeObject != NULL)
+	{
+		x = grenadeObject->objectSurface->clip_rect.x + grenadeObject->objectSurface->w / 2;
+		y = grenadeObject->objectSurface->clip_rect.y + grenadeObject->objectSurface->h / 2;
+		bombRect = initRect(x - radius, y - radius, 2 * radius, 2 * radius);
+		bombReactionManagement(wormsTab, &bombRect, x, y, radius);
+		eraseRectFromMap(pMapTerrain, pTextureDisplay, &grenadeObject->objectSurface->clip_rect);
+		if (grenadeObject != NULL)
+			KaamDestroyObject(&grenadeObject);
+		animGrenade = 1;
+	}
+
+	/*Anim explosion*/
+	if (animGrenade)
+	{
+		endAnim = animationGrenade(pMapTerrain, pTextureDisplay, &indexAnim, x, y);
+	}
+
+	/*Destruction of the map*/
+	if (endAnim)
+	{
+		bombRect = initRect(x - 50, y - 50, 100, 100);
+		explosion(x, y, radius, pMapTerrain->globalMapSurface, pTextureDisplay);
+		updateSurfaceFromSurface(pMapTerrain->collisionMapSurface, pMapTerrain->globalMapSurface, &bombRect, 0);
+		globalInput->grenade = 0;
+		triggerBomb = animGrenade = counter = endAnim = 0;
+		x = 0;
+		y = 0;
+		globalInput->raffraichissement = 1;
+	}
+	else if ((SDL_GetTicks() - lastTime) >= 1000)
+	{
+		lastTime = SDL_GetTicks();
+		counter++;
+	}
+
+}
+
+/**
+* \fn void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY, enum DIRECTION *dir)
+* \brief initialise the parameters of the grenade object.
+*
+* \param[in] pCamera, pointer to the camera rect.
+* \param[in] pWorms, pointer to the worms who is in weapon's mode.
+* \param[in] speedX, variable to be filled with init x speed.
+* \param[in] speedY, variable to be filled with init y speed.
+* \param[in] dir, pointer to a direction to be filled with the init direction of the grenade.
+* \returns void
+*/
+void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY, enum DIRECTION *dir)
+{
+	enum DIRECTION dirMouse;
+	double angle = getAngle(pWorms->wormsObject->objectSurface->clip_rect.x + pWorms->wormsObject->objectSurface->w / 2,
+		pWorms->wormsObject->objectSurface->clip_rect.y + pWorms->wormsObject->objectSurface->h / 2, &dirMouse, pCamera);
+
+	if (angle == 90.0)
+		*dir = UP;
+	else if (angle == -90.0)
+		*dir = DOWN;
+	else if (angle < 0.0)
+	{
+		if (dirMouse == LEFT)
+			*dir = UPLEFT;
+		else *dir = UPRIGHT;
+	}
+	else if (angle > 0.0)
+	{
+		if (dirMouse == LEFT)
+			*dir = DLEFT;
+		else *dir = DRIGHT;
+	}
+	else
+	{
+		if (dirMouse == LEFT)
+			*dir = LEFT;
+		else *dir = RIGHT;
+	}
+	if (dirMouse == RIGHT)
+		*speedX = (float)(GRENADESPEEDX * cos(angle * pi / 180.0));
+	else *speedX = (float)(-GRENADESPEEDX * cos(angle * pi / 180.0));
+	*speedY = (float)(GRENADESPEEDY * sin(-angle * pi / 180.0));
+}
+
+/**
+* \fn int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y)
+* \brief Animate the explosion of the grenade.
+*
+* \param[in] pMapTerrain, pointer to the worms who is in weapon's mode.
+* \param[in] pTextureDisplay, pointer to the x value to center the weapon.
+* \param[in] indexAnim, pointer to the index of the animation.
+* \param[in] x, x postion of the grenade.
+* \param[in] y, y postion of the grenade.
+* \returns 1 = animation is done, 0 = animation is still running
+*/
+int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y)
+{
+	int endAnim = 0, index;
+	char str[100];
+	SDL_Surface* animSprite = NULL, *exploSurface = NULL;
+	index = selectExplo(str, *indexAnim);
+	animSprite = loadImage(str);
+	if (animSprite != NULL)
+	{
+		exploSurface = animationSprite(animSprite, NULL, NBFRAMEGRENADE / 5, index);
+		SDL_FreeSurface(animSprite);
+		if (exploSurface != NULL)
+		{
+			exploSurface->clip_rect.x = x - 50;
+			exploSurface->clip_rect.y = y - 50;
+			ajustExploWithMap(pMapTerrain->collisionMapSurface, &exploSurface);
+			display(exploSurface, 1);
+			*indexAnim += 1;
+			globalInput->raffraichissement = 1;
+		}
+	}
+	if (*indexAnim == NBFRAMEGRENADE)
+	{
+		*indexAnim = 0;
+		endAnim = 1;
+		eraseRectFromMap(pMapTerrain, pTextureDisplay, &exploSurface->clip_rect);
+	}
+	if (exploSurface != NULL)
+	{
+		SDL_FreeSurface(exploSurface);
+		exploSurface = NULL;
+	}
+	return endAnim;
+}
+
+/**
+* \fn int selectExplo(char *str, int indexGen)
+* \brief Determines wich sprite of the explo need to be loaded.
+*
+* \param[in] str,string to be filled with the path to the sprite of the explosion.
+* \param[in] indexGen, general index of the animation.
+* \returns sub index of the animation in the current sprite.
+*/
+int selectExplo(char *str, int indexGen)
+{
+	int index = 0;
+	if (indexGen < 5)
+	{
+		strcpy(str, EXPLO1);
+		index = indexGen;
+	}
+	else if (indexGen >= 5 && indexGen < 10)
+	{
+		strcpy(str, EXPLO2);
+		index = indexGen - 5;
+	}
+	else if (indexGen >= 10 && indexGen < 15)
+	{
+		strcpy(str, EXPLO3);
+		index = indexGen - 10;
+	}
+	else if (indexGen >= 15 && indexGen < 20)
+	{
+		strcpy(str, EXPLO4);
+		index = indexGen - 15;
+	}
+	else if (indexGen >= 20 && indexGen < 25)
+	{
+		strcpy(str, EXPLO5);
+		index = indexGen - 20;
+	}
+
+	return index;
+}
+
+void ajustExploWithMap(SDL_Surface* pSurfaceMap, SDL_Surface** exploSurface)
+{
+	int x = (*exploSurface)->clip_rect.x, y = (*exploSurface)->clip_rect.y, w = (*exploSurface)->w, h = (*exploSurface)->h;
+	SDL_Rect troncRect = initRect(0, 0, w, h);
+	if (x < 0)
+	{
+		troncRect.x = -x;
+		troncRect.w = w + x;
+		x = 0;
+	}
+	if (y < 0)
+	{
+		troncRect.y = -y;
+		troncRect.h = h + y;
+		y = 0;
+	}
+	if (x + w > pSurfaceMap->w)
+		troncRect.w = pSurfaceMap->w - x;
+	if (y + h > pSurfaceMap->h)
+		troncRect.h = pSurfaceMap->h - y;
+	if (troncRect.x != 0 || troncRect.y != 0 || troncRect.w != w || troncRect.h != h)
+	{
+		SDL_Surface* surfaceTemp = NULL;
+		surfaceTemp = SDL_CreateRGBSurface(0, troncRect.w, troncRect.h, 32, RMASK, GMASK, BMASK, AMASK);
+		if (surfaceTemp != NULL)
+		{
+			if (copySurfacePixels((*exploSurface), &troncRect, surfaceTemp, NULL))
+			{
+				SDL_FreeSurface((*exploSurface));
+				(*exploSurface) = surfaceTemp;
+				(*exploSurface)->clip_rect.x = x;
+				(*exploSurface)->clip_rect.y = y;
+			}			
+		}
+	}
 }

@@ -10,6 +10,7 @@
 #define MusiqueMenu "../assets/sounds/MusiqueMenu.wav"
 #define MusiqueMenu2 "../assets/sounds/MusiqueMenu2.wav"
 #define MusiqueVictoire "../assets/sounds/ffvii.wav"
+#define MusiqueGrenade "../assets/sounds/Hallelujah.wav"
 #define MusiqueInGame "../assets/sounds/musicInGame.wav"
 
 #define NBCHUNK 20

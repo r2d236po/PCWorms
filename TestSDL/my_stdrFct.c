@@ -196,7 +196,10 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 	Uint32* pixelSrc = (Uint32*)pSurfaceSrc->pixels;
 	Uint32* pixelDest = (Uint32*)pSurfaceDest->pixels;
 	int ySrc = 0, xSrc = 0, xDest = 0, yDest = 0, wRectSrc = pSurfaceSrc->w, hRectSrc = pSurfaceSrc->h, wDest = pSurfaceDest->w, wSrc = pSurfaceSrc->w;
-	int indexDest = 0, indexSrc = 0, index = 0, nbPixels = 0;
+	if (pSurfaceDest == pSurfaceSrc)
+		return 0;
+	int indexDest = 0, indexSrc = 0;
+	unsigned long int index, nbPixels;
 	if (pRectSrc != NULL)
 	{
 		if (!checkRectSurfaceDimension(pSurfaceSrc, pRectSrc))
@@ -222,7 +225,7 @@ int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface*
 	{
 		indexDest = xDest + yDest*wDest;
 		indexSrc = xSrc + ySrc*wSrc;
-		memcpy((pixelDest + indexDest), (pixelSrc + indexSrc), wRectSrc*sizeof(Uint32));
+		memmove((pixelDest + indexDest), (pixelSrc + indexSrc), wRectSrc*sizeof(Uint32));
 		ySrc++;
 		yDest++;
 	}
@@ -617,14 +620,12 @@ SDL_Rect initRect(int x, int y, int w, int h)
 */
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect)
 {
-	if (pRect->w > pSurface->w || (pRect->x + pRect->w) > (pSurface->clip_rect.x + pSurface->w))
+	SDL_Rect rectSurface = initRect(0, 0, pSurface->w, pSurface->h);
+	if (pRect->x < 0 || (pRect->x + pRect->w) > rectSurface.w)
 		return 0;
-	else if (pRect->x < 0 || pRect->x >(pSurface->clip_rect.x + pSurface->w))
+	if (pRect->y < 0 || (pRect->y + pRect->h) > rectSurface.h)
 		return 0;
-	else if (pRect->h > pSurface->h || (pRect->y + pRect->h) > (pSurface->clip_rect.y + pSurface->h))
-		return 0;
-	else if (pRect->y < 0 || pRect->y >(pSurface->clip_rect.y + pSurface->h))
-		return 0;
+
 	return 1;
 }
 

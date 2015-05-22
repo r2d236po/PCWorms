@@ -84,7 +84,7 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		}
 		else pObject->rightOk = 0;
 	}
-	pObject->objectSurface->clip_rect.x -= 2*XTEST;
+	pObject->objectSurface->clip_rect.x -= 2 * XTEST;
 	directionTest = LEFT;
 	if (collisionSurfaceWithMapLimits(pSurfaceMap, pObject->objectSurface)
 		|| collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &directionTest, 1))
@@ -101,8 +101,23 @@ void setSideMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 	pObject->objectSurface->clip_rect.x += XTEST;
 }
 
-
-
+/**
+* \fn void initObjectPosition(KaamObject* pObject, int x, int y)
+* \brief Put a surface to the absolute coordinates wanted.
+*
+* \param[in] pObject,  pointer to the object to position.
+* \param[in] x, absolute coordinate along the X axis.
+* \param[in] y, absolute coordinate along the Y axis.
+* \returns void
+*/
+void initObjectPosition(KaamObject* pObject, int x, int y)
+{
+	setSurfaceAbsoluteCoordinates(pObject->objectSurface, x, y);
+	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->absoluteCoordinate.x, &pObject->absoluteCoordinate.y);
+	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->precedentCoordinate.x, &pObject->precedentCoordinate.y);
+	pObject->objectBox.x = pObject->objectSurface->clip_rect.x;
+	pObject->objectBox.y = pObject->objectSurface->clip_rect.y;
+}
 
 
 

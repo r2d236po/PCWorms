@@ -205,8 +205,9 @@ void KaamPhysicManagement(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 	}
 	else if (pObject->weapon == 1)
 	{
-		KaamNonLinearMotion(pSurfaceMap, pObject, 1);
-		if (dxBoxProcess(pObject) == 0 && dyBoxProcess(pObject) == 0)
+		if (!pObject->falling)
+			KaamNonLinearMotion(pSurfaceMap, pObject, 1);
+		if (!pObject->startMotion && !pObject->rebound)
 			KaamGravityManagement(pSurfaceMap, pObject);
 	}
 	else// /!\ deplacement OK, gravité OK, saut NON OK
@@ -214,7 +215,8 @@ void KaamPhysicManagement(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 		KaamGroundMotion(pObject, pSurfaceMap);
 		KaamGravityManagement(pSurfaceMap, pObject);
 	}
-	globalInput->deplacement = (MY_ABS(dxBoxProcess(pObject)) > 0 || MY_ABS(dyBoxProcess(pObject)) > 0);
+	if (pObject->weapon != 1)
+		globalInput->deplacement = (MY_ABS(dxBoxProcess(pObject)) > 0 || MY_ABS(dyBoxProcess(pObject)) > 0);
 	resetAbsoluteCoordinates(pObject->objectSurface, &pObject->objectBox.x, &pObject->objectBox.y);
 }
 
@@ -511,7 +513,7 @@ int KaamCollisionReaction(KaamObject* pObject, enum DIRECTION directionBeforeCol
 		resetReboundVariables(pObject, 1.0, -1.0, 1.0, 2.0);
 		reaction = 1;
 	}
-	else if (allowRebound && pObject->rebound < 1)
+	else if (allowRebound && pObject->rebound < 2)
 	{
 		resetReboundVariables(pObject, 1.0, 1.0, 2.0, 2.0);
 		reaction = 1;
