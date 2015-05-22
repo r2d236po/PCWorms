@@ -202,6 +202,7 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 	if (bulletSprite != NULL)
 	{
 		fire = 1;
+		playChunk(1, FireBullet);
 		if (dir == LEFT)
 		{
 			bulletSurface = animationSprite(bulletSprite, NULL, 2, 0);
