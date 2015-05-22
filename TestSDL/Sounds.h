@@ -13,6 +13,7 @@
 #define ExploMed "../assets/sounds/weapon/Explosion_medium.wav"
 #define BipExplo "../assets/sounds/weapon/Bip_explosion.wav"
 #define ExploSourde "../assets/sounds/weapon/Explosion_sourde.wav"
+#define LancerGrenade "../assets/sounds/weapon/LancerGrenade.wav"
 
 #define NBCHUNK 20
 #define NBMUSIC 5

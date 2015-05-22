@@ -5,6 +5,7 @@
 #include "AffichageGeneral.h"
 #include "display.h"
 #include "worms.h"
+#include "Sounds.h"
 
 
 /* Fonctions concernant la gestion des armes */
@@ -402,7 +403,6 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 	SDL_Rect  bombRect;
 	static KaamObject *grenadeObject = NULL;
 	static int animGrenade = 0, indexAnim = 0, lastTime = 0, counter = 0, x = 0, y = 0;
-	//Mix_PlayChannel(2, sndFx, 0);
 	int timerGrenade = TIMERGRENADE - counter;
 	if (timerGrenade <= 0 && !animGrenade)
 	{
@@ -423,6 +423,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 			initObjectPosition(grenadeObject,
 				wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x + wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->w,
 				wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y);
+			playChunk(1, LancerGrenade);
 			SDL_FreeSurface(surface);
 		}
 		else return;
@@ -446,6 +447,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 		if (grenadeObject != NULL)
 			KaamDestroyObject(&grenadeObject);
 		animGrenade = 1;
+		playChunk(1, ExploMed);
 	}
 
 	/*Anim explosion*/

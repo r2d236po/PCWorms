@@ -7,7 +7,7 @@
 #define MAXDAMAGE 20
 #define WEAPONSPEEDY 25.0
 #define WEAPONSPEEDX 25.0
-#define TIMERGRENADE 5
+#define TIMERGRENADE 7
 #define GRENADEPATH "../assets/sprites/grenade.png"
 #define GRENADESPRITE "../assets/sprites/Grenade_Sprite.png"
 #define EXPLO1 "../assets/sprites/explo1.png"
