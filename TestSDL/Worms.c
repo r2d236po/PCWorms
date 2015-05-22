@@ -520,9 +520,9 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 				wormsOverlay(wormsTab);
 				globalInput->raffraichissement = 1;
 			}
-			if (indexWorms == globalVar.indexWormsTab)
+			if (indexWorms == globalVar.indexWormsTab && wormsTab[indexWorms]->vie > 0)
 				weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
-			if (globalInput->grenade && indexWorms == globalVar.indexWormsTab)
+			if (globalInput->grenade && indexWorms == globalVar.indexWormsTab && wormsTab[indexWorms]->vie > 0)
 				grenadeManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, pCamera);
 		}
 		updateHUD(wormsTab);
