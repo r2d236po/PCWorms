@@ -1,0 +1,1299 @@
+Start of session : Thu May 21 19:28:36 2015
+
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/spriteMov.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/Grenade_Sprite.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/Nuke_Sprite.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/arme1.png.
+
+initSprites : SUCCESS.
+
+creerFenetre : SUCCESS.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/icone.png.
+
+initSWR : SUCCESS.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/cursor.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/aim.png.
+
+initCursor : SUCCESS.
+
+initInput : SUCCESS.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/MusiqueMenu.wav.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest4.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/musicInGame.wav.
+
+mainInit : DONE.
+	nombre d'equipes : 2.
+	nombre de worms par equipe : 1 1 0 0.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/maptest4.png.
+
+
+initialisationTerrain : SUCCESS.
+
+my_createTextureFromSurface : SUCCESS.
+
+initCameras : DONE.
+
+initDisplay : DONE.
+
+KaamInitGame : DONE.
+
+initCameras : DONE.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom1R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/wormsRandom2R.png.
+
+cleanSounds : DONE.
+||| END OF THE GAME |||
+destroyMap : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+
+
+End of Session : Thu May 21 19:29:45 2015
