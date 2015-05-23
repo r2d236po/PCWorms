@@ -496,7 +496,7 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 		updateTeamLife(jeu->equipes);
 		isGameEnd(jeu);
 
-		if (wormsTab[globalVar.indexWormsTab]->vie <= 0 && !globalVar.gameEnd)
+		if (wormsTab[globalVar.indexWormsTab]->vie <= 0)
 		{
 			callNextWorms(wormsTab);
 		}

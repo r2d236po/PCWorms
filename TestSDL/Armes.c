@@ -138,7 +138,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	{
 		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab[globalVar.indexWormsTab], &rectWeapon);
 		if (nbShot == NBSHOTPERTOUR)
-			callNextWorms(wormsTab);
+			globalInput->changeWorms = 1;
 	}
 
 
@@ -502,7 +502,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 		x = 0;
 		y = 0;
 		globalInput->raffraichissement = 1;
-		callNextWorms(wormsTab);
+		globalInput->changeWorms = 1;
 	}
 	else if ((SDL_GetTicks() - lastTime) >= 1000)
 	{
