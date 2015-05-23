@@ -1,5 +1,6 @@
 #include "Libraries.h"
 #include "my_stdrFct.h"
+#include "memory.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /////////////////                                                        /////////////////
@@ -65,7 +66,7 @@ SDL_Surface* loadImage(const char * file){
 		fprintf(logFile, "loadTexture : FAILURE, nom de fichier non valide.\n\n");
 		return NULL;
 	}
-	image = IMG_Load(file);
+	image = my_IMG_Load(file);
 	if (image == NULL)
 	{
 		fprintf(logFile, "loadImage : FAILURE, probleme lors du chargement de la surface : %s.\n\tnom du fichier : %s.", IMG_GetError(), file);
@@ -91,7 +92,7 @@ SDL_Texture* loadTexture(const char * file)
 		fprintf(logFile, "loadTexture : FAILURE, nom de fichier non valide.\n\n");
 		return NULL;
 	}
-	texture = IMG_LoadTexture(globalRenderer, file);
+	texture = my_IMG_LoadTexture(globalRenderer, file);
 	if (texture == NULL)
 	{
 		fprintf(logFile, "loadTexture : FAILURE, probleme chargement texture : %s.\n\tnom du fichier : %s.\n", IMG_GetError(), file);
@@ -102,7 +103,7 @@ SDL_Texture* loadTexture(const char * file)
 }
 
 /**
-* \fn SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface)
+* \fn SDL_Texture* createGlobalTexture(SDL_Surface* pSurface)
 * \brief Create a texture from a surface.
 *
 * \param[in] pSurface, pointer to the source surface.
@@ -110,24 +111,24 @@ SDL_Texture* loadTexture(const char * file)
 * \returns pointer to the created texture, NULL if error.
 * \remarks It is like createTextureFromSurface with error handling and access to pixel enable.
 */
-SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface)
+SDL_Texture* createGlobalTexture(SDL_Surface* pSurface)
 {
 
 	SDL_Texture* textureTemp = NULL;
 	if (pSurface == NULL || pSurface->format->BitsPerPixel != 32)
 	{
-		fprintf(logFile, "my_createTextureFromSurface : FAILURE, pointeur surface NULL ou format de pixels non pris en charge. \n\n");
+		fprintf(logFile, "createGlobalTexture : FAILURE, pointeur surface NULL ou format de pixels non pris en charge. \n\n");
 		return NULL;
 	}
-	textureTemp = SDL_CreateTexture(globalRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
+	textureTemp = my_CreateTexture(globalRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, pSurface->w, pSurface->h);
 	if (textureTemp == NULL)
 	{
-		fprintf(logFile, "my_createTextureFromSurface : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
+		fprintf(logFile, "createGlobalTexture : FAILURE, creation textureTemp : %s.\n\n", SDL_GetError());
 		return NULL;
 	}
 	SDL_SetTextureBlendMode(textureTemp, SDL_BLENDMODE_BLEND);
 	SDL_UpdateTexture(textureTemp, NULL, pSurface->pixels, pSurface->pitch);
-	fprintf(logFile, "my_createTextureFromSurface : SUCCESS.\n\n");
+	fprintf(logFile, "createGlobalTexture : SUCCESS.\n\n");
 	return textureTemp;
 }
 
@@ -339,7 +340,7 @@ int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMa
 		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
 		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
 		nombrePixelToUpdate = pRect->h * pRect->w;
-		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		pixelWrite = (Uint32*)my_malloc(nombrePixelToUpdate * sizeof(Uint32));
 		if (pixelWrite == NULL)
 		{
 			fprintf(logFile, "updateGlobalTextureAndSurface : FAILURE, allocating memory to pixelWrite.\n\n");
@@ -372,7 +373,7 @@ int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMa
 			y++;
 		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
-		free(pixelWrite);
+		my_free(pixelWrite);
 		pixelWrite = NULL;
 	}
 	return 0;
@@ -405,7 +406,7 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 		nombrePixelToUpdate = pRect->h * pRect->w;
 		if (nombrePixelToUpdate > ((Uint32)(pSurfaceMain->w * pSurfaceMain->h)))
 			return -1;
-		pixelWrite = (Uint32*)malloc(nombrePixelToUpdate * sizeof(Uint32));
+		pixelWrite = (Uint32*)my_malloc(nombrePixelToUpdate * sizeof(Uint32));
 		if (pixelWrite == NULL)
 		{
 			fprintf(logFile, "updateGlobalTexture : FAILURE, allocating memory to pixelWrite.\n\n");
@@ -421,7 +422,7 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 			y++;
 		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
-		free(pixelWrite);
+		my_free(pixelWrite);
 		pixelWrite = NULL;
 	}
 	else  SDL_UpdateTexture(pTexture, pRect, pSurfaceMain->pixels, pSurfaceMain->pitch);

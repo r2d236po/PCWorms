@@ -3,8 +3,8 @@
 
 #include "Libraries.h"
 
-#define vitesseX (float)(cos(pi / 3)* 0.95)
-#define vitesseY (float)(sin(pi / 3)*1.3)
+#define vitesseX (float)(cos(PI / 3)* 0.95)
+#define vitesseY (float)(sin(PI / 3)*1.3)
 #define TAILLEINV 5 
 #define WIDTHSPRITEMOVE 31
 #define HIGHTSPRITEMOVE 30
@@ -32,6 +32,7 @@ int randomWorms();
 /*Gestion de l'overlay*/
 void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
 void wormsOverlay(Worms** wormsTab);
+void wormsOverlayWithSurface(Worms** wormsTab, SDL_Surface* pSurface);
 
 /*Fonctions diverses*/
 int deathByLimitMap(Worms* pWorms, SDL_Surface* pSurfaceMap);

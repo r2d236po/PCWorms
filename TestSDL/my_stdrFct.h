@@ -8,7 +8,7 @@ SDL_Window * creerFenetre(const int windowWidth, const int windowHight, const ch
 /*Chargement d'image dans une surface ou une texture*/
 SDL_Surface * loadImage(const char * file);	//Charge une image dans une surface
 SDL_Texture * loadTexture(const char * file);	//Charge une image dans une texture
-SDL_Texture* my_createTextureFromSurface(SDL_Surface* pSurface);
+SDL_Texture* createGlobalTexture(SDL_Surface* pSurface);
 
 /*Manipulation des pixels*/
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);

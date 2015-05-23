@@ -2,6 +2,7 @@
 #include "AffichageGeneral.h"
 #include "worms.h"
 #include "my_stdrFct.h"
+#include "memory.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@ int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, cons
 
 	fprintf(logFile, "initialisationTerrain : START :\n\n");
 	//Creation du pointeur de Terrain
-	pMapTerrainTemp = (Terrain*)malloc(sizeof(Terrain));	//Allocation mémoire pour le pointeur de Terrain
+	pMapTerrainTemp = (Terrain*)my_malloc(sizeof(Terrain));	//Allocation mémoire pour le pointeur de Terrain
 	if (pMapTerrainTemp == NULL)	//Si l'allocation s'est mal passee
 	{
 		fprintf(logFile, "initialisationTerrain : FAILURE, allocation memoire de pMapTerrainTemp.\n\n");
@@ -51,7 +52,7 @@ int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, cons
 		destroyMap(&pMapTerrainTemp);	//Destruction du Terrain
 		return -1;	//Retour d'erreur
 	}
-	pMapTerrainTemp->globalMapSurface = SDL_CreateRGBSurface(pMapTerrainTemp->collisionMapSurface->flags,
+	pMapTerrainTemp->globalMapSurface = my_CreateRGBSurface(pMapTerrainTemp->collisionMapSurface->flags,
 		pMapTerrainTemp->collisionMapSurface->w, pMapTerrainTemp->collisionMapSurface->h, 32, RMASK, GMASK, BMASK, AMASK);
 	if (pMapTerrainTemp->globalMapSurface == NULL) //Verification qu'il n'y a pas eu d'erreur lors de l'allocation en mémoire
 	{
@@ -76,20 +77,20 @@ void destroyMap(Terrain** p_pMapTerrain)
 {
 	if ((*p_pMapTerrain)->imageBackground != NULL)	//Si le pointeur de la texture de l'image de fond n'est pas NULL
 	{
-		SDL_DestroyTexture((*p_pMapTerrain)->imageBackground);	//Destruction de la texture de l'image de fond
+		my_freeTexture((*p_pMapTerrain)->imageBackground);	//Destruction de la texture de l'image de fond
 		(*p_pMapTerrain)->imageBackground = NULL;	//Remise à NULL du pointeur
 	}
 	if ((*p_pMapTerrain)->collisionMapSurface != NULL)	//Si le pointeur de la surface de l'image de la map n'est pas NULL
 	{
-		SDL_FreeSurface((*p_pMapTerrain)->collisionMapSurface);	//Destruction de la surface de l'image de la map
+		my_freeSurface((*p_pMapTerrain)->collisionMapSurface);	//Destruction de la surface de l'image de la map
 		(*p_pMapTerrain)->collisionMapSurface = NULL;	//Remise à NULL du pointeur
 	}
 	if ((*p_pMapTerrain)->globalMapSurface != NULL)	//Si le pointeur de la surface de l'image de la map n'est pas NULL
 	{
-		SDL_FreeSurface((*p_pMapTerrain)->globalMapSurface);	//Destruction de la surface de l'image de la map
+		my_freeSurface((*p_pMapTerrain)->globalMapSurface);	//Destruction de la surface de l'image de la map
 		(*p_pMapTerrain)->globalMapSurface = NULL;	//Remise à NULL du pointeur
 	}
-	free(*p_pMapTerrain);	//Liberation de la mémoire du pointeur du Terrain
+	my_free(*p_pMapTerrain);	//Liberation de la mémoire du pointeur du Terrain
 	*p_pMapTerrain = NULL;	//Remise à NULL du pointeur
 	fprintf(logFile, "destroyMap : DONE.\n");
 }

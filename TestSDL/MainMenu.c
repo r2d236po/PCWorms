@@ -5,6 +5,7 @@
 #include "Sounds.h"
 #include "HUD.h"
 #include "partie.h"
+#include "memory.h"
 
 int mainMenu(char mapName[100])
 {
@@ -223,21 +224,21 @@ enum MENU menu()
 
 
 /**
-* \fn enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
+* \fn enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pindexTeam)
 * \brief Manages the versus menu.
 *
 * \param[in] quit, pointer to the quit variable to start the game.
 * \param[in] menuPrec, precedent menu.
 * \returns which menu to display.
 */
-enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
+enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pindexTeam)
 {
 	SDL_Rect nextRect, mainRect, startRect;
 	int testChange = 0, start = 0, next = 0;
 	static int alreadyChange = 0;
 
-	start = !strcmp(globalVar.teamNames[*pIndexTeam - 1], "");
-	next = strcmp(globalVar.teamNames[*pIndexTeam], "");
+	start = !strcmp(globalVar.teamNames[*pindexTeam - 1], "");
+	next = strcmp(globalVar.teamNames[*pindexTeam], "");
 
 	if (menuPrec != VERSUSstart && menuPrec != VERSUSstartS)
 	{
@@ -255,10 +256,10 @@ enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
 				{
 					return VERSUSname;
 				}
-				else if (next && (menuPrec == VERSUSnameN || menuPrec == VERSUSname) && (*pIndexTeam) < 3)
+				else if (next && (menuPrec == VERSUSnameN || menuPrec == VERSUSname) && (*pindexTeam) < 3)
 				{
-					*pIndexTeam += 1;
-					next = strcmp(globalVar.teamNames[*pIndexTeam], "");
+					*pindexTeam += 1;
+					next = strcmp(globalVar.teamNames[*pindexTeam], "");
 					if (next)
 						return VERSUSname;
 					else return VERSUSstart;
@@ -266,7 +267,7 @@ enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
 				else if (menuPrec == VERSUSnameN || menuPrec == VERSUSname || (menuPrec == VERSUSn || menuPrec == VERSUS) && !start)
 				{
 					if (next)
-						*pIndexTeam += 1;
+						*pindexTeam += 1;
 					return VERSUSstart;
 				}
 			}
@@ -287,7 +288,7 @@ enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pIndexTeam)
 				globalInput->raffraichissement = 1;
 				alreadyChange = 0;
 				strcpy(globalInput->textInput, "");
-				*pIndexTeam = 1;
+				*pindexTeam = 1;
 				return MAIN;
 			}
 			else if (!alreadyChange)
@@ -753,7 +754,7 @@ void mapSketch(enum CHOICE nextPrev, char* mapName)
 		return;
 	}
 	SDL_RenderCopy(globalRenderer, sketchTexture, NULL, &sketchRect);
-	SDL_DestroyTexture(sketchTexture);
+	my_freeTexture(sketchTexture);
 	if (nextPrev == CLICK)
 		strcpy(mapName, mapString[counter]);
 }
@@ -901,7 +902,7 @@ void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE])
 	{
 		if (textureTab[indexTexture] != NULL)
 		{
-			SDL_DestroyTexture(textureTab[indexTexture]);
+			my_freeTexture(textureTab[indexTexture]);
 			textureTab[indexTexture] = NULL;
 		}
 	}
@@ -1201,7 +1202,7 @@ void toggleOptions(enum CHOICE *pChoice, int x, int y)
 		else SDL_RenderCopy(globalRenderer, textureChoice, NULL, &noRect);
 		globalInput->raffraichissement = 1;
 	}
-	SDL_DestroyTexture(textureChoice);
+	my_freeTexture(textureChoice);
 }
 
 /**
@@ -1247,7 +1248,7 @@ SDL_Texture* loadFromRenderedText(char* textureText, SDL_Color textColor, int *w
 	SDL_GetRendererOutputSize(globalRenderer, NULL, &hRender);
 	sizeFont = (int)((float)(sizeFont / 600.0) * hRender);
 	TTF_Font* font = TTF_OpenFont("../assets/fonts/Roboto-Regular.ttf", sizeFont);
-	SDL_Surface* textSurface = TTF_RenderText_Blended(font, textureText, textColor);
+	SDL_Surface* textSurface = my_RenderText_Blended(font, textureText, textColor);
 	if (textSurface == NULL)
 	{
 		fprintf(logFile, "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
@@ -1255,7 +1256,7 @@ SDL_Texture* loadFromRenderedText(char* textureText, SDL_Color textColor, int *w
 	else
 	{
 		//Create texture from surface pixels
-		mTexture = SDL_CreateTextureFromSurface(globalRenderer, textSurface);
+		mTexture = my_CreateTextureFromSurface(globalRenderer, textSurface);
 		if (mTexture == NULL)
 		{
 			fprintf(logFile, "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
@@ -1265,7 +1266,7 @@ SDL_Texture* loadFromRenderedText(char* textureText, SDL_Color textColor, int *w
 		if (h != NULL)
 			*h = textSurface->h;
 		//Get rid of old surface
-		SDL_FreeSurface(textSurface);
+		my_freeSurface(textSurface);
 	}
 	TTF_CloseFont(font);
 	//Return success
@@ -1366,7 +1367,7 @@ void renderText(char* str, int x, int y, int sizeFont, SDL_Color color)
 	SDL_Texture* text = loadFromRenderedText(str, color, &wText, &hText, sizeFont);
 	rect = initRect(x, y, wText, hText);
 	SDL_RenderCopy(globalRenderer, text, NULL, &rect);
-	SDL_DestroyTexture(text);
+	my_freeTexture(text);
 }
 
 /**

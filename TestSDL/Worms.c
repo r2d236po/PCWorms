@@ -7,6 +7,7 @@
 #include "armes.h"
 #include "HUD.h"
 #include "partie.h"
+#include "memory.h"
 
 
 
@@ -33,7 +34,7 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	SDL_Rect clip = initRect(445, 28, WIDTHSPRITEMOVE, HIGHTSPRITEMOVE);
 	char strVie[10];
 	fprintf(logFile, "createWorms : START :\n\n");
-	worms = (Worms*)malloc(sizeof(Worms));
+	worms = (Worms*)my_malloc(sizeof(Worms));
 	if (worms == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, allocating memory to worms.\n\n");
@@ -43,13 +44,13 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	if (moveLeft != NULL)
 	{
 		worms->wormsSurfaceLeft = animationSprite(moveLeft, NULL, 15, 14);
-		SDL_FreeSurface(moveLeft);
+		my_freeSurface(moveLeft);
 	}
 	moveRight = loadImage("../assets/sprites/moveRight.png");
 	if (moveRight != NULL)
 	{
 		worms->wormsSurfaceRight = animationSprite(moveRight, NULL, 15, 0);
-		SDL_FreeSurface(moveRight);
+		my_freeSurface(moveRight);
 	}
 	if (worms->wormsSurfaceLeft == NULL || worms->wormsSurfaceRight == NULL)
 	{
@@ -71,8 +72,8 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	sprintf(strVie, " %d ", worms->vie);
 	worms->color = couleur;
 	strcpy(worms->nom, name);
-	worms->texteLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], strVie, *(worms->color));
-	worms->texteNameSurface = TTF_RenderText_Blended(globalVar.FontName[0], worms->nom, *(worms->color));
+	worms->texteLifeSurface = my_RenderText_Blended(globalVar.FontName[0], strVie, *(worms->color));
+	worms->texteNameSurface = my_RenderText_Blended(globalVar.FontName[0], worms->nom, *(worms->color));
 	if (worms->texteLifeSurface == NULL || worms->texteNameSurface == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, texteSurface.\n\n");
@@ -120,31 +121,31 @@ void destroyWorms(Worms** wormsTab, int nbWorms)
 	{
 		if ((wormsTab[i])->wormsSurfaceLeft != NULL)
 		{
-			SDL_FreeSurface((wormsTab[i])->wormsSurfaceLeft);
+			my_freeSurface((wormsTab[i])->wormsSurfaceLeft);
 			(wormsTab[i])->wormsSurfaceLeft = NULL;
 		}
 		if ((wormsTab[i])->wormsSurfaceRight != NULL)
 		{
-			SDL_FreeSurface((wormsTab[i])->wormsSurfaceRight);
+			my_freeSurface((wormsTab[i])->wormsSurfaceRight);
 			(wormsTab[i])->wormsSurfaceRight = NULL;
 		}
 		if ((wormsTab[i])->wormsSurfaceTomb != NULL)
 		{
-			SDL_FreeSurface((wormsTab[i])->wormsSurfaceTomb);
+			my_freeSurface((wormsTab[i])->wormsSurfaceTomb);
 			(wormsTab[i])->wormsSurfaceTomb = NULL;
 		}
 		if ((wormsTab[i])->texteLifeSurface != NULL)
 		{
-			SDL_FreeSurface((wormsTab[i])->texteLifeSurface);
+			my_freeSurface((wormsTab[i])->texteLifeSurface);
 			(wormsTab[i])->texteLifeSurface = NULL;
 		}
 		if ((wormsTab[i])->texteNameSurface != NULL)
 		{
-			SDL_FreeSurface((wormsTab[i])->texteNameSurface);
+			my_freeSurface((wormsTab[i])->texteNameSurface);
 			(wormsTab[i])->texteNameSurface = NULL;
 		}
 		KaamDestroyObject(&wormsTab[i]->wormsObject);
-		free(wormsTab[i]);
+		my_free(wormsTab[i]);
 	}
 	*wormsTab = NULL;
 	fprintf(logFile, "destroyWorms : DONE.\n");
@@ -371,7 +372,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, 
 				pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 8, indexFrameAnim);
 			}
 			if (randomSurface != NULL)
-				SDL_FreeSurface(randomSurface);
+				my_freeSurface(randomSurface);
 			break;
 		case LEFT:
 			if (random == 1)
@@ -385,7 +386,7 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, 
 				pWorms->wormsObject->objectSurface = animationSprite(randomSurface, pWorms->wormsObject->objectSurface, 8, indexFrameAnim);
 			}
 			if (randomSurface != NULL)
-				SDL_FreeSurface(randomSurface);
+				my_freeSurface(randomSurface);
 			break;
 		}
 	}
@@ -397,13 +398,13 @@ int animationWorms(Worms* pWorms, int indexFrameAnim, enum DIRECTION direction, 
 			moveRight = loadImage("../assets/sprites/moveRight.png");
 			pWorms->wormsObject->objectSurface = animationSprite(moveRight, pWorms->wormsObject->objectSurface, 15, indexFrameAnim);
 			if (moveRight != NULL)
-				SDL_FreeSurface(moveRight);
+				my_freeSurface(moveRight);
 			break;
 		case LEFT:
 			moveLeft = loadImage("../assets/sprites/moveLeft.png");
 			pWorms->wormsObject->objectSurface = animationSprite(moveLeft, pWorms->wormsObject->objectSurface, 15, indexFrameAnim);
 			if (moveLeft != NULL)
-				SDL_FreeSurface(moveLeft);
+				my_freeSurface(moveLeft);
 			break;
 		case UP:
 			break;
@@ -487,7 +488,6 @@ int randomWorms()
 void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	int indexWorms;
-
 	if (!globalInput->menu)
 	{
 		updateTeamLife(jeu->equipes);
@@ -520,12 +520,12 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 				wormsOverlay(wormsTab);
 				globalInput->raffraichissement = 1;
 			}
-			if (indexWorms == globalVar.indexWormsTab && wormsTab[indexWorms]->vie > 0)
-				weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
-			if (globalInput->grenade && indexWorms == globalVar.indexWormsTab)
-				grenadeManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, pCamera);
 		}
 		updateHUD(wormsTab);
+		if (wormsTab[globalVar.indexWormsTab]->vie > 0)
+			weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
+		if (globalInput->grenade)
+			grenadeManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, pCamera);
 	}
 }
 
@@ -557,6 +557,36 @@ void wormsOverlay(Worms** wormsTab)
 				displayWorms(wormsTab[i], 0);
 				displayWorms(wormsTab[j], 0);
 			}
+		}
+	}
+}
+
+/**
+* \fn void wormsOverlayWithSurface(Worms** wormsTab, SDL_Surface* pSurface)
+* \brief Check if a surface is overlaying with a worms.
+*
+* \param[in] wormsTab, array of worms.
+* \param[in] pSurface, surface to overlay.
+* \return void
+*/
+void wormsOverlayWithSurface(Worms** wormsTab, SDL_Surface* pSurface)
+{
+	int i = 0;
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
+	{
+		SDL_Rect* rectTab[3];
+		rectTab[0] = &wormsTab[i]->wormsObject->objectSurface->clip_rect;
+		rectTab[1] = &wormsTab[i]->texteLifeSurface->clip_rect;
+		rectTab[2] = &wormsTab[i]->texteNameSurface->clip_rect;
+		SDL_Rect boxWorms1 = createGlobalRect(3, rectTab);
+		boxWorms1.x -= 10;
+		boxWorms1.w += 20;
+		boxWorms1.y -= 10;
+		boxWorms1.h += 20;
+		if (collisionRectWithRect(&boxWorms1, &pSurface->clip_rect))
+		{
+			displayWorms(wormsTab[i], 0);
+			display(pSurface, 0);
 		}
 	}
 }

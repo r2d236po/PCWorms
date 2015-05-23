@@ -2,6 +2,7 @@
 #include "Libraries.h" //Inclus toutes les librairies
 #include "AffichageGeneral.h"
 #include "partie.h"
+#include "memory.h"
 
 
 int main(int argc, char** argv)

@@ -1,4 +1,5 @@
 #include "Sounds.h"
+#include "memory.h"
 
 /**
 * \fn void initSDLMixer()

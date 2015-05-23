@@ -8,6 +8,7 @@
 #include "display.h"
 #include "MainMenu.h"
 #include "HUD.h"
+#include "memory.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -303,7 +304,7 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 		globalInput->raffraichissement = 0;
 	}
 	inputsJumpWorms(wormsTab[globalVar.indexWormsTab], jeu->pMapTerrain->collisionMapSurface);
-	if (globalInput->direction == DOWN)
+	if (globalInput->direction == DOWN &&wormsTab[globalVar.indexWormsTab]->vie > 0)
 	{
 		teleportWorms(wormsTab[globalVar.indexWormsTab], jeu->pMapTerrain->collisionMapSurface, pCamera);
 	}
@@ -398,28 +399,33 @@ void inputsJumpWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 */
 void callNextWorms(Worms** wormsTab)
 {
+	int nbEquipe = 0;
+	if (globalVar.nbWormsTotal == 1)
+		return;
+	if (globalInput->arme)
+		globalInput->arme = 0;
 	//Changement de worms pour l'equipe qui vient de jouer
-	if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)
+	if (globalVar.wormsPlaying[globalVar.teamPlaying] != (globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1))
 	{
 		globalVar.wormsPlaying[globalVar.teamPlaying] += 1;
 	}
-	else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
+	else globalVar.wormsPlaying[globalVar.teamPlaying] = 0;
 
 	//Determine la nouvelle equipe
 	do
 	{
-		if (globalVar.teamPlaying != globalVar.nbEquipe - 1) { globalVar.teamPlaying += 1; }
-		else { globalVar.teamPlaying = 0; }
-	} while (wormsTab[calculIndex()]->team->vie <= 0 || globalVar.gameEnd);
+		if (globalVar.teamPlaying != (globalVar.nbEquipe - 1))
+			globalVar.teamPlaying += 1;
+		else globalVar.teamPlaying = 0;
+		nbEquipe++;
+	} while ((wormsTab[calculIndex()]->team->vie <= 0 || globalVar.gameEnd) && nbEquipe <= globalVar.nbEquipe);
 
 	//Determine le nouveau worms
 	while (wormsTab[calculIndex()]->vie <= 0)
 	{
-		if (globalVar.wormsPlaying[globalVar.teamPlaying] != globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1)
-		{
+		if (globalVar.wormsPlaying[globalVar.teamPlaying] != (globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1))
 			globalVar.wormsPlaying[globalVar.teamPlaying] += 1;
-		}
-		else { globalVar.wormsPlaying[globalVar.teamPlaying] = 0; }
+		else globalVar.wormsPlaying[globalVar.teamPlaying] = 0;
 	}
 
 	//Affecte la valeur à l'index global
@@ -494,7 +500,7 @@ Input* initInput()
 {
 	Input* inputTemp = NULL;
 
-	inputTemp = (Input*)malloc(sizeof(Input));
+	inputTemp = (Input*)my_malloc(sizeof(Input));
 	if (inputTemp == NULL)
 	{
 		fprintf(logFile, "initInput : FAILURE, allocation memoire de globalInput.\n\n");
@@ -504,7 +510,7 @@ Input* initInput()
 	if (inputTemp->cursor.cursor1 == NULL || inputTemp->cursor.cursor2 == NULL)
 	{
 		fprintf(logFile, "initInput : FAILURE, initCursor.\n\n");
-		free(inputTemp);
+		my_free(inputTemp);
 		inputTemp = NULL;
 		return NULL;
 	}
@@ -595,7 +601,7 @@ Cursor initCursor(void)
 	{
 		fprintf(logFile, "initCursor : FAILURE, loadImage.\n\n");
 		curseur.cursor1 = NULL;
-		SDL_FreeSurface(sword);
+		my_freeSurface(sword);
 		sword = NULL;
 		return curseur;
 	}
@@ -603,9 +609,9 @@ Cursor initCursor(void)
 	curseur.cursor1 = SDL_CreateColorCursor(sword, 0, 0);
 	curseur.cursor2 = SDL_CreateColorCursor(aim, 0, 0);
 
-	SDL_FreeSurface(sword);
+	my_freeSurface(sword);
 	sword = NULL;
-	SDL_FreeSurface(aim);
+	my_freeSurface(aim);
 	aim = NULL;
 
 	SDL_SetCursor(curseur.cursor1);

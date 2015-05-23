@@ -3,6 +3,7 @@
 #include "MainMenu.h"
 #include "AffichageGeneral.h"
 #include "input.h"
+#include "memory.h"
 
 /**
 * \fn int setFonts()
@@ -87,7 +88,7 @@ int updateTextSurfaceWorms(Worms* pWorms)
 	if (pWorms->vie > 0)
 		sprintf(str, " %d ", pWorms->vie);
 	else sprintf(str, " ");
-	txtLifeSurface = TTF_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
+	txtLifeSurface = my_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
 	if (txtLifeSurface == NULL)
 		return -1;
 	cleanSurface(pWorms->texteLifeSurface);
@@ -95,7 +96,7 @@ int updateTextSurfaceWorms(Worms* pWorms)
 	{
 		fprintf(logFile, "updateTextSurfaceWorms : FAILURE, copySurfacePixels.\n\n");
 	}
-	SDL_FreeSurface(txtLifeSurface);
+	my_freeSurface(txtLifeSurface);
 	txtLifeSurface = NULL;
 	updateTextSurfacePosition(pWorms);
 	return 0;
@@ -149,10 +150,10 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 
 	SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
 	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
-	SDL_DestroyTexture(textureMenu);
-	SDL_DestroyTexture(textureMenuMainMenu);
-	SDL_DestroyTexture(textureMenuOption);
-	SDL_DestroyTexture(textureMenuQuit);
+	my_freeTexture(textureMenu);
+	my_freeTexture(textureMenuMainMenu);
+	my_freeTexture(textureMenuOption);
+	my_freeTexture(textureMenuQuit);
 }
 
 /**
@@ -174,7 +175,7 @@ void updateHUD(Worms** wormsTab)
 	}
 	else if (timeToPrintGeneral != lastTimeGeneral)
 	{
-		SDL_DestroyTexture(timerGeneralTexture);
+		my_freeTexture(timerGeneralTexture);
 		sprintf(str, "%.2d : %.2d", timeToPrintGeneral / 60, timeToPrintGeneral % 60);
 		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 98);
 		globalInput->raffraichissement = 1;
@@ -186,9 +187,14 @@ void updateHUD(Worms** wormsTab)
 	}
 	else if (timeToPrintTeam != lastTimeTeam)
 	{
-		SDL_DestroyTexture(timerTeamTexture);
+		my_freeTexture(timerTeamTexture);
 		sprintf(str, "%d", timeToPrintTeam);
-		timerTeamTexture = loadFromRenderedText(str, *wormsTab[calculIndex()]->color, &rectTimerTeam.w, &rectTimerTeam.h, 48);
+		SDL_Color color;
+		color.r = wormsTab[calculIndex()]->color->b;
+		color.g = wormsTab[calculIndex()]->color->g;
+		color.b = wormsTab[calculIndex()]->color->r;
+		color.a = 255;
+		timerTeamTexture = loadFromRenderedText(str, color, &rectTimerTeam.w, &rectTimerTeam.h, 48);
 		globalInput->raffraichissement = 1;
 	}
 	lastTimeTeam = timeToPrintTeam;
@@ -224,6 +230,6 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 
 	renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, score, NULL, &rectScore);
 
-	SDL_DestroyTexture(score);
+	my_freeTexture(score);
 
 }

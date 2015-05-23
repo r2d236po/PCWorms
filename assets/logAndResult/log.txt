@@ -1,4 +1,4 @@
-Start of session : Sat May 23 00:48:36 2015
+Start of session : Sat May 23 13:26:53 2015
 
 
 loadImage : SUCCESS.
@@ -20,7 +20,7 @@ initSprites : SUCCESS.
 
 creerFenetre : SUCCESS.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/icone.png.
+	nom du fichier : ../assets/PIctures/icone.png.
 
 initSWR : SUCCESS.
 
@@ -73,12 +73,38 @@ loadTexture : SUCCESS.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
 
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
 
 mainInit : DONE.
-	nombre d'equipes : 3.
-	nombre de worms par equipe : 3 3 3 0.
+	nombre d'equipes : 2.
+	nombre de worms par equipe : 2 1 0 0.
 
 nouveauJeu : START :
 
@@ -116,109 +142,9 @@ KaamInitObject : SUCCESS.
 
 createWorms : SUCCESS.
 
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
 nouvelleEquipe : SUCCESS.
 
 nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -245,12 +171,12 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/map.png.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
 
 
 initialisationTerrain : SUCCESS.
 
-my_createTextureFromSurface : SUCCESS.
+createGlobalTexture : SUCCESS.
 
 initCameras : DONE.
 
@@ -261,7 +187,13 @@ KaamInitGame : DONE.
 initCameras : DONE.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
 
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/moveLeft.png.
@@ -276,87 +208,34 @@ loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/moveLeft.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/moveRight.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/moveRight.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/moveRight.png.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+cleanSounds : DONE.
+||| END OF THE GAME |||
+destroyMap : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
+KaamDestroyObject : DONE. 
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+KaamDestroyObject : DONE. 
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+memoryLeakCheck : memory leak detected, number of leaks : 4.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage 
+End of Session : Sat May 23 13:27:10 2015

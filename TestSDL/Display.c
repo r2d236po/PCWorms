@@ -1,5 +1,6 @@
 #include "display.h"
 #include "my_stdrFct.h"
+#include "memory.h"
 
 
 SDL_Texture* pGlobalTexture;
@@ -187,7 +188,7 @@ int displayWorms(Worms* pWorms, int mode)
 * \param[in] indexAnim, index of the frame in the sprite.
 * \returns the surface with the frame, NULL on error
 * \remarks ATTENTION : If the size of the pAnimSurface and the size of the frame are different, the function creates a new surface
-* and free the old one. If the size are the same, the pAnimSurface is returned. SO BE CAREFULL, if in your function you call
+* and my_free the old one. If the size are the same, the pAnimSurface is returned. SO BE CAREFULL, if in your function you call
 * animationSprite with NULL in pAnimSurface, remember to FREE your surface when you're done.
 */
 SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurface, int nbFrame, int indexAnim)
@@ -204,7 +205,7 @@ SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurf
 	clip = initRect(x, 0, step, h);
 	if (pAnimSurface == NULL || pAnimSurface->w != step || pAnimSurface->h != h)
 	{
-		newAnimSurface = SDL_CreateRGBSurface(0, step, h, 32, RMASK, GMASK, BMASK, AMASK);
+		newAnimSurface = my_CreateRGBSurface(0, step, h, 32, RMASK, GMASK, BMASK, AMASK);
 		if (newAnimSurface != NULL && newAnimSurface != pSurfaceSprite)
 		{
 			if (!copySurfacePixels(pSurfaceSprite, &clip, newAnimSurface, NULL))
@@ -212,7 +213,7 @@ SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurf
 			if (pAnimSurface != NULL)
 			{
 				recenterSurface(pAnimSurface, newAnimSurface);
-				SDL_FreeSurface(pAnimSurface);
+				my_freeSurface(pAnimSurface);
 			}
 		}
 		return newAnimSurface;

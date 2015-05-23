@@ -2,6 +2,7 @@
 #include "AffichageGeneral.h"
 #include "my_stdrFct.h"
 #include "HUD.h"
+#include "memory.h"
 
 /* Fonctions relatives à la gestion d'une partie */
 /**
@@ -19,7 +20,7 @@ Jeu * nouveauJeu(char * map)
 		fprintf(logFile, "nouveauJeu : START :\n\n");
 	if (globalVar.nbEquipe > 4)
 		return NULL;
-	jeu = (Jeu*)malloc(sizeof(Jeu));
+	jeu = (Jeu*)my_malloc(sizeof(Jeu));
 	if (jeu == NULL)
 	{
 		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu.\n\n");
@@ -30,7 +31,7 @@ Jeu * nouveauJeu(char * map)
 	jeu->temps = TEMPSPARTIE;
 	strcpy(jeu->nomMap, map);
 
-	jeu->equipes = malloc(globalVar.nbEquipe * sizeof(Equipe*));
+	jeu->equipes = my_malloc(globalVar.nbEquipe * sizeof(Equipe*));
 	if (jeu->equipes == NULL)
 	{
 		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu->equipes.\n\n");
@@ -60,7 +61,7 @@ void destroyJeu(Jeu ** game)
 {
 	if ((*game)->equipes != NULL)
 		destroyEquipe((*game)->equipes, (*game)->nbEquipe);
-	free(*game);
+	my_free(*game);
 	*game = NULL;
 	fprintf(logFile, "destroyJeu : DONE.\n");
 }
@@ -79,7 +80,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 	Equipe * team = NULL;
 	fprintf(logFile, "nouvelleEquipe : START :\n\n");
 
-	team = (Equipe*)malloc(sizeof(Equipe));
+	team = (Equipe*)my_malloc(sizeof(Equipe));
 	if (team == NULL)
 	{
 		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team.\n\n");
@@ -90,7 +91,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 	team->color = couleur;
 
 	/*déclaration des Worms*/
-	team->worms = malloc(nbWorms*sizeof(Worms*));
+	team->worms = my_malloc(nbWorms*sizeof(Worms*));
 	if (team->worms == NULL)
 	{
 		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team->worms.");
@@ -129,7 +130,7 @@ void destroyEquipe(Equipe ** team, int nbE)
 		if (team[i]->worms != NULL)
 			destroyWorms(team[i]->worms, team[i]->nbWormsStart);
 	}
-	free(*team);
+	my_free(*team);
 	*team = NULL;
 	fprintf(logFile, "destroyEquipe : DONE.\n");
 }

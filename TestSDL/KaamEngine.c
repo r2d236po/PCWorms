@@ -3,6 +3,7 @@
 #include "input.h"
 #include "display.h"
 #include "HUD.h"
+#include "memory.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +100,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 */
 KaamObject* KaamInitObject(SDL_Surface* pSurface, float initSpeedX, float initSpeedY, enum DIRECTION initDirection, int weapon)
 {
-	KaamObject* objectTemp = (KaamObject*)malloc(sizeof(KaamObject));
+	KaamObject* objectTemp = (KaamObject*)my_malloc(sizeof(KaamObject));
 	if (objectTemp == NULL)
 	{
 		fprintf(logFile, "KaamInitObject : FAILURE, unable to allocate memory.\n\n");
@@ -107,7 +108,7 @@ KaamObject* KaamInitObject(SDL_Surface* pSurface, float initSpeedX, float initSp
 	}
 
 	/*Init object surface*/
-	objectTemp->objectSurface = SDL_CreateRGBSurface(0, pSurface->w, pSurface->h, 32, RMASK, GMASK, BMASK, AMASK);
+	objectTemp->objectSurface = my_CreateRGBSurface(0, pSurface->w, pSurface->h, 32, RMASK, GMASK, BMASK, AMASK);
 	if (objectTemp->objectSurface == NULL)
 	{
 		fprintf(logFile, "KaamInitObject : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
@@ -168,12 +169,12 @@ void KaamDestroyObject(KaamObject** p_pObject)
 {
 	if ((*p_pObject)->objectSurface != NULL)
 	{
-		SDL_FreeSurface((*p_pObject)->objectSurface);
+		my_freeSurface((*p_pObject)->objectSurface);
 		(*p_pObject)->objectSurface = NULL;
 	}
 	if ((*p_pObject) != NULL)
 	{
-		free((*p_pObject));
+		my_free((*p_pObject));
 		(*p_pObject) = NULL;
 	}
 	fprintf(logFile, "KaamDestroyObject : DONE. \n\n");

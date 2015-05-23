@@ -8,6 +8,7 @@
 #include "partie.h"
 #include "HUD.h"
 #include "carte.h"
+#include "memory.h"
 
 int mainFenetre()
 {
@@ -87,7 +88,7 @@ int mainFenetre()
 			}
 
 			/*Init global texture*/
-			pTextureDisplay = my_createTextureFromSurface(jeu->pMapTerrain->globalMapSurface);
+			pTextureDisplay = createGlobalTexture(jeu->pMapTerrain->globalMapSurface);
 			if (pTextureDisplay == NULL)
 			{
 				fprintf(logFile, "mainFenetre : FAILURE, createGlobalTexture.\n");
@@ -154,7 +155,7 @@ int mainFenetre()
 			destroyMap(&jeu->pMapTerrain);
 		destroyFonts();
 		if (wormsTab != NULL)
-			free(wormsTab);
+			my_free(wormsTab);
 		wormsTab = NULL;
 	}
 	cleanUp(&pTextureDisplay);
@@ -165,6 +166,7 @@ int mainFenetre()
 		destroyJeu(&jeu);
 	}
 	{
+		memoryLeakCheck();
 		time_t t1 = time(NULL);
 		fprintf(logFile, "\n\nEnd of Session : %s", ctime(&t1));
 		fclose(logFile);
@@ -202,7 +204,7 @@ int initSWR()
 		SDL_Surface* surfaceIcone = loadImage(ICONE);
 		if (surfaceIcone != NULL)
 			SDL_SetWindowIcon(globalWindow, surfaceIcone);
-		SDL_FreeSurface(surfaceIcone);
+		my_freeSurface(surfaceIcone);
 	};
 	/* Création du renderer */
 	globalRenderer = SDL_CreateRenderer(globalWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
@@ -290,27 +292,27 @@ void cleanSprites(void)
 {
 	if (spriteDeplacement != NULL)
 	{
-		SDL_FreeSurface(spriteDeplacement);
+		my_freeSurface(spriteDeplacement);
 		spriteDeplacement = NULL;
 	}
 	if (spriteGrenadeExplosion != NULL)
 	{
-		SDL_FreeSurface(spriteGrenadeExplosion);
+		my_freeSurface(spriteGrenadeExplosion);
 		spriteGrenadeExplosion = NULL;
 	}
 	if (spriteNukeExplosion != NULL)
 	{
-		SDL_FreeSurface(spriteNukeExplosion);
+		my_freeSurface(spriteNukeExplosion);
 		spriteNukeExplosion = NULL;
 	}
 	if (arme1 != NULL)
 	{
-		SDL_FreeSurface(arme1);
+		my_freeSurface(arme1);
 		arme1 = NULL;
 	}
 	if (arme2 != NULL)
 	{
-		SDL_FreeSurface(arme2);
+		my_freeSurface(arme2);
 		arme2 = NULL;
 	}
 	fprintf(logFile, "cleanSprites : DONE.\n");
@@ -336,7 +338,7 @@ void cleanUp(SDL_Texture** p_pTextureDisplay)
 			SDL_FreeCursor(globalInput->cursor.cursor2);
 			globalInput->cursor.cursor2 = NULL;
 		}
-		free(globalInput);
+		my_free(globalInput);
 		globalInput = NULL;
 	}
 	if (globalRenderer != NULL)
@@ -352,7 +354,7 @@ void cleanUp(SDL_Texture** p_pTextureDisplay)
 	if ((*p_pTextureDisplay) != NULL)
 	{
 
-		SDL_DestroyTexture(*p_pTextureDisplay);
+		my_freeTexture(*p_pTextureDisplay);
 		(*p_pTextureDisplay) = NULL;
 	}
 	cleanSprites();
@@ -662,7 +664,7 @@ void screenshot()
 	t1 = time(NULL);
 	SDL_Surface* surfaceScreenshot = NULL;
 	SDL_GetRendererOutputSize(globalRenderer, &w, &h);
-	surfaceScreenshot = SDL_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
+	surfaceScreenshot = my_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
 	SDL_RenderReadPixels(globalRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
 	strcpy(path, mainPath);
 	sprintf(screenshotName, "%s\0", ctime(&t1));
@@ -673,7 +675,7 @@ void screenshot()
 		memcpy(path + strlen(mainPath) + i, ".", 1);
 	memcpy(path + strlen(mainPath) + strlen(screenshotName) - 1, ".bmp\0", 5);
 	SDL_SaveBMP(surfaceScreenshot, path);
-	SDL_FreeSurface(surfaceScreenshot);
+	my_freeSurface(surfaceScreenshot);
 }
 
 /**
@@ -783,7 +785,7 @@ Worms** initWormsTab(Equipe** equipes)
 {
 	Worms** Tab = NULL;
 	int i, j, k = 0;
-	Tab = (Worms**)malloc(globalVar.nbWormsTotal * sizeof(Worms*));
+	Tab = (Worms**)my_malloc(globalVar.nbWormsTotal * sizeof(Worms*));
 	if (Tab == NULL)
 		return NULL;
 	for (i = 0; i < globalVar.nbEquipe; i++)
