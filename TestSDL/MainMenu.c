@@ -1063,6 +1063,7 @@ void setSizeOption(enum CHOICE *pChoice)
 	{
 		SDL_GetWindowSize(globalWindow, &wWindow, &hWindow);
 		sprintf(strSize, "%d*%d", wWindow, hWindow);
+
 	}
 	renderText(strSize, 1493, 292, 16, color);
 }
