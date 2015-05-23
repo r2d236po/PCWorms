@@ -292,7 +292,7 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	}
 	if (globalInput->changeWorms)
 	{
-		if (!globalInput->jumpOnGoing && !globalVar.gameEnd){
+		if (!globalInput->jumpOnGoing){
 			callNextWorms(wormsTab);
 		}
 		globalInput->changeWorms = 0;
@@ -400,10 +400,12 @@ void inputsJumpWorms(Worms* pWorms, SDL_Surface* pSurfaceMap)
 void callNextWorms(Worms** wormsTab)
 {
 	int nbEquipe = 0;
-	if (globalVar.nbWormsTotal == 1)
+
+	if (globalVar.nbWormsTotal <= 1)
 		return;
 	if (globalInput->arme)
 		globalInput->arme = 0;
+
 	//Changement de worms pour l'equipe qui vient de jouer
 	if (globalVar.wormsPlaying[globalVar.teamPlaying] != (globalVar.nbWormsEquipe[globalVar.teamPlaying] - 1))
 	{
@@ -412,14 +414,17 @@ void callNextWorms(Worms** wormsTab)
 	else globalVar.wormsPlaying[globalVar.teamPlaying] = 0;
 
 	//Determine la nouvelle equipe
-	do
+	if (!globalVar.gameEnd)
 	{
-		if (globalVar.teamPlaying != (globalVar.nbEquipe - 1))
-			globalVar.teamPlaying += 1;
-		else globalVar.teamPlaying = 0;
-		nbEquipe++;
-	} while ((wormsTab[calculIndex()]->team->vie <= 0 || globalVar.gameEnd) && nbEquipe <= globalVar.nbEquipe);
+		do
+		{
+			if (globalVar.teamPlaying != (globalVar.nbEquipe - 1))
+				globalVar.teamPlaying += 1;
+			else { globalVar.teamPlaying = 0; }
+			nbEquipe++;
+		} while ((wormsTab[calculIndex()]->team->vie <= 0 || globalVar.gameEnd) && nbEquipe <= globalVar.nbEquipe);
 
+	}
 	//Determine le nouveau worms
 	while (wormsTab[calculIndex()]->vie <= 0)
 	{
