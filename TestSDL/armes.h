@@ -43,7 +43,7 @@ int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *in
 int selectExplo(char *str, int indexGen);
 void ajustExploWithMap(SDL_Surface* pSurfaceMap, SDL_Surface** exploSurface);
 void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture * pTextureDisplay);
-int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, double *power);
+int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, double *power, SDL_Rect* pCamera);
 SDL_Surface* loadPowerBar(SDL_Surface* completeBar, int counter);
 
 /*Diverses functions*/

@@ -327,7 +327,7 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 void inputsCamera(SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms * pWorms)
 {
 
-	if (globalInput->rclick)
+	if (globalInput->rclick && !globalInput->grenade)
 	{
 		moveCam(pTextureDisplay, pCamera); //gestion du scrolling de caméra
 		globalInput->cursor.before = globalInput->cursor.now;

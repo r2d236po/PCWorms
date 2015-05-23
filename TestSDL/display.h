@@ -3,7 +3,7 @@
 
 #include "Libraries.h"
 
-#define NBSURFACEMAX 50
+#define NBSURFACEMAX 100
 
 /*Init display*/
 int initDisplay(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay);

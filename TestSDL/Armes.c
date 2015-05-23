@@ -434,7 +434,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 	}
 	if (!triggerBomb && !animGrenade && grenadeObject == NULL)
 	{
-		if (powerGrenade(pMapTerrain, pTextureDisplay, &power))
+		if (powerGrenade(pMapTerrain, pTextureDisplay, &power, pCamera))
 		{
 			SDL_Surface* surface = loadImage(GRENADEPATH);
 			if (surface != NULL)
@@ -693,7 +693,7 @@ void ajustExploWithMap(SDL_Surface* pSurfaceMap, SDL_Surface** exploSurface)
 }
 
 /**
-* \fn int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay,double *power)
+* \fn int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay,double *power, SDL_Rect* pCamera)
 * \brief Get the power of the launch grenade.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
@@ -703,29 +703,30 @@ void ajustExploWithMap(SDL_Surface* pSurfaceMap, SDL_Surface** exploSurface)
 * \param[in] y, y postion of the grenade.
 * \returns 1 = grenade is launched, 0 = grenade is not launched.
 */
-int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, double *power)
+int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, double *power, SDL_Rect* pCamera)
 {
-	int launchGrenade = 0, rW, rH;
+	int launchGrenade = 0, w, h;
 	static int counterPowerBar = 1, counterTime, lastTime = 0;
 	double coeff = (double)((POWERMAX - POWERMIN) / (NBFRAMEPOWER - 1));
 	SDL_Surface* powerSurface = NULL;
 	SDL_Surface* completeBar = loadImage(POWERBARPATH);
 
-	SDL_GetRendererOutputSize(globalRenderer, &rW, &rH);
+	w = pMapTerrain->globalMapSurface->w;
+	h = pMapTerrain->globalMapSurface->h;
 	if (completeBar != NULL)
 	{
 		powerSurface = loadPowerBar(completeBar, counterPowerBar);
 		if (powerSurface != NULL)
 		{
-			powerSurface->clip_rect.x = rW / 2 - completeBar->w / 2;
-			powerSurface->clip_rect.y = rH / 2 - completeBar->h / 2;
-			completeBar->clip_rect.x = rW / 2 - completeBar->w / 2;
-			completeBar->clip_rect.y = rH / 2 - completeBar->h / 2;
+			powerSurface->clip_rect.x = pCamera->x;
+			powerSurface->clip_rect.y = 0;
+			completeBar->clip_rect.x = pCamera->x;
+			completeBar->clip_rect.y = 0;
 			eraseRectFromMap(pMapTerrain, pTextureDisplay, &completeBar->clip_rect);
 			display(powerSurface, 1);
-			powerSurface = NULL;
 			globalInput->raffraichissement = 1;
 			my_freeSurface(powerSurface);
+			powerSurface = NULL;
 		}
 	}
 
