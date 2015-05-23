@@ -3,8 +3,8 @@
 
 #include "Libraries.h"
 
-#define vitesseX (float)(cos(PI / 3)* 0.95)
-#define vitesseY (float)(sin(PI / 3)*1.3)
+#define vitesseX (float)(cos(PI / 3.0)* 0.95)
+#define vitesseY (float)(sin(PI / 3.0)*1.3)
 #define TAILLEINV 5 
 #define WIDTHSPRITEMOVE 31
 #define HIGHTSPRITEMOVE 30

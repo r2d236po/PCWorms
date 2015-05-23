@@ -167,3 +167,10 @@ void memoryLeakCheck()
 		fprintf(logFile, "memoryLeakCheck : no memory leak detected.\n\n");
 }
 
+
+SDL_Surface* my_rotozoomSurface(SDL_Surface* src, double angle, double zoom, int smooth)
+{
+	n_surface++;
+	return rotozoomSurface(src, angle, zoom, smooth);
+}
+

@@ -18,6 +18,7 @@ SDL_Surface* my_CreateRGBSurface(Uint32 flags, int width, int height, int depth,
 SDL_Surface* my_IMG_Load(const char* path);
 SDL_Surface* my_RenderText_Blended(TTF_Font *font, char *str, SDL_Color color);
 void my_freeSurface(SDL_Surface* surface);
+SDL_Surface* my_rotozoomSurface(SDL_Surface* src, double angle, double zoom, int smooth);
 
 SDL_Texture* my_IMG_LoadTexture(SDL_Renderer* renderer, const char* path);
 SDL_Texture* my_CreateTextureFromSurface(SDL_Renderer* renderer, SDL_Surface* surface);

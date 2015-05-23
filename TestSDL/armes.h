@@ -16,9 +16,13 @@
 #define EXPLO3 "../assets/sprites/explo3.png"
 #define EXPLO4 "../assets/sprites/explo4.png"
 #define EXPLO5 "../assets/sprites/explo5.png"
-#define GRENADESPEEDX 0.95
+#define GRENADESPEEDX 1.1
 #define GRENADESPEEDY 1.3
 #define NBFRAMEGRENADE 20
+#define POWERMAX 2.5
+#define POWERMIN 1.0
+#define NBFRAMEPOWER 12
+#define POWERBARPATH "../assets/sprites/powerBar.png"
 
 /*Standard weapons*/
 void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera);
@@ -34,11 +38,13 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index);
 
 /*Grenade functions*/
 void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, SDL_Rect* pCamera);
-void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY, enum DIRECTION *dir);
+void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY, enum DIRECTION *dir, double power);
 int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y);
 int selectExplo(char *str, int indexGen);
 void ajustExploWithMap(SDL_Surface* pSurfaceMap, SDL_Surface** exploSurface);
 void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture * pTextureDisplay);
+int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, double *power);
+SDL_Surface* loadPowerBar(SDL_Surface* completeBar, int counter);
 
 /*Diverses functions*/
 double getAngle(int x, int y, enum DIRECTION *pDir, SDL_Rect* pCamera);
