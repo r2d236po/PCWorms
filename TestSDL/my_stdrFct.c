@@ -796,9 +796,15 @@ SDL_Rect createGlobalRect(int nbRect, SDL_Rect** rectTab)
 		w2 = rectTab[indexRect]->w;
 		h2 = rectTab[indexRect]->h;
 		if (x2 < xMin && x2 >= 0)
+		{
+			wMax = wMax + xMin - x2;
 			xMin = x2;
+		}
 		if (y2 < yMin && y2 >= 0)
+		{
+			hMax = hMax + yMin - y2;
 			yMin = y2;
+		}
 		if ((xMin + wMax) < (x2 + w2))
 			wMax = x2 + w2 - xMin;
 		if ((yMin + hMax) < (y2 + h2))

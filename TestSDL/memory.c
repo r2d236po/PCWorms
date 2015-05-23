@@ -160,7 +160,7 @@ void memoryLeakCheck()
 	if (n_malloc != 0)
 		fprintf(logFile,"memoryLeakCheck : memory leak detected, number of leaks : %d.\n\n", n_malloc);
 	if (n_surface != 0)
-		fprintf(logFile, "memoryLeakChec : memory leak detected on surfaces, number of leaks : %d.\n\n", n_surface);
+		fprintf(logFile, "memoryLeakCheck : memory leak detected on surfaces, number of leaks : %d.\n\n", n_surface);
 	if (n_texture != 0)
 		fprintf(logFile, "memoryLeakCheck : memory leak detected on textures, number of leaks : %d.\n\n", n_texture);
 	if (n_texture == 0 && n_surface == 0 && n_malloc == 0)

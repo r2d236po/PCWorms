@@ -179,6 +179,22 @@ int displayWorms(Worms* pWorms, int mode)
 }
 
 /**
+* \fn void displayWormsTab(Worms** wormsTab, int mode)
+* \brief Displays the worms tab.
+*
+* \param[in] wormsTab, array of worms.
+* \param[in] mode, mode of display (1 = erase last position, 0 = display without erasing).
+* \returns -1 = error, 0 = no error
+* \remarks The mode 1 should be used on a dynamic surface and the mode 0 on a passive surface.
+*/
+void displayWormsTab(Worms** wormsTab, int mode)
+{
+	int i = 0;
+	for (i = 0; i < globalVar.nbWormsTotal; i++)
+		displayWorms(wormsTab[i], mode);
+}
+
+/**
 * \fn SDL_Surface* animationSprite(SDL_Surface* pSurfaceSprite, SDL_Surface* pAnimSurface, int nbFrame, int indexAnim)
 * \brief Load the right frame into a surface from a sprite.
 *

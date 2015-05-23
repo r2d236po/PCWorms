@@ -116,6 +116,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 					rectWeapon = rotoSurface->clip_rect;
 				eraseRectFromMap(pMapTerrain, pTextureDisplay, &rectWeapon);
 				displayWorms(wormsTab[globalVar.indexWormsTab], 1);
+				wormsOverlay(wormsTab);
 				display(rotoSurface, 0);
 
 				if (globalInput->lclick && !fire)
@@ -136,7 +137,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	}
 	if (!globalInput->arme && armePrec) // On efface l'arme
 	{
-		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab[globalVar.indexWormsTab], &rectWeapon);
+		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab, &rectWeapon);
 		if (nbShot == NBSHOTPERTOUR)
 			globalInput->changeWorms = 1;
 	}
@@ -384,21 +385,21 @@ void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter, SDL_Rect* pRect, 
 }
 
 /**
-* \fn void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* pWorms, SDL_Rect* pRect)
+* \fn void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms** wormsTab, SDL_Rect* pRect)
 * \brief Exit the weapon mode.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
 * \param[in] pTextureDisplay, pointer to the main texture.
-* \param[in] pWorms, pointer to the worms who is in weapon's mode.
+* \param[in] wormsTab, array of worms.
 * \param[in] pRect, pointer to the rect of the weapon to erase pixel.
 * \returns void
 */
-void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* pWorms, SDL_Rect* pRect)
+void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms** wormsTab, SDL_Rect* pRect)
 {
 	/*Erase previous position + display worms and weapon*/
 	if (pRect != NULL)
 		eraseRectFromMap(pMapTerrain, pTextureDisplay, pRect);
-	displayWorms(pWorms, 1);
+	displayWormsTab(wormsTab, 0);
 	globalInput->raffraichissement = 1;
 
 	/*Set standard cursor*/
@@ -410,13 +411,13 @@ void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* p
 }
 
 /**
-* \fn void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* pWorms, SDL_Rect* pRect)
-* \brief Exit the weapon mode.
+* \fn void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, SDL_Rect* pCamera)
+* \brief Manage the grenade mode.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
 * \param[in] pTextureDisplay, pointer to the main texture.
-* \param[in] pWorms, pointer to the worms who is in weapon's mode.
-* \param[in] pRect, pointer to the rect of the weapon to erase pixel.
+* \param[in] wormsTab, pointer to the worms who is in weapon's mode.
+* \param[in] pCamera, pointer to the rect of the weapon to erase pixel.
 * \returns void
 */
 void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, SDL_Rect* pCamera)
@@ -488,7 +489,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 	/*Anim explosion*/
 	if (animGrenade)
 	{
-		endAnim = animationGrenade(pMapTerrain, pTextureDisplay, &indexAnim, x, y);
+		endAnim = animationGrenade(pMapTerrain, pTextureDisplay, &indexAnim, x, y, wormsTab);
 	}
 
 	/*Destruction of the map*/
@@ -562,7 +563,7 @@ void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY,
 }
 
 /**
-* \fn int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y)
+* \fn int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y, Worms** wormsTab)
 * \brief Animate the explosion of the grenade.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
@@ -572,7 +573,7 @@ void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY,
 * \param[in] y, y postion of the grenade.
 * \returns 1 = animation is done, 0 = animation is still running
 */
-int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y)
+int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y, Worms** wormsTab)
 {
 	int endAnim = 0, index;
 	char str[100];
@@ -589,6 +590,7 @@ int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *in
 			exploSurface->clip_rect.y = y - 50;
 			ajustExploWithMap(pMapTerrain->collisionMapSurface, &exploSurface);
 			display(exploSurface, 1);
+			wormsOverlayWithSurface(wormsTab, exploSurface);
 			*indexAnim += 1;
 			globalInput->raffraichissement = 1;
 		}

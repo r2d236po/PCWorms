@@ -27,7 +27,7 @@
 /*Standard weapons*/
 void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera);
 void initWeaponMode(Worms* pWorms, int* xCenter, int* yCenter, SDL_Rect* pRect, int *nbShot);
-void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms* pWorms, SDL_Rect* pRect);
+void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms** wormsTab, SDL_Rect* pRect);
 SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir);
 void setCenterWeapons(Worms* pWorms, int* xCenter, int* yCenter);
 
@@ -39,7 +39,7 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index);
 /*Grenade functions*/
 void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, SDL_Rect* pCamera);
 void initGrenade(SDL_Rect *pCamera, Worms *pWorms, float *speedX, float *speedY, enum DIRECTION *dir, double power);
-int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y);
+int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *indexAnim, int x, int y, Worms** wormsTab);
 int selectExplo(char *str, int indexGen);
 void ajustExploWithMap(SDL_Surface* pSurfaceMap, SDL_Surface** exploSurface);
 void explosion(int x, int y, int rayon, SDL_Surface * pSurfaceMap, SDL_Texture * pTextureDisplay);
