@@ -38,6 +38,7 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	if (worms == NULL)
 	{
 		fprintf(logFile, "createWorms : FAILURE, allocating memory to worms.\n\n");
+		decreaseMalloc();
 		return NULL;
 	}
 	moveLeft = loadImage("../assets/sprites/moveLeft.png");
@@ -56,6 +57,7 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	{
 		fprintf(logFile, "createWorms : FAILURE, createRGBSurface : %s.\n\n", SDL_GetError());
 		destroyWorms(&worms, 1);
+		decreaseMalloc();
 		return NULL;
 	}
 
@@ -64,6 +66,7 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	{
 		fprintf(logFile, "createWorms : FAILURE, loadImage.\n\n");
 		destroyWorms(&worms, 1);
+		decreaseMalloc();
 		return NULL;
 	}
 

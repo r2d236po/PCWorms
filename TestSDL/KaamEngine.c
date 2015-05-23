@@ -104,6 +104,7 @@ KaamObject* KaamInitObject(SDL_Surface* pSurface, float initSpeedX, float initSp
 	if (objectTemp == NULL)
 	{
 		fprintf(logFile, "KaamInitObject : FAILURE, unable to allocate memory.\n\n");
+		decreaseMalloc();
 		return NULL;
 	}
 

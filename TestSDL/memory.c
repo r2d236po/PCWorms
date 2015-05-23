@@ -26,6 +26,11 @@ void my_free(void* memory)
 	free(memory);
 }
 
+void decreaseMalloc()
+{
+	n_malloc--;
+}
+
 /**
 * \fn SDL_Surface* my_CreateRGBSurface(Uint32 flags, int width, int height, int depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask)
 * \brief Perform and SDL_CreateRgbSurface with memory leak counting.

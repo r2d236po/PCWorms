@@ -787,7 +787,11 @@ Worms** initWormsTab(Equipe** equipes)
 	int i, j, k = 0;
 	Tab = (Worms**)my_malloc(globalVar.nbWormsTotal * sizeof(Worms*));
 	if (Tab == NULL)
+	{
+		fprintf(logFile, "initWormsTab : FAILURE, allocating memory.\n\n");
+		decreaseMalloc();
 		return NULL;
+	}
 	for (i = 0; i < globalVar.nbEquipe; i++)
 	{
 		for (j = 0; j < equipes[i]->nbWormsStart; j++)

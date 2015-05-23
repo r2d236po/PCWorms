@@ -344,6 +344,7 @@ int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMa
 		if (pixelWrite == NULL)
 		{
 			fprintf(logFile, "updateGlobalTextureAndSurface : FAILURE, allocating memory to pixelWrite.\n\n");
+			decreaseMalloc();
 			return -1;
 		}
 		x = pSurfaceSecond->clip_rect.x;
@@ -410,6 +411,7 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 		if (pixelWrite == NULL)
 		{
 			fprintf(logFile, "updateGlobalTexture : FAILURE, allocating memory to pixelWrite.\n\n");
+			decreaseMalloc();
 			return -1;
 		}
 		x = pRect->x;

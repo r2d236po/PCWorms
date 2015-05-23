@@ -504,6 +504,7 @@ Input* initInput()
 	if (inputTemp == NULL)
 	{
 		fprintf(logFile, "initInput : FAILURE, allocation memoire de globalInput.\n\n");
+		decreaseMalloc();
 		return NULL;
 	}
 	inputTemp->cursor = initCursor();

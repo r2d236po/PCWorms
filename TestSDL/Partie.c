@@ -24,6 +24,7 @@ Jeu * nouveauJeu(char * map)
 	if (jeu == NULL)
 	{
 		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu.\n\n");
+		decreaseMalloc();
 		return NULL;
 	}
 
@@ -36,6 +37,7 @@ Jeu * nouveauJeu(char * map)
 	{
 		fprintf(logFile, "nouveauJeu : FAILURE, allocating memory to jeu->equipes.\n\n");
 		destroyJeu(&jeu);
+		decreaseMalloc();
 		return NULL;
 	}
 	for (i = 0; i < globalVar.nbEquipe; i++)
@@ -60,7 +62,10 @@ Jeu * nouveauJeu(char * map)
 void destroyJeu(Jeu ** game)
 {
 	if ((*game)->equipes != NULL)
+	{
 		destroyEquipe((*game)->equipes, (*game)->nbEquipe);
+		my_free((*game)->equipes);
+	}
 	my_free(*game);
 	*game = NULL;
 	fprintf(logFile, "destroyJeu : DONE.\n");
@@ -84,6 +89,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 	if (team == NULL)
 	{
 		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team.\n\n");
+		decreaseMalloc();
 		return NULL;
 	}
 	team->nbWormsStart = nbWorms;
@@ -96,6 +102,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 	{
 		fprintf(logFile, "nouvelleEquipe : FAILURE, allocating memory to team->worms.");
 		destroyEquipe(&team, globalVar.nbEquipe);
+		decreaseMalloc();
 		return NULL;
 	}
 
@@ -106,6 +113,7 @@ Equipe * nouvelleEquipe(char * nomE, SDL_Color couleur, int nbWorms, int indexTe
 		{
 			fprintf(logFile, "nouvelleEquipe : FAILURE, createWorms.\n\n");
 			destroyEquipe(&team, globalVar.nbEquipe);
+			decreaseMalloc();
 			break;
 		}
 	}
@@ -128,10 +136,12 @@ void destroyEquipe(Equipe ** team, int nbE)
 	for (i = 0; i < nbE; i++)
 	{
 		if (team[i]->worms != NULL)
+		{
 			destroyWorms(team[i]->worms, team[i]->nbWormsStart);
+			my_free(team[i]->worms);
+		}
+		my_free(team[i]);
 	}
-	my_free(*team);
-	*team = NULL;
 	fprintf(logFile, "destroyEquipe : DONE.\n");
 }
 

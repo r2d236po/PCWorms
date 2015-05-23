@@ -12,6 +12,7 @@ unsigned int n_texture;
 /*Leaking memory function*/
 void* my_malloc(size_t n);
 void my_free(void* memory);
+void decreaseMalloc();
 
 SDL_Surface* my_CreateRGBSurface(Uint32 flags, int width, int height, int depth, Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask);
 SDL_Surface* my_IMG_Load(const char* path);

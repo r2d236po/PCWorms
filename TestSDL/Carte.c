@@ -30,6 +30,7 @@ int initialisionTerrain(Terrain** p_pMapTerrain, const char * nomImageFond, cons
 	if (pMapTerrainTemp == NULL)	//Si l'allocation s'est mal passee
 	{
 		fprintf(logFile, "initialisationTerrain : FAILURE, allocation memoire de pMapTerrainTemp.\n\n");
+		decreaseMalloc();
 		return -1;	//Retour d'erreur
 	}
 	pMapTerrainTemp->imageBackground = NULL;	//Initialisation à NULL du pointeur de la texture de l'image de fond
