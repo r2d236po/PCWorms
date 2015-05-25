@@ -283,29 +283,30 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 
 	globalInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
-	inputsCamera(pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
 	if (globalInput->windowResized){
 		initCameras(jeu->pMapTerrain, pCamera, NULL);
 		globalInput->windowResized = 0;
-	}
-	inputsWeapons(pTextureDisplay, pCamera, jeu->pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
+	}	
 	if (globalInput->screenshot)
 	{
 		screenshot();
 		globalInput->screenshot = 0;
 	}
+	if (globalInput->menu)
+	{
+		//EngGameScreen(jeu, pTextureDisplay, pCamera);
+		inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
+		globalInput->raffraichissement = 0;
+	}
+	inputsCamera(pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
+	inputsWeapons(pTextureDisplay, pCamera, jeu->pMapTerrain, wormsTab);	//appel de la fonction de gestion des Inputs des armes
+
 	if (globalInput->changeWorms)
 	{
 		if (!globalInput->jumpOnGoing){
 			callNextWorms(wormsTab);
 		}
 		globalInput->changeWorms = 0;
-	}
-	if (globalInput->menu)
-	{
-		EngGameScreen(jeu, pTextureDisplay, pCamera);
-		//inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
-		globalInput->raffraichissement = 0;
 	}
 	inputsJumpWorms(wormsTab[globalVar.indexWormsTab], jeu->pMapTerrain->collisionMapSurface);
 	if (globalInput->direction == DOWN &&wormsTab[globalVar.indexWormsTab]->vie > 0)

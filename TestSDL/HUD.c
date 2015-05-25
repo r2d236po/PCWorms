@@ -36,7 +36,10 @@ void destroyFonts()
 	for (i = 0; i < NBFONTS; i++)
 	{
 		if (globalVar.FontName[i] != NULL)
+		{
 			TTF_CloseFont(globalVar.FontName[i]);
+			globalVar.FontName[i] = NULL;
+		}
 	}
 }
 
@@ -143,17 +146,295 @@ void updateTextSurfacePosition(Worms* pWorms)
 */
 void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
-	SDL_Texture* textureMenu = loadTexture(INGAMEMENU);
-	SDL_Texture* textureMenuMainMenu = loadTexture(INGAMEMENUMAINMENU);
-	SDL_Texture* textureMenuOption = loadTexture(INGAMEMENUOPTIONS);
-	SDL_Texture* textureMenuQuit = loadTexture(INGAMEMENUQUIT);
+	SDL_Texture* textureMenu = NULL;
+	SDL_Rect rectMenu;
+	static enum HUDMENU menuIn = HUDMAIN, menuPrec = HUDMAIN;
+	static int alreadyRender = 0, subMenuPrec = 0;
+	int subMenu = 0;
+	Point mousePoint;
+	getMousePosition(pCamera, &mousePoint.x, &mousePoint.y);
 
-	SDL_Rect rectMenu = initButtonBox(-1, -1, 565, 717);
-	renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
-	my_freeTexture(textureMenu);
-	my_freeTexture(textureMenuMainMenu);
-	my_freeTexture(textureMenuOption);
-	my_freeTexture(textureMenuQuit);
+
+	switch (menuIn)
+	{
+	case HUDMAIN:
+		menuIn = mainHUD(&subMenu, getRectMenu(menuIn));
+		break;
+	case HUDCONFIG:
+		menuIn = configHUD(&subMenu, getRectMenu(menuIn));
+		break;
+	case HUDOPTION:
+		menuIn = optionHUD(&subMenu, getRectMenu(menuIn));
+		break;
+	case HUDHOW:
+		menuIn = howHUD(&subMenu, getRectMenu(menuIn));
+		break;
+	}
+	if (menuIn != menuPrec || subMenu != subMenuPrec)
+		alreadyRender = 0;
+	if (!alreadyRender)
+	{
+		alreadyRender = 1;
+		textureMenu = getTextureMenu(menuIn, subMenu);
+		rectMenu = getRectMenu(menuIn);
+		if (textureMenu != NULL)
+		{
+			renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+			my_freeTexture(textureMenu);
+			textureMenu = NULL;
+		}
+	}
+	if (!globalInput->menu)
+	{
+		menuIn = HUDMAIN;
+		subMenu = 0;
+		alreadyRender = 0;
+	}
+	menuPrec = menuIn;
+	subMenuPrec = subMenu;
+}
+
+/**
+* \fn SDL_Rect getRectMenu(enum HUDMENU menu)
+* \brief Get the rect of the menu.
+* \param[in] menu, type of menu.
+* \returns the rect with the position to display the menu.
+*/
+SDL_Rect getRectMenu(enum HUDMENU menu)
+{
+	if (menu == HUDCONFIG)
+		return initButtonBox(-1, -1, (int)DEFAULTHUDCONFIGNW, (int)DEFAULTHUDOPTIONH);
+	if (menu == HUDOPTION)
+		return initButtonBox(-1, -1, (int)DEFAULTHUDOPTIONW, (int)DEFAULTHUDOPTIONH);
+	if (menu == HUDHOW)
+		return initButtonBox(-1, -1, (int)DEFAULTHUDHOWNW, (int)DEFAULTHUDOPTIONH);
+	return initButtonBox(-1, -1, (int)DEFAULTHUDMAINW, (int)DEFAULTHUDMAINH);
+}
+
+/**
+* \fn SDL_Texture* getTextureMenu(enum HUDMENU menu,int subMenu)
+* \brief Get the right texture to display.
+* \param[in] menu, type of menu..
+* \param[in] subMenu, index of the sub menu to display.
+* \returns loadTexture(path to the right picture)
+*/
+SDL_Texture* getTextureMenu(enum HUDMENU menu, int subMenu)
+{
+	if (menu == HUDMAIN)
+	{
+		switch (subMenu)
+		{
+		case 1:
+			return loadTexture(INGAMEMENUMAINMENU);
+		case 2:
+			return loadTexture(INGAMEMENUOPTIONS);
+		case 3:
+			return loadTexture(INGAMEMENUQUIT);
+		}
+	}
+	else if (menu == HUDOPTION)
+	{
+		switch (subMenu)
+		{
+		case 1:
+			return loadTexture(INGAMEOPTIONCONFIG);
+		case 2:
+			return loadTexture(INGAMEOPTIONHOWTOPLAY);
+		case 3:
+			return loadTexture(INGAMEOPTIONBACKTOGAME);
+		default:
+			return loadTexture(INGAMEOPTION);
+		}
+	}
+	else if (menu == HUDCONFIG)
+	{
+		switch (subMenu)
+		{
+		case 1:
+			return loadTexture(INGAMECONFIGOPTION);
+		default:
+			return loadTexture(INGAMECONFIG);
+		}
+	}
+	else if (menu == HUDHOW)
+	{
+		switch (subMenu)
+		{
+		case 1:
+			return loadTexture(INGAMEHOWOPTION);
+		default:
+			return loadTexture(INGAMEHOW);
+		}
+	}
+	return loadTexture(INGAMEMENU);
+}
+
+/**
+* \fn enum HUDMENU mainHUD(int *subMenu, SDL_Rect mainRect)
+* \brief Manages the main Ingame Menu.
+* \param[in] subMenu, pointer to be filled with index of the sub menu to display.
+* \param[in] mainRect, index of the sub menu to display.
+* \returns the new menu to go.
+*/
+enum HUDMENU mainHUD(int *subMenu, SDL_Rect mainRect)
+{
+	SDL_Rect mainMenuButton = initHUDRect(116, 65, 333, 110, mainRect, DEFAULTHUDMAINW, DEFAULTHUDMAINH);
+	SDL_Rect optionButton = initHUDRect(116, 292, 333, 110, mainRect, DEFAULTHUDMAINW, DEFAULTHUDMAINH);
+	SDL_Rect quitButton = initHUDRect(116, 519, 333, 110, mainRect, DEFAULTHUDMAINW, DEFAULTHUDMAINH);
+	Point mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	*subMenu = 0;
+	if (collisionPointWithRect(mouse, &mainMenuButton))
+	{
+		if (globalInput->lclick)
+		{
+			globalInput->backToMainMenu = 1;
+			globalInput->quit = 1;
+			globalInput->lclick = 0;
+		}
+		*subMenu = 1;
+	}
+	else if (collisionPointWithRect(mouse, &optionButton))
+	{
+		*subMenu = 2;
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			return HUDOPTION;
+		}
+	}
+	else if (collisionPointWithRect(mouse, &quitButton))
+	{
+		if (globalInput->lclick)
+		{
+			globalInput->quit = 1;
+			globalInput->lclick = 0;
+		}
+		*subMenu = 3;
+	}
+	return HUDMAIN;
+}
+
+/**
+* \fn enum HUDMENU optionHUD(int *subMenu, SDL_Rect mainRect)
+* \brief Manages the main Ingame Menu.
+* \param[in] subMenu, pointer to be filled with index of the sub menu to display.
+* \param[in] mainRect, index of the sub menu to display.
+* \returns the new menu to go.
+*/
+enum HUDMENU optionHUD(int *subMenu, SDL_Rect mainRect)
+{
+	SDL_Rect configButton = initHUDRect(116, 190, 333, 110, mainRect, DEFAULTHUDOPTIONW, DEFAULTHUDOPTIONH);
+	SDL_Rect HowButton = initHUDRect(116, 418, 333, 110, mainRect, DEFAULTHUDOPTIONW, DEFAULTHUDOPTIONH);
+	SDL_Rect backToGameButton = initHUDRect(116, 645, 333, 110, mainRect, DEFAULTHUDOPTIONW, DEFAULTHUDOPTIONH);
+	Point mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	*subMenu = 0;
+	if (collisionPointWithRect(mouse, &configButton))
+	{
+		*subMenu = 1;
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			return HUDCONFIG;
+		}
+	}
+	else if (collisionPointWithRect(mouse, &HowButton))
+	{
+		*subMenu = 2;
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			return HUDHOW;
+		}
+	}
+	else if (collisionPointWithRect(mouse, &backToGameButton))
+	{
+		*subMenu = 3;
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			globalInput->menu = 0;
+		}
+	}
+	return HUDOPTION;
+}
+
+/**
+* \fn enum HUDMENU configHUD(int *subMenu, SDL_Rect mainRect)
+* \brief Manages the main Ingame Menu.
+* \param[in] subMenu, pointer to be filled with index of the sub menu to display.
+* \param[in] mainRect, index of the sub menu to display.
+* \returns the new menu to go.
+*/
+enum HUDMENU configHUD(int *subMenu, SDL_Rect mainRect)
+{
+	SDL_Rect optionButton = initHUDRect(585, 30, 283, 93, mainRect, DEFAULTHUDCONFIGNW, DEFAULTHUDOPTIONH);
+	Point mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	*subMenu = 0;
+	if (collisionPointWithRect(mouse, &optionButton))
+	{
+		*subMenu = 1;
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			return HUDOPTION;
+		}
+	}
+	return HUDCONFIG;
+}
+
+/**
+* \fn enum HUDMENU howHUD(int *subMenu, SDL_Rect mainRect)
+* \brief Manages the main Ingame Menu.
+* \param[in] subMenu, pointer to be filled with index of the sub menu to display.
+* \param[in] mainRect, index of the sub menu to display.
+* \returns the new menu to go.
+*/
+enum HUDMENU howHUD(int *subMenu, SDL_Rect mainRect)
+{
+	SDL_Rect optionButton = initHUDRect(584, 30, 283, 93, mainRect, DEFAULTHUDHOWNW, DEFAULTHUDOPTIONH);
+	Point mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	*subMenu = 0;
+	if (collisionPointWithRect(mouse, &optionButton))
+	{
+		*subMenu = 1;
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			return HUDOPTION;
+		}
+	}
+	return HUDHOW;
+}
+/**
+* \fn SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, int defW, int defH)
+* \brief Initialize a button box from the standard dimensions in the image to the relative dimensions of the menu.
+*
+* \param[in] x, x position of the original box.
+* \param[in] y, y position of the original box.
+* \param[in] w, width of the original box.
+* \param[in] h, hight of the original box.
+* \param[in] mainRect, the rect of the main menu.
+* \returns The rect with the right dimensions and positions.
+*/
+SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, double defW, double defH)
+{
+	w = (int)((float)(w / defW) * mainRect.w);
+	h = (int)((float)(h / defH) * mainRect.h);
+	if (x >= 0)
+		x = (int)((float)(x / defW) * mainRect.w) + mainRect.x;
+	else x = mainRect.w / 2 - w / 2 + mainRect.x;
+	if (y >= 0)
+		y = (int)((float)(y / defH) * mainRect.h) + mainRect.y;
+	else y = mainRect.h / 2 - h / 2 + mainRect.y;
+	return initRect(x, y, w, h);
 }
 
 /**
