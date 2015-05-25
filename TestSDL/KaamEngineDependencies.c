@@ -737,6 +737,10 @@ int collisionHighSpeedWithMap(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 	{
 		SWAP(yNow, yPrec);
 	}
+	if (xNow < xPrec)
+		SWAP(xNow, xPrec);
+	x = xPrec;
+	y = yPrec;
 	dy = yNow - yPrec;
 	dx = xNow - xPrec;
 	if (MY_ABS(dx) < MY_ABS(dy))
