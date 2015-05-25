@@ -131,6 +131,7 @@ typedef struct Input{		//Structure gérant les différentes inputs
 	char grenade;
 	char soundAllowed;
 	char musicAllowed;
+	char backToMainMenu;
 	char textInput[100];
 	unsigned char textCounter;
 	struct Cursor cursor;		//cursor avec position actuelle et précédente de la souris

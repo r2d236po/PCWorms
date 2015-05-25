@@ -189,6 +189,10 @@ void getInput()
 					globalInput->grenade = 1;
 				}
 				break;
+			case SDLK_m:
+					globalInput->quit = 1;
+					globalInput->backToMainMenu = 1;
+				break;
 			case SDLK_BACKSPACE:
 				globalInput->textCounter--;
 				secuTextInput(globalInput);
@@ -545,6 +549,7 @@ Input* initInput()
 	inputTemp->grenade = 0;
 	inputTemp->soundAllowed = 1;
 	inputTemp->musicAllowed = 1;
+	inputTemp->backToMainMenu = 0;
 	strcpy(inputTemp->textInput, "");
 	inputTemp->textCounter = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
@@ -569,7 +574,7 @@ void resetStructInput()
 	globalInput->weaponTab = 0;
 	globalInput->wheelUp = 0;
 	globalInput->wheelDown = 0;
-	globalInput->raffraichissement = 0;
+	globalInput->raffraichissement = 1;
 	globalInput->windowResized = 1;
 	globalInput->acceleration = 1;
 	globalInput->bombe = 0;
@@ -578,6 +583,7 @@ void resetStructInput()
 	globalInput->camCentrer = 0;
 	globalInput->changeWorms = 0;
 	globalInput->arme = 0;
+	globalInput->backToMainMenu = 0;
 }
 
 /**

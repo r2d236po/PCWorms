@@ -1,4 +1,4 @@
-Start of session : Mon May 25 12:42:25 2015
+Start of session : Mon May 25 20:57:51 2015
 
 
 loadImage : SUCCESS.
@@ -73,17 +73,363 @@ loadTexture : SUCCESS.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
 
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/map.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
 
+mainInit : DONE.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1 0 0 0.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+
+
+initialisationTerrain : SUCCESS.
+
+createGlobalTexture : SUCCESS.
+
+initCameras : DONE.
+
+initDisplay : DONE.
+
+KaamInitGame : DONE.
+
+initCameras : DONE.
+
 cleanSounds : DONE.
 ||| END OF THE GAME |||
+destroyMap : DONE.
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptestCam.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/musicInGame.wav.
+
+mainInit : DONE.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1 0 0 0.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+
+
+initialisationTerrain : SUCCESS.
+
+createGlobalTexture : SUCCESS.
+
+initCameras : DONE.
+
+initDisplay : DONE.
+
+KaamInitGame : DONE.
+
+initCameras : DONE.
+
+cleanSounds : DONE.
+||| END OF THE GAME |||
+destroyMap : DONE.
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest4.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest3.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest3.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest3.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest3.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/musicInGame.wav.
+
+mainInit : DONE.
+	nombre d'equipes : 2.
+	nombre de worms par equipe : 2 1 0 0.
+
+nouveauJeu : START :
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouveauJeu : SUCCESS.
+
+initialisationTerrain : START :
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/FondMap1.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/PIctures/maptest3.png.
+
+
+initialisationTerrain : SUCCESS.
+
+createGlobalTexture : SUCCESS.
+
+initCameras : DONE.
+
+initDisplay : DONE.
+
+KaamInitGame : DONE.
+
+initCameras : DONE.
+
+cleanSounds : DONE.
+||| END OF THE GAME |||
+destroyMap : DONE.
 cleanSprites : DONE.
 cleanSounds : DONE.
 cleanUp : DONE.
 mainFenetre : SUCCESS.
-memoryLeakCheck : memory leak detected on textures, number of leaks : -2.
+saveGame : SUCCESS.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+destroyEquipe : DONE.
+destroyJeu : DONE.
+memoryLeakCheck : no memory leak detected.
 
 
 
-End of Session : Mon May 25 12:42:28 2015
+End of Session : Mon May 25 20:58:18 2015

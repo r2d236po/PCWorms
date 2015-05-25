@@ -175,7 +175,8 @@ void updateHUD(Worms** wormsTab)
 	}
 	else if (timeToPrintGeneral != lastTimeGeneral)
 	{
-		my_freeTexture(timerGeneralTexture);
+		if (timerGeneralTexture != NULL)
+			my_freeTexture(timerGeneralTexture);
 		sprintf(str, "%.2d : %.2d", timeToPrintGeneral / 60, timeToPrintGeneral % 60);
 		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 98);
 		globalInput->raffraichissement = 1;
@@ -187,7 +188,8 @@ void updateHUD(Worms** wormsTab)
 	}
 	else if (timeToPrintTeam != lastTimeTeam)
 	{
-		my_freeTexture(timerTeamTexture);
+		if (timerTeamTexture != NULL)
+			my_freeTexture(timerTeamTexture);
 		sprintf(str, "%d", timeToPrintTeam);
 		SDL_Color color;
 		color.r = wormsTab[calculIndex()]->color->b;

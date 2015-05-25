@@ -71,7 +71,7 @@ void explosion(int x, int y, int rayon, SDL_Surface *pSurfaceMap, SDL_Texture *p
 void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera)
 {
 	static char armePrec = 0;
-	static int xCenter = 0, yCenter = 0, fire = 0, nbShot = 0;
+	static int xCenter = 0, yCenter = 0, fire = 0, nbShot = 0, lastIndex = 0;
 	SDL_Surface* rotoSurface = NULL;
 	SDL_Surface* armeIndex = NULL;
 	static SDL_Rect rectWeapon;
@@ -80,7 +80,11 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	static double angleShot = 0.0;
 
 	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
-		initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon, &nbShot);
+	{
+		//if (lastIndex != globalVar.indexWormsTab)
+			initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon, &nbShot);
+		//else globalInput->arme = 0;
+	}
 
 	if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 	{
@@ -163,6 +167,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	rotoSurface = NULL;
 	armeIndex = NULL;
 	armePrec = globalInput->arme;
+	//lastIndex = globalVar.indexWormsTab;
 }
 
 /**
