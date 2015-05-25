@@ -613,7 +613,7 @@ Cursor initCursor(void)
 	}
 
 	curseur.cursor1 = SDL_CreateColorCursor(sword, 0, 0);
-	curseur.cursor2 = SDL_CreateColorCursor(aim, 0, 0);
+	curseur.cursor2 = SDL_CreateColorCursor(aim, aim->w / 2, aim->h / 2);
 
 	my_freeSurface(sword);
 	sword = NULL;

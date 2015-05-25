@@ -456,6 +456,8 @@ int globalMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap, enum 
 	}
 	else if (collisionSurfaceWithMap(pSurfaceMap, pObject->objectSurface, &testDirection, 1))
 		possible = 0;
+	else if (collisionHighSpeedWithMap(pObject, pSurfaceMap))
+		possible = 0;
 	return possible;
 }
 

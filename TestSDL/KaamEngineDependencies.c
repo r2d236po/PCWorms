@@ -714,7 +714,63 @@ enum DIRECTION calculDirectionCollision(enum DIRECTION direction, int zone, int 
 	return direction;
 }
 
+/**
+* \fn int collisionHighSpeedWithMap(KaamObject* pObject, SDL_Surface* pSurfaceMap)
+* \brief Detect if an obstacle is between the last position and the current position.
+*
+* \param[in] pObject, pointer to the object in motion.
+* \param[in] pSurfaceMap, pointer to the surface of the map.
+* \returns int, indicateur de collision : 1 = collision, 0 sinon
+*/
+int collisionHighSpeedWithMap(KaamObject* pObject, SDL_Surface* pSurfaceMap)
+{
+	int xPrec = pObject->objectBox.x;
+	int yPrec = pObject->objectBox.y;
+	int xNow = pObject->objectSurface->clip_rect.x;
+	int yNow = pObject->objectSurface->clip_rect.y;
+	int collision = 0, dx = xNow - xPrec, dy = yNow - yPrec, x = xPrec, y = yPrec;
+	int dp = 2 * dy - dx; /* Valeur initiale de dp */
+	int deltaE = 2 * dy;
+	int deltaNE = 2 * (dy - dx);
+	Uint32* pixelsMap = (Uint32*)(pSurfaceMap->pixels);
+	if (yNow < yPrec)
+	{
+		SWAP(yNow, yPrec);
+	}
+	dy = yNow - yPrec;
+	dx = xNow - xPrec;
+	if (MY_ABS(dx) < MY_ABS(dy))
+	{
+		dp = 2 * dx - dy;
+		deltaE = 2 * dx;
+		deltaNE = 2 * (dx - dy);
+	}
+	while (x < xNow)
+	{
+		if (dp <= 0) /* On choisit le point E */
+		{
+			dp = dp + deltaE; /* Nouveau dp */
+			x++; /* Calcul de x_p+1 */
+			/* y_p+1 = y_p */
+		}
+		else /* On choisit le point NE */
+		{
+			dp = dp + deltaNE; /* Nouveau dp */
+			x++; /* Calcul de x_p+1 */
+			y++; /* Calcul de y_p+1 */
+		}
+		Uint32 pixelToRead = pixelsMap[x + y * pSurfaceMap->w];
+		if (!pixelTransparent(pixelToRead, pSurfaceMap->format))
+		{
+			collision = 1;
+			break;
+		}
+	}
 
+	return collision;
+}
+
+
 
 
 
