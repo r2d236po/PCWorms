@@ -8,6 +8,7 @@
 #include "input.h"
 #include "Sounds.h"
 #include "memory.h"
+#include "HUD.h"
 
 
 /* Fonctions concernant la gestion des armes */
@@ -139,7 +140,13 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	{
 		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab, &rectWeapon);
 		if (nbShot == NBSHOTPERTOUR)
-			globalInput->changeWorms = 1;
+		{
+			Uint32 mem = TEMPSPARTOUR * 1000 + (int)(globalVar.timeLastWormsChange + globalVar.timePause - SDL_GetTicks());
+			if (mem > TEMPSAPRESDERNIERTIR * 1000)
+			{
+				globalVar.timeWeapon = mem - TEMPSAPRESDERNIERTIR * 1000; //Met le timer à 5sec
+			}
+		}
 	}
 
 

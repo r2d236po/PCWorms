@@ -436,6 +436,7 @@ void callNextWorms(Worms** wormsTab)
 	//Affecte la valeur à l'index global
 	globalVar.indexWormsTab = calculIndex();
 	globalVar.timeLastWormsChange = SDL_GetTicks();
+	globalVar.timeWeapon = 0;
 	globalVar.timePause = 0;
 }
 

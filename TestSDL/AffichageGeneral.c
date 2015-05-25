@@ -159,6 +159,8 @@ int mainFenetre()
 		wormsTab = NULL;
 	}
 	cleanUp(&pTextureDisplay);
+	my_freeTexture(timerGeneralTexture);
+	my_freeTexture(timerTeamTexture);
 	fprintf(logFile, "mainFenetre : SUCCESS.\n");
 	if (jeu != NULL)
 	{

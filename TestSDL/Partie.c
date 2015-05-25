@@ -197,6 +197,7 @@ int mainInit()
 
 	globalVar.timeLastWormsChange = SDL_GetTicks();
 	globalVar.timePause = 0;
+	globalVar.timeWeapon = 0;
 	globalVar.timeStartGame = SDL_GetTicks();
 
 	globalVar.indexWormsTab = 0;
