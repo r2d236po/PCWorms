@@ -225,13 +225,6 @@ int initSWR()
 		cleanUp(NULL, 0);
 		return -1;
 	}
-	if (Mix_Init(MIX_INIT_MP3) && Mix_Init(MIX_INIT_FLAC))
-	{
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-		{
-			fprintf(logFile, "initSWR : FAILURE, initialisation de Mix_Init : %s.\n\n", Mix_GetError());
-		}
-	}
 	/*Initialisation SDL_TTF*/
 	if (TTF_Init() == -1)
 	{
