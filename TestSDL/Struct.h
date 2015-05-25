@@ -167,6 +167,7 @@ typedef struct GlobalVariable{		//structure gérant les polices
 	Uint32 timeLastWormsChange;
 	Uint32 timePause;
 	Uint32 timeStartGame;
+	Uint32 timeWeapon;
 
 	//Varibles d'index
 	int teamPlaying;

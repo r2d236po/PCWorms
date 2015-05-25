@@ -166,7 +166,7 @@ void updateHUD(Worms** wormsTab)
 	char str[20];
 	static int lastTimeTeam = 0, lastTimeGeneral = 0;
 
-	int timeToPrintTeam = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange + globalVar.timePause - SDL_GetTicks()) / 1000;
+	int timeToPrintTeam = TEMPSPARTOUR + (int)(globalVar.timeLastWormsChange + globalVar.timePause - globalVar.timeWeapon - SDL_GetTicks()) / 1000;
 	int timeToPrintGeneral = TEMPSPARTIE + (int)(globalVar.timePause + globalVar.timeStartGame - SDL_GetTicks()) / 1000;
 
 	if (timeToPrintGeneral <= 0)
@@ -216,7 +216,7 @@ void updateRectTimerPosition()
 }
 
 /**
-* \fn void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \fn void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 * \brief Gestion du menu InGame
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.

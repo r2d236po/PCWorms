@@ -12,6 +12,7 @@
 #define FONTSIZENAME 12
 #define TEMPSPARTIE 900
 #define TEMPSPARTOUR 30
+#define TEMPSAPRESDERNIERTIR 5
 
 
 int mainInit();					// Initialise les polices et les variables globales
