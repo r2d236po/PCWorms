@@ -200,6 +200,7 @@ SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
 int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface)
 {
 	SDL_Surface* bulletSprite = NULL;
+	SDL_Surface* tmp = NULL;
 	static SDL_Surface* bulletSurface = NULL;
 	static int fire = 0;
 	int contact = 0;
@@ -211,14 +212,22 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 		playChunk(1, FireBullet);
 		if (dir == LEFT)
 		{
-			bulletSurface = animationSprite(bulletSprite, NULL, 2, 0);
-			bulletSurface = my_rotozoomSurface(bulletSurface, angle * 180.0 / PI, 1.0, 1);
+			tmp = animationSprite(bulletSprite, NULL, 2, 0);
+			if (tmp != NULL)
+			{
+				bulletSurface = my_rotozoomSurface(tmp, angle * 180.0 / PI, 1.0, 1);
+				my_freeSurface(tmp);
+			}
 			bulletSurface->clip_rect.x = weaponSurface->clip_rect.x - bulletSurface->w;
 		}
 		else
 		{
-			bulletSurface = animationSprite(bulletSprite, NULL, 2, 1);
-			bulletSurface = my_rotozoomSurface(bulletSurface, -angle * 180.0 / PI, 1.0, 1);
+			tmp = animationSprite(bulletSprite, NULL, 2, 1);
+			if (tmp != NULL)
+			{
+				bulletSurface = my_rotozoomSurface(tmp, -angle * 180.0 / PI, 1.0, 1);
+				my_freeSurface(tmp);
+			}
 			bulletSurface->clip_rect.x = weaponSurface->clip_rect.x + weaponSurface->w;
 		}
 		bulletSurface->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->h / 2 - bulletSurface->h;
