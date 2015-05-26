@@ -81,9 +81,9 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 
 	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
 	{
-		//if (lastIndex != globalVar.indexWormsTab)
+		if (lastIndex != globalVar.indexWormsTab || nbShot < NBSHOTPERTOUR)
 			initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon, &nbShot);
-		//else globalInput->arme = 0;
+		else globalInput->arme = 0;
 	}
 
 	if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
@@ -138,6 +138,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 				}
 			}
 		}
+		lastIndex = globalVar.indexWormsTab;
 	}
 	if (!globalInput->arme && armePrec) // On efface l'arme
 	{
@@ -150,6 +151,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 				globalVar.timeWeapon = mem - TEMPSAPRESDERNIERTIR * 1000; //Met le timer à 5sec
 			}
 		}
+		lastIndex = globalVar.indexWormsTab;
 	}
 
 
@@ -166,7 +168,6 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	rotoSurface = NULL;
 	armeIndex = NULL;
 	armePrec = globalInput->arme;
-	//lastIndex = globalVar.indexWormsTab;
 }
 
 /**

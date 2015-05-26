@@ -1,4 +1,4 @@
-Start of session : Tue May 26 14:29:34 2015
+Start of session : Tue May 26 14:57:36 2015
 
 
 loadImage : SUCCESS.
@@ -145,51 +145,6 @@ KaamInitGame : DONE.
 initCameras : DONE.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/bullet1.png.
 
 loadSounds : SUCCESS.
@@ -198,56 +153,6 @@ loadSounds : SUCCESS.
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/bullet1.png.
 
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
 loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/bullet1.png.
 
@@ -258,113 +163,24 @@ loadImage : SUCCESS.
 	nom du fichier : ../assets/sprites/bullet1.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/bullet1.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/bullet1.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/bullet1.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/bullet1.png.
 
 loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
+	nom du fichier : ../assets/sprites/bullet1.png.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
 loadTexture : SUCCESS.
@@ -393,4 +209,4 @@ memoryLeakCheck : no memory leak detected.
 
 
 
-End of Session : Tue May 26 14:30:06 2015
+End of Session : Tue May 26 14:58:16 2015
