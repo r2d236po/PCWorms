@@ -265,7 +265,7 @@ int HUD_selectWeapon(SDL_Rect rect, SDL_Rect *rectReturn)
 				globalInput->lclick = 0;
 				if (i != 1)
 				{
-					globalInput->weaponIndex = (char)(i- (i>=0));
+					globalInput->weaponIndex = (char)(i- (i>0));
 					globalInput->arme = 1;
 				}
 				else globalInput->grenade = 1;

@@ -81,7 +81,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 
 	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
 	{
-		if (lastIndex != globalVar.indexWormsTab || nbShot < NBSHOTPERTOUR)
+		if (lastIndex != globalVar.indexWormsTab || nbShot < getNbShotWeapon())
 			initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon, &nbShot);
 		else globalInput->arme = 0;
 	}
@@ -133,7 +133,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 				if (fire && fireWeapon(pMapTerrain, pTextureDisplay, dirWeapon, angleShot, wormsTab, rotoSurface))
 				{
 					fire = 0;
-					if (nbShot == NBSHOTPERTOUR)
+					if (nbShot >= getNbShotWeapon())
 						globalInput->arme = 0;
 				}
 			}
@@ -143,7 +143,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	if (!globalInput->arme && armePrec) // On efface l'arme
 	{
 		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab, &rectWeapon);
-		if (nbShot == NBSHOTPERTOUR)
+		if (nbShot >= getNbShotWeapon())
 		{
 			Uint32 mem = TEMPSPARTOUR * 1000 + (int)(globalVar.timeLastWormsChange + globalVar.timePause - SDL_GetTicks());
 			if (mem > TEMPSAPRESDERNIERTIR * 1000)
@@ -345,6 +345,21 @@ int getDammage()
 		return 20;
 	}
 	return 10;
+}
+
+/**
+* \fn int getNbShotWeapon()
+* \brief Return the value of dammage of a weapon.
+*
+* \returns number of shot allowed with a weapon
+*/
+int getNbShotWeapon()
+{
+	if (globalInput->weaponIndex == 1)
+	{
+		return 2;
+	}
+	return 4;
 }
 
 /**
