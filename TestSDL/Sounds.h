@@ -8,6 +8,8 @@
 #define MusiqueMenu "../assets/sounds/music/MusiqueMenu.wav"
 #define MusiqueVictoire "../assets/sounds/music/ffvii.wav"
 #define MusiqueInGame "../assets/sounds/music/musicInGame.wav"
+#define OpenMenu "../assets/sounds/music/MenuArmes.wav"
+#define SoundOver "../assets/sounds/music/MenuOver.wav"
 
 //Declaration des sons armes
 #define ExploMed "../assets/sounds/weapon/Explosion_medium.wav"
