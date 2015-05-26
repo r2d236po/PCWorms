@@ -137,14 +137,14 @@ void updateTextSurfacePosition(Worms* pWorms)
 }
 
 /**
-* \fn void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+* \fn void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset)
 * \brief Gestion du menu InGame
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
 * \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
-void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
+void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset)
 {
 	SDL_Texture* textureMenu = NULL;
 	SDL_Rect rectMenu;
@@ -154,6 +154,11 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	Point mousePoint;
 	getMousePosition(pCamera, &mousePoint.x, &mousePoint.y);
 
+	if (reset)
+	{
+		alreadyRender = 0;
+		//playsoundOpenMenu
+	}
 
 	switch (menuIn)
 	{
@@ -171,7 +176,11 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 		break;
 	}
 	if (menuIn != menuPrec || subMenu != subMenuPrec)
+	{
 		alreadyRender = 0;
+		//if (subMenu > 0)
+		//playsound
+	}
 	if (!alreadyRender)
 	{
 		alreadyRender = 1;
@@ -192,6 +201,82 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	}
 	menuPrec = menuIn;
 	subMenuPrec = subMenu;
+}
+
+
+void HUD_weaponsMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset)
+{
+	SDL_Texture* weaponTexture = NULL;
+	SDL_Texture* selectTexture = NULL;
+	SDL_Rect weaponRect = initButtonBox(-1, -1, (int)WEAPONTABW, (int)WEAPONTABH);
+	SDL_Rect rectSelect;
+	static int alreadyRender = 0;
+	int selected = 0;
+	if (reset)
+		alreadyRender = 0;
+	if (HUD_selectWeapon(weaponRect, &rectSelect))
+	{
+		selectTexture = loadTexture(SELECTTEXTURE);
+		if (selectTexture != NULL)
+			alreadyRender = 0;
+		selected = 1;
+	}
+	if (!alreadyRender)
+	{
+		weaponTexture = loadTexture(WEAPONTABPATH);
+		if (weaponTexture != NULL)
+		{
+			if (!selected)
+				renderScreen(3, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, weaponTexture, NULL, &weaponRect);
+			else
+			{
+				renderScreen(4, 0, pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, weaponTexture, NULL, &weaponRect, 1, selectTexture, NULL, &rectSelect);
+				my_freeTexture(selectTexture);
+			}
+		}
+		my_freeTexture(weaponTexture);
+		alreadyRender = 1;
+	}
+}
+
+int HUD_selectWeapon(SDL_Rect rect, SDL_Rect *rectReturn)
+{
+	SDL_Rect rectWeapon;
+	int i, x = 161, y = 154;
+	Point mouse;
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+	for (i = 0; i < NBWEAPON; i++)
+	{
+		if (i == 5)
+		{
+			y += 236;
+			x = 160;
+		}
+		else if (i == 10)
+		{
+			y += 226;
+			x = 160;
+		}
+		rectWeapon = initHUDRect(x, y, 186, 166, rect, WEAPONTABW, WEAPONTABH);
+		if (collisionPointWithRect(mouse, &rectWeapon))
+		{
+			if (globalInput->lclick)
+			{
+				globalInput->lclick = 0;
+				if (i != 1)
+				{
+					globalInput->weaponIndex = (char)(i- (i>=0));
+					globalInput->arme = 1;
+				}
+				else globalInput->grenade = 1;
+				globalInput->weaponTab = 0;
+			}
+			*rectReturn = rectWeapon;
+			return 1;
+		}
+		x += 249;
+	}
+	return 0;
 }
 
 /**
@@ -459,7 +544,7 @@ void updateHUD(Worms** wormsTab)
 		if (timerGeneralTexture != NULL)
 			my_freeTexture(timerGeneralTexture);
 		sprintf(str, "%.2d : %.2d", timeToPrintGeneral / 60, timeToPrintGeneral % 60);
-		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 98);
+		timerGeneralTexture = loadFromRenderedText(str, globalVar.colorTab[0], &rectTimerGeneral.w, &rectTimerGeneral.h, 72);
 		globalInput->raffraichissement = 1;
 	}
 

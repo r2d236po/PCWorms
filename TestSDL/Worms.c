@@ -491,7 +491,7 @@ int randomWorms()
 void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	int indexWorms;
-	if (!globalInput->menu)
+	if (!globalInput->menu && !globalInput->weaponTab)
 	{
 		updateTeamLife(jeu->equipes);
 		isGameEnd(jeu);
@@ -525,9 +525,9 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 			randomAnimationWorms(wormsTab[indexWorms], jeu->pMapTerrain->collisionMapSurface);*/
 		}
 		updateHUD(wormsTab);
-		if (wormsTab[globalVar.indexWormsTab]->vie > 0)
-			weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, 0, pCamera);
-		if (globalInput->grenade)
+		if (wormsTab[globalVar.indexWormsTab]->vie > 0 && !globalInput->grenade)
+			weaponManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, globalInput->weaponIndex, pCamera);
+		if (globalInput->grenade && !globalInput->arme)
 			grenadeManagement(jeu->pMapTerrain, pTextureDisplay, wormsTab, pCamera);
 	}
 }

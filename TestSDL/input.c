@@ -27,8 +27,6 @@ void getInput()
 	SDL_Event event;
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 	Uint32 flags = (SDL_GetWindowFlags(globalWindow) ^ SDL_WINDOW_FULLSCREEN_DESKTOP);
-	static Uint32 timeStartPause = 0;
-	static int wormsCounter = 0;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -45,32 +43,12 @@ void getInput()
 			break;
 
 		case SDL_MOUSEBUTTONDOWN:
-			switch (event.button.button)
-			{
-			case SDL_BUTTON_LEFT:
-				globalInput->lclick = 1;
-				globalInput->cursor.before = globalInput->cursor.now;
-				break;
-			case SDL_BUTTON_RIGHT:
-				globalInput->rclick = 1;
-				globalInput->cursor.before = globalInput->cursor.now;
-				break;
-			}
+			mouseButtonDown(event);
 			globalInput->raffraichissement = 1;
 			break;
 
 		case SDL_MOUSEBUTTONUP:
-			switch (event.button.button)
-			{
-			case SDL_BUTTON_LEFT:
-				if (globalInput->lclick)
-					globalInput->lclick = 0;
-				break;
-			case SDL_BUTTON_RIGHT:
-				if (globalInput->rclick)
-					globalInput->rclick = 0;
-				break;
-			}
+			mouseButtonUp(event);
 			globalInput->raffraichissement = 1;
 			break;
 
@@ -81,144 +59,21 @@ void getInput()
 			break;
 
 		case SDL_MOUSEWHEEL:
-			if (event.wheel.y < 0)
-				globalInput->wheelDown = 1;
-			else globalInput->wheelUp = 1;
+			mouseWheel(event);
 			globalInput->raffraichissement = 1;
 			break;
 
 		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
-			{
-			case SDLK_LEFT:
-				if (!globalInput->arme){
-					if (globalInput->jump && !globalInput->jumpOnGoing)
-					{
-						globalInput->jump = 0;
-						globalInput->backJump = 1;
-					}
-					globalInput->direction = LEFT;
-					SDL_Delay(10);
-				}
-				break;
-			case SDLK_RIGHT:
-				if (!globalInput->arme){
-					globalInput->direction = RIGHT;
-					if (globalInput->jump && !globalInput->jumpOnGoing)
-					{
-						globalInput->jump = 0;
-						globalInput->backJump = 1;
-					}
-					SDL_Delay(10);
-				}
-				break;
-			case SDLK_UP:
-				if (!globalInput->jumpOnGoing && !globalInput->arme)
-					globalInput->direction = UP;
-				break;
-			case SDLK_DOWN:
-				if (!globalInput->arme){
-					globalInput->direction = DOWN;
-				}
-				break;
-			case SDLK_SPACE:
-				if (!globalInput->jumpOnGoing && !globalInput->arme)
-				{
-					if (globalInput->direction == LEFT || globalInput->direction == RIGHT)
-						globalInput->backJump = 1;
-					else globalInput->jump = 1;
-				}
-				break;
-			case SDLK_LCTRL:
-				globalInput->bend = 1;
-				break;
-			case SDLK_ESCAPE:
-				if (!globalInput->menu) {
-					globalInput->menu = 1;
-					timeStartPause = SDL_GetTicks();
-				}
-				else {
-					globalInput->menu = 0;
-					globalVar.timePause += SDL_GetTicks() - timeStartPause;
-					timeStartPause = 0;
-				}
-				break;
-			case SDLK_q:
-				globalInput->quit = 1;
-				break;
-			case SDLK_TAB:
-				globalInput->weaponTab = 1;
-				break;
-			case SDLK_b:
-				globalInput->bombe = 1;
-				break;
-			case SDLK_r:
-				if (globalInput->camCentrer){
-					globalInput->camCentrer = 0;
-				}
-				else globalInput->camCentrer = 1;
-				break;
-			case SDLK_c:
-				if (!globalInput->arme && !globalInput->menu){
-					globalInput->changeWorms = 1;
-				}
-				break;
-			case SDLK_PRINTSCREEN:
-				globalInput->screenshot = 1;
-				break;
-			case SDLK_k:
-				if (globalInput->cursor.currentCursor == 0)
-				{
-					SDL_SetCursor(globalInput->cursor.cursor2);
-					globalInput->cursor.currentCursor = 1;
-				}
-				else
-				{
-					SDL_SetCursor(globalInput->cursor.cursor1);
-					globalInput->cursor.currentCursor = 0;
-				}
-				break;
-			case SDLK_a:
-				if (!globalInput->menu){
-					if (globalInput->arme == 0) { globalInput->arme = 1; }
-					else globalInput->arme = 0;
-				}
-				break;
-			case SDLK_g:
-				if (!globalInput->menu){
-					globalInput->grenade = 1;
-				}
-				break;
-			case SDLK_m:
-					globalInput->quit = 1;
-					globalInput->backToMainMenu = 1;
-				break;
-			case SDLK_BACKSPACE:
-				globalInput->textCounter--;
-				secuTextInput(globalInput);
-				globalInput->textInput[globalInput->textCounter] = '\0';
-				break;
-				///////////////////////// test son num pad
-			case SDLK_KP_1:
-				playChunk(globalInput->soundAllowed, ExploMed);
-				break;
-			case SDLK_KP_2:
-				playChunk(globalInput->soundAllowed, BipExplo);
-				break;
-			case SDLK_KP_3:
-				playChunk(globalInput->soundAllowed, ExploSourde);
-				break;
-			case SDLK_KP_4:
-				playChunk(globalInput->soundAllowed, MusiqueVictoire);
-				break;
-
-			}
+			INPUT_keydownInputs(event);
 			if (event.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL)
 			{
 				strcpy(globalInput->textInput, SDL_GetClipboardText());
 				globalInput->textCounter += (char)strlen(SDL_GetClipboardText());
 			}
 			globalInput->raffraichissement = 1;
+			break;
+		case SDL_KEYUP:
+			INPUT_keyupInputs(event);
 			break;
 		case SDL_TEXTINPUT:
 			globalInput->textInput[globalInput->textCounter] = event.text.text[0];
@@ -250,11 +105,217 @@ void getInput()
 	}
 }
 
+/**
+* \fn void INPUT_keydownInputs(SDL_Event event)
+* \brief Handles the button down event of the keyboard.
+*
+* \param[in] event, event of the window.
+* \returns void
+*/
+void INPUT_keydownInputs(SDL_Event event)
+{
+	static Uint32 timeStartPause = 0;
+	switch (event.key.keysym.sym)
+	{
+	case SDLK_LEFT:
+		if (!globalInput->arme){
+			if (globalInput->jump && !globalInput->jumpOnGoing)
+			{
+				globalInput->jump = 0;
+				globalInput->backJump = 1;
+			}
+			globalInput->direction = LEFT;
+			SDL_Delay(10);
+		}
+		break;
+	case SDLK_RIGHT:
+		if (!globalInput->arme){
+			globalInput->direction = RIGHT;
+			if (globalInput->jump && !globalInput->jumpOnGoing)
+			{
+				globalInput->jump = 0;
+				globalInput->backJump = 1;
+			}
+			SDL_Delay(10);
+		}
+		break;
+	case SDLK_UP:
+		if (!globalInput->jumpOnGoing && !globalInput->arme)
+			globalInput->direction = UP;
+		break;
+	case SDLK_DOWN:
+		if (!globalInput->arme){
+			globalInput->direction = DOWN;
+		}
+		break;
+	case SDLK_SPACE:
+		if (!globalInput->jumpOnGoing && !globalInput->arme)
+		{
+			if (globalInput->direction == LEFT || globalInput->direction == RIGHT)
+				globalInput->backJump = 1;
+			else globalInput->jump = 1;
+		}
+		break;
+	case SDLK_LCTRL:
+		globalInput->bend = 1;
+		break;
+	case SDLK_ESCAPE:
+		if (!globalInput->menu) {
+			globalInput->menu = 1;
+			timeStartPause = SDL_GetTicks();
+		}
+		else {
+			globalInput->menu = 0;
+			globalVar.timePause += SDL_GetTicks() - timeStartPause;
+			timeStartPause = 0;
+		}
+		break;
+	case SDLK_TAB:
+		if (!globalInput->tabLock)
+			globalInput->weaponTab = 1;
+		globalInput->tabLock = 1;
+		break;
+	case SDLK_b:
+		globalInput->bombe = 1;
+		break;
+	case SDLK_r:
+		if (globalInput->camCentrer){
+			globalInput->camCentrer = 0;
+		}
+		else globalInput->camCentrer = 1;
+		break;
+	case SDLK_c:
+		if (!globalInput->arme && !globalInput->menu){
+			globalInput->changeWorms = 1;
+		}
+		break;
+	case SDLK_PRINTSCREEN:
+		globalInput->screenshot = 1;
+		break;
+	case SDLK_k:
+		if (globalInput->cursor.currentCursor == 0)
+		{
+			SDL_SetCursor(globalInput->cursor.cursor2);
+			globalInput->cursor.currentCursor = 1;
+		}
+		else
+		{
+			SDL_SetCursor(globalInput->cursor.cursor1);
+			globalInput->cursor.currentCursor = 0;
+		}
+		break;
+	case SDLK_a:
+		if (!globalInput->menu)
+		{
+			if (globalInput->arme == 0) 
+			{ 
+				globalInput->arme = 1; 
+			}
+			else globalInput->arme = 0;
+		}
+		break;
+	case SDLK_g:
+		if (!globalInput->menu){
+			globalInput->grenade = 1;
+		}
+		break;
+	case SDLK_BACKSPACE:
+		globalInput->textCounter--;
+		secuTextInput(globalInput);
+		globalInput->textInput[globalInput->textCounter] = '\0';
+		break;
+		///////////////////////// test son num pad
+	case SDLK_KP_1:
+		playChunk(globalInput->soundAllowed, ExploMed);
+		break;
+	case SDLK_KP_2:
+		playChunk(globalInput->soundAllowed, BipExplo);
+		break;
+	case SDLK_KP_3:
+		playChunk(globalInput->soundAllowed, ExploSourde);
+		break;
+	case SDLK_KP_4:
+		playChunk(globalInput->soundAllowed, MusiqueVictoire);
+		break;
 
+	}
+}
 
+/**
+* \fn void INPUT_keyupInputs(SDL_Event event)
+* \brief Handles the button up event of the keyboard.
+*
+* \param[in] event, event of the window.
+* \returns void
+*/
+void INPUT_keyupInputs(SDL_Event event)
+{
+	switch (event.key.keysym.sym)
+	{
+	case SDLK_TAB:
+		globalInput->tabLock = 0;
+		globalInput->weaponTab = 0;
+		break;
+	}
+}
 
+/**
+* \fn void mouseButtonDown(SDL_Event event)
+* \brief Handles the button down event of the mouse.
+*
+* \param[in] event, event of the window.
+* \returns void
+*/
+void mouseButtonDown(SDL_Event event)
+{
+	switch (event.button.button)
+	{
+	case SDL_BUTTON_LEFT:
+		globalInput->lclick = 1;
+		globalInput->cursor.before = globalInput->cursor.now;
+		break;
+	case SDL_BUTTON_RIGHT:
+		globalInput->rclick = 1;
+		globalInput->cursor.before = globalInput->cursor.now;
+		break;
+	}
+}
 
+/**
+* \fn void mouseButtonUp(SDL_Event event)
+* \brief Handles the button up event of the mouse.
+*
+* \param[in] event, event of the window.
+* \returns void
+*/
+void mouseButtonUp(SDL_Event event)
+{
+	switch (event.button.button)
+	{
+	case SDL_BUTTON_LEFT:
+		if (globalInput->lclick)
+			globalInput->lclick = 0;
+		break;
+	case SDL_BUTTON_RIGHT:
+		if (globalInput->rclick)
+			globalInput->rclick = 0;
+		break;
+	}
+}
 
+/**
+* \fn void mouseWheel(SDL_Event event)
+* \brief Handles the wheel event of the mouse.
+*
+* \param[in] event, event of the window.
+* \returns void
+*/
+void mouseWheel(SDL_Event event)
+{
+	if (event.wheel.y < 0)
+		globalInput->wheelDown = 1;
+	else globalInput->wheelUp = 1;
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -283,10 +344,11 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 
 	globalInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
+	static char menuPrec = 0, weaponPrec = 0;
 	if (globalInput->windowResized){
 		initCameras(jeu->pMapTerrain, pCamera, NULL);
 		globalInput->windowResized = 0;
-	}	
+	}
 	if (globalInput->screenshot)
 	{
 		screenshot();
@@ -295,7 +357,23 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	if (globalInput->menu)
 	{
 		//EngGameScreen(jeu, pTextureDisplay, pCamera);
-		inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera);
+		if (menuPrec != globalInput->menu)
+			inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 1);
+		else inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 0);
+		globalInput->raffraichissement = 0;
+	}
+	if (globalInput->weaponTab)
+	{
+		if (globalInput->arme || globalInput->grenade)
+		{
+			globalInput->arme = 0;
+			globalInput->grenade = 0;
+			eraseRectFromMap(jeu->pMapTerrain, pTextureDisplay, NULL);
+			displayWormsTab(wormsTab, 1);
+		}
+		if (weaponPrec != globalInput->weaponTab)
+			HUD_weaponsMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 1);
+		else HUD_weaponsMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 0);
 		globalInput->raffraichissement = 0;
 	}
 	inputsCamera(pTextureDisplay, pCamera, wormsTab[globalVar.indexWormsTab]);	//appel de la fonction de gestion des Inputs de la camera
@@ -316,7 +394,8 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 
 	updateGameWorms(jeu, wormsTab, pTextureDisplay, pCamera);
 
-
+	menuPrec = globalInput->menu;
+	weaponPrec = globalInput->weaponTab;
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
@@ -551,6 +630,8 @@ Input* initInput()
 	inputTemp->soundAllowed = 1;
 	inputTemp->musicAllowed = 1;
 	inputTemp->backToMainMenu = 0;
+	inputTemp->weaponIndex = 0;
+	inputTemp->tabLock = 0;
 	strcpy(inputTemp->textInput, "");
 	inputTemp->textCounter = 0;
 	fprintf(logFile, "initInput : SUCCESS.\n\n");
@@ -584,7 +665,9 @@ void resetStructInput()
 	globalInput->camCentrer = 0;
 	globalInput->changeWorms = 0;
 	globalInput->arme = 0;
+	globalInput->weaponIndex = 0;
 	globalInput->backToMainMenu = 0;
+	globalInput->tabLock = 0;
 }
 
 /**

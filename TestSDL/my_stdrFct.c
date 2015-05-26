@@ -450,15 +450,20 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 	int index;
 	if (pSurfaceDest->format->BitsPerPixel != pSurfaceSrc->format->BitsPerPixel)
 		return;
-	reajustRect(pRect, pSurfaceDest);
-	if (!checkRectSurfaceDimension(pSurfaceDest, pRect))
-		return;
-	if (!checkRectSurfaceDimension(pSurfaceSrc, pRect))
-		return;
-	if (pSurfaceDest->w != pSurfaceSrc->w || pSurfaceDest->h != pSurfaceSrc->h)
-		return;
+	if (pRect != NULL)
+	{
+		reajustRect(pRect, pSurfaceDest);
+		if (!checkRectSurfaceDimension(pSurfaceDest, pRect))
+			return;
+		if (!checkRectSurfaceDimension(pSurfaceSrc, pRect))
+			return;
+		if (pSurfaceDest->w != pSurfaceSrc->w || pSurfaceDest->h != pSurfaceSrc->h)
+			return;
+	}
 	if (mode == 0)
 	{
+		if (pRect == NULL)
+			return;
 		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 		{
 			for (x = pRect->x; x < (pRect->x + pRect->w); x++)
@@ -471,6 +476,11 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 	}
 	else
 	{
+		if (pRect == NULL)
+		{
+			memcpy((Uint32*)(pSurfaceDest->pixels), (Uint32*)(pSurfaceSrc->pixels), pSurfaceSrc->h*pSurfaceSrc->w*sizeof(Uint32));
+			return;
+		}
 		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 		{
 			index = pRect->x + y * pSurfaceDest->w;

@@ -5,6 +5,11 @@
 
 /*Acquisition des Inputs*/
 void getInput();	//Récupère les inputs
+void INPUT_keydownInputs(SDL_Event event);
+void INPUT_keyupInputs(SDL_Event event);
+void mouseButtonDown(SDL_Event event);
+void mouseButtonUp(SDL_Event event);
+void mouseWheel(SDL_Event event);
 
 /*Gestion des Inputs*/
 int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms** wormsTab);	//Gestion globale des Inputs

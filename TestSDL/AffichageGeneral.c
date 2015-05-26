@@ -361,8 +361,8 @@ void cleanUp(SDL_Texture** p_pTextureDisplay, int reset)
 		SDL_Quit();
 		TTF_Quit();
 		IMG_Quit();
+		cleanSprites();
 	}
-	cleanSprites();
 	cleanSounds();
 	if ((*p_pTextureDisplay) != NULL)
 	{

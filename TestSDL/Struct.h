@@ -117,6 +117,7 @@ typedef struct Input{		//Structure gérant les différentes inputs
 	char lclick;				//click gauche de la souris
 	char quit;					//quitte le programme
 	char weaponTab;
+	char weaponIndex;
 	char wheelUp;				//zoomIn
 	char wheelDown;				//zoomOut
 	char raffraichissement;
@@ -131,6 +132,7 @@ typedef struct Input{		//Structure gérant les différentes inputs
 	char grenade;
 	char soundAllowed;
 	char musicAllowed;
+	char tabLock;
 	char backToMainMenu;
 	char textInput[100];
 	unsigned char textCounter;

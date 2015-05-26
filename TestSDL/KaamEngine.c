@@ -43,6 +43,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	int indexWorms = 0, initEnd = 0;
 	srand((int)time(NULL));
 	static int initStart = 0;
+	static int counter = 1;
 	if (initStart == 0)
 	{
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
@@ -54,11 +55,9 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 	}
 	else
 	{
+		initEnd = 1;
 		updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	
-		initEnd = testGround(pSurfaceMap, wormsTab[0]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[0], pSurfaceMap);
-		KaamGravityManagement(pSurfaceMap, wormsTab[0]->wormsObject);
-		displayWorms(wormsTab[0], 1);
-		for (indexWorms = 1; indexWorms < globalVar.nbWormsTotal; indexWorms++)
+		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
 			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms], pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
@@ -70,8 +69,9 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 				if (wormsTab[indexWorms]->dirSurface == RIGHT)
 					copySurfacePixels(wormsTab[indexWorms]->wormsSurfaceRight, NULL, wormsTab[indexWorms]->wormsObject->objectSurface, NULL);
 				else copySurfacePixels(wormsTab[indexWorms]->wormsSurfaceLeft, NULL, wormsTab[indexWorms]->wormsObject->objectSurface, NULL);
-				int x = rand_a_b(0, pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w);
+				int x = rand_a_b(0, pSurfaceMap->w / counter - wormsTab[indexWorms]->wormsObject->objectSurface->w);
 				initObjectPosition(wormsTab[indexWorms]->wormsObject, x, 0);
+				counter++;
 			}
 		}
 	}

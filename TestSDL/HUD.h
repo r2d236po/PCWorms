@@ -25,6 +25,12 @@
 #define INGAMECONFIGOPTION "../assets/pictures/Interface/configMenuOption.png"
 #define DEFAULTHUDCONFIGNW 1452.0
 
+#define WEAPONTABPATH "../assets/pictures/Interface/weaponTab.png"
+#define WEAPONTABW 1502.0
+#define WEAPONTABH 842.0
+#define SELECTTEXTURE "../assets/pictures/Interface/weaponSelect.png"
+#define NBWEAPON 3
+
 #define NBFONTS 1
 #define FONTSIZENAME 12
 #define TEMPSPARTIE 900
@@ -38,7 +44,9 @@ void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b);
 void updateTextSurfaceWormsTab(Worms** wormsTab);
 int updateTextSurfaceWorms(Worms* pWorms);
 void updateTextSurfacePosition(Worms* pWorms);
-void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
+void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset);
+void HUD_weaponsMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset);
+int HUD_selectWeapon(SDL_Rect rect, SDL_Rect *rectReturn);
 SDL_Rect getRectMenu(enum HUDMENU menu);
 SDL_Texture* getTextureMenu(enum HUDMENU menu, int subMenu);
 enum HUDMENU mainHUD(int *subMenu, SDL_Rect mainRect);

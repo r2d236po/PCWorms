@@ -89,7 +89,6 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	if (globalInput->arme && armePrec) // On fait tourner l'arme en fonction de la souris
 	{
 		if (!fire)
-			//angle = getAngle(wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x, wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y, &dirWeapon, pCamera);
 			angle = getAngle(xCenter, yCenter, &dirWeapon, pCamera);
 		armeIndex = selectWeapon(weaponIndex, dirWeapon);
 		if (armeIndex != NULL)
@@ -316,7 +315,7 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 		{
 			if (wormsTab[i]->vie > 0)
 			{
-				wormsTab[i]->vie -= 15;
+				wormsTab[i]->vie -= getDammage();
 				if (wormsTab[i]->vie <= 0)
 				{
 					wormsDead(wormsTab[i], 0);
@@ -330,6 +329,21 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 		}
 	}
 	return 0;
+}
+
+/**
+* \fn int getDammage()
+* \brief Return the value of dammage of a weapon.
+*
+* \returns dammage of the weapon
+*/
+int getDammage()
+{
+	if (globalInput->weaponIndex == 1)
+	{
+		return 20;
+	}
+	return 10;
 }
 
 /**
@@ -490,6 +504,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 		display(grenadeObject->objectSurface, 1);
 		wormsOverlayWithSurface(wormsTab, grenadeObject->objectSurface);
 		globalInput->raffraichissement = 1;
+		centerCam(pCamera, grenadeObject->objectSurface, pTextureDisplay);
 	}
 
 

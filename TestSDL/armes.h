@@ -34,6 +34,7 @@ void setCenterWeapons(Worms* pWorms, int* xCenter, int* yCenter);
 /*Fire and bullets functions*/
 int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface);
 int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir);
+int getDammage();
 int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index);
 
 /*Grenade functions*/
