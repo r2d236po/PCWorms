@@ -38,6 +38,11 @@ int mainMenu(char mapName[100]);
 int initTabTextureMenu(SDL_Texture* menuTexture[NBTEXTURE], ...);
 void destroyTextureTab(SDL_Texture* textureTab[NBTEXTURE]);
 char* stringTexture(enum MENU menu);
+char** initMAPstrings();
+char* readString(FILE* file);
+int getTaille(FILE *fichier);
+int lireEntete(FILE* file);
+void destroyMenuTab(char **tab, int size);
 
 enum MENU menu();
 
@@ -54,7 +59,7 @@ int getIndexColor();
 void initColorTab(SDL_Color colorArray[6]);
 
 enum MENU mapMenu(enum CHOICE *nextPrev);
-void  mapSketch(enum CHOICE nextPrev, char* mapName);
+void  mapSketch(enum CHOICE nextPrev, char* mapName, char **mapString);
 
 enum MENU optionMenu();
 void setResizableOption(enum CHOICE *pChoice);

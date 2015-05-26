@@ -1,0 +1,10 @@
+Fichier cartes:
+0008
+../assets/Cartes/map.png
+../assets/Cartes/mapHD2.png
+../assets/Cartes/maptest.png
+../assets/Cartes/maptest2.png
+../assets/Cartes/maptest3.png
+../assets/Cartes/maptest4.png
+../assets/Cartes/maptestCam.png
+../assets/Cartes/map2.png

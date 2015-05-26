@@ -208,9 +208,9 @@ void INPUT_keydownInputs(SDL_Event event)
 	case SDLK_a:
 		if (!globalInput->menu && !globalInput->grenade)
 		{
-			if (globalInput->arme == 0) 
-			{ 
-				globalInput->arme = 1; 
+			if (globalInput->arme == 0)
+			{
+				globalInput->arme = 1;
 			}
 			else globalInput->arme = 0;
 		}

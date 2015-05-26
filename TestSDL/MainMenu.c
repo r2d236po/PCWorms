@@ -7,6 +7,8 @@
 #include "partie.h"
 #include "memory.h"
 
+int NBMAP = 0;
+
 int mainMenu(char mapName[100])
 {
 	SDL_Texture *menuTexture[NBTEXTURE];
@@ -27,8 +29,11 @@ int mainMenu(char mapName[100])
 		strcpy(globalVar.wormsNames[i], "");
 
 	SDL_StartTextInput();
+	char **menuTab = initMAPstrings();
+	if (menuTab == NULL)
+		return -1;
+	playMusique(globalInput->musicAllowed, MusiqueMenu);
 
-	playMusique(globalInput->musicAllowed,MusiqueMenu);
 
 	while (!quitMenu)
 	{
@@ -71,7 +76,7 @@ int mainMenu(char mapName[100])
 			if (menuIn == MAP || menuIn == MAPmain || menuIn == MAPchoose || menuIn == MAPrepertory
 				|| menuIn == MAIN && nextPrev == CLICK)
 			{
-				mapSketch(nextPrev, mapName);
+				mapSketch(nextPrev, mapName, menuTab);
 				nextPrev = NEITHER;
 			}
 			if (menuIn == OPTIONS || menuIn == OPTIONSm)
@@ -132,8 +137,8 @@ int mainMenu(char mapName[100])
 			}
 		}
 	}
-
-
+	if (menuTab != NULL)
+		destroyMenuTab(menuTab, NBMAP);
 	SDL_StopTextInput();
 	resetStructInput();
 	destroyTextureTab(menuTexture);
@@ -322,7 +327,7 @@ enum MENU versusMenu(int* quit, enum MENU menuPrec, int *pindexTeam)
 		}
 	}
 	*quit = 0;
-	testChange = alreadyChange;  
+	testChange = alreadyChange;
 	alreadyChange = 0;
 	if (testChange != alreadyChange)
 		globalInput->raffraichissement = 1;
@@ -464,7 +469,7 @@ void setTeamName()
 * \param[in] indexTeam, index of the team.
 * \returns void.
 */
-void setWormsName( int indexTeam)
+void setWormsName(int indexTeam)
 {
 	int indexPrec = 0, i, y = 0, init = 0, indeXTEST;
 	static int indexWorms = 0, team = 1;
@@ -715,20 +720,19 @@ enum MENU mapMenu(enum CHOICE *nextPrev)
 }
 
 /**
-* \fn void  mapSketch(enum CHOICE nextPrev, char* mapName)
+* \fn void  mapSketch(enum CHOICE nextPrev, char* mapName, char **mapString)
 * \brief Displays a sketch of the selected map.
 *
 * \param[in] nextPrev, choice structure to be filled with NEXT or PREVIOUS or NEITHER command.
 * \returns string of the selected map path.
 */
-void mapSketch(enum CHOICE nextPrev, char* mapName)
+void mapSketch(enum CHOICE nextPrev, char* mapName, char **mapString)
 {
 	SDL_Rect sketchRect;
 	SDL_Texture* sketchTexture = NULL;
 	static int counter = 0;
 	int x = 182, y = 57, w = 1638, h = 740, wRender = 0, hRender = 0;
 	float coeffX = (float)(x / WIDTHMENUTEXTURE), coeffY = (float)(y / HIGHTMENUTEXTURE), coeffW = (float)(w / WIDTHMENUTEXTURE), coeffH = (float)(h / HIGHTMENUTEXTURE);
-	static char *mapString[NUMBERMAP] = { cMAP, cMAP_HD, cMAP_TEST, cMAP_TEST2, cMAP_TEST3, cMAP_TEST4, cMAP_CAM };
 
 	SDL_GetRendererOutputSize(globalRenderer, &wRender, &hRender);
 	x = (int)(coeffX * wRender);
@@ -742,11 +746,12 @@ void mapSketch(enum CHOICE nextPrev, char* mapName)
 		counter++;
 	else if (nextPrev == PREVIOUS)
 		counter--;
-	if (counter >= NUMBERMAP)
+	if (counter >= NBMAP)
 		counter = 0;
 	else if (counter < 0)
-		counter = NUMBERMAP - 1;
-	sketchTexture = loadTexture(mapString[counter]);
+		counter = NBMAP - 1;
+	if (mapString[counter] != NULL)
+		sketchTexture = loadTexture(mapString[counter]);
 	if (sketchTexture == NULL)
 	{
 		fprintf(logFile, "mapSketch : FAILURE, loadTexture sketchTexture.\n\n");
@@ -755,7 +760,7 @@ void mapSketch(enum CHOICE nextPrev, char* mapName)
 	}
 	SDL_RenderCopy(globalRenderer, sketchTexture, NULL, &sketchRect);
 	my_freeTexture(sketchTexture);
-	if (nextPrev == CLICK)
+	if (nextPrev == CLICK && mapString[counter] != NULL)
 		strcpy(mapName, mapString[counter]);
 }
 
@@ -957,7 +962,7 @@ enum MENU optionMenu()
 		testChange = alreadyChange;
 		alreadyChange = 0;
 		if (testChange != alreadyChange)
-		globalInput->raffraichissement = 1;
+			globalInput->raffraichissement = 1;
 	}
 	return OPTIONS;
 }
@@ -1395,4 +1400,90 @@ SDL_Rect initButtonBox(int x, int y, int w, int h)
 		y = (int)((float)(y / HIGHTMENUTEXTURE) * hRender);
 	else y = hRender / 2 - h / 2;
 	return initRect(x, y, w, h);
+}
+
+
+char** initMAPstrings()
+{
+	FILE* file = fopen("../assets/Cartes/Cartes.txt", "r");
+	char **mapTab = NULL;
+	if (file != NULL)
+	{
+		if (lireEntete(file))
+		{
+			fscanf(file, "%d", &NBMAP);
+			fseek(file, 2, SEEK_CUR);
+			mapTab = (char**)my_malloc(NBMAP*sizeof(char*));
+			if (mapTab != NULL)
+			{
+				int i = 0;
+				for (i = 0; i < NBMAP; i++)
+				{
+					mapTab[i] = NULL;
+					mapTab[i] = readString(file);
+				}
+			}
+		}
+		fclose(file);
+	}
+	return mapTab;
+}
+
+char* readString(FILE* file)
+{
+	char *str = NULL;
+	long cur = ftell(file);
+	int n = 1;
+	char tmp = (char)fgetc(file);
+	while (tmp != '\n' && tmp != '\0' && tmp >= 0)
+	{
+		tmp = (char)fgetc(file);
+		n++;
+	}
+	fseek(file, cur, 0);
+	str = my_malloc(n*sizeof(char));
+	if (str != NULL)
+	{
+		fgets(str, n, file);
+	}
+	fseek(file, 2, SEEK_CUR);
+	return str;
+}
+
+int lireEntete(FILE* file)
+{
+	char fichier[8];
+	fgets(fichier, 8, file);
+	if (!strcmp(fichier, "Fichier"))
+	{
+		fseek(file, 1, SEEK_CUR);
+		fgets(fichier, 8, file);
+		if (strcmp(fichier, "cartes:") != 0)
+		{
+			return 0;
+		}
+		fseek(file, 2, SEEK_CUR);
+	}
+	return 1;
+}
+
+int getTaille(FILE *fichier)
+{
+	int size;
+	int position_actuelle = ftell(fichier);
+	fseek(fichier, 0, SEEK_END); /**< Place le curseur a la fin du fichier. */
+	size = (int)ftell(fichier); /**< Donne le nombre d'octets jusqu'a la position du curseur. */
+	fseek(fichier, position_actuelle, SEEK_SET); /**< Replace le curseur a l'emplacement ou il se trouvait au moment de l'appelle de la fonction. */
+	return size;
+}
+
+void destroyMenuTab(char **tab, int size)
+{
+	int i;
+	for (i = 0; i < size; i++)
+	{
+		if (tab[i] != NULL)
+			my_free(tab[i]);
+	}
+	my_free(tab);
 }

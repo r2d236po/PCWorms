@@ -25,4 +25,5 @@ void resetStructInput();
 Cursor initCursor(void);	//initialise la structure  cursor
 void secuTextInput();
 
+
 #endif

@@ -33,15 +33,8 @@
 
 
 /*Chemins de map*/
-#define cMAP		"../assets/PIctures/map.png"
-#define cMAP_HD		"../assets/PIctures/mapHD2.png"
-#define cMAP_TEST	"../assets/PIctures/maptest.png"
-#define cMAP_TEST2	"../assets/PIctures/maptest2.png"
-#define cMAP_TEST3	"../assets/PIctures/maptest3.png"
-#define cMAP_TEST4	"../assets/PIctures/maptest4.png"
-#define cMAP_CAM	"../assets/PIctures/maptestCam.png"
-#define NUMBERMAP 7
-#define ICONE "../assets/PIctures/icone.png"
+#define cMAP		"../assets/Cartes/map.png"
+#define ICONE "../assets/pictures/icone.png"
 
 /*Variables Globales importantes*/
 SDL_Window *globalWindow;

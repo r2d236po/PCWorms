@@ -56,20 +56,18 @@ int mainFenetre()
 				cleanUp(&pTextureDisplay, 0);
 				return -1;
 			}
-
+			if (mainInit() < 0)	//set le nombre d'équipe et le nombre de worms par équipe
+			{
+				fprintf(logFile, "mainInit : FAILURE.\n");
+				cleanUp(&pTextureDisplay, 0);
+				return -1;
+			}
 			playMusique(0, MusiqueMenu);
 			playMusique(globalInput->musicAllowed, MusiqueInGame);
 			Mix_VolumeMusic(MIX_MAX_VOLUME / 3);
 
 			if (!globalInput->quit)
 			{
-				if (mainInit() < 0)	//set le nombre d'équipe et le nombre de worms par équipe
-				{
-					fprintf(logFile, "mainInit : FAILURE.\n");
-					cleanUp(&pTextureDisplay, 0);
-					return -1;
-				}
-
 				/*Init game*/
 				jeu = nouveauJeu(mapName);
 				if (jeu == NULL)
@@ -158,8 +156,10 @@ int mainFenetre()
 			if (wormsTab != NULL)
 				my_free(wormsTab);
 			wormsTab = NULL;
-			my_freeTexture(timerGeneralTexture);
-			my_freeTexture(timerTeamTexture);
+			if (timerGeneralTexture != NULL)
+				my_freeTexture(timerGeneralTexture);
+			if (timerGeneralTexture != NULL)
+				my_freeTexture(timerTeamTexture);
 		} while (globalInput->backToMainMenu);
 	}
 	cleanUp(&pTextureDisplay, 0);
