@@ -185,7 +185,8 @@ void INPUT_keydownInputs(SDL_Event event)
 		else globalInput->camCentrer = 1;
 		break;
 	case SDLK_c:
-		if (!globalInput->arme && !globalInput->menu){
+		if (!globalInput->arme && !globalInput->menu && !globalInput->grenade)
+		{
 			globalInput->changeWorms = 1;
 		}
 		break;
@@ -205,7 +206,7 @@ void INPUT_keydownInputs(SDL_Event event)
 		}
 		break;
 	case SDLK_a:
-		if (!globalInput->menu)
+		if (!globalInput->menu && !globalInput->grenade)
 		{
 			if (globalInput->arme == 0) 
 			{ 
@@ -215,7 +216,8 @@ void INPUT_keydownInputs(SDL_Event event)
 		}
 		break;
 	case SDLK_g:
-		if (!globalInput->menu){
+		if (!globalInput->menu && !globalInput->arme)
+		{
 			globalInput->grenade = 1;
 		}
 		break;
