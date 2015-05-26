@@ -150,15 +150,15 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	SDL_Texture* textureMenu = NULL;
 	SDL_Rect rectMenu;
 	static enum HUDMENU menuIn = HUDMAIN, menuPrec = HUDMAIN;
-	static int alreadyRender = 0, subMenuPrec = 0;
-	int subMenu = 0;
-	Point mousePoint;
-	getMousePosition(pCamera, &mousePoint.x, &mousePoint.y);
-
+	static int alreadyRender = 0, subMenuPrec = 0, wPrec = 0;
+	int subMenu = 0, w = 0;
+	SDL_GetRendererOutputSize(globalRenderer, &w, NULL);
+	if (w != wPrec)
+		alreadyRender = 0;
 	if (reset)
 	{
+		menuIn = HUDMAIN;
 		alreadyRender = 0;
-		//playsoundOpenMenu
 		playChunk(1, OpenMenu);
 	}
 
@@ -202,6 +202,7 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	}
 	menuPrec = menuIn;
 	subMenuPrec = subMenu;
+	wPrec = w;
 }
 
 

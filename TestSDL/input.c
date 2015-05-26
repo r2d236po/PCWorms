@@ -347,9 +347,12 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	globalInput->right = 0;	//remise à zéro du booléen (si nécessaire)
 	}*/
 	static char menuPrec = 0, weaponPrec = 0;
-	if (globalInput->windowResized){
+	if (globalInput->windowResized)
+	{
 		initCameras(jeu->pMapTerrain, pCamera, NULL);
 		globalInput->windowResized = 0;
+		globalInput->raffraichissement = 1;
+		return 1;
 	}
 	if (globalInput->screenshot)
 	{
@@ -398,6 +401,8 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 
 	menuPrec = globalInput->menu;
 	weaponPrec = globalInput->weaponTab;
+
+
 	return 1;	//flag de gestion d'erreur, -1 il y a eu un problème, 1 c'est okay
 }
 
