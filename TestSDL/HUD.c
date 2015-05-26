@@ -4,6 +4,7 @@
 #include "AffichageGeneral.h"
 #include "input.h"
 #include "memory.h"
+#include "Sounds.h"
 
 /**
 * \fn int setFonts()
@@ -158,6 +159,7 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	{
 		alreadyRender = 0;
 		//playsoundOpenMenu
+		playChunk(1, OpenMenu);
 	}
 
 	switch (menuIn)
@@ -178,8 +180,7 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	if (menuIn != menuPrec || subMenu != subMenuPrec)
 	{
 		alreadyRender = 0;
-		//if (subMenu > 0)
-		//playsound
+		if (subMenu > 0)playChunk(1, SoundOver);
 	}
 	if (!alreadyRender)
 	{
