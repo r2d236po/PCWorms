@@ -167,8 +167,11 @@ void endDisplay()
 */
 int displayWorms(Worms* pWorms, int mode)
 {
-	if (display(pWorms->texteLifeSurface, mode) < 0)
-		return -1;
+	if (pWorms->vie > 0)
+	{
+		if (display(pWorms->texteLifeSurface, mode) < 0)
+			return -1;
+	}
 	if (display(pWorms->texteNameSurface, mode) < 0)
 		return -1;
 	if (display(pWorms->wormsObject->objectSurface, mode) < 0)

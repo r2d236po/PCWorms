@@ -93,6 +93,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 		armeIndex = selectWeapon(weaponIndex, dirWeapon);
 		if (armeIndex != NULL)
 		{
+			int w = armeIndex->w / 2;
 			if (dirWeapon != wormsTab[globalVar.indexWormsTab]->dirSurface)
 			{
 				swapWormsSurface(wormsTab[globalVar.indexWormsTab]);
@@ -130,7 +131,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 					angleShot = angle * PI / 180.0;
 					nbShot++;
 				}
-				if (fire && fireWeapon(pMapTerrain, pTextureDisplay, dirWeapon, angleShot, wormsTab, rotoSurface))
+				if (fire && fireWeapon(pMapTerrain, pTextureDisplay, dirWeapon, angleShot, wormsTab, rotoSurface, w))
 				{
 					fire = 0;
 					if (nbShot >= getNbShotWeapon())
@@ -198,7 +199,7 @@ SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
 }
 
 /**
-* \fn int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface)
+* \fn int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface, int wBeforeRotation)
 * \brief Fire a bullet.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
@@ -209,19 +210,21 @@ SDL_Surface* selectWeapon(int weapondIndex, enum DIRECTION dir)
 * \param[in] weaponSurface, surface of the weapons.
 * \returns 1 if contact, 0 else.
 */
-int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface)
+int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTION dir, double angle, Worms** wormsTab, SDL_Surface* weaponSurface, int wBeforeRotation)
 {
 	SDL_Surface* bulletSprite = NULL;
 	SDL_Surface* tmp = NULL;
 	static SDL_Surface* bulletSurface = NULL;
 	static int fire = 0;
-	int contact = 0;
+	int contact = 0, yCenter = 0;
+	yCenter = weaponSurface->clip_rect.y + weaponSurface->h / 2;
 	if (!fire)
 		bulletSprite = loadImage("../assets/sprites/bullet1.png");
 	if (bulletSprite != NULL)
 	{
 		fire = 1;
 		playChunk(1, FireBullet);
+		int x = 0, h = 0;
 		if (dir == LEFT)
 		{
 			tmp = animationSprite(bulletSprite, NULL, 2, 0);
@@ -230,25 +233,39 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 				bulletSurface = my_rotozoomSurface(tmp, angle * 180.0 / PI, 1.0, 1);
 				my_freeSurface(tmp);
 			}
-			bulletSurface->clip_rect.x = weaponSurface->clip_rect.x - bulletSurface->w;
+			if (MY_ABS(angle * 180.0 / PI) > 5.0)
+				bulletSurface->clip_rect.x = weaponSurface->clip_rect.x + (int)((double)(yCenter - weaponSurface->clip_rect.y) / MY_ABS(tan(angle)));
+			else bulletSurface->clip_rect.x = weaponSurface->clip_rect.x;
+			bulletSurface->clip_rect.x -= bulletSurface->w;
 		}
 		else
 		{
 			tmp = animationSprite(bulletSprite, NULL, 2, 1);
+			x = tmp->clip_rect.x + tmp->w / 2;
+			h = tmp->h;
 			if (tmp != NULL)
 			{
 				bulletSurface = my_rotozoomSurface(tmp, -angle * 180.0 / PI, 1.0, 1);
 				my_freeSurface(tmp);
 			}
-			bulletSurface->clip_rect.x = weaponSurface->clip_rect.x + weaponSurface->w;
+			if (MY_ABS(angle * 180.0 / PI) > 5.0)
+				bulletSurface->clip_rect.x = weaponSurface->clip_rect.x + (int)((double)(yCenter - weaponSurface->clip_rect.y) / MY_ABS(tan(angle)));
+			else bulletSurface->clip_rect.x = weaponSurface->clip_rect.x + weaponSurface->w;
 		}
-		bulletSurface->clip_rect.y = wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y + wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->h / 2 - bulletSurface->h;
+		double hyp = 0.0, dy = 0.0, relH = 0.0;
+		hyp = (double)(x) / cos(angle);
+		dy = sqrt(CARRE(hyp) - CARRE(x));
+		relH = (double)(wBeforeRotation)* MY_ABS(sin(angle));
+		if (angle < 0)
+			bulletSurface->clip_rect.y = yCenter - (int)relH - (h / 2 + (int)(dy));
+		else if (angle > 0)
+			bulletSurface->clip_rect.y = weaponSurface->clip_rect.y + (int)relH;
+		else bulletSurface->clip_rect.y = yCenter - h / 2;
 		my_freeSurface(bulletSprite);
 	}
 
-	if (bulletSurface != NULL && moveBullet(pMapTerrain, bulletSurface, angle, wormsTab, dir))
+	if (bulletSurface != NULL && moveBullet(pMapTerrain, bulletSurface, pTextureDisplay, angle, wormsTab, dir))
 	{
-		eraseRectFromMap(pMapTerrain, pTextureDisplay, &bulletSurface->clip_rect);
 		my_freeSurface(bulletSurface);
 		bulletSurface = NULL;
 		contact = 1;
@@ -259,7 +276,7 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 }
 
 /**
-* \fn int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
+* \fn int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, SDL_Texture* pTextureDisplay, double angle, Worms** wormsTab, enum DIRECTION dir)
 * \brief Move the bullet.
 *
 * \param[in] pMapTerrain, pointer to a terrain structure.
@@ -269,7 +286,7 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 * \param[in] dir, direction of the shot.
 * \returns void
 */
-int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, Worms** wormsTab, enum DIRECTION dir)
+int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, SDL_Texture* pTextureDisplay, double angle, Worms** wormsTab, enum DIRECTION dir)
 {
 	int speedX = (int)(WEAPONSPEEDX * cos(angle)), speedY = (int)(WEAPONSPEEDY * sin(angle));
 	int index = 0;
@@ -278,19 +295,21 @@ int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, double angle, W
 	bulletSurface->clip_rect.x += speedX;
 	bulletSurface->clip_rect.y += speedY;
 	display(bulletSurface, 1);
-	wormsOverlayWithSurface(wormsTab, bulletSurface);
 	if (impactBulletWorms(wormsTab, &bulletSurface->clip_rect, &index))
 	{
-		if (index >= 0 && wormsTab[index]->vie > 0)
+		if (index != globalVar.indexWormsTab && wormsTab[index]->vie > 0)
 		{
 			if (dir == LEFT)
 				wormsTab[index]->wormsObject->objectSurface->clip_rect.x -= 2;
 			else wormsTab[index]->wormsObject->objectSurface->clip_rect.x += 2;
 		}
+		eraseRectFromMap(pMapTerrain, pTextureDisplay, &bulletSurface->clip_rect);
+		displayWorms(wormsTab[index], 1);
 		return 1;
 	}
 	if (collisionRectWithMap(pMapTerrain->collisionMapSurface, &bulletSurface->clip_rect, NULL, NULL))
 	{
+		eraseRectFromMap(pMapTerrain, pTextureDisplay, &bulletSurface->clip_rect);
 		return 1;
 	}
 	return 0;
@@ -325,7 +344,6 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 				globalInput->raffraichissement = 1;
 				*index = i;
 			}
-			else *index = -1;
 			return 1;
 		}
 	}
@@ -359,7 +377,7 @@ int getNbShotWeapon()
 	{
 		return 2;
 	}
-	return 4;
+	return 1000;
 }
 
 /**

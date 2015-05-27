@@ -1,5 +1,5 @@
 Fichier cartes:
-0008
+0007
 ../assets/Cartes/map.png
 ../assets/Cartes/mapHD2.png
 ../assets/Cartes/maptest.png
