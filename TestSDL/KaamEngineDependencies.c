@@ -774,7 +774,8 @@ int collisionHighSpeedWithMap(KaamObject* pObject, SDL_Surface* pSurfaceMap)
 	return collision;
 }
 
-
+
+
 
 
 

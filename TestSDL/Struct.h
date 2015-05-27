@@ -45,6 +45,7 @@ typedef struct Worms{			//Structure worms
 	struct Equipe* team;
 	char random;
 	char randomCounter;
+	int shotCounter;
 	//son?
 } Worms;
 

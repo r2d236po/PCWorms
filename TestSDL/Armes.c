@@ -71,18 +71,19 @@ void explosion(int x, int y, int rayon, SDL_Surface *pSurfaceMap, SDL_Texture *p
 void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms** wormsTab, int weaponIndex, SDL_Rect* pCamera)
 {
 	static char armePrec = 0;
-	static int xCenter = 0, yCenter = 0, fire = 0, nbShot = 0, lastIndex = 0;
+	static int xCenter = 0, yCenter = 0, fire = 0, lastIndex = 0;
 	SDL_Surface* rotoSurface = NULL;
 	SDL_Surface* armeIndex = NULL;
 	static SDL_Rect rectWeapon;
 	enum DIRECTION dirWeapon = wormsTab[globalVar.indexWormsTab]->dirSurface;
 	double angle = 0.0;
 	static double angleShot = 0.0;
-
+	if (lastIndex != globalVar.indexWormsTab && !globalInput->arme && !armePrec)
+		wormsTab[globalVar.indexWormsTab]->shotCounter = 0;
 	if (globalInput->arme  && !armePrec) // On affiche l'arme la première fois
 	{
-		if (lastIndex != globalVar.indexWormsTab || nbShot < getNbShotWeapon())
-			initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon, &nbShot);
+		if (lastIndex != globalVar.indexWormsTab || wormsTab[globalVar.indexWormsTab]->shotCounter < getNbShotWeapon())
+			initWeaponMode(wormsTab[globalVar.indexWormsTab], &xCenter, &yCenter, &rectWeapon, &wormsTab[globalVar.indexWormsTab]->shotCounter);
 		else globalInput->arme = 0;
 	}
 
@@ -129,12 +130,12 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 					fire = 1;
 					globalInput->lclick = 0;
 					angleShot = angle * PI / 180.0;
-					nbShot++;
+					wormsTab[globalVar.indexWormsTab]->shotCounter++;
 				}
 				if (fire && fireWeapon(pMapTerrain, pTextureDisplay, dirWeapon, angleShot, wormsTab, rotoSurface, w))
 				{
 					fire = 0;
-					if (nbShot >= getNbShotWeapon())
+					if (wormsTab[globalVar.indexWormsTab]->shotCounter >= getNbShotWeapon())
 						globalInput->arme = 0;
 				}
 			}
@@ -144,7 +145,7 @@ void weaponManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms*
 	if (!globalInput->arme && armePrec) // On efface l'arme
 	{
 		exitWeaponMode(pMapTerrain, pTextureDisplay, wormsTab, &rectWeapon);
-		if (nbShot >= getNbShotWeapon())
+		if (wormsTab[globalVar.indexWormsTab]->shotCounter >= getNbShotWeapon())
 		{
 			Uint32 mem = TEMPSPARTOUR * 1000 + (int)(globalVar.timeLastWormsChange + globalVar.timePause - SDL_GetTicks());
 			if (mem > TEMPSAPRESDERNIERTIR * 1000)
@@ -300,8 +301,21 @@ int moveBullet(Terrain *pMapTerrain, SDL_Surface* bulletSurface, SDL_Texture* pT
 		if (index != globalVar.indexWormsTab && wormsTab[index]->vie > 0)
 		{
 			if (dir == LEFT)
-				wormsTab[index]->wormsObject->objectSurface->clip_rect.x -= 2;
-			else wormsTab[index]->wormsObject->objectSurface->clip_rect.x += 2;
+			{
+				if (wormsTab[index]->wormsObject->leftOk)
+				{
+					initObjectPosition(wormsTab[index]->wormsObject, wormsTab[index]->wormsObject->objectSurface->clip_rect.x - 1, wormsTab[index]->wormsObject->objectSurface->clip_rect.y);
+					setSideMotionPossibility(wormsTab[index]->wormsObject, pMapTerrain->collisionMapSurface);
+				}
+			}
+			else
+			{
+				if (wormsTab[index]->wormsObject->rightOk)
+				{
+					initObjectPosition(wormsTab[index]->wormsObject, wormsTab[index]->wormsObject->objectSurface->clip_rect.x + 1, wormsTab[index]->wormsObject->objectSurface->clip_rect.y);
+					setSideMotionPossibility(wormsTab[index]->wormsObject, pMapTerrain->collisionMapSurface);
+				}
+			}
 		}
 		eraseRectFromMap(pMapTerrain, pTextureDisplay, &bulletSurface->clip_rect);
 		displayWorms(wormsTab[index], 1);
@@ -336,11 +350,10 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 			if (wormsTab[i]->vie > 0)
 			{
 				wormsTab[i]->vie -= getDammage();
+				updateTextSurfaceWorms(wormsTab[i]);
 				if (wormsTab[i]->vie <= 0)
 				{
 					wormsDead(wormsTab[i], 0);
-					updateTextSurfaceWorms(wormsTab[i]);
-					displayWorms(wormsTab[i], 1);
 				}
 				globalInput->raffraichissement = 1;
 				*index = i;
@@ -478,7 +491,7 @@ void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms** 
 
 	/*Set standard cursor*/
 	SDL_SetCursor(globalInput->cursor.cursor1);
-	globalInput->cursor.currentCursor = 0;	
+	globalInput->cursor.currentCursor = 0;
 }
 
 /**

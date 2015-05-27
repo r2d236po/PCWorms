@@ -1,7 +1,7 @@
 Resultat de la partie : 
 
-	Temps de jeu : 16 secondes.
-	Map jouée : ../assets/Cartes/maptest4.png.
+	Temps de jeu : 3 secondes.
+	Map jouée : ../assets/Cartes/map.png.
 	Nombre d'equipes : 1.
 	Nombre de worms par equipe : 1 0 0 0.
 

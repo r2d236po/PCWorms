@@ -103,6 +103,7 @@ Worms* createWorms(Equipe* team, char* name, SDL_Color* couleur)
 	worms->dirSurface = RIGHT;
 	worms->arme = NULL;
 	worms->team = team;
+	worms->shotCounter = 0;
 
 
 	//Enregistrement log
