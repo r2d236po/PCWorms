@@ -473,6 +473,7 @@ int globalMotionPossibility(KaamObject* pObject, SDL_Surface* pSurfaceMap, enum 
 */
 void KaamCollisionManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject, enum DIRECTION directionBeforeCollision, int allowRebound)
 {
+	int dxStart = dxBoxProcess(pObject);
 	while (!globalMotionPossibility(pObject, pSurfaceMap, pObject->motionDirection))
 	{
 		if (!pObject->startMotion)
@@ -485,7 +486,7 @@ void KaamCollisionManagement(SDL_Surface* pSurfaceMap, KaamObject* pObject, enum
 			pObject->objectSurface->clip_rect.y -= 1;
 		if (dyBoxProcess(pObject) < 0)
 			pObject->objectSurface->clip_rect.y += 1;
-		if (dxBoxProcess(pObject) == 0 && MY_ABS(dyBoxProcess(pObject)) > 2)
+		if (dxStart != 0 && dxBoxProcess(pObject) == 0 && MY_ABS(dyBoxProcess(pObject)) > 2)
 			pObject->objectSurface->clip_rect.y = pObject->objectBox.y;
 		if (dxBoxProcess(pObject) == 0 && dyBoxProcess(pObject) == 0)
 		{
