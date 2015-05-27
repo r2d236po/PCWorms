@@ -159,7 +159,7 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	{
 		menuIn = HUDMAIN;
 		alreadyRender = 0;
-		playChunk(1, OpenMenu);
+		playChunk(globalInput->soundAllowed, OpenMenu);
 	}
 
 	switch (menuIn)
@@ -180,7 +180,7 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	if (menuIn != menuPrec || subMenu != subMenuPrec)
 	{
 		alreadyRender = 0;
-		if (subMenu > 0)playChunk(1, SoundOver);
+		if (subMenu > 0)playChunk(globalInput->soundAllowed, SoundOver);
 	}
 	if (!alreadyRender)
 	{
