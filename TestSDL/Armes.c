@@ -339,6 +339,7 @@ int impactBulletWorms(Worms** wormsTab, SDL_Rect* pRect, int* index)
 				if (wormsTab[i]->vie <= 0)
 				{
 					wormsDead(wormsTab[i], 0);
+					updateTextSurfaceWorms(wormsTab[i]);
 					displayWorms(wormsTab[i], 1);
 				}
 				globalInput->raffraichissement = 1;

@@ -196,10 +196,9 @@ void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite)
 */
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format)
 {
-	Uint8 a, b, g, r;
-	if (format == NULL || format->BitsPerPixel != 32)
-		return 0;
-	SDL_GetRGBA(pixelToRead, format, &r, &g, &b, &a);
+	Uint8 a = 0;
+	if (format->Amask == AMASK)
+		a = (pixelToRead & AMASK) >> 24;
 	return a < 150;
 }
 
@@ -300,7 +299,32 @@ void cleanSurface(SDL_Surface* pSurface)
 }
 
 
+int lineTransparent(Uint32* pixelBuffer, SDL_PixelFormat* buffFormat, int sizeBuff, int *offsetBuff)
+{
+	int index;
+	for (index = 0; index < sizeBuff; index++)
+	{
+		if (!pixelTransparent(pixelBuffer[index], buffFormat))
+		{
+			*offsetBuff = index;
+			return 0;
+		}
+	}
+	return 1;
+}
 
+
+void writeBufferPixelNonTransparent(Uint32* pixelBufferSrc, Uint32* pixelBufferDest, SDL_PixelFormat* buffFormat, int sizeBuff)
+{
+	int index;
+	for (index = 0; index < sizeBuff; index++)
+	{
+		if (!pixelTransparent(pixelBufferSrc[index], buffFormat))
+		{
+			pixelBufferDest[index] = pixelBufferSrc[index];
+		}
+	}
+}
 
 
 
@@ -329,16 +353,16 @@ int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMa
 	if (pSurfaceSecond->h > pSurfaceMain->h || pSurfaceSecond->w > pSurfaceMain->w)
 		return -1;
 	if (pRect->x != pSurfaceSecond->clip_rect.x || pRect->y != pSurfaceSecond->clip_rect.y)
-		updateGlobalTexture(pTexture, pSurfaceMain, pRect);
+	{
+		if (updateGlobalTexture(pTexture, pSurfaceMain, pRect) < 0)
+			return -1;
+	}
 	if (pSurfaceMain != pSurfaceSecond && pSurfaceMain != NULL && pSurfaceSecond != NULL && pTexture != NULL)
 	{
 		Uint32* pixelWrite = NULL;
-		Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
-		int x, y, offsety;
-		Uint32* pixelSurfaceMain = (Uint32*)pSurfaceMain->pixels;
-		Uint32* pixelSurfaceSecond = (Uint32*)pSurfaceSecond->pixels;
+		Uint32 nombrePixelToUpdate = pRect->h * pRect->w, index = 0;
+		int y = 0, indexDest = 0;
 		reajustSurfaceWithMapLimits(pSurfaceMain, pSurfaceSecond);
-		nombrePixelToUpdate = pRect->h * pRect->w;
 		pixelWrite = (Uint32*)my_malloc(nombrePixelToUpdate * sizeof(Uint32));
 		if (pixelWrite == NULL)
 		{
@@ -346,30 +370,14 @@ int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMa
 			decreaseMalloc();
 			return -1;
 		}
-		x = pSurfaceSecond->clip_rect.x;
-		y = pSurfaceSecond->clip_rect.y;
-		offsety = y * pSurfaceMain->w;
-		for (index = 0; index < nombrePixelToUpdate; index++)
-		{
-			if (index >(Uint32)(pSurfaceSecond->w * pSurfaceSecond->h))
-				break;
-			if (index > (Uint32)(pSurfaceMain->w * pSurfaceMain->h))
-				break;
-			if (pixelTransparent(pixelSurfaceSecond[index], pSurfaceSecond->format))
-			{
-				indexSurfaceMain = (index%pSurfaceSecond->w + x) + (index / pSurfaceSecond->w)*pSurfaceMain->w + offsety;
-				pixelWrite[index] = pixelSurfaceMain[indexSurfaceMain];
-			}
-			else pixelWrite[index] = pixelSurfaceSecond[index];
-		}
-		pRect->x = x;
-		pRect->y = y;
+		pRect->x = pSurfaceSecond->clip_rect.x;
+		pRect->y = y = pSurfaceSecond->clip_rect.y;
 		for (index = 0; index < nombrePixelToUpdate; index += pSurfaceSecond->w)
 		{
-			int indexDest = x + y*pSurfaceMain->w;
-			if (index >(Uint32)(pSurfaceMain->w * pSurfaceMain->h))
-				break;
-			memcpy((pixelSurfaceMain + indexDest), (pixelWrite + index), pRect->w*sizeof(Uint32));
+			indexDest = pRect->x + y*pSurfaceMain->w;
+			memcpy((pixelWrite + index), ((Uint32*)pSurfaceMain->pixels + indexDest), pRect->w*sizeof(Uint32));
+			writeBufferPixelNonTransparent(((Uint32*)pSurfaceSecond->pixels + index), (pixelWrite + index), pSurfaceSecond->format, pSurfaceSecond->w);
+			memcpy(((Uint32*)pSurfaceMain->pixels + indexDest), (pixelWrite + index), pRect->w*sizeof(Uint32));
 			y++;
 		}
 		SDL_UpdateTexture(pTexture, pRect, pixelWrite, 4 * pRect->w);
@@ -390,10 +398,7 @@ int updateGlobalTextureAndSurface(SDL_Texture* pTexture, SDL_Surface* pSurfaceMa
 */
 int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Rect* pRect)
 {
-	Uint32* pixelWrite = NULL;
-	Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
 	int w = 0, h = 0;
-	int x, y, offsety;
 	if (pSurfaceMain == NULL || pTexture == NULL)
 		return -1;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
@@ -401,9 +406,11 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 		return -1;
 	if (pRect != NULL)
 	{
+		Uint32* pixelWrite = NULL;
+		Uint32 nombrePixelToUpdate = pRect->h * pRect->w, indexSurfaceMain = 0, index = 0;
+		int y = 0;
 		if (!checkRectSurfaceDimension(pSurfaceMain, pRect))
 			return -1;
-		nombrePixelToUpdate = pRect->h * pRect->w;
 		if (nombrePixelToUpdate > ((Uint32)(pSurfaceMain->w * pSurfaceMain->h)))
 			return -1;
 		pixelWrite = (Uint32*)my_malloc(nombrePixelToUpdate * sizeof(Uint32));
@@ -413,12 +420,10 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 			decreaseMalloc();
 			return -1;
 		}
-		x = pRect->x;
 		y = pRect->y;
-		offsety = y *pSurfaceMain->w;
 		for (index = 0; index < nombrePixelToUpdate; index += pRect->w)
 		{
-			indexSurfaceMain = x + y*pSurfaceMain->w;
+			indexSurfaceMain = pRect->x + y*pSurfaceMain->w;
 			memcpy((pixelWrite + index), ((Uint32*)(pSurfaceMain->pixels) + indexSurfaceMain), pRect->w * sizeof(Uint32));
 			y++;
 		}
@@ -436,7 +441,8 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 *
 * \param[in] pSurfaceDest, pointer to the destination surface.
 * \param[in] pSurfaceSrc, pointer to the source surface.
-* \param[in] pRect, area to update.
+* \param[in] pRect, area to update (NULL for entire surface).
+* \param[in] mode, mode of the update( 1 = copy all pixel of the area of the src to dest, 0 = copy only transparent pixel).
 * \returns void
 * \remarks Note that this function is supposed to work as a calc, which means the two surfaces should be based on the same image.
 *          It will only take the transparent pixel of the source surface to copy them in the destination surface.
@@ -459,10 +465,11 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 		if (pSurfaceDest->w != pSurfaceSrc->w || pSurfaceDest->h != pSurfaceSrc->h)
 			return;
 	}
-	if (mode == 0)
+	switch (mode)
 	{
+	case 0: //copy only transparent pixels
 		if (pRect == NULL)
-			return;
+			break;
 		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
 		{
 			for (x = pRect->x; x < (pRect->x + pRect->w); x++)
@@ -472,19 +479,18 @@ void updateSurfaceFromSurface(SDL_Surface* pSurfaceDest, SDL_Surface* pSurfaceSr
 					WritePixel(pSurfaceDest, x, y, pixel);
 			}
 		}
-	}
-	else
-	{
-		if (pRect == NULL)
+		break;
+	case 1: //copy all pixels
+		if (pRect != NULL)
 		{
-			memcpy((Uint32*)(pSurfaceDest->pixels), (Uint32*)(pSurfaceSrc->pixels), pSurfaceSrc->h*pSurfaceSrc->w*sizeof(Uint32));
-			return;
+			for (y = pRect->y; y < (pRect->y + pRect->h); y++)
+			{
+				index = pRect->x + y * pSurfaceDest->w;
+				memcpy(((Uint32*)(pSurfaceDest->pixels) + index), ((Uint32*)(pSurfaceSrc->pixels) + index), pRect->w*sizeof(Uint32));
+			}
 		}
-		for (y = pRect->y; y < (pRect->y + pRect->h); y++)
-		{
-			index = pRect->x + y * pSurfaceDest->w;
-			memcpy(((Uint32*)(pSurfaceDest->pixels) + index), ((Uint32*)(pSurfaceSrc->pixels) + index), pRect->w*sizeof(Uint32));
-		}
+		else memcpy((Uint32*)(pSurfaceDest->pixels), (Uint32*)(pSurfaceSrc->pixels), pSurfaceSrc->h*pSurfaceSrc->w*sizeof(Uint32));
+		break;
 	}
 
 }
@@ -838,7 +844,25 @@ void centerRectToPoint(SDL_Rect* pRect, int x, int y)
 }
 
 
-
+/**
+* \fn int findValueTab(int *tab, int value, int size)
+* \brief Search for a value in an array.
+*
+* \param[in] tab, the array.
+* \param[in] value, value to test.
+* \param[in] size, size of the array.
+* \return 1 = value found, 0 = value not found
+*/
+int findValueTab(int *tab, int value, int size)
+{
+	int i = 0;
+	for (i = 0; i < size; i++)
+	{
+		if (tab[i] == value)
+			return 1;
+	}
+	return 0;
+}
 
 
 

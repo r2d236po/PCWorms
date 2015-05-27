@@ -518,7 +518,8 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 			{
 				updateTextSurfaceWormsTab(wormsTab);	//MAJ de la position du texte + Surface Vie	
 				displayWorms(wormsTab[indexWorms], 1);
-				wormsOverlay(wormsTab);
+				if (globalVar.nbWormsTotal > 1)
+					wormsOverlay(wormsTab);
 				globalInput->raffraichissement = 1;
 			}
 			/*if (wormsTab[indexWorms]->vie > 0 && (!wormsTab[indexWorms]->wormsObject->startMotion || !wormsTab[indexWorms]->wormsObject->falling))
@@ -541,7 +542,10 @@ void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, S
 */
 void wormsOverlay(Worms** wormsTab)
 {
-	int i = 0, j = 0;
+	int i = 0, j = 0, nbOverlay = 0, dispTop = 0;
+	int indexOverlay[MAXWORMS];
+	for (i = 0; i < MAXWORMS; i++)
+		indexOverlay[i] = -1;
 	for (i = 0; i < globalVar.nbWormsTotal; i++)
 	{
 		for (j = i + 1; j < globalVar.nbWormsTotal; j++)
@@ -557,11 +561,30 @@ void wormsOverlay(Worms** wormsTab)
 			SDL_Rect boxWorms2 = createGlobalRect(3, rectTab);
 			if (collisionRectWithRect(&boxWorms1, &boxWorms2))
 			{
-				displayWorms(wormsTab[i], 0);
-				displayWorms(wormsTab[j], 0);
+				if (!findValueTab(indexOverlay, i, MAXWORMS))
+				{
+					indexOverlay[nbOverlay] = i;
+					nbOverlay += 1;
+				}
+				if (!findValueTab(indexOverlay, j, MAXWORMS))
+				{
+					indexOverlay[nbOverlay] = j;
+					nbOverlay += 1;
+				}
 			}
 		}
 	}
+	for (i = 0; i < nbOverlay; i++)
+	{
+		if (indexOverlay[i] == globalVar.indexWormsTab)
+		{
+			dispTop = 1;
+			continue;
+		}
+		displayWorms(wormsTab[indexOverlay[i]], 0);
+	}
+	if (dispTop)
+		displayWorms(wormsTab[globalVar.indexWormsTab], 0);
 }
 
 /**

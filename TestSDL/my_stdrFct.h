@@ -14,6 +14,8 @@ SDL_Texture* createGlobalTexture(SDL_Surface* pSurface);
 Uint32 ReadPixel(SDL_Surface* pSurface, int x, int y);
 void WritePixel(SDL_Surface* pSurface, int x, int y, Uint32 pixelToWrite);
 int pixelTransparent(Uint32 pixelToRead, SDL_PixelFormat* format);
+int lineTransparent(Uint32* pixelBuffer, SDL_PixelFormat* buffFormat, int sizeBuff, int *offsetBuff);
+void writeBufferPixelNonTransparent(Uint32* pixelBufferSrc, Uint32* pixelBufferDest, SDL_PixelFormat* buffFormat, int sizeBuff);
 int copySurfacePixels(SDL_Surface* pSurfaceSrc, SDL_Rect* pRectSrc, SDL_Surface* pSurfaceDest, SDL_Rect* pRectDest);
 void eraseRectFromMap(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, SDL_Rect *pRect);
 void cleanSurface(SDL_Surface* pSurface);
@@ -39,6 +41,7 @@ int reajustRect(SDL_Rect* pRect, SDL_Surface* pSurfaceMap);	//réajuste un rectan
 int checkRectSurfaceDimension(SDL_Surface* pSurface, SDL_Rect* pRect);
 int rand_a_b(int a, int b);
 void centerRectToPoint(SDL_Rect* pRect, int x, int y);
+int findValueTab(int *tab, int value, int size);
 
 /*Manipulation de formes*/
 int detectShape(SDL_Surface* pSurface, SDL_Point* shapeTab);
