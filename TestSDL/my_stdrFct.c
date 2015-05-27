@@ -1,4 +1,3 @@
-#include "Libraries.h"
 #include "my_stdrFct.h"
 #include "memory.h"
 
@@ -395,7 +394,7 @@ int updateGlobalTexture(SDL_Texture* pTexture, SDL_Surface* pSurfaceMain, SDL_Re
 	Uint32 nombrePixelToUpdate, indexSurfaceMain = 0, index;
 	int w = 0, h = 0;
 	int x, y, offsety;
-	if (pSurfaceMain == NULL && pTexture == NULL)
+	if (pSurfaceMain == NULL || pTexture == NULL)
 		return -1;
 	SDL_QueryTexture(pTexture, NULL, NULL, &w, &h);
 	if (pSurfaceMain->w > w || pSurfaceMain->h > h)

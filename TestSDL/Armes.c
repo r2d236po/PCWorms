@@ -377,7 +377,7 @@ int getNbShotWeapon()
 	{
 		return 2;
 	}
-	return 1000;
+	return 4;
 }
 
 /**
@@ -467,16 +467,17 @@ void exitWeaponMode(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, Worms** 
 {
 	/*Erase previous position + display worms and weapon*/
 	if (pRect != NULL)
+	{
 		eraseRectFromMap(pMapTerrain, pTextureDisplay, pRect);
+		/*Reset rect*/
+		*pRect = initRect(0, 0, 0, 0);
+	}
 	displayWormsTab(wormsTab, 0);
 	globalInput->raffraichissement = 1;
 
 	/*Set standard cursor*/
 	SDL_SetCursor(globalInput->cursor.cursor1);
-	globalInput->cursor.currentCursor = 0;
-
-	/*Reset rect*/
-	*pRect = initRect(0, 0, 0, 0);
+	globalInput->cursor.currentCursor = 0;	
 }
 
 /**
@@ -663,18 +664,15 @@ int animationGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, int *in
 			wormsOverlayWithSurface(wormsTab, exploSurface);
 			*indexAnim += 1;
 			globalInput->raffraichissement = 1;
+			if (*indexAnim == NBFRAMEGRENADE)
+			{
+				*indexAnim = 0;
+				endAnim = 1;
+				eraseRectFromMap(pMapTerrain, pTextureDisplay, &exploSurface->clip_rect);
+			}
+			my_freeSurface(exploSurface);
+			exploSurface = NULL;
 		}
-	}
-	if (*indexAnim == NBFRAMEGRENADE)
-	{
-		*indexAnim = 0;
-		endAnim = 1;
-		eraseRectFromMap(pMapTerrain, pTextureDisplay, &exploSurface->clip_rect);
-	}
-	if (exploSurface != NULL)
-	{
-		my_freeSurface(exploSurface);
-		exploSurface = NULL;
 	}
 	return endAnim;
 }

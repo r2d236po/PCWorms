@@ -48,7 +48,8 @@ Jeu * nouveauJeu(char * map)
 			fprintf(logFile, "nouveauJeu : FAILURE, nouvelleEquipe.\n\n");
 		}
 	}
-	fprintf(logFile, "nouveauJeu : SUCCESS.\n\n");
+	if (logFile != NULL)
+		fprintf(logFile, "nouveauJeu : SUCCESS.\n\n");
 	return jeu;
 }
 
@@ -187,7 +188,7 @@ int mainInit()
 {
 	int i;
 
-	if(setFonts())
+	if (setFonts())
 		return -1;
 
 	timerTeamTexture = NULL;
@@ -208,7 +209,7 @@ int mainInit()
 		globalVar.wormsPlaying[i] = 0;
 	}
 
-	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d %d %d %d.\n\n", globalVar.nbEquipe, 
+	fprintf(logFile, "mainInit : DONE.\n\tnombre d'equipes : %d.\n\tnombre de worms par equipe : %d %d %d %d.\n\n", globalVar.nbEquipe,
 		globalVar.nbWormsEquipe[0], globalVar.nbWormsEquipe[1], globalVar.nbWormsEquipe[2], globalVar.nbWormsEquipe[3]);
 
 	return 0;

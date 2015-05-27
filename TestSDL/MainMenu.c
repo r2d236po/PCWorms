@@ -1411,7 +1411,9 @@ char** initMAPstrings()
 	{
 		if (lireEntete(file))
 		{
-			fscanf(file, "%d", &NBMAP);
+			int nbInt = fscanf(file, "%d", &NBMAP);
+			if (nbInt == EOF || nbInt > 1)
+				return NULL;
 			fseek(file, 2, SEEK_CUR);
 			mapTab = (char**)my_malloc(NBMAP*sizeof(char*));
 			if (mapTab != NULL)

@@ -10,11 +10,12 @@ int initSDLMixer()
 {
 	indexTabChunk = 0;
 	indexTabMusic = 0;
-	Mix_AllocateChannels(NBCHUNK/3);
+	Mix_AllocateChannels(NBCHUNK / 3);
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1){
-		fprintf(logFile,"%s", Mix_GetError());
+		fprintf(logFile, "%s", Mix_GetError());
 		return 0;
-	}	else return 1;
+	}
+	else return 1;
 
 
 }
@@ -25,7 +26,7 @@ int initSDLMixer()
 *
 * \param[in] file, nom du fichier
 * \param[in] type, type de son, 0 = chunk, 1 = musique
-* \return -1 = FAIL, index dans la table des chunk ou des musique 
+* \return -1 = FAIL, index dans la table des chunk ou des musique
 */
 int loadSounds(char* file, int type)
 {
@@ -34,7 +35,7 @@ int loadSounds(char* file, int type)
 	{
 	case 0:
 		resultSearch = findChunkInTab(file);
-		if ( resultSearch == -1)
+		if (resultSearch == -1)
 		{
 			if (chunkTab[indexTabChunk].ptrChunk != NULL) indexTabChunk++;
 			chunkTab[indexTabChunk].adresse = file;
@@ -57,7 +58,8 @@ int loadSounds(char* file, int type)
 				}
 			}
 		}
-		fprintf(logFile, "loadSounds : SUCCESS.\n\tname of the sound : %s.\n\n", file);
+		if (logFile != NULL)
+			fprintf(logFile, "loadSounds : SUCCESS.\n\tname of the sound : %s.\n\n", file);
 		return indexTabChunk;
 		break;
 	case 1:
@@ -121,12 +123,12 @@ void cleanSounds()
 
 /**
 * \fn int playMusique(int validation,char * file)
-* \brief lit la musique du menu 
+* \brief lit la musique du menu
 * \param[in] validation, 1 pour lancer 0 pour arreter
 * \param[in] file, chemin du fichier à jouer
 * \return -1 = FAIL, 1 = success
 */
-int playMusique(int validation,char * file){
+int playMusique(int validation, char * file){
 	if (validation){
 		int index = findMusicInTab(file);
 		if (index == -1){
@@ -164,8 +166,8 @@ int playMusique(int validation,char * file){
 /**
 * \fn int findChunkInTab(char * file)
 * \brief retourne l'index du chunk dans la table des chunks
-* \param[in] file, pointeur sur le chemin du fichier 
-* \return -1 = FAIL, i = l'index 
+* \param[in] file, pointeur sur le chemin du fichier
+* \return -1 = FAIL, i = l'index
 */
 int findChunkInTab(char * file){
 	int i = 0;
@@ -214,7 +216,7 @@ int playChunk(int validation, char * file){
 			int index = loadSounds(file, 0);
 			if (index != -1)
 			{
-				if (Mix_PlayChannel(-1, chunkTab[indexTabChunk].ptrChunk,0) < 0)
+				if (Mix_PlayChannel(-1, chunkTab[indexTabChunk].ptrChunk, 0) < 0)
 				{
 					fprintf(logFile, "Bug playchunk: %s\n", Mix_GetError());
 					return -1;

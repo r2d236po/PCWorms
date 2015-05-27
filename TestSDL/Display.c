@@ -59,36 +59,39 @@ int display(SDL_Surface* pSurface, int mode)
 		yTab[0] = 0;
 		surfaceTab[0] = NULL;
 	}
-	for (index = 0; index < nbSurface; index++)
+	if (pSurface != NULL)
 	{
-		if (surfaceTab[index] == pSurface)
+		for (index = 0; index < nbSurface; index++)
 		{
-			surfaceFound = 1;
+			if (surfaceTab[index] == pSurface)
+			{
+				surfaceFound = 1;
+				indexFound = index;
+			}
+			if (surfaceTab[index]->flags != 0 || surfaceTab[index]->format == NULL)
+			{
+				reindexTab(NBSURFACEMAX, index, 0, surfaceTab);
+				reindexTab(NBSURFACEMAX, index, 1, xTab);
+				reindexTab(NBSURFACEMAX, index, 1, yTab);
+				nbSurface--;
+				index = 0;
+			}
+		}
+		if (!surfaceFound)
+		{
+			nbSurface++;
+			surfaceTab[index] = pSurface;
+			xTab[index] = pSurface->clip_rect.x;
+			yTab[index] = pSurface->clip_rect.y;
 			indexFound = index;
 		}
-		if (surfaceTab[index]->flags != 0 || surfaceTab[index]->format == NULL)
-		{
-			reindexTab(NBSURFACEMAX, index, 0, surfaceTab);
-			reindexTab(NBSURFACEMAX, index, 1, xTab);
-			reindexTab(NBSURFACEMAX, index, 1, yTab);
-			nbSurface--;
-			index = 0;
-		}
+		SDL_Rect rect = initRect(xTab[indexFound], yTab[indexFound], pSurface->w, pSurface->h);			
+		if (mode == 1)
+			copySurfacePixels(pMainTerrain->collisionMapSurface, &rect, pMainTerrain->globalMapSurface, &rect);
+		updateGlobalTextureAndSurface(pGlobalTexture, pMainTerrain->globalMapSurface, pSurface, &rect);
+		xTab[indexFound] = pSurface->clip_rect.x;
+		yTab[indexFound] = pSurface->clip_rect.y;
 	}
-	if (!surfaceFound)
-	{
-		nbSurface++;
-		surfaceTab[index] = pSurface;
-		xTab[index] = pSurface->clip_rect.x;
-		yTab[index] = pSurface->clip_rect.y;
-		indexFound = index;
-	}
-	SDL_Rect rect = initRect(xTab[indexFound], yTab[indexFound], pSurface->w, pSurface->h);
-	if (mode == 1)
-		copySurfacePixels(pMainTerrain->collisionMapSurface, &rect, pMainTerrain->globalMapSurface, &rect);
-	updateGlobalTextureAndSurface(pGlobalTexture, pMainTerrain->globalMapSurface, pSurface, &rect);
-	xTab[indexFound] = pSurface->clip_rect.x;
-	yTab[indexFound] = pSurface->clip_rect.y;
 	return 0;
 }
 
