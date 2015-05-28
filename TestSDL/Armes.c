@@ -224,7 +224,7 @@ int fireWeapon(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, enum DIRECTIO
 	if (bulletSprite != NULL)
 	{
 		fire = 1;
-		playChunk(1, FireBullet);
+		playChunk(globalInput->soundAllowed, FireBullet);
 		int x = 0, h = 0;
 		if (dir == LEFT)
 		{
@@ -540,7 +540,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 						wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.x - grenadeObject->objectSurface->w,
 						wormsTab[globalVar.indexWormsTab]->wormsObject->objectSurface->clip_rect.y);
 				}
-				playChunk(1, LancerGrenade);
+				playChunk(globalInput->soundAllowed, LancerGrenade);
 				my_freeSurface(surface);
 			}
 			else return;
@@ -568,7 +568,7 @@ void grenadeManagement(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, Worms
 		if (grenadeObject != NULL)
 			KaamDestroyObject(&grenadeObject);
 		animGrenade = 1;
-		playChunk(1, ExploMed);
+		playChunk(globalInput->soundAllowed, ExploMed);
 	}
 
 	/*Anim explosion*/
