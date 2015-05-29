@@ -1,4 +1,4 @@
-Start of session : Fri May 29 16:58:31 2015
+Start of session : Fri May 29 17:02:20 2015
 
 
 loadImage : SUCCESS.
@@ -82,18 +82,10 @@ loadTexture : SUCCESS.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/Cartes/map.png.
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/mapHD2.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/maptest.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/maptest.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/maptest.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/maptest.png.
+	nom du fichier : ../assets/Cartes/map.png.
 mainInit : DONE.
 	nombre d'equipes : 2.
-	nombre de worms par equipe : 2 1 0 0.
+	nombre de worms par equipe : 1 1 0 0.
 
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
@@ -101,22 +93,6 @@ loadSounds : SUCCESS.
 nouveauJeu : START :
 
 nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -163,7 +139,7 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/Cartes/maptest.png.
+	nom du fichier : ../assets/Cartes/map.png.
 
 
 initialisationTerrain : SUCCESS.
@@ -178,383 +154,1413 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/weapon/FireBullet.wav.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponSelect.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/bullet1.png.
+
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/ffvii.wav.
 
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/MenuArmes.wav.
+
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/MenuOver.wav.
 
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
 loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
 loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
 loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/ingameMenuQuit.png.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
+loadTexture : FAILURE, probleme chargement texture : Couldn't open ../assets/pictures/Interface/endGame.png.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
 cleanSounds : DONE.
 ||| END OF THE GAME |||
 destroyMap : DONE.
-KaamDestroyObject : DONE. 
-
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
@@ -563,62 +1569,8 @@ KaamDestroyObject : DONE.
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
-
-mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 2 1 0 0.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/musicInGame.wav.
-
-cleanSounds : DONE.
-||| END OF THE GAME |||
-cleanSprites : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-mainFenetre : SUCCESS.
-memoryLeakCheck : no memory leak detected.
+memoryLeakCheck : memory leak detected on textures, number of leaks : 647.
 
 
 
-End of Session : Fri May 29 16:58:51 2015
+End of Session : Fri May 29 17:03:17 2015
