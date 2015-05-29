@@ -1,0 +1,1 @@
+Menu principal : largeur = 326, hauteur = 123, position x = 563, position y = 703
