@@ -1403,6 +1403,12 @@ SDL_Rect initButtonBox(int x, int y, int w, int h)
 }
 
 
+/**
+* \fn char** initMAPstrings()
+* \brief Initializes the array of maps names.
+*
+* \returns Array of strings of the maps names, NULL if error.
+*/
 char** initMAPstrings()
 {
 	FILE* file = fopen("../assets/Cartes/Cartes.txt", "r");
@@ -1431,6 +1437,13 @@ char** initMAPstrings()
 	return mapTab;
 }
 
+/**
+* \fn char* readString(FILE *file)
+* \brief Read a string in a file.
+*
+* \param[in] file, pointer to the file.
+* \returns the string read, NULL if error.
+*/
 char* readString(FILE* file)
 {
 	char *str = NULL;
@@ -1452,6 +1465,13 @@ char* readString(FILE* file)
 	return str;
 }
 
+/**
+* \fn int lireEntete(FILE *file)
+* \brief Read the start of the map file to test if its correct.
+*
+* \param[in] file, pointer to the file.
+* \returns 1 = no error, 0 = the map file is not write well.
+*/
 int lireEntete(FILE* file)
 {
 	char fichier[8];
@@ -1469,6 +1489,13 @@ int lireEntete(FILE* file)
 	return 1;
 }
 
+/**
+* \fn int getTaille(FILE *fichier)
+* \brief Calculate the size of a file.
+*
+* \param[in] fichier, pointer to the file.
+* \returns size of the file in bytes.
+*/
 int getTaille(FILE *fichier)
 {
 	int size;
@@ -1479,6 +1506,14 @@ int getTaille(FILE *fichier)
 	return size;
 }
 
+/**
+* \fn void destroyMenuTab(char **tab, int size)
+* \brief Destroys the array of maps names.
+*
+* \param[in] tab, x position of the original box.
+* \param[in] size, y position of the original box.
+* \returns void.
+*/
 void destroyMenuTab(char **tab, int size)
 {
 	int i;
