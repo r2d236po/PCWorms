@@ -89,20 +89,27 @@ int updateTextSurfaceWorms(Worms* pWorms)
 {
 	char str[20];
 	SDL_Surface *txtLifeSurface = NULL;
+
 	if (pWorms->vie > 0)
 		sprintf(str, " %d ", pWorms->vie);
 	else sprintf(str, " ");
+
 	txtLifeSurface = my_RenderText_Blended(globalVar.FontName[0], str, *(pWorms->color));
+
 	if (txtLifeSurface == NULL)
 		return -1;
+
 	cleanSurface(pWorms->texteLifeSurface);
 	if (!copySurfacePixels(txtLifeSurface, NULL, pWorms->texteLifeSurface, NULL))
 	{
 		fprintf(logFile, "updateTextSurfaceWorms : FAILURE, copySurfacePixels.\n\n");
 	}
+
 	my_freeSurface(txtLifeSurface);
 	txtLifeSurface = NULL;
+
 	updateTextSurfacePosition(pWorms);
+
 	return 0;
 }
 
@@ -267,7 +274,7 @@ int HUD_selectWeapon(SDL_Rect rect, SDL_Rect *rectReturn)
 				globalInput->lclick = 0;
 				if (i != 1)
 				{
-					globalInput->weaponIndex = (char)(i- (i>0));
+					globalInput->weaponIndex = (char)(i - (i > 0));
 					globalInput->arme = 1;
 				}
 				else globalInput->grenade = 1;
@@ -511,15 +518,15 @@ enum HUDMENU howHUD(int *subMenu, SDL_Rect mainRect)
 * \param[in] mainRect, the rect of the main menu.
 * \returns The rect with the right dimensions and positions.
 */
-SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, double defW, double defH)
+SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, int defW, int defH)
 {
-	w = (int)((float)(w / defW) * mainRect.w);
-	h = (int)((float)(h / defH) * mainRect.h);
+	w = (int)((w * mainRect.w) / defW);
+	h = (int)((h * mainRect.h) / defH);
 	if (x >= 0)
-		x = (int)((float)(x / defW) * mainRect.w) + mainRect.x;
+		x = (int)(x * mainRect.w) / defW + mainRect.x;
 	else x = mainRect.w / 2 - w / 2 + mainRect.x;
 	if (y >= 0)
-		y = (int)((float)(y / defH) * mainRect.h) + mainRect.y;
+		y = (int)(y * mainRect.h) / defH + mainRect.y;
 	else y = mainRect.h / 2 - h / 2 + mainRect.y;
 	return initRect(x, y, w, h);
 }
@@ -595,11 +602,49 @@ void updateRectTimerPosition()
 */
 void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
-	SDL_Texture* score = loadTexture(INGAMEMENU);
-	SDL_Rect rectScore = initButtonBox(-1, -1, 565, 717);
+	SDL_Texture* textureMenu = NULL;
+	SDL_Rect rectMenu = initButtonBox(-1, -1, DEFAULTENDGAMEW, DEFAULTENDGAMEH);
+	SDL_Rect menuButton = initHUDRect(563, 703, 326, 123, rectMenu, DEFAULTHUDHOWNW, DEFAULTHUDOPTIONH);
+	Point mouse;
+	static int first = 1, firstOverButton = 1;
+	int subMenu = 0;
 
-	renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, score, NULL, &rectScore);
 
-	my_freeTexture(score);
+	if (first)
+	{
+		playChunk(globalInput->soundAllowed, MusiqueVictoire);
+		first = 0;
+	}
+
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+
+	if (collisionPointWithRect(mouse, &menuButton))
+	{
+		textureMenu = loadTexture(ENDGAMEMENU);
+		if (firstOverButton)
+		{
+			playChunk(globalInput->soundAllowed, SoundOver);
+			firstOverButton = 0;
+		}
+		if (globalInput->lclick)
+		{
+			globalInput->lclick = 0;
+			globalInput->backToMainMenu = 1;
+			globalInput->quit = 1;
+		}
+	}
+	else
+	{
+		textureMenu = loadTexture(ENDGAME);
+		firstOverButton = 1;
+	}
+
+	rectMenu = initButtonBox(-1, -1, DEFAULTHUDCONFIGNW, DEFAULTHUDOPTIONH);
+	if (textureMenu != NULL)
+	{
+		renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+		my_freeTexture(textureMenu);
+		textureMenu = NULL;
+	}
 
 }

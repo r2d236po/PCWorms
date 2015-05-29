@@ -1,17 +1,17 @@
 Resultat de la partie : 
 
-	Temps de jeu : 212 secondes.
-	Map jouée : ../assets/Cartes/maptestCam.png.
+	Temps de jeu : 9 secondes.
+	Map jouée : ../assets/Cartes/maptest.png.
 	Nombre d'equipes : 2.
 	Nombre de worms par equipe : 2 2 0 0.
 
-Bravo à l'équipe 1 surnommée les "a" composée des braves : 
-	s,	Félicitation pour avoir fait un massacre chez l'ennemie !
-	q,	Tu es mort comme un héros !
+Bravo à l'équipe 1 surnommée les "qzdqz" composée des braves : 
+	qzdqz,	Félicitation pour avoir fait un massacre chez l'ennemie !
+	qzd,	Tu es mort comme un héros !
 
 
-Bravo à l'équipe 2 surnommée les "q" composée des braves : 
-	a,	Tu es mort comme un héros !
-	q,	Tu es mort comme un héros !
+Bravo à l'équipe 2 surnommée les "dqzdz" composée des braves : 
+	qzdqz,	Tu es mort comme un héros !
+	d,	Tu es mort comme un héros !
 
 

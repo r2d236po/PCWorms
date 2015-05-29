@@ -492,11 +492,12 @@ int randomWorms()
 void updateGameWorms(Jeu* jeu, Worms** wormsTab, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	int indexWorms;
-	if (!globalInput->menu && !globalInput->weaponTab)
-	{
-		updateTeamLife(jeu->equipes);
-		isGameEnd(jeu);
 
+	updateTeamLife(jeu->equipes);
+	isGameEnd(jeu);
+
+	if (!globalVar.gameEnd && !globalInput->menu && !globalInput->weaponTab)
+	{
 		if (wormsTab[globalVar.indexWormsTab]->vie <= 0)
 		{
 			callNextWorms(wormsTab);

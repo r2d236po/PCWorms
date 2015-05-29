@@ -116,7 +116,7 @@ int mainFenetre()
 					renderScreen(2, 0, jeu->pMapTerrain, 1, pTextureDisplay, &camera, NULL);
 			}
 
-			while (!globalInput->quit /*&& !globalVar.gameEnd*/)
+			while (!globalInput->quit)
 			{
 				//Récupération des inputs
 				getInput();

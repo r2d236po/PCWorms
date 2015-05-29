@@ -349,11 +349,14 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	}
 	if (globalInput->menu)
 	{
-		//EngGameScreen(jeu, pTextureDisplay, pCamera);
 		if (menuPrec != globalInput->menu)
 			inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 1);
 		else inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 0);
 		globalInput->raffraichissement = 0;
+	}
+	if (globalVar.gameEnd)
+	{
+		EngGameScreen(jeu, pTextureDisplay, pCamera);
 	}
 	if (globalInput->weaponTab)
 	{
@@ -717,4 +720,3 @@ void secuTextInput()
 	if (globalInput->textCounter < 0)
 		globalInput->textCounter = 0;
 }
-
