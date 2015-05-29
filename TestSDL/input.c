@@ -357,6 +357,7 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 	if (globalVar.gameEnd)
 	{
 		EngGameScreen(jeu, pTextureDisplay, pCamera);
+		globalInput->raffraichissement = 0;
 	}
 	if (globalInput->weaponTab)
 	{
