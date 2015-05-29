@@ -150,7 +150,8 @@ void updateTextSurfacePosition(Worms* pWorms)
 * \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
-* \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
+* \param[in] reset, booleen to reset the first menu.
+* \returns void
 */
 void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset)
 {
@@ -212,7 +213,15 @@ void inGameMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pC
 	wPrec = w;
 }
 
-
+/**
+* \fn void HUD_weaponsMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset)
+* \brief Gestion du menu InGame
+* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
+* \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
+* \param[in] reset, booleen to reset the first menu.
+* \returns void
+*/
 void HUD_weaponsMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, int reset)
 {
 	SDL_Texture* weaponTexture = NULL;
@@ -248,6 +257,13 @@ void HUD_weaponsMenu(Terrain* pMapTerrain, SDL_Texture* pTextureDisplay, SDL_Rec
 	}
 }
 
+/**
+* \fn int HUD_selectWeapon(SDL_Rect rect, SDL_Rect *rectReturn)
+* \brief Select the weapon to use.
+* \param[in] rect, rect of the weapon menu.
+* \param[in] rectReturn, pointer to the rect of the selected area.
+* \returns 1 = a weapon is selected, 0 = no weapon selected
+*/
 int HUD_selectWeapon(SDL_Rect rect, SDL_Rect *rectReturn)
 {
 	SDL_Rect rectWeapon;
