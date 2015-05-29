@@ -7,27 +7,32 @@
 #define INGAMEMENUMAINMENU "../assets/pictures/Interface/ingameMenuMainMenu.png"
 #define INGAMEMENUOPTIONS "../assets/pictures/Interface/ingameMenuOptions.png"
 #define INGAMEMENUQUIT "../assets/pictures/Interface/ingameMenuQuit.png"
-#define DEFAULTHUDMAINW 565.0
-#define DEFAULTHUDMAINH 717.0
+#define DEFAULTHUDMAINW 565
+#define DEFAULTHUDMAINH 717
 
 #define INGAMEOPTION "../assets/pictures/Interface/optionsMenu.png"
 #define INGAMEOPTIONCONFIG "../assets/pictures/Interface/optionsMenuConfig.png"
 #define INGAMEOPTIONBACKTOGAME "../assets/pictures/Interface/optionsMenuBack.png"
 #define INGAMEOPTIONHOWTOPLAY "../assets/pictures/Interface/optionsMenuHow.png"
-#define DEFAULTHUDOPTIONW 565.0
-#define DEFAULTHUDOPTIONH 842.0
+#define DEFAULTHUDOPTIONW 565
+#define DEFAULTHUDOPTIONH 842
 
 #define INGAMEHOW "../assets/pictures/Interface/howToPlayMenu.png"
 #define INGAMEHOWOPTION "../assets/pictures/Interface/howToPlayMenuOptions.png"
-#define DEFAULTHUDHOWNW 1452.0
+#define DEFAULTHUDHOWNW 1452
 
 #define INGAMECONFIG "../assets/pictures/Interface/configMenu.png"
 #define INGAMECONFIGOPTION "../assets/pictures/Interface/configMenuOption.png"
-#define DEFAULTHUDCONFIGNW 1452.0
+#define DEFAULTHUDCONFIGNW 1452
+
+#define ENDGAME "../assets/pictures/Interface/endGame.png"
+#define ENDGAMEMENU "../assets/pictures/Interface/endGameMenu.png"
+#define DEFAULTENDGAMEW 1452
+#define DEFAULTENDGAMEH 842
 
 #define WEAPONTABPATH "../assets/pictures/Interface/weaponTab.png"
-#define WEAPONTABW 1502.0
-#define WEAPONTABH 842.0
+#define WEAPONTABW 1502
+#define WEAPONTABH 842
 #define SELECTTEXTURE "../assets/pictures/Interface/weaponSelect.png"
 #define NBWEAPON 3
 
@@ -53,7 +58,7 @@ enum HUDMENU mainHUD(int *subMenu, SDL_Rect mainRect);
 enum HUDMENU optionHUD(int *subMenu, SDL_Rect mainRect);
 enum HUDMENU configHUD(int *subMenu, SDL_Rect mainRect);
 enum HUDMENU howHUD(int *subMenu, SDL_Rect mainRect);
-SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, double defW, double defH);
+SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, int defW, int defH);
 void updateHUD(Worms** wormsTab);
 void updateRectTimerPosition();
 void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
