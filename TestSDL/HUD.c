@@ -604,7 +604,7 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
 	SDL_Texture* textureMenu = NULL;
 	SDL_Rect rectMenu = initButtonBox(-1, -1, DEFAULTENDGAMEW, DEFAULTENDGAMEH);
-	SDL_Rect menuButton = initHUDRect(563, 703, 326, 123, rectMenu, DEFAULTHUDHOWNW, DEFAULTHUDOPTIONH);
+	SDL_Rect menuButton = initHUDRect(574, 31, 305, 92, rectMenu, DEFAULTHUDHOWNW, DEFAULTHUDOPTIONH);
 	Point mouse;
 	static int first = 1, firstOverButton = 1;
 	int subMenu = 0;
