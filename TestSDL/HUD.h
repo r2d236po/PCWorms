@@ -37,6 +37,7 @@
 #define NBWEAPON 3
 
 #define NBFONTS 1
+#define PIXELINTERLIGNES 50
 #define FONTSIZENAME 12
 #define TEMPSPARTIE 900
 #define TEMPSPARTOUR 30
@@ -62,6 +63,7 @@ SDL_Rect initHUDRect(int x, int y, int w, int h, SDL_Rect mainRect, int defW, in
 void updateHUD(Worms** wormsTab);
 void updateRectTimerPosition();
 void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera);
+void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber);
 int setFonts();
 void destroyFonts();
 

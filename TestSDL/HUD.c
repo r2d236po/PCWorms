@@ -618,16 +618,26 @@ void updateRectTimerPosition()
 */
 void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
-	SDL_Texture* textureMenu = NULL;
+	SDL_Texture *textureMenu = NULL;
+	SDL_Texture *textureTexte = NULL;
 	SDL_Rect rectMenu = initButtonBox(-1, -1, DEFAULTENDGAMEW, DEFAULTENDGAMEH);
 	SDL_Rect menuButton = initHUDRect(574, 31, 305, 92, rectMenu, DEFAULTHUDHOWNW, DEFAULTHUDOPTIONH);
 	Point mouse;
-	static int first = 1, firstOverButton = 1;
-	int subMenu = 0;
+	int i;
+	static int alreadyRendered = 0, lastTexture = 0, first = 1, firstOverButton = 1, winnerTeam = 0;
 
 
 	if (first)
 	{
+		for (i = 0; i < globalVar.nbEquipe; i++)
+		{
+			if (jeu->equipes[i]->vie > 0)
+			{
+				winnerTeam = i;
+				break;
+			}
+		}
+
 		playChunk(globalInput->soundAllowed, MusiqueVictoire);
 		first = 0;
 	}
@@ -636,7 +646,12 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 
 	if (collisionPointWithRect(mouse, &menuButton))
 	{
-		textureMenu = loadTexture(ENDGAMEMENU);
+		if (lastTexture != 1)
+		{
+			textureMenu = loadTexture(ENDGAMEMENU);
+			lastTexture = 1;
+			alreadyRendered = 0;
+		}
 		if (firstOverButton)
 		{
 			playChunk(globalInput->soundAllowed, SoundOver);
@@ -647,20 +662,64 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 			globalInput->lclick = 0;
 			globalInput->backToMainMenu = 1;
 			globalInput->quit = 1;
+			first = 1;
 		}
 	}
 	else
 	{
-		textureMenu = loadTexture(ENDGAME);
+		if (lastTexture != 2)
+		{
+			textureMenu = loadTexture(ENDGAME);
+			lastTexture = 2;
+			alreadyRendered = 0;
+		}
 		firstOverButton = 1;
 	}
 
 	rectMenu = initButtonBox(-1, -1, DEFAULTHUDCONFIGNW, DEFAULTHUDOPTIONH);
-	if (textureMenu != NULL)
+	if (textureMenu != NULL && (!alreadyRendered || globalInput->raffraichissement))
 	{
 		renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+
+		printEndGameText(jeu, rectMenu, winnerTeam);
+
 		my_freeTexture(textureMenu);
 		textureMenu = NULL;
+		alreadyRendered = 1;
+	}
+
+}
+
+void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
+{
+	SDL_Texture* textureTexte = NULL;
+	SDL_Rect texteRect;
+	int i, indexLigne = 0;
+	char str[200];
+	int wRender, hRender;
+
+	SDL_GetRendererOutputSize(globalRenderer, &wRender, &hRender);
+
+	if (globalVar.nbWormsEquipe[teamNumber] == 1)
+		sprintf(str, "Félicitation à l'équipe %s composée du brave :", jeu->equipes[teamNumber]->nom);
+	else
+		sprintf(str, "Félicitation à l'équipe %s composée des braves :", jeu->equipes[teamNumber]->nom);
+
+	textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
+	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender);
+	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES)/ HIGHTMENUTEXTURE) * hRender);
+	indexLigne++;
+	renderScreen(1, 1, textureTexte, NULL, &texteRect);
+	my_freeTexture(textureTexte);
+
+	for (i = 0; i < globalVar.nbWormsEquipe[teamNumber]; i++)
+	{
+		sprintf(str, "     > %s", jeu->equipes[teamNumber]->worms[i]->nom);
+		textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
+		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+		indexLigne++;
+		renderScreen(1, 1, textureTexte, NULL, &texteRect);
+		my_freeTexture(textureTexte);
 	}
 
 }
