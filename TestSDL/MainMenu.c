@@ -374,18 +374,12 @@ void setColorTeam()
 */
 void initColorTab(SDL_Color colorArray[6])
 {
-	setSDLColor(&colorArray[0], 134, 0, 0);
-	colorArray[0].a = 255;
-	setSDLColor(&colorArray[1], 0, 176, 80);
-	colorArray[1].a = 255;
-	setSDLColor(&colorArray[2], 255, 192, 0);
-	colorArray[2].a = 255;
-	setSDLColor(&colorArray[3], 112, 48, 160);
-	colorArray[3].a = 255;
-	setSDLColor(&colorArray[4], 0, 32, 96);
-	colorArray[4].a = 255;
-	setSDLColor(&colorArray[5], 237, 125, 49);
-	colorArray[5].a = 255;
+	setSDLColor(&colorArray[0], 134, 0, 0, 255);
+	setSDLColor(&colorArray[1], 0, 176, 80, 255);
+	setSDLColor(&colorArray[2], 255, 192, 0, 255);
+	setSDLColor(&colorArray[3], 112, 48, 160, 255);
+	setSDLColor(&colorArray[4], 0, 32, 96, 255);
+	setSDLColor(&colorArray[5], 237, 125, 49, 255);
 }
 
 /**
@@ -475,8 +469,7 @@ void setWormsName(int indexTeam)
 	static int indexWorms = 0, team = 1;
 	char strTitre[45];
 	SDL_Color color;
-	setSDLColor(&color, 0, 0, 0);
-	color.a = 255;
+	setSDLColor(&color, 0, 0, 0, 255);
 
 	sprintf(strTitre, "Choix des noms des joueurs de l'équipe %d :", indexTeam);
 	renderText(strTitre, 470, 32, 32, color);
@@ -1030,8 +1023,7 @@ void setSizeOption(enum CHOICE *pChoice)
 	int xYes = 1197, y = 292;
 	enum CHOICE testChange = *pChoice;
 	SDL_Color color;
-	setSDLColor(&color, 0, 0, 0);
-	color.a = 255;
+	setSDLColor(&color, 0, 0, 0, 255);
 
 	toggleOptions(pChoice, xYes, y);
 	if (testChange != *pChoice)
@@ -1086,8 +1078,7 @@ void setSavePathOption(enum CHOICE *pChoice, enum CHOICE windowSize)
 	static char strPath[100] = "";
 	enum CHOICE testChange = *pChoice;
 	SDL_Color color;
-	setSDLColor(&color, 0, 0, 0);
-	color.a = 255;
+	setSDLColor(&color, 0, 0, 0, 255);
 
 	toggleOptions(pChoice, xYes, y);
 	if (testChange != *pChoice)

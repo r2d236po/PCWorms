@@ -5,6 +5,7 @@
 #include "input.h"
 #include "memory.h"
 #include "Sounds.h"
+#include "Libraries.h"
 
 /**
 * \fn int setFonts()
@@ -54,11 +55,12 @@ void destroyFonts()
 * \param[in] b, value of the blue.
 * \returns void
 */
-void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b)
+void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	color->r = r;
 	color->g = g;
 	color->b = b;
+	color->a = a;
 }
 
 /**
@@ -626,7 +628,6 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 	int i;
 	static int alreadyRendered = 0, lastTexture = 0, first = 1, firstOverButton = 1, winnerTeam = 0;
 
-
 	if (first)
 	{
 		for (i = 0; i < globalVar.nbEquipe; i++)
@@ -637,7 +638,7 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 				break;
 			}
 		}
-
+		SWAP(jeu->equipes[winnerTeam]->color.r, jeu->equipes[winnerTeam]->color.b);
 		playChunk(globalInput->soundAllowed, MusiqueVictoire);
 		first = 0;
 	}
@@ -694,28 +695,52 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 {
 	SDL_Texture* textureTexte = NULL;
 	SDL_Rect texteRect;
-	int i, indexLigne = 0;
+	int i, indexLigne = 0, offsetTexte = 0;
 	char str[200];
-	int wRender, hRender;
 
+	SDL_Color black;
+	setSDLColor(&black, 0, 0, 0, 255);
+
+	int wRender, hRender;
 	SDL_GetRendererOutputSize(globalRenderer, &wRender, &hRender);
 
-	if (globalVar.nbWormsEquipe[teamNumber] == 1)
-		sprintf(str, "Félicitation à l'équipe %s composée du brave :", jeu->equipes[teamNumber]->nom);
-	else
-		sprintf(str, "Félicitation à l'équipe %s composée des braves :", jeu->equipes[teamNumber]->nom);
-
-	textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
+	sprintf(str, "Félicitation à l'équipe");
 	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender);
-	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES)/ HIGHTMENUTEXTURE) * hRender);
+	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+	textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
+	offsetTexte += texteRect.w;
+	renderScreen(1, 1, textureTexte, NULL, &texteRect);
+	my_freeTexture(textureTexte);
+
+	sprintf(str, " %s ", jeu->equipes[teamNumber]->nom);
+	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender) + offsetTexte;
+	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+	textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
+	offsetTexte += texteRect.w;
+	renderScreen(1, 1, textureTexte, NULL, &texteRect);
+	my_freeTexture(textureTexte);
+
+
+
+	if (globalVar.nbWormsEquipe[teamNumber] == 1)
+		sprintf(str, "composée du brave :");
+	else
+		sprintf(str, "composée des braves :");
+	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender) + offsetTexte;
+	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+	textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
+	offsetTexte = 0;
 	indexLigne++;
 	renderScreen(1, 1, textureTexte, NULL, &texteRect);
 	my_freeTexture(textureTexte);
 
+
+
 	for (i = 0; i < globalVar.nbWormsEquipe[teamNumber]; i++)
 	{
-		sprintf(str, "     > %s", jeu->equipes[teamNumber]->worms[i]->nom);
-		textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
+		sprintf(str, "     > %s  (pdv restants : %d )", jeu->equipes[teamNumber]->worms[i]->nom, jeu->equipes[teamNumber]->worms[i]->vie);
+		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
+		texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender) + offsetTexte;
 		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 		indexLigne++;
 		renderScreen(1, 1, textureTexte, NULL, &texteRect);

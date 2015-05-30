@@ -46,7 +46,7 @@
 enum HUDMENU{HUDMAIN,HUDOPTION,HUDCONFIG,HUDHOW};
 
 int mainInit();					// Initialise les polices et les variables globales
-void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b);
+void setSDLColor(SDL_Color * color, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void updateTextSurfaceWormsTab(Worms** wormsTab);
 int updateTextSurfaceWorms(Worms* pWorms);
 void updateTextSurfacePosition(Worms* pWorms);
