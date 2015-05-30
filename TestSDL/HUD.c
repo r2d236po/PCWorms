@@ -683,7 +683,7 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 	rectMenu = initButtonBox(-1, -1, DEFAULTHUDCONFIGNW, DEFAULTHUDOPTIONH);
 	if (textureMenu != NULL && (!alreadyRendered || globalInput->raffraichissement))
 	{
-		SDL_RenderCopy(globalRenderer, jeu->pMapTerrain, NULL, NULL);
+		SDL_RenderCopy(globalRenderer, jeu->pMapTerrain->imageBackground, NULL, NULL);
 		SDL_RenderCopy(globalRenderer, pTextureDisplay, pCamera, NULL);
 		SDL_RenderCopy(globalRenderer, textureMenu, NULL, &rectMenu);
 
