@@ -684,15 +684,18 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 	rectMenu = initButtonBox(-1, -1, DEFAULTHUDCONFIGNW, DEFAULTHUDOPTIONH);
 	if (textureMenu != NULL && (!alreadyRendered || globalInput->raffraichissement))
 	{
-		renderScreen(3, 0, jeu->pMapTerrain, 1, pTextureDisplay, pCamera, NULL, 1, textureMenu, NULL, &rectMenu);
+		SDL_RenderCopy(globalRenderer, jeu->pMapTerrain, NULL, NULL);
+		SDL_RenderCopy(globalRenderer, pTextureDisplay, pCamera, NULL);
+		SDL_RenderCopy(globalRenderer, textureMenu, NULL, &rectMenu);
 
 		printEndGameText(jeu, rectMenu, winnerTeam);
+
+		SDL_RenderPresent(globalRenderer);
 
 		my_freeTexture(textureMenu);
 		textureMenu = NULL;
 		alreadyRendered = 1;
 	}
-
 }
 
 void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
@@ -715,7 +718,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 	textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 	offsetTexte += texteRect.w;
-	renderScreen(1, 1, textureTexte, NULL, &texteRect);
+	SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 	my_freeTexture(textureTexte);
 
 	sprintf(str, " %s ", jeu->equipes[teamNumber]->nom);
@@ -723,7 +726,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 	textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
 	offsetTexte += texteRect.w;
-	renderScreen(1, 1, textureTexte, NULL, &texteRect);
+	SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 	my_freeTexture(textureTexte);
 
 
@@ -737,7 +740,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 	textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 	offsetTexte = 0;
 	indexLigne++;
-	renderScreen(1, 1, textureTexte, NULL, &texteRect);
+	SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 	my_freeTexture(textureTexte);
 
 
@@ -749,7 +752,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 		indexLigne++;
-		renderScreen(1, 1, textureTexte, NULL, &texteRect);
+		SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 		my_freeTexture(textureTexte);
 	}
 
@@ -766,7 +769,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 		offsetTexte += texteRect.w;
-		renderScreen(1, 1, textureTexte, NULL, &texteRect);
+		SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 		my_freeTexture(textureTexte);
 
 		for (i = 0; i < globalVar.nbEquipe; i++)
@@ -782,7 +785,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 				texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 				textureTexte = loadFromRenderedText(str, jeu->equipes[i]->color, &texteRect.w, &texteRect.h, 20);
 				offsetTexte += texteRect.w;
-				renderScreen(1, 1, textureTexte, NULL, &texteRect);
+				SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 				my_freeTexture(textureTexte);
 			}
 		}
@@ -795,7 +798,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 		offsetTexte = 0;
 		indexLigne++;
-		renderScreen(1, 1, textureTexte, NULL, &texteRect);
+		SDL_RenderCopy(globalRenderer, textureTexte, NULL, &texteRect);
 		my_freeTexture(textureTexte);
 	}
 
