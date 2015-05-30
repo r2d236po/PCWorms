@@ -672,17 +672,20 @@ void screenshot()
 	SDL_Surface* surfaceScreenshot = NULL;
 	SDL_GetRendererOutputSize(globalRenderer, &w, &h);
 	surfaceScreenshot = my_CreateRGBSurface(0, w, h, 32, RMASK, GMASK, BMASK, AMASK);
-	SDL_RenderReadPixels(globalRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
-	strcpy(path, mainPath);
-	sprintf(screenshotName, "%s\0", ctime(&t1));
-	strcat(path, screenshotName);
-	memcpy(path + strlen(mainPath) + 3, "_", 1);
-	memcpy(path + strlen(mainPath) + 7, "_", 1);
-	for (i = 10; i < 22; i += 3)
-		memcpy(path + strlen(mainPath) + i, ".", 1);
-	memcpy(path + strlen(mainPath) + strlen(screenshotName) - 1, ".bmp\0", 5);
-	SDL_SaveBMP(surfaceScreenshot, path);
-	my_freeSurface(surfaceScreenshot);
+	if (surfaceScreenshot != NULL)
+	{
+		SDL_RenderReadPixels(globalRenderer, NULL, SDL_PIXELFORMAT_ABGR8888, surfaceScreenshot->pixels, surfaceScreenshot->pitch);
+		strcpy(path, mainPath);
+		sprintf(screenshotName, "%s\0", ctime(&t1));
+		strcat(path, screenshotName);
+		memcpy(path + strlen(mainPath) + 3, "_", 1);
+		memcpy(path + strlen(mainPath) + 7, "_", 1);
+		for (i = 10; i < 22; i += 3)
+			memcpy(path + strlen(mainPath) + i, ".", 1);
+		memcpy(path + strlen(mainPath) + strlen(screenshotName) - 1, ".bmp\0", 5);
+		SDL_SaveBMP(surfaceScreenshot, path);
+		my_freeSurface(surfaceScreenshot);
+	}
 }
 
 /**
