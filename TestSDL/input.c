@@ -179,6 +179,8 @@ void INPUT_keydownInputs(SDL_Event event)
 		}
 		break;
 	case SDLK_PRINTSCREEN:
+		if (!globalInput->screenshot)
+			screenshot();
 		globalInput->screenshot = 1;
 		break;
 	case SDLK_k:
@@ -214,20 +216,6 @@ void INPUT_keydownInputs(SDL_Event event)
 		secuTextInput(globalInput);
 		globalInput->textInput[globalInput->textCounter] = '\0';
 		break;
-		///////////////////////// test son num pad
-	case SDLK_KP_1:
-		playChunk(globalInput->soundAllowed, ExploMed);
-		break;
-	case SDLK_KP_2:
-		playChunk(globalInput->soundAllowed, BipExplo);
-		break;
-	case SDLK_KP_3:
-		playChunk(globalInput->soundAllowed, ExploSourde);
-		break;
-	case SDLK_KP_4:
-		playChunk(globalInput->soundAllowed, MusiqueVictoire);
-		break;
-
 	}
 }
 
@@ -245,6 +233,9 @@ void INPUT_keyupInputs(SDL_Event event)
 	case SDLK_TAB:
 		globalInput->tabLock = 0;
 		globalInput->weaponTab = 0;
+		break;
+	case SDLK_PRINTSCREEN:
+		globalInput->screenshot = 0;
 		break;
 	}
 }
@@ -341,11 +332,6 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 		globalInput->windowResized = 0;
 		globalInput->raffraichissement = 1;
 		return 1;
-	}
-	if (globalInput->screenshot)
-	{
-		screenshot();
-		globalInput->screenshot = 0;
 	}
 	if (globalInput->menu)
 	{

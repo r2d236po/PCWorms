@@ -1402,7 +1402,6 @@ SDL_Rect initButtonBox(int x, int y, int w, int h)
 	return initRect(x, y, w, h);
 }
 
-
 /**
 * \fn char** initMAPstrings()
 * \brief Initializes the array of maps names.
@@ -1460,8 +1459,8 @@ char* readString(FILE* file)
 	if (str != NULL)
 	{
 		fgets(str, n, file);
+		fseek(file, 2, SEEK_CUR);
 	}
-	fseek(file, 2, SEEK_CUR);
 	return str;
 }
 
