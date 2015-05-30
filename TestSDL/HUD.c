@@ -613,10 +613,9 @@ void updateRectTimerPosition()
 /**
 * \fn void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 * \brief Gestion du menu InGame
-* \param[in] pMapTerrain, pointeur Terrain vers la structure du terrain en cours.
+* \param[in] jeu, pointeur Jeu sur le jeu terminé
 * \param[in] pTextureDisplay, pointeur vers la texture sur laquelle est appliqué la camera.
 * \param[in] pCamera, pointeur vers la structure SDL_Rect de la camera pour modifier ses valeurs.
-* \returns int, indicateur si la fonction a bien fonctionnée (1 = succes, -1 = echec)
 */
 void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 {
@@ -697,6 +696,14 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 	}
 }
 
+
+/**
+* \fn void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
+* \brief génère le texte a afficher dans le menu de fin
+* \param[in] jeu, pointeur Jeu vers le jeu terminé.
+* \param[in] rectMenu, SDL_Rect de la texture du menu
+* \param[in] teamNumber, index de l'équipe victorieuse dans jeu->equipes
+*/
 void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 {
 	SDL_Texture* textureTexte = NULL;
