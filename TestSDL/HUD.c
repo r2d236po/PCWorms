@@ -638,7 +638,11 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 				break;
 			}
 		}
-		SWAP(jeu->equipes[winnerTeam]->color.r, jeu->equipes[winnerTeam]->color.b);
+		for (i = 0; i < globalVar.nbEquipe; i++)
+		{
+			SWAP(jeu->equipes[i]->color.r, jeu->equipes[i]->color.b);
+		}
+
 		playChunk(globalInput->soundAllowed, MusiqueVictoire);
 		first = 0;
 	}
@@ -695,7 +699,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 {
 	SDL_Texture* textureTexte = NULL;
 	SDL_Rect texteRect;
-	int i, indexLigne = 0, offsetTexte = 0;
+	int i, indexLigne = 0, offsetTexte = 0, offsetX = 0;
 	char str[200];
 
 	SDL_Color black;
@@ -704,8 +708,10 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 	int wRender, hRender;
 	SDL_GetRendererOutputSize(globalRenderer, &wRender, &hRender);
 
+	offsetX = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender);
+
 	sprintf(str, "Félicitation à l'équipe");
-	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender);
+	texteRect.x = offsetX;
 	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 	textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 	offsetTexte += texteRect.w;
@@ -713,7 +719,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 	my_freeTexture(textureTexte);
 
 	sprintf(str, " %s ", jeu->equipes[teamNumber]->nom);
-	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender) + offsetTexte;
+	texteRect.x = offsetX + offsetTexte;
 	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 	textureTexte = loadFromRenderedText(str, jeu->equipes[teamNumber]->color, &texteRect.w, &texteRect.h, 20);
 	offsetTexte += texteRect.w;
@@ -726,7 +732,7 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 		sprintf(str, "composée du brave :");
 	else
 		sprintf(str, "composée des braves :");
-	texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender) + offsetTexte;
+	texteRect.x = offsetX + offsetTexte;
 	texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
 	textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
 	offsetTexte = 0;
@@ -739,9 +745,55 @@ void printEndGameText(Jeu* jeu, SDL_Rect rectMenu, int teamNumber)
 	for (i = 0; i < globalVar.nbWormsEquipe[teamNumber]; i++)
 	{
 		sprintf(str, "     > %s  (pdv restants : %d )", jeu->equipes[teamNumber]->worms[i]->nom, jeu->equipes[teamNumber]->worms[i]->vie);
-		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
-		texteRect.x = rectMenu.x + (int)((float)(200 / WIDTHMENUTEXTURE) * wRender) + offsetTexte;
+		texteRect.x = offsetX + offsetTexte;
 		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
+		indexLigne++;
+		renderScreen(1, 1, textureTexte, NULL, &texteRect);
+		my_freeTexture(textureTexte);
+	}
+
+	indexLigne++;
+
+	if (globalVar.nbEquipe != 1)
+	{
+
+		if (globalVar.nbEquipe == 2)
+			sprintf(str, "Félicitation à l'équipe : ");
+		else
+			sprintf(str, "Félicitation aux équipes : ");
+		texteRect.x = offsetX + offsetTexte;
+		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
+		offsetTexte += texteRect.w;
+		renderScreen(1, 1, textureTexte, NULL, &texteRect);
+		my_freeTexture(textureTexte);
+
+		for (i = 0; i < globalVar.nbEquipe; i++)
+		{
+			if (i != teamNumber){
+				
+				if (i < globalVar.nbEquipe - 1 && !( i == (globalVar.nbEquipe - 2) && teamNumber == globalVar.nbEquipe-1))
+					sprintf(str, "%s, ", jeu->equipes[i]->nom);
+				else
+					sprintf(str, "%s", jeu->equipes[i]->nom);
+
+				texteRect.x = offsetX + offsetTexte;
+				texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+				textureTexte = loadFromRenderedText(str, jeu->equipes[i]->color, &texteRect.w, &texteRect.h, 20);
+				offsetTexte += texteRect.w;
+				renderScreen(1, 1, textureTexte, NULL, &texteRect);
+				my_freeTexture(textureTexte);
+			}
+		}
+
+		indexLigne++;
+		offsetTexte = 0;
+		sprintf(str, "pour avoir combattu avec courage.");
+		texteRect.x = offsetX + offsetTexte;
+		texteRect.y = rectMenu.y + (int)((float)((190 + indexLigne * PIXELINTERLIGNES) / HIGHTMENUTEXTURE) * hRender);
+		textureTexte = loadFromRenderedText(str, black, &texteRect.w, &texteRect.h, 20);
+		offsetTexte = 0;
 		indexLigne++;
 		renderScreen(1, 1, textureTexte, NULL, &texteRect);
 		my_freeTexture(textureTexte);
