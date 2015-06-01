@@ -47,6 +47,7 @@ int mainFenetre()
 				destroyJeu(&jeu);
 				cleanUp(&pTextureDisplay, 1);
 				globalInput->quit = 0;
+				Mix_VolumeMusic(100);
 			}
 			resetStructInput();
 			strcpy(mapName, cMAP);

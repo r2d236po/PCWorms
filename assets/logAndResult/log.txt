@@ -1,4 +1,4 @@
-Start of session : Mon Jun 01 23:04:48 2015
+Start of session : Mon Jun 01 23:26:24 2015
 
 
 loadImage : SUCCESS.
@@ -74,33 +74,13 @@ loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/CuteIntro.wav.
 
 mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 1 1 0 0.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1 0 0 0.
 
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
 
 nouveauJeu : START :
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
 
 nouvelleEquipe : START :
 
@@ -144,44 +124,6 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/weapon/FireBullet.wav.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/bullet1.png.
-
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/ffvii.wav.
 
@@ -195,40 +137,9 @@ loadTexture : SUCCESS.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/MenuOver.wav.
 
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
 cleanSounds : DONE.
 ||| END OF THE GAME |||
 destroyMap : DONE.
-KaamDestroyObject : DONE. 
-
-destroyWorms : DONE.
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
@@ -276,8 +187,8 @@ loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/CuteIntro.wav.
 
 mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 1 1 0 0.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1 0 0 0.
 
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
@@ -292,4 +203,4 @@ memoryLeakCheck : no memory leak detected.
 
 
 
-End of Session : Mon Jun 01 23:06:28 2015
+End of Session : Mon Jun 01 23:26:46 2015

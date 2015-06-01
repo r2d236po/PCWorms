@@ -641,11 +641,11 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 			SWAP(jeu->equipes[i]->color.r, jeu->equipes[i]->color.b);
 		}
 
+		Mix_VolumeMusic(60);
 		playChunk(globalInput->soundAllowed, MusiqueVictoire);
 		while (Mix_Playing(-1)){
 			Sleep(100);
 		}
-		Mix_VolumeMusic(8);
 		playMusique(globalInput->musicAllowed, MusiqueScore);
 		first = 0;
 	}
