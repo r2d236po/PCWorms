@@ -646,8 +646,7 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 			Sleep(100);
 		}
 		Mix_VolumeMusic(8);
-		playMusique(globalInput, MusiqueEnd);
-		//play endMusic
+		playMusique(globalInput->musicAllowed, MusiqueScore);
 		first = 0;
 	}
 

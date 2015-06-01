@@ -1,4 +1,4 @@
-Start of session : Mon Jun 01 21:47:15 2015
+Start of session : Mon Jun 01 23:03:35 2015
 
 
 loadImage : SUCCESS.
@@ -71,52 +71,16 @@ loadTexture : SUCCESS.
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
 loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
+	name of the sound : ../assets/sounds/music/CuteIntro.wav.
 
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/map.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/Gangster.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/Gangster.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/Gangster.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/Cartes/Gangster.png.
 mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 1 1 0 0.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1 0 0 0.
 
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
 
 nouveauJeu : START :
-
-nouvelleEquipe : START :
-
-createWorms : START :
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveRight.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/pictures/Tombe2_SD.png.
-
-KaamInitObject : SUCCESS.
-
-
-createWorms : SUCCESS.
-
-nouvelleEquipe : SUCCESS.
 
 nouvelleEquipe : START :
 
@@ -145,7 +109,7 @@ initialisationTerrain : START :
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/FondMap1.png.
 loadImage : SUCCESS.
-	nom du fichier : ../assets/Cartes/Gangster.png.
+	nom du fichier : ../assets/Cartes/map.png.
 
 
 initialisationTerrain : SUCCESS.
@@ -160,977 +124,91 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/powerBar.png.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/weaponTab.png.
 loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MenuArmes.wav.
+	name of the sound : ../assets/sounds/music/ffvii.wav.
+
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/EndMusic.wav.
 
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/MenuOver.wav.
 
 loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuQuit.png.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/endGame.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
 cleanSounds : DONE.
 ||| END OF THE GAME |||
 destroyMap : DONE.
-cleanSprites : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-mainFenetre : SUCCESS.
-saveGame : SUCCESS.
-KaamDestroyObject : DONE. 
-
-destroyWorms : DONE.
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
+loadTexture : SUCCESS.
+	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/CuteIntro.wav.
+
+mainInit : DONE.
+	nombre d'equipes : 1.
+	nombre de worms par equipe : 1 0 0 0.
+
+loadSounds : SUCCESS.
+	name of the sound : ../assets/sounds/music/musicInGame.wav.
+
+cleanSounds : DONE.
+||| END OF THE GAME |||
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
 memoryLeakCheck : no memory leak detected.
 
 
 
-End of Session : Mon Jun 01 21:47:39 2015
+End of Session : Mon Jun 01 23:04:16 2015
