@@ -1,4 +1,4 @@
-Start of session : Fri May 29 17:47:54 2015
+Start of session : Mon Jun 01 17:39:54 2015
 
 
 loadImage : SUCCESS.
@@ -74,8 +74,8 @@ loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
 
 mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 1 1 0 0.
+	nombre d'equipes : 3.
+	nombre de worms par equipe : 3 3 3 0.
 
 loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/musicInGame.wav.
@@ -100,9 +100,125 @@ KaamInitObject : SUCCESS.
 
 createWorms : SUCCESS.
 
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
 nouvelleEquipe : SUCCESS.
 
 nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+nouvelleEquipe : SUCCESS.
+
+nouvelleEquipe : START :
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
+
+createWorms : START :
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveLeft.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/sprites/moveRight.png.
+
+loadImage : SUCCESS.
+	nom du fichier : ../assets/pictures/Tombe2_SD.png.
+
+KaamInitObject : SUCCESS.
+
+
+createWorms : SUCCESS.
 
 createWorms : START :
 
@@ -144,764 +260,39 @@ KaamInitGame : DONE.
 
 initCameras : DONE.
 
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MenuArmes.wav.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MenuOver.wav.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuQuit.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuQuit.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuQuit.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuQuit.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/ingameMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenuHow.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenuConfig.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenuHow.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenuBack.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/optionsMenuBack.png.
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadImage : SUCCESS.
-	nom du fichier : ../assets/sprites/moveLeft.png.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/ffvii.wav.
-
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
 cleanSounds : DONE.
 ||| END OF THE GAME |||
 destroyMap : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
+destroyWorms : DONE.
+KaamDestroyObject : DONE. 
+
+KaamDestroyObject : DONE. 
+
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MusiqueMenu.wav.
-
-mainInit : DONE.
-	nombre d'equipes : 2.
-	nombre de worms par equipe : 1 1 0 0.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/musicInGame.wav.
-
-cleanSounds : DONE.
-||| END OF THE GAME |||
-cleanSprites : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-mainFenetre : SUCCESS.
 memoryLeakCheck : no memory leak detected.
 
 
 
-End of Session : Fri May 29 17:48:26 2015
+End of Session : Mon Jun 01 17:41:07 2015

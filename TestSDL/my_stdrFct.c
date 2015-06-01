@@ -741,9 +741,7 @@ void reajustSurfaceWithMapLimits(SDL_Surface* pSurfaceMap, SDL_Surface* pSurface
 */
 int rand_a_b(int a, int b)
 {
-	if (b != a)
-		return rand() % (b - a) + a;
-	else return a;
+	return rand() % (b - a);
 }
 
 
