@@ -67,7 +67,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms], pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
 			displayWorms(wormsTab[indexWorms], 1);
-			wormsOverlay(wormsTab);
+			//wormsOverlay(wormsTab);
 			if (wormsTab[indexWorms]->vie <= 0)
 			{
 				initEnd = 0;
