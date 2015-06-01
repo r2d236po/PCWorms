@@ -647,6 +647,7 @@ void resetStructInput()
 	globalInput->weaponIndex = 0;
 	globalInput->backToMainMenu = 0;
 	globalInput->tabLock = 0;
+	globalInput->grenade = 0;
 }
 
 /**

@@ -40,15 +40,20 @@ void KaamEngine()
 */
 int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 {
-	int indexWorms = 0, initEnd = 0;
-	srand((int)time(NULL));
+	int indexWorms = 0, initEnd = 0, x = 0;
+	static int start = 0;
+	if (!start)
+	{
+		srand((int)SDL_GetTicks());
+		start = 1;
+	}
 	static int initStart = 0;
 	static int counter = 1;
 	if (initStart == 0)
 	{
 		for (indexWorms = 0; indexWorms < globalVar.nbWormsTotal; indexWorms++)
 		{
-			int x = rand_a_b(0, pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w);
+			x = rand_a_b(0, pSurfaceMap->w - wormsTab[indexWorms]->wormsObject->objectSurface->w);
 			initObjectPosition(wormsTab[indexWorms]->wormsObject, x, 0);
 			initStart = 1;
 		}
@@ -62,6 +67,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 			initEnd &= (testGround(pSurfaceMap, wormsTab[indexWorms]->wormsObject->objectSurface, 1) || deathByLimitMap(wormsTab[indexWorms], pSurfaceMap));
 			KaamGravityManagement(pSurfaceMap, wormsTab[indexWorms]->wormsObject);
 			displayWorms(wormsTab[indexWorms], 1);
+			//wormsOverlay(wormsTab);
 			if (wormsTab[indexWorms]->vie <= 0)
 			{
 				initEnd = 0;
@@ -69,7 +75,7 @@ int KaamInitGame(Worms** wormsTab, SDL_Surface* pSurfaceMap)
 				if (wormsTab[indexWorms]->dirSurface == RIGHT)
 					copySurfacePixels(wormsTab[indexWorms]->wormsSurfaceRight, NULL, wormsTab[indexWorms]->wormsObject->objectSurface, NULL);
 				else copySurfacePixels(wormsTab[indexWorms]->wormsSurfaceLeft, NULL, wormsTab[indexWorms]->wormsObject->objectSurface, NULL);
-				int x = rand_a_b(0, pSurfaceMap->w / counter - wormsTab[indexWorms]->wormsObject->objectSurface->w);
+				x = rand_a_b(0, pSurfaceMap->w / counter - wormsTab[indexWorms]->wormsObject->objectSurface->w);
 				initObjectPosition(wormsTab[indexWorms]->wormsObject, x, 0);
 				counter++;
 			}
