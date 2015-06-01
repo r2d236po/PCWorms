@@ -803,9 +803,9 @@ int powerGrenade(Terrain *pMapTerrain, SDL_Texture *pTextureDisplay, double *pow
 		if (powerSurface != NULL)
 		{
 			powerSurface->clip_rect.x = pCamera->x;
-			powerSurface->clip_rect.y = 0;
+			powerSurface->clip_rect.y = pCamera->y;
 			completeBar->clip_rect.x = pCamera->x;
-			completeBar->clip_rect.y = 0;
+			completeBar->clip_rect.y = pCamera->y;
 			eraseRectFromMap(pMapTerrain, pTextureDisplay, &completeBar->clip_rect);
 			display(powerSurface, 1);
 			globalInput->raffraichissement = 1;

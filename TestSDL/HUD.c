@@ -642,6 +642,7 @@ void EngGameScreen(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera)
 		}
 
 		playChunk(globalInput->soundAllowed, MusiqueVictoire);
+		//play endMusic
 		first = 0;
 	}
 
