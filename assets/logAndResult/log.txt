@@ -1,4 +1,4 @@
-Start of session : Mon Jun 01 23:26:24 2015
+Start of session : Mon Jun 01 23:46:12 2015
 
 
 loadImage : SUCCESS.
@@ -125,82 +125,25 @@ KaamInitGame : DONE.
 initCameras : DONE.
 
 loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/ffvii.wav.
-
-loadSounds : SUCCESS.
 	name of the sound : ../assets/sounds/music/EndMusic.wav.
 
 loadTexture : SUCCESS.
 	nom du fichier : ../assets/pictures/Interface/endGame.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/endGameMenu.png.
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/MenuOver.wav.
-
 cleanSounds : DONE.
 ||| END OF THE GAME |||
 destroyMap : DONE.
+cleanSprites : DONE.
+cleanSounds : DONE.
+cleanUp : DONE.
+mainFenetre : SUCCESS.
+saveGame : SUCCESS.
 KaamDestroyObject : DONE. 
 
 destroyWorms : DONE.
 destroyEquipe : DONE.
 destroyJeu : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuVersus.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuCartes.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainMenuOptions.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayer.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerNext.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuNamePlayerMain.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/versusMenuStart2.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuMainMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuChoose.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mapMenuDirectory.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenu.png.
-loadTexture : SUCCESS.
-	nom du fichier : ../assets/pictures/Interface/mainOptionsMenuMain.png.
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/CuteIntro.wav.
-
-mainInit : DONE.
-	nombre d'equipes : 1.
-	nombre de worms par equipe : 1 0 0 0.
-
-loadSounds : SUCCESS.
-	name of the sound : ../assets/sounds/music/musicInGame.wav.
-
-cleanSounds : DONE.
-||| END OF THE GAME |||
-cleanSprites : DONE.
-cleanSounds : DONE.
-cleanUp : DONE.
-mainFenetre : SUCCESS.
 memoryLeakCheck : no memory leak detected.
 
 
 
-End of Session : Mon Jun 01 23:26:46 2015
+End of Session : Mon Jun 01 23:46:33 2015
