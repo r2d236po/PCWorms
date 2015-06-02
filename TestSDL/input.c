@@ -333,7 +333,7 @@ int gestInput(Jeu* jeu, SDL_Texture* pTextureDisplay, SDL_Rect* pCamera, Worms**
 		globalInput->raffraichissement = 1;
 		return 1;
 	}
-	if (globalInput->menu)
+	if (!globalVar.gameEnd && globalInput->menu)
 	{
 		if (menuPrec != globalInput->menu)
 			inGameMenu(jeu->pMapTerrain, pTextureDisplay, pCamera, 1);
